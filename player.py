@@ -4,7 +4,6 @@ import screen_size as ss
 
 # Set up the game window
 
-
 # Set up the player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
