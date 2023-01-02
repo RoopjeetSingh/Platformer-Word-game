@@ -18,7 +18,7 @@ def platformer_game(screen, current_level):
         screen.blit(player.image, player.rect)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
@@ -28,9 +28,6 @@ def platformer_game(screen, current_level):
                         player.jumping = True
                     else:
                         player.double_jump_bool = True
-                if event.key in (ord('q'), pygame.K_ESCAPE):
-                    pygame.quit()
-                    exit()
 
         if not player.kill_player:
             keys = pygame.key.get_pressed()

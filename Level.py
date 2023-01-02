@@ -28,6 +28,7 @@ class Level:
 
 
 class Level1(Level):
+    """Sample level"""
     def __init__(self, letter_list: list[str, str, str, str, str, str, str, str, str, str]):
         super(Level1, self).__init__(r"images/BG_03.png", 62)
         self.letter_list = letter_list
@@ -40,13 +41,13 @@ class Level1(Level):
             for i in range(63):
                 self.platform_group.add(
                     po.Platform(i * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 0, True,
-                                "images/platform/platform_sprites_(1).png", 50, 50))
+                                "images/platform/platform_sprites_(1).png", ss.tile_size, ss.tile_size))
 
         # ground row
         for i in range(63):
             self.platform_group.add(
                 po.Platform(i * ss.tile_size, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 0, True,
-                            "images/platform/platform_sprites_(27).png", 50, 50))
+                            "images/platform/platform_sprites_(27).png", ss.tile_size, ss.tile_size))
 
         # obstacles and platforms
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # first platform
