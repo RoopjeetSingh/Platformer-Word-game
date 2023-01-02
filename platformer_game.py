@@ -50,4 +50,4 @@ while True:
         i.collect_self(player, current_level)
         screen.blit(i.image, i.rect)
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(75)
