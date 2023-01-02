@@ -27,13 +27,6 @@ class Player(pygame.sprite.Sprite):
             img_left = pygame.transform.flip(img, True, False)
             img_left.set_colorkey(alpha)
             self.left_images.append(img_left)
-        self.jump_image = []
-        for i in range(1, 17):
-            img = pygame.image.load(fr"images/Jump ({i}).png").convert_alpha()
-            img = pygame.transform.scale(img, (
-                img.get_width() * height / img.get_height(), height))
-            img.set_colorkey(alpha)
-            self.jump_image.append(img)
 
         self.death_images = []
         for i in range(1, 16):
