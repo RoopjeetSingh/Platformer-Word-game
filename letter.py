@@ -6,15 +6,15 @@ screen = pygame.display.set_mode((600, 400))
 
 
 class Letter(pygame.sprite.Sprite):
-    letter_dic = {'a': "images/1.png", 'b': "images/9.png", 'c': "images/19.png",
-                  'd': "images/15.png", 'e': "images/26.png", 'f': "images/23.png",
-                  'g': "images/18.png", 'h': "images/2.png", 'i': "images/7.png",
-                  'j': "images/12.png", 'k': "images/3.png", 'l': "images/16.png",
-                  'm': "images/28.png", 'n': "images/25.png", 'o': "images/22.png",
-                  'p': "images/0.png", 'q': "images/6.png", 'r': "images/17.png",
-                  's': "images/20.png", 't': "images/13.png", 'u': "images/21.png",
-                  'v': "images/24.png", 'w': "images/11.png", 'x': "images/10.png",
-                  'y': "images/4.png", 'z': "images/14.png"}
+    letter_dic = {'a': "images/Letters/1.png", 'b': "images/Letters/9.png", 'c': "images/Letters/19.png",
+                  'd': "images/Letters/15.png", 'e': "images/Letters/26.png", 'f': "images/Letters/23.png",
+                  'g': "images/Letters/18.png", 'h': "images/Letters/2.png", 'i': "images/Letters/7.png",
+                  'j': "images/Letters/12.png", 'k': "images/Letters/3.png", 'l': "images/Letters/16.png",
+                  'm': "images/Letters/28.png", 'n': "images/Letters/25.png", 'o': "images/Letters/22.png",
+                  'p': "images/Letters/0.png", 'q': "images/Letters/6.png", 'r': "images/Letters/17.png",
+                  's': "images/Letters/20.png", 't': "images/Letters/13.png", 'u': "images/Letters/21.png",
+                  'v': "images/Letters/24.png", 'w': "images/Letters/11.png", 'x': "images/Letters/10.png",
+                  'y': "images/Letters/4.png", 'z': "images/Letters/14.png"}
 
     def __init__(self, letter: str, x: int, y: int):
         super(Letter, self).__init__()

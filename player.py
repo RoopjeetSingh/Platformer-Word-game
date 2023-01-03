@@ -2,13 +2,14 @@ import pygame
 import Level
 import screen_size as ss
 
+
 # Set up the game window
 
 # Set up the player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.idle_image = pygame.image.load(r"images/Idle (1).png").convert_alpha()
+        self.idle_image = pygame.image.load(r"images/Santa/Idle (1).png").convert_alpha()
         height = 75
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
@@ -19,7 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.right_images = []
         self.left_images = []
         for i in range(1, 12):
-            img = pygame.image.load(fr"images/Run ({i}).png").convert_alpha()
+            img = pygame.image.load(fr"images/Santa/Run ({i}).png").convert_alpha()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
@@ -30,7 +31,7 @@ class Player(pygame.sprite.Sprite):
 
         self.death_images = []
         for i in range(1, 16):
-            img = pygame.image.load(fr"images/Dead ({i}).png").convert_alpha()
+            img = pygame.image.load(fr"images/Santa/Dead ({i}).png").convert_alpha()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
@@ -187,5 +188,5 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.death_images[int(self.index_dead)], True, False)
                 self.image.set_colorkey((0, 0, 0))
             self.rect = self.image.get_rect(center=self.rect.center)
-            if not self.index_dead+0.33 >= len(self.death_images):
+            if not self.index_dead + 0.33 >= len(self.death_images):
                 self.index_dead += 0.33  # image will change around every 3 times the function is called

@@ -30,7 +30,7 @@ class Level:
 class Level1(Level):
     """Sample level"""
     def __init__(self, letter_list: list[str, str, str, str, str, str, str, str, str, str]):
-        super(Level1, self).__init__(r"images/BG_03.png", 62)
+        super(Level1, self).__init__(r"images/Background_platformer/BG_03.png", 62)
         self.letter_list = letter_list
         self.make_platforms_objects()
         self.make_letters()
