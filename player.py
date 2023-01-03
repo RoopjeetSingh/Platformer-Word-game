@@ -7,9 +7,30 @@ import screen_size as ss
 
 # Set up the player class
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int, skin: str):
         super().__init__()
-        self.idle_image = pygame.image.load(r"images/Santa/Idle (1).png").convert_alpha()
+        match skin:
+            case "santa":
+                run_max_index = 12
+                death_max_index = 16
+                run = "Run"
+                fall = 2
+            case "boy":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5
+            case "female_zombie" | "male_zombie":
+                run_max_index = 10
+                death_max_index = 12
+                run = "Walk"
+                fall = 3
+            case _:
+                raise AttributeError("Invalid skin type " + skin)
+
+        if skin == "female_zombie":
+            fall = 1.8
+        self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert_alpha()
         height = 75
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
@@ -19,8 +40,8 @@ class Player(pygame.sprite.Sprite):
         self.idle_image_flipped.set_colorkey(alpha)
         self.right_images = []
         self.left_images = []
-        for i in range(1, 12):
-            img = pygame.image.load(fr"images/Santa/Run ({i}).png").convert_alpha()
+        for i in range(1, run_max_index):
+            img = pygame.image.load(fr"images/{skin.title()}/{run} ({i}).png").convert_alpha()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
@@ -30,13 +51,13 @@ class Player(pygame.sprite.Sprite):
             self.left_images.append(img_left)
 
         self.death_images = []
-        for i in range(1, 16):
-            img = pygame.image.load(fr"images/Santa/Dead ({i}).png").convert_alpha()
+        for i in range(1, death_max_index):
+            img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert_alpha()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
             self.death_images.append(img)
-            height -= 2
+            height -= fall
 
         self.image = self.idle_image
         self.rect = self.image.get_rect()

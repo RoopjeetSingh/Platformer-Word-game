@@ -5,9 +5,9 @@ import screen_size as ss
 pygame.init()
 
 
-def platformer_game(screen, current_level):
+def platformer_game(screen, current_level: Level.Level, skin: str):
     clock = pygame.time.Clock()
-    player = Player(200, 200)
+    player = Player(200, 200, skin)
     while True:
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
@@ -52,4 +52,4 @@ if __name__ == "__main__":
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     level1 = Level.Level1(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"])
     level = level1
-    platformer_game(root, level)
+    platformer_game(root, level, "santa")

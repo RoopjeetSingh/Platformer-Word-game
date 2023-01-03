@@ -15,7 +15,6 @@ def menu():
     clock = pygame.time.Clock()
     background = pygame.image.load("images/Menu_page/fblaGameBg.jpg").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    # add image
     settings_image = pygame.transform.scale(pygame.image.load("images/Menu_page/settings-3110.png").convert_alpha(),
                                             (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 100, 100
     controls_text = pygame.transform.scale(pygame.image.load("images/Menu_page/Controls_text.png").convert_alpha(),
@@ -29,7 +28,6 @@ def menu():
     skins_img = pygame.transform.scale(
         pygame.image.load("images/Menu_page/skins.png").convert_alpha(),
         (ss.SCREEN_WIDTH/7.15, ss.SCREEN_HEIGHT/8.4))  # 200, 100
-    # print(ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT)
     leader_board_img.set_colorkey((255, 255, 255))
 
     settings_btn = pgb.Button((0, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255), settings,
@@ -60,8 +58,7 @@ def menu():
         (ss.SCREEN_WIDTH / 2 - 3 * ss.SCREEN_WIDTH / 16 / 2, 3*ss.SCREEN_HEIGHT / 4, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
         (0, 0, 0), skins, hover_color=(80, 80, 80), clicked_color=(150, 150, 150),
-        text="Skins", border_radius=10, image_align="bottom",
-        image=skins_img)
+        text="Skins", border_radius=10, image_align="bottom", image=skins_img)
     button_lis = [settings_btn, controls_btn, scoreboard_btn, leaderboard_btn, single_player, multiplayer, skins_btn]
     while True:
         screen.blit(background, (0, 0))
