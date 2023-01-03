@@ -2,3 +2,7 @@ venv
 .idea
 __pycache__
 .DS_Store
+tools.py
+test.py
+sprite_platforms.json
+letter_generator.py
