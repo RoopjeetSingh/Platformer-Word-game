@@ -8,32 +8,56 @@ import numpy as np
 
 class Level:
     def __init__(self, bg, no_tiles: int):
-        self.bg = cv2.imread(bg)
+        self.bg_start = cv2.imread(bg)
         self.platform_group = pygame.sprite.Group()
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
         self.start = 0
         self.width = no_tiles * ss.tile_size
         bg_lis = []
-        for i in range(int(self.width / self.bg.shape[0]) + 1):
-            bg_lis.append(self.bg)
+        for i in range(int(self.width / self.bg_start.shape[0]) + 1):
+            bg_lis.append(self.bg_start)
         self.bg = np.concatenate(bg_lis, axis=1)
         self.bg = pygame.image.frombuffer(self.bg.tostring(), self.bg.shape[1::-1],
-                                          "RGB").convert_alpha()
+                                          "RGB").convert()
         self.bg = pygame.transform.scale(self.bg, (ss.SCREEN_HEIGHT / self.bg.get_height() * self.bg.get_width(),
                                                    ss.SCREEN_HEIGHT))
+        self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
+                                                  "RGB").convert()
+        self.bg_display = pygame.transform.scale(self.bg_display,
+                                                 (500,
+                                                     500 / self.bg_display.get_width() * self.bg_display.get_height()))
+
+    def draw_for_display(self):
+        for i in self.obstruct_group:
+            if i.rect.x <= ss.SCREEN_WIDTH:
+                i_pos = ((i.rect.x / ss.SCREEN_WIDTH) * self.bg_display.get_width(),
+                         (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
+                i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
+                                                           i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
+                i_image.set_colorkey((0, 0, 0))
+                self.bg_display.blit(i_image, i_pos)
+
+        for i in self.platform_group:
+            if i.rect.x <= ss.SCREEN_WIDTH:
+                i_pos = ((i.rect.x / ss.SCREEN_HEIGHT) * self.bg_display.get_height(),
+                         (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
+                self.bg_display.blit(
+                    pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
+                                                     i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT)),
+                    i_pos)
 
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))
 
 
 class Level1(Level):
-    """Sample level"""
-    def __init__(self, letter_list: list[str, str, str, str, str, str, str, str, str, str]):
+    def __init__(self):
         super(Level1, self).__init__(r"images/Background_platformer/BG_03.png", 62)
-        self.letter_list = letter_list
+        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
         self.make_platforms_objects()
         self.make_letters()
+        self.draw_for_display()
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
@@ -91,3 +115,6 @@ class Level1(Level):
             letter.Letter(self.letter_list[8], 60 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         self.letter_group.add(
             letter.Letter(self.letter_list[9], 59 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+
+
+level1 = Level1()

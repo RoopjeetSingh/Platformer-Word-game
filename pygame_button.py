@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 import pygame as pg
 import pygame.gfxdraw
 
@@ -15,7 +12,7 @@ def draw_rounded_rect(surface, rect, color, corner_radius):
     """
     if rect.width < 2 * corner_radius or rect.height < 2 * corner_radius:
         raise ValueError(
-            f"Both height (rect.height) and width (rect.width) must be > 2 * corner radius ({corner_radius})")
+            f"Both height ({rect.height}) and width ({rect.width}) must be > 2 * corner radius ({corner_radius})")
 
     # need to use anti aliasing circle drawing routines to smooth the corners
     pygame.gfxdraw.aacircle(surface, rect.left + corner_radius, rect.top + corner_radius, corner_radius, color)

@@ -64,7 +64,7 @@ class Obstacle(Platform):
     def die(self, process: str):
         if self.img_type == "snowman":
             self.image = self.dead_images[int(self.death_index)]
-            self.rect = self.image.get_rect(bottomleft=self.rect.bottomleft)
+            self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
             if not self.death_index + 0.08 >= len(self.dead_images):
                 self.death_index += 0.08  # image will change around every 3 times the function is called
         else:

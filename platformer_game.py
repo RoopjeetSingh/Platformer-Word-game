@@ -1,17 +1,20 @@
 from player import *
 import Level
 import screen_size as ss
+import json
 
 pygame.init()
 
 
 def platformer_game(screen, current_level: Level.Level, skin: str):
+    with open('variables.json', 'r') as f:
+        var = json.load(f)
     clock = pygame.time.Clock()
-    player = Player(200, 200, skin)
+    player = Player(200, 200, var["skins"])
     while True:
         current_level.draw(screen)
-        current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
+        current_level.obstruct_group.draw(screen)
         current_level.letter_group.draw(screen)
         for i in current_level.letter_group:
             i.bounce_brighten()
@@ -50,6 +53,6 @@ def platformer_game(screen, current_level: Level.Level, skin: str):
 
 if __name__ == "__main__":
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    level1 = Level.Level1(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"])
+    level1 = Level.Level1()
     level = level1
     platformer_game(root, level, "santa")
