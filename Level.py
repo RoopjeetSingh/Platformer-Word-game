@@ -25,8 +25,8 @@ class Level:
         self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
                                                   "RGB").convert()
         self.bg_display = pygame.transform.scale(self.bg_display,
-                                                 (500,
-                                                     500 / self.bg_display.get_width() * self.bg_display.get_height()))
+                                                 (ss.SCREEN_WIDTH/2.86,
+                                                     ss.SCREEN_HEIGHT/1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
 
     def draw_for_display(self):
         for i in self.obstruct_group:

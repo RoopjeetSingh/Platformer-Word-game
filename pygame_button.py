@@ -67,8 +67,14 @@ def draw_bordered_rounded_rect(surface, rect, color, border_color, corner_radius
 class Button:
     """A fairly straight forward button class."""
 
-    def __init__(self, rect, color, function, **kwargs):
-        self.process_kwargs(kwargs)
+    def __init__(self, rect, color, function, text=None, font=pg.font.Font(None, 36), call_on_release=None,
+                 hover_color=None, clicked_color=None, font_color=pg.Color("white"), hover_font_color=None,
+                 clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
+                 image_position=None, border_radius=0, border_color=None):
+
+
+        self.image_copy = None
+        # self.process_kwargs(kwargs)
         self.rect = pg.Rect(rect)
         self.color = color
         self.function = function
@@ -147,6 +153,9 @@ class Button:
         """Update needs to be called every frame in the main loop."""
         color = self.color
         text = self.text
+        if self.image:
+            self.image_copy = self.image
+            pygame.transform.scale(self.image_copy, (self.image.get_width() - 5, self.image.get_height() - 5))
         self.check_hover()
         if self.clicked and self.clicked_color:
             color = self.clicked_color

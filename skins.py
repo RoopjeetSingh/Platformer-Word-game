@@ -10,6 +10,11 @@ def skins(screen, back_button_func):
     def change_skin(skin: str):
         var["skins"] = skin
 
+    def change_screen(func):
+        with open('variables.json', 'w') as wvar:
+            json.dump(var, wvar, indent=4)
+        func()
+
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
@@ -18,13 +23,33 @@ def skins(screen, back_button_func):
     boy = pygame.image.load("images/Boy/Idle (1).png").convert_alpha()
     female_zombie = pygame.image.load("images/Female_zombie/Idle (1).png").convert_alpha()
     male_zombie = pygame.image.load("images/Male_zombie/Idle (1).png").convert_alpha()
-    for i in [santa, boy, female_zombie, male_zombie]:
-        i = pygame.transform.scale(i, (ss.SCREEN_WIDTH / 8, ss.SCREEN_WIDTH / 8 / i.get_width() * i.get_height()))
+
+    santa = pygame.transform.scale(santa,
+                                   (ss.SCREEN_WIDTH / 5, ss.SCREEN_WIDTH / 5 / santa.get_width() * santa.get_height()))
+    santa.set_colorkey((0, 0, 0))
+
+    boy = pygame.transform.scale(boy,
+                                 (ss.SCREEN_WIDTH / 5, ss.SCREEN_WIDTH / 5 / boy.get_width() * boy.get_height()))
+    boy.set_colorkey((0, 0, 0))
+
+    male_zombie = pygame.transform.scale(male_zombie,
+                                         (ss.SCREEN_WIDTH / 5,
+                                          ss.SCREEN_WIDTH / 5 / male_zombie.get_width() * male_zombie.get_height()))
+    male_zombie.set_colorkey((0, 0, 0))
+
+    female_zombie = pygame.transform.scale(female_zombie,
+                                           (ss.SCREEN_WIDTH / 5,
+                                            ss.SCREEN_WIDTH / 5 / female_zombie.get_width() * female_zombie.get_height()))
+    female_zombie.set_colorkey((0, 0, 0))
+
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
+
+    font = pygame.font.Font(None, 64)
     back_button = pgb.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                             lambda: back_button_func(screen), image=back_image,
+                             lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
                              border_radius=int(ss.SCREEN_HEIGHT / 10.4 / 2))
+
     santa_btn = pgb.Button((ss.SCREEN_WIDTH / 8 - santa.get_width() / 2, ss.SCREEN_HEIGHT / 2 - santa.get_height() / 2,
                             santa.get_width(), santa.get_height()), (0, 0, 0), lambda: change_skin("santa"),
                            image=santa)
@@ -33,7 +58,7 @@ def skins(screen, back_button_func):
     female_zombie_btn = pgb.Button(
         (5 * ss.SCREEN_WIDTH / 8 - female_zombie.get_width() / 2, ss.SCREEN_HEIGHT / 2 - female_zombie.get_height() / 2,
          female_zombie.get_width(), female_zombie.get_height()), (0, 0, 0), lambda: change_skin("female_zombie"),
-    image=female_zombie)
+        image=female_zombie)
     male_zombie_btn = pgb.Button(
         (7 * ss.SCREEN_WIDTH / 8 - santa.get_width() / 2, ss.SCREEN_HEIGHT / 2 - santa.get_height() / 2,
          santa.get_width(), santa.get_height()), (0, 0, 0), lambda: change_skin("male_zombie"), image=male_zombie)
