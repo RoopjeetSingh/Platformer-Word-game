@@ -67,13 +67,79 @@ class Letter(pygame.sprite.Sprite):
                 level.letter_group.remove(self)
                 self.image = self.image1
                 self.brighten = False
-                self.end_pos = (((len(player.letter_lis) - 1) * (ss.tile_size + 20) + 20, ss.tile_size), (self.rect.x, self.rect.y))
-                self.distance = ((self.end_pos[1][0] - self.end_pos[0][0])/5,
-                                 (self.end_pos[1][1] - self.end_pos[0][1])/5)
+                self.end_pos = (
+                    ((len(player.letter_lis) - 1) * (ss.tile_size + 20) + 20, ss.tile_size), (self.rect.x, self.rect.y))
+                self.distance = ((self.end_pos[1][0] - self.end_pos[0][0]) / 5,
+                                 (self.end_pos[1][1] - self.end_pos[0][1]) / 5)
             if self.num_collect_anim % 5 == 0:
                 self.rect.x -= round(self.distance[0])
                 self.rect.y -= round(self.distance[1])
             # if self.num_collect_anim == 20:
+            if abs(self.end_pos[0][0] - self.rect.x) <= 5 and abs(self.end_pos[0][1] - self.rect.y) <= 5:
+                self.rect.x = self.end_pos[0][0]
+                self.rect.y = self.end_pos[0][1]
+                self.collecting_animation = False
+            self.num_collect_anim += 1
+
+
+class MysteryLetter(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super(MysteryLetter, self).__init__()
+        self.distance = None
+        self.end_pos = (0, 0)
+        self.image1 = pygame.image.load("images/Letters/mysteryLetter.png").convert()
+        self.image1 = pygame.transform.scale(self.image1, (ss.tile_size*2, ss.tile_size*2))
+        self.image2 = self.image1.copy()
+        brighten = 60
+        self.image2.fill((brighten, brighten, brighten), special_flags=pygame.BLEND_RGB_ADD)
+        self.image = self.image1
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.pos = [x, y]
+        self.start_y = y
+        self.num = 0
+        self.going_down = True
+        self.gravity = 1
+        self.collecting_animation = False
+        self.brighten = True
+        self.size = 1
+        self.num_collect_anim = 0
+
+    def bounce_brighten(self):
+        if self.brighten:
+            if self.image == self.image1 and self.num >= 30:
+                self.image = self.image2
+                self.num = 0
+            elif self.image == self.image2 and self.num >= 30:
+                self.image = self.image1
+                self.num = 0
+
+            if self.going_down:
+                self.pos[1] += self.gravity
+                self.rect.y = round(self.pos[1])
+            else:
+                self.pos[1] -= self.gravity
+                self.rect.y = round(self.pos[1])
+
+            if self.start_y > self.rect.y:
+                self.going_down = True
+                self.rect.y = self.start_y
+            if self.rect.y - self.start_y >= 50:
+                self.going_down = False
+            self.num += 1
+
+    def collect_self(self, player, level):
+        if self.collecting_animation:
+            if self.num_collect_anim == 0:
+                level.letter_group.remove(self)
+                self.image = self.image1
+                self.brighten = False
+                self.end_pos = (((len(player.mystery_letter_lis) - 1) * (ss.tile_size + 20) + 20, ss.tile_size*2+10),
+                                (self.rect.x, self.rect.y))
+                self.distance = ((self.end_pos[1][0] - self.end_pos[0][0]) / 5,
+                                 (self.end_pos[1][1] - self.end_pos[0][1]) / 5)
+            if self.num_collect_anim % 5 == 0:
+                self.rect.x -= round(self.distance[0])
+                self.rect.y -= round(self.distance[1])
             if abs(self.end_pos[0][0] - self.rect.x) <= 5 and abs(self.end_pos[0][1] - self.rect.y) <= 5:
                 self.rect.x = self.end_pos[0][0]
                 self.rect.y = self.end_pos[0][1]

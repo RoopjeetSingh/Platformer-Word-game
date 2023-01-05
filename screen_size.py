@@ -7,5 +7,4 @@ pygame.init()
 
 info = pygame.display.Info()  # You have to call this before pygame.display.set_mode()
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w - 10, info.current_h - 120
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 450
 tile_size = SCREEN_HEIGHT/15.6

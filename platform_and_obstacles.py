@@ -4,15 +4,16 @@ import numpy as np
 
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, num_inside: int = 0, start: bool = True, img=None, w=0, h=0,
-                 set_colorkey: tuple[int, int, int] = None):
+    def __init__(self, x: int, y: int, num_inside: int = 0, start: bool = True,
+                 img="images/platform/platform_sprites_(27).png", w=0, h=0,
+                 set_colorkey: tuple[int, int, int] = None, new_img=False):
         super(Platform, self).__init__()
-        if not img:
+        if not new_img:
             image_lis = []
             if start:
                 image_lis.append(cv2.imread("images/platform/platform_sprites_(3).png"))
             for a in range(num_inside):
-                image_lis.append(cv2.imread("images/platform/platform_sprites_(27).png"))
+                image_lis.append(cv2.imread(img))
             if start:
                 image_lis.append(cv2.imread("images/platform/platform_sprites_(26).png"))
             image = np.concatenate(image_lis, axis=1)
@@ -35,6 +36,8 @@ class Platform(pygame.sprite.Sprite):
             if set_colorkey:
                 self.image.set_colorkey(set_colorkey)
 
+        self.mask = pygame.mask.from_surface(self.image)
+
 
 class Obstacle(Platform):
     def __init__(self, x: int, y: int, img_snowman: bool, w=0, h=0, set_colorkey: tuple[int, int, int] = None):
@@ -46,8 +49,7 @@ class Obstacle(Platform):
             self.img_type = "tree"
 
         super(Obstacle, self).__init__(x, y, img=img, w=w, h=h,
-                                       set_colorkey=set_colorkey)
-        self.mask = pygame.mask.from_surface(self.image)
+                                       set_colorkey=set_colorkey, new_img=True)
         self.dead_images = []
         if img_snowman:
             for i in range(2, 6):

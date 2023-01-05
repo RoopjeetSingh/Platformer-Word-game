@@ -1,6 +1,7 @@
 import pygame
 import Level
 import screen_size as ss
+import letter
 
 
 # Set up the game window
@@ -76,7 +77,9 @@ class Player(pygame.sprite.Sprite):
         self.kill_player = False
         self.obstacle_collided_with = None
         self.letter_lis = []
+        self.mystery_letter_lis = []
         self.process = "right"
+        self.start_pos = 6*ss.tile_size
 
     def move_right(self, level: Level.Level, direction: str = ""):
         if direction == "right":
@@ -84,7 +87,7 @@ class Player(pygame.sprite.Sprite):
             # self.rect = self.image.get_rect(bottomleft=self.rect.bottomleft)
             self.rect.x += self.move_speed  # to check if after increasing 5 pixels, object touches it
             if not self.obstruct_platforms(level, "right"):
-                if level.start - self.move_speed > ss.SCREEN_WIDTH - level.width and not self.rect.x <= 200:
+                if level.start - self.move_speed > ss.SCREEN_WIDTH - level.width and not self.rect.x <= self.start_pos:
                     level.start -= self.move_speed  # moves background
                     for p in level.platform_group:  # moves platforms
                         p.rect.x -= self.move_speed
@@ -104,7 +107,7 @@ class Player(pygame.sprite.Sprite):
             # self.rect = self.image.get_rect(bottomleft=self.rect.bottomleft)
             self.rect.x -= self.move_speed  # to check if after decreasing 5 pixels, object touches it
             if not self.obstruct_platforms(level, "left"):
-                if level.start + self.move_speed <= 0 and not self.rect.x >= 200:
+                if level.start + self.move_speed <= 0 and not self.rect.x >= self.start_pos:
                     level.start += self.move_speed  # moves background
                     for p in level.platform_group:  # moves platforms
                         p.rect.x += self.move_speed
@@ -161,8 +164,10 @@ class Player(pygame.sprite.Sprite):
 
     def obstruct_platforms(self, level: Level.Level, process: str):
         collided_list = pygame.sprite.spritecollide(self, level.platform_group, False)
+        if collided_list:
+            collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False, pygame.sprite.collide_mask)
         for collided in collided_list:
-            if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= 20:
+            if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= 50:
                 self.velocity_y = 0
                 self.rect.bottom = collided.rect.top
                 self.jumping = False
@@ -174,15 +179,20 @@ class Player(pygame.sprite.Sprite):
                 self.double_jump_bool = False
                 self.rect.top = collided.rect.bottom
                 return True
+
+            # addressing the point where the object is on the space is causing the error
             elif process == "right" and 0 < self.rect.right - collided.rect.x < 10 and not \
-                    (0 < self.rect.bottom - collided.rect.y < 20):
+                    (0 < self.rect.bottom - collided.rect.y < 3):
                 self.rect.right = collided.rect.x + 1
                 return True
             elif process == "left" and 0 > self.rect.x - collided.rect.right > -10 and not \
-                    (0 < self.rect.bottom - collided.rect.y < 20):
+                    (0 < self.rect.bottom - collided.rect.y < 3):
                 self.rect.left = collided.rect.right - 1
                 return True
         return False
+
+    def rope(self):
+        pass
 
     def obstruct_obstacles(self, level: Level.Level):
         collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False)
@@ -196,7 +206,10 @@ class Player(pygame.sprite.Sprite):
         collided_list = pygame.sprite.spritecollide(self, level.letter_group, False)
         if collided_list:
             collided = collided_list[0]
-            self.letter_lis.append(collided)
+            if isinstance(collided, letter.Letter):
+                self.letter_lis.append(collided)
+            elif isinstance(collided, letter.MysteryLetter):
+                self.mystery_letter_lis.append(collided)
             collided.collecting_animation = True
 
     def kill_self(self):

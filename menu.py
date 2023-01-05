@@ -69,20 +69,19 @@ def menu(screen):
     multiplayer = pgb.Button(
         (3 * ss.SCREEN_WIDTH / 4 - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
-        (255, 185, 2), lambda: change_screen(controls), hover_color=(254, 158, 2), clicked_color=(187, 99, 5),
-        text="Multiplayer", border_radius=10, border_color=(254, 158, 2), font=pygame.font.Font(None, 48))
+        (5, 176, 254), lambda: change_screen(controls), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
+        text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, 48))
     skins_btn = pgb.Button(
         (0, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
         (255, 255, 255), lambda: change_screen(lambda: skins(screen, menu)), hover_color=(150, 150, 150),
         clicked_color=(80, 80, 80), font_color=(0, 0, 0),
-        text="Skins", image_align="bottom", image=skins_img)
+        text="Avatar", image_align="bottom", image=skins_img)
     level_btn = pgb.Button(
         (ss.SCREEN_WIDTH / 2 - level_img.get_width() / 2, ss.SCREEN_HEIGHT / 4 - level_img.get_height() / 2,
-         level_img.get_width(), level_img.get_height()), (0, 0, 0), lambda: change_screen(level_screen),
+         level_img.get_width(), level_img.get_height()), (0, 0, 0), lambda: change_screen(lambda: level_screen(screen)),
         image=level_img)
     button_lis = [quit_button, instructions_btn, scoreboard_btn, leaderboard_btn, single_player, multiplayer,
-                  skins_btn,
-                  level_btn]
+                  skins_btn, level_btn]
 
     while True:
         screen.blit(background, (0, 0))

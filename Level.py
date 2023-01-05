@@ -24,9 +24,10 @@ class Level:
                                                    ss.SCREEN_HEIGHT))
         self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
                                                   "RGB").convert()
-        self.bg_display = pygame.transform.scale(self.bg_display,
-                                                 (ss.SCREEN_WIDTH/2.86,
-                                                     ss.SCREEN_HEIGHT/1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
+        self.bg_display = pygame.transform.scale(
+            self.bg_display,
+            (ss.SCREEN_WIDTH / 2.86,
+             ss.SCREEN_HEIGHT / 1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
 
     def draw_for_display(self):
         for i in self.obstruct_group:
@@ -42,10 +43,10 @@ class Level:
             if i.rect.x <= ss.SCREEN_WIDTH:
                 i_pos = ((i.rect.x / ss.SCREEN_HEIGHT) * self.bg_display.get_height(),
                          (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
-                self.bg_display.blit(
-                    pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
-                                                     i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT)),
-                    i_pos)
+                i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
+                                                     i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
+                i_image.set_colorkey((0, 0, 0))
+                self.bg_display.blit(i_image, i_pos)
 
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))
@@ -61,17 +62,11 @@ class Level1(Level):
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
-        for j in range(2, 0, -1):
-            for i in range(63):
-                self.platform_group.add(
-                    po.Platform(i * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 0, True,
-                                "images/platform/platform_sprites_(1).png", ss.tile_size, ss.tile_size))
-
-        # ground row
-        for i in range(63):
-            self.platform_group.add(
-                po.Platform(i * ss.tile_size, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 0, True,
-                            "images/platform/platform_sprites_(27).png", ss.tile_size, ss.tile_size))
+        for j in range(1, 3):
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
+                                    "images/platform/platform_sprites_(1).png"))
+        # # ground row
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
 
         # obstacles and platforms
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # first platform
@@ -100,7 +95,7 @@ class Level1(Level):
             letter.Letter(self.letter_list[1], 12.5 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
         self.letter_group.add(
             letter.Letter(self.letter_list[2], 14.5 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
-        # self.letter_group.add(letter.Letter(self.letter_list[3], 23*ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size))  # special letter to be added here
+        self.letter_group.add(letter.MysteryLetter(23*ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))  # special letter to be added here
         self.letter_group.add(
             letter.Letter(self.letter_list[3], 30 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size))
         self.letter_group.add(

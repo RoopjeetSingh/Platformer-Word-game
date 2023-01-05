@@ -1,6 +1,8 @@
 import pygame as pg
 import pygame.gfxdraw
 
+pg.init()
+
 
 def draw_rounded_rect(surface, rect, color, corner_radius):
     """ Draw a rectangle with rounded corners.
@@ -67,15 +69,37 @@ def draw_bordered_rounded_rect(surface, rect, color, border_color, corner_radius
 class Button:
     """A fairly straight forward button class."""
 
-    def __init__(self, rect, color, function, text=None, font=pg.font.Font(None, 36), call_on_release=None,
+    def __init__(self, rect, color, function, text=None, font=pg.font.Font(None, 36), call_on_release=True,
                  hover_color=None, clicked_color=None, font_color=pg.Color("white"), hover_font_color=None,
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
-                 image_position=None, border_radius=0, border_color=None):
+                 image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True):
 
+        self.image = image
+        self.text = text
+        self.font = font
+        self.call_on_release = call_on_release
+        self.hover_color = hover_color
+        self.clicked_color = clicked_color
+        self.font_color = font_color
+        self.hover_font_color = hover_font_color
+        self.clicked_font_color = clicked_font_color
+        self.click_sound = click_sound
+        self.hover_sound = hover_sound
+        self.image_original = image
+        self.text_position = text_position
+        self.image_position = image_position
+        self.border_radius = border_radius
+        self.border_color = border_color
+        self.image_align = image_align
+        self.image_copy = self.image_original
+        self.fill_bg = fill_bg
+        if self.image_original:
+            self.image_copy = pygame.transform.scale(
+                self.image_original, (self.image_original.get_width() - 15, self.image_original.get_height() - 15))
 
-        self.image_copy = None
-        # self.process_kwargs(kwargs)
-        self.rect = pg.Rect(rect)
+        self.rect_original = pg.Rect(rect)
+        self.rect = self.rect_original.copy()
+        self.rect_inflated = self.rect_original.inflate(-15, -15)
         self.color = color
         self.function = function
         self.clicked = False
@@ -153,25 +177,30 @@ class Button:
         """Update needs to be called every frame in the main loop."""
         color = self.color
         text = self.text
-        if self.image:
-            self.image_copy = self.image
-            pygame.transform.scale(self.image_copy, (self.image.get_width() - 5, self.image.get_height() - 5))
+        self.image = self.image_original
+        self.rect = self.rect_original
+
         self.check_hover()
-        if self.clicked and self.clicked_color:
-            color = self.clicked_color
-            if self.clicked_font_color:
-                text = self.clicked_text
+        if self.clicked:
+            if self.clicked_color:
+                color = self.clicked_color
+                if self.clicked_font_color:
+                    text = self.clicked_text
+            self.image = self.image_copy
+            self.rect = self.rect_inflated
         elif self.hovered and self.hover_color:
             color = self.hover_color
             if self.hover_font_color:
                 text = self.hover_text
-        if self.border_radius and self.border_color:
+
+        if self.border_radius and self.border_color and not self.clicked:
             draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius, 7)
         elif self.border_radius:
             draw_rounded_rect(surface, self.rect, color, self.border_radius)
-        else:
+        elif self.fill_bg:
             surface.fill(pg.Color("black"), self.rect)
             surface.fill(color, self.rect.inflate(-4, -4))
+
         if self.text and not self.text_position and not self.image:
             text_rect = text.get_rect(center=self.rect.center)
             surface.blit(text, text_rect)
@@ -186,7 +215,7 @@ class Button:
                                 (self.rect.height - self.image.get_height() - self.text.get_height() - 5) / 2
             text_rect = text.get_rect()
             text_rect.centerx = self.rect.centerx
-            text_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height() - 5)/2
+            text_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height() - 5) / 2
             surface.blit(self.image, image_rect)
             surface.blit(self.text, text_rect)
         elif self.image and self.image_align == "top" and self.text:
@@ -194,9 +223,9 @@ class Button:
             image_rect.centerx = self.rect.centerx
             text_rect = text.get_rect()
             text_rect.centerx = self.rect.centerx
-            image_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height())/2
+            image_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height()) / 2
             text_rect.bottom = self.rect.y + self.rect.height - \
-                                (self.rect.height - self.image.get_height() - self.text.get_height())/2
+                               (self.rect.height - self.image.get_height() - self.text.get_height()) / 2
             surface.blit(self.image, image_rect)
             surface.blit(self.text, text_rect)
         elif self.image and not self.image_position and not self.image_align:
