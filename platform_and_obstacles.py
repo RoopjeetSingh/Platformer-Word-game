@@ -40,18 +40,20 @@ class Platform(pygame.sprite.Sprite):
 
 
 class Obstacle(Platform):
-    def __init__(self, x: int, y: int, img_snowman: bool, w=0, h=0, set_colorkey: tuple[int, int, int] = None):
-        if img_snowman:
+    def __init__(self, x: int, y: int, img_type: str, w=0, h=0, set_colorkey: tuple[int, int, int] = None):
+        if img_type == "snowman":
             img = "images/platform/platform_sprites_(17).png"
-            self.img_type = "snowman"
+        elif img_type == "spikes":
+            img = "images/platform/spikes_2.png"
         else:
             img = "images/platform/platform_sprites_(8).png"
-            self.img_type = "tree"
+
+        self.img_type = img_type
 
         super(Obstacle, self).__init__(x, y, img=img, w=w, h=h,
                                        set_colorkey=set_colorkey, new_img=True)
         self.dead_images = []
-        if img_snowman:
+        if img_type == "snowman":
             for i in range(2, 6):
                 img = pygame.image.load(f"images/platform/platform_sprites_(17) ({i}).png").convert_alpha()
                 img = pygame.transform.scale(img, (
@@ -69,7 +71,7 @@ class Obstacle(Platform):
             self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
             if not self.death_index + 0.08 >= len(self.dead_images):
                 self.death_index += 0.08  # image will change around every 3 times the function is called
-        else:
+        elif self.img_type == "tree":
             if not self.angle < -90:
                 if self.angle % 30 == 0:
                     if process == "right":

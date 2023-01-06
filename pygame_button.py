@@ -72,7 +72,8 @@ class Button:
     def __init__(self, rect, color, function, text=None, font=pg.font.Font(None, 36), call_on_release=True,
                  hover_color=None, clicked_color=None, font_color=pg.Color("white"), hover_font_color=None,
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
-                 image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True):
+                 image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
+                 border_thickness=7):
 
         self.image = image
         self.text = text
@@ -93,6 +94,7 @@ class Button:
         self.image_align = image_align
         self.image_copy = self.image_original
         self.fill_bg = fill_bg
+        self.border_thickness = border_thickness
         if self.image_original:
             self.image_copy = pygame.transform.scale(
                 self.image_original, (self.image_original.get_width() - 15, self.image_original.get_height() - 15))
@@ -194,7 +196,7 @@ class Button:
                 text = self.hover_text
 
         if self.border_radius and self.border_color and not self.clicked:
-            draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius, 7)
+            draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius, self.border_thickness)
         elif self.border_radius:
             draw_rounded_rect(surface, self.rect, color, self.border_radius)
         elif self.fill_bg:

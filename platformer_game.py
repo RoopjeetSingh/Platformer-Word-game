@@ -1,5 +1,5 @@
 from player import *
-from Level import level1
+from Level import *
 import screen_size as ss
 import json
 
@@ -12,7 +12,7 @@ def platformer_game(screen):
         var = json.load(f)
     current_level = eval(var["level"])
     clock = pygame.time.Clock()
-    player = Player(4*ss.tile_size, 4*ss.tile_size, var["skins"])
+    player = Player(ss.tile_size, ss.tile_size, var["skins"])
     while True:
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
@@ -61,6 +61,4 @@ def platformer_game(screen):
 
 if __name__ == "__main__":
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    level1 = Level.Level1()
-    level = level1
     platformer_game(root)

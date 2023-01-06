@@ -94,7 +94,7 @@ class Player(pygame.sprite.Sprite):
                     for p in level.obstruct_group:  # moves obstacles like snowman
                         p.rect.x -= self.move_speed
                     for a in level.letter_group:
-                        a.rect.x -= self.move_speed
+                        a.rect_original.x -= self.move_speed
                 else:
                     # if self.rect.x + self.move_speed <= ss.SCREEN_WIDTH - self.image.get_width():
                     self.rect.x += self.move_speed
@@ -114,7 +114,7 @@ class Player(pygame.sprite.Sprite):
                     for p in level.obstruct_group:  # moves obstacles like snowman
                         p.rect.x += self.move_speed
                     for a in level.letter_group:
-                        a.rect.x += self.move_speed
+                        a.rect_original.x += self.move_speed
                 else:
                     if self.rect.x - self.move_speed >= 0:
                         self.rect.x -= self.move_speed
@@ -147,7 +147,7 @@ class Player(pygame.sprite.Sprite):
         if self.double_jump_bool:
             self.double_jump(level)
         elif self.jumping:
-            self.rect.y -= 12
+            self.rect.y -= 11.2
             self.jumping = True
             self.on_ground = False
             self.obstruct_platforms(level, "jump")
@@ -164,8 +164,8 @@ class Player(pygame.sprite.Sprite):
 
     def obstruct_platforms(self, level: Level.Level, process: str):
         collided_list = pygame.sprite.spritecollide(self, level.platform_group, False)
-        if collided_list:
-            collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False, pygame.sprite.collide_mask)
+        # if collided_list:
+        #     collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False, pygame.sprite.collide_mask)
         for collided in collided_list:
             if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= 50:
                 self.velocity_y = 0
@@ -174,7 +174,7 @@ class Player(pygame.sprite.Sprite):
                 self.on_ground = True
                 self.double_jump_bool = False
                 return True
-            elif process == "jump" and 0 > self.rect.y - collided.rect.bottom > -23:
+            elif process == "jump" and 0 > self.rect.y - collided.rect.bottom > -50:
                 self.jumping = False
                 self.double_jump_bool = False
                 self.rect.top = collided.rect.bottom
@@ -182,11 +182,11 @@ class Player(pygame.sprite.Sprite):
 
             # addressing the point where the object is on the space is causing the error
             elif process == "right" and 0 < self.rect.right - collided.rect.x < 10 and not \
-                    (0 < self.rect.bottom - collided.rect.y < 3):
+                    (0 < self.rect.bottom - collided.rect.y < 5):
                 self.rect.right = collided.rect.x + 1
                 return True
             elif process == "left" and 0 > self.rect.x - collided.rect.right > -10 and not \
-                    (0 < self.rect.bottom - collided.rect.y < 3):
+                    (0 < self.rect.bottom - collided.rect.y < 5):
                 self.rect.left = collided.rect.right - 1
                 return True
         return False
