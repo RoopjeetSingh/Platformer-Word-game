@@ -4,6 +4,7 @@ import screen_size as ss
 import letter
 import cv2
 import numpy as np
+import power_ups as pu
 
 
 class Level:
@@ -12,6 +13,7 @@ class Level:
         self.platform_group = pygame.sprite.Group()
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
+        self.power_up_group = pygame.sprite.Group()
         self.start = 0
         self.width = no_tiles * ss.tile_size
         bg_lis = []
@@ -74,13 +76,15 @@ class Level1(Level):
                                             False))  # down row after first platform
         self.platform_group.add(
             po.Platform(12 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 2))  # second tower platform
+
         self.obstruct_group.add(po.Obstacle(19 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
-                                            "spikes", w=ss.tile_size*2, h=ss.tile_size))  # cutter
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))  # cutter
         self.platform_group.add(po.Platform(29 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(32 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 7, False))
         self.platform_group.add(po.Platform(34 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1))
+
         self.obstruct_group.add(po.Obstacle(43 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
-                                            "spikes", w=ss.tile_size*2, h=ss.tile_size))  # cutter
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))  # cutter
         self.platform_group.add(po.Platform(53 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(56 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 6, False))
         self.platform_group.add(po.Platform(58 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1))
@@ -120,6 +124,7 @@ class Level2(Level):
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
+        self.make_power_ups()
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,
@@ -172,7 +177,7 @@ class Level2(Level):
         self.platform_group.add(po.Platform(53 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 4, False))
         self.platform_group.add(po.Platform(69 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(76 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 7, False))
-        self.platform_group.add(po.Platform(84 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 7, False))
+        self.platform_group.add(po.Platform(84 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 7, False))
         self.platform_group.add(po.Platform(92 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(97 * ss.tile_size, ss.SCREEN_HEIGHT - 15 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(102 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 2, False))
@@ -184,17 +189,21 @@ class Level2(Level):
         self.obstruct_group.add(po.Obstacle(42 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
         self.obstruct_group.add(po.Obstacle(50 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
-                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size*2, set_colorkey=(0, 0, 0)))
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(63 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
-                                            "tree", w=ss.tile_size * 2/1.7, h=ss.tile_size * 2, set_colorkey=(0, 0, 0)))
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2,
+                                            set_colorkey=(0, 0, 0)))
         self.obstruct_group.add(po.Obstacle(78 * ss.tile_size, ss.SCREEN_HEIGHT - 12 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
-        self.obstruct_group.add(po.Obstacle(87 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size,
-                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2, set_colorkey=(0, 0, 0)))
+        self.obstruct_group.add(po.Obstacle(87 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size,
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(109 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size,
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2,
                                             set_colorkey=(0, 0, 0)))
 
+    def make_power_ups(self):
+        self.power_up_group.add(pu.PowerUp(46 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.PowerUp(71 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
 
 level1 = Level1()
