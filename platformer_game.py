@@ -34,7 +34,6 @@ def platformer_game(screen):
 
         player.kill_self()
         player.gravity(current_level)
-        player.jump(current_level)
         player.collect_letter(current_level)
         player.collect_power_up(current_level)
 
@@ -64,7 +63,7 @@ def platformer_game(screen):
             i.collect_self(player, current_level)
             screen.blit(i.image, i.rect)
             i.time_bar(screen, player, current_level)
-
+        player.jump(current_level)
         pygame.display.update()
         clock.tick(75)
 

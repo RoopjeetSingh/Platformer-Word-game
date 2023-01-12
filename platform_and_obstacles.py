@@ -29,9 +29,9 @@ class Platform(pygame.sprite.Sprite):
             self.rect.y = y
         else:
             self.image = pygame.image.load(img).convert_alpha()
-            self.rect = self.image.get_rect(topleft=(x, y))
             if w and h:
                 self.image = pygame.transform.scale(self.image, (w, h))
+            self.rect = self.image.get_rect(topleft=(x, y))
             self.set_colorkey = set_colorkey
             if set_colorkey:
                 self.image.set_colorkey(set_colorkey)
@@ -40,9 +40,10 @@ class Platform(pygame.sprite.Sprite):
 
 
 class Obstacle(Platform):
-    def __init__(self, x: int, y: int, img_type: str, w=0, h=0, set_colorkey: tuple[int, int, int] = None):
+    def __init__(self, x: int, y: int, img_type: str, w=0, h=0, set_colorkey: tuple[int, int, int] = (0, 0, 0)):
         if img_type == "snowman":
             img = "images/platform/platform_sprites_(17).png"
+        # spikes is causing huge error
         elif img_type == "spikes":
             img = "images/platform/spikes_2.png"
         else:
@@ -78,7 +79,6 @@ class Obstacle(Platform):
                         self.image = pygame.transform.rotate(self.image_copy, self.angle)
                     else:
                         self.image = pygame.transform.rotate(self.image_copy, -self.angle)
-                    self.rect = self.image.get_rect(topleft=(self.rect.centerx - self.image.get_width()/2,
-                                                             round(self.rect.bottom - self.image.get_height())))
-                    self.image.set_colorkey((0, 0, 0))
+                    self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
+                    self.image.set_colorkey(self.set_colorkey)
                 self.angle -= 7.5

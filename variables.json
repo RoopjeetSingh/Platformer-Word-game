@@ -1,4 +1,6 @@
 {
-    "skins": "boy",
-    "level": "level2"
+    "skins": "santa",
+    "level": "level2",
+    "1_time": "True",
+    "users": {}
 }

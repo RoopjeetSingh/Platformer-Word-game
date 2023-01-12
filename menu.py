@@ -1,5 +1,5 @@
-import pygame_button as pgb
-from controls_file import controls
+import ui_tools as pgb
+from instructions import instructions
 from score_board import scoreboard
 from leaderboard import leaderboard
 from skins import skins
@@ -48,9 +48,8 @@ def menu(screen):
                              end_screen, hover_color=(150, 150, 150), clicked_color=(80, 80, 80), text="Quit",
                              font=pygame.font.Font(None, 80), font_color=(0, 0, 0), border_radius=15)
     instructions_btn = pgb.Button((13 * ss.SCREEN_WIDTH / 16, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
-                                  (255, 255, 255), lambda: change_screen(controls), hover_color=(150, 150, 150),
-                                  clicked_color=(80, 80, 80),
-                                  image=help_text)
+                                  (255, 255, 255), lambda: change_screen(lambda: instructions(screen, menu)),
+                                  hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=help_text)
     scoreboard_btn = pgb.Button((0, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
                                 (255, 255, 255), lambda: change_screen(scoreboard),
                                 hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=score_board_img,
@@ -69,7 +68,7 @@ def menu(screen):
     multiplayer = pgb.Button(
         (3 * ss.SCREEN_WIDTH / 4 - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
-        (5, 176, 254), lambda: change_screen(controls), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
+        (5, 176, 254), lambda: change_screen(instructions), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
         text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, 48))
     skins_btn = pgb.Button(
         (0, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
@@ -97,7 +96,7 @@ def menu(screen):
         for i in button_lis:
             i.update(screen)
         pygame.display.update()
-        clock.tick(75)
+        clock.tick()
 
 
 if __name__ == "__main__":

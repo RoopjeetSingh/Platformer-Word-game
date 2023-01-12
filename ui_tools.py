@@ -73,7 +73,7 @@ class Button:
                  hover_color=None, clicked_color=None, font_color=pg.Color("white"), hover_font_color=None,
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
                  image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
-                 border_thickness=7):
+                 border_thickness: int = 7, state_disabled: bool = False):
 
         self.image = image
         self.text = text
@@ -95,9 +95,11 @@ class Button:
         self.image_copy = self.image_original
         self.fill_bg = fill_bg
         self.border_thickness = border_thickness
+        self.state_disabled = state_disabled
         if self.image_original:
             self.image_copy = pygame.transform.scale(
-                self.image_original, (self.image_original.get_width() - 15, self.image_original.get_height() - 15))
+                self.image_original, (self.image_original.get_width() - self.image_original.get_width() / 3,
+                                      self.image_original.get_height() - self.image_original.get_height() / 3))
 
         self.rect_original = pg.Rect(rect)
         self.rect = self.rect_original.copy()
@@ -109,33 +111,6 @@ class Button:
         self.hover_text = None
         self.clicked_text = None
         self.render_text()
-
-    def process_kwargs(self, kwargs):
-        """Various optional customization you can change by passing kwargs."""
-        settings = {
-            "text": None,
-            "font": pg.font.Font(None, 36),
-            "call_on_release": True,
-            "hover_color": None,
-            "clicked_color": None,
-            "font_color": pg.Color("white"),
-            "hover_font_color": None,
-            "clicked_font_color": None,
-            "click_sound": None,
-            "hover_sound": None,
-            "image": None,
-            "text_position": (),
-            "image_position": (),
-            "image_align": None,
-            "border_radius": 0,
-            "border_color": None
-        }
-        for kwarg in kwargs:
-            if kwarg in settings:
-                settings[kwarg] = kwargs[kwarg]
-            else:
-                raise AttributeError("Button has no keyword: {}".format(kwarg))
-        self.__dict__.update(settings)
 
     def render_text(self):
         """Pre render the button text."""
@@ -150,10 +125,11 @@ class Button:
 
     def check_event(self, event):
         """The button needs to be passed events from your program event loop."""
-        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            self.on_click(event)
-        elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
-            self.on_release(event)
+        if not self.state_disabled:
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                self.on_click(event)
+            elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                self.on_release()
 
     def on_click(self, event):
         if self.rect.collidepoint(event.pos):
@@ -161,7 +137,7 @@ class Button:
             if not self.call_on_release:
                 self.function()
 
-    def on_release(self, event):
+    def on_release(self):
         if self.clicked and self.call_on_release:
             self.function()
         self.clicked = False
@@ -196,7 +172,10 @@ class Button:
                 text = self.hover_text
 
         if self.border_radius and self.border_color and not self.clicked:
-            draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius, self.border_thickness)
+            # draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius,
+            #                            self.border_thickness)
+            # surface.fill(pg.Color("black"), self.rect)
+            pygame.draw.rect(surface, self.color, self.rect.inflate(-4, -4), border_radius=self.border_radius)
         elif self.border_radius:
             draw_rounded_rect(surface, self.rect, color, self.border_radius)
         elif self.fill_bg:
@@ -213,8 +192,8 @@ class Button:
         elif self.image and self.image_align == "bottom":
             image_rect = self.image.get_rect()
             image_rect.centerx = self.rect.centerx
-            image_rect.bottom = self.rect.y + self.rect.height - \
-                                (self.rect.height - self.image.get_height() - self.text.get_height() - 5) / 2
+            image_rect.bottom = self.rect.y + self.rect.height - (
+                    self.rect.height - self.image.get_height() - self.text.get_height() - 5) / 2
             text_rect = text.get_rect()
             text_rect.centerx = self.rect.centerx
             text_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height() - 5) / 2
@@ -226,10 +205,78 @@ class Button:
             text_rect = text.get_rect()
             text_rect.centerx = self.rect.centerx
             image_rect.top = self.rect.y + (self.rect.height - self.image.get_height() - self.text.get_height()) / 2
-            text_rect.bottom = self.rect.y + self.rect.height - \
-                               (self.rect.height - self.image.get_height() - self.text.get_height()) / 2
+            text_rect.bottom = self.rect.y + self.rect.height - (
+                    self.rect.height - self.image.get_height() - self.text.get_height()) / 2
             surface.blit(self.image, image_rect)
             surface.blit(self.text, text_rect)
         elif self.image and not self.image_position and not self.image_align:
             image_rect = self.image.get_rect(center=self.rect.center)
             surface.blit(self.image, image_rect)
+
+
+class InputBox:
+
+    def __init__(self, x, y, w, h, color_inactive, color_active, color_hover, font=None, text='',
+                 font_color=(255, 255, 255), active=False):
+        self.rect = pg.Rect(x, y, w, h)
+        self.color = color_inactive
+        self.color_active = color_active
+        self.color_inactive = color_inactive
+        self.color_hover = color_hover
+        self.font = font if font else pg.font.Font(None, h - 5)
+        self.text = ""
+        self.font_color = font_color
+        self.given_text = text
+        self.txt_surface = self.font.render(self.given_text, True, (224, 225, 228))
+        self.active = active
+        self.draw_cursor = 0
+        self.drawn = False
+        self.written = False
+
+    def check_event(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN:
+            # If the user clicked on the input_box rect.
+            if self.rect.collidepoint(event.pos):
+                # Toggle the active variable.
+                self.active = not self.active
+            else:
+                self.active = False
+        if self.rect.collidepoint(pg.mouse.get_pos()):
+            self.color = self.color_hover
+        else:
+            self.color = self.color_inactive
+            # Change the current color of the input box.
+        if self.active:
+            self.color = self.color_active
+        if event.type == pg.KEYDOWN:
+            if self.active:
+                if event.key == pg.K_RETURN and self.text:
+                    print(self.text)
+                elif event.key == pg.K_BACKSPACE:
+                    self.written = True
+                    self.text = self.text[:-1]
+                else:
+                    if self.font.render(self.text + event.unicode, True, self.font_color).get_width() <= self.rect.w - 5:
+                        self.written = True
+                        self.text += event.unicode
+                # Re-render the text.
+            if self.written:
+                self.txt_surface = self.font.render(self.text, True, self.font_color)
+            else:
+                self.txt_surface = self.font.render(self.given_text, True, (238, 234, 222))
+
+    def cursor(self, screen):
+        if self.active:
+            if (self.drawn and self.draw_cursor % 30 != 0) or (not self.drawn and self.draw_cursor % 30 == 0):
+                pygame.draw.line(screen, (255, 255, 255), (self.txt_surface.get_width()+self.rect.x+5, self.rect.y+7),
+                                 (self.txt_surface.get_width()+self.rect.x+5, self.rect.bottom - 7))
+                self.drawn = True
+            else:
+                self.drawn = False
+            self.draw_cursor += 1
+
+    def update(self, screen):
+        screen.fill(pg.Color("black"), self.rect)
+        pygame.draw.rect(screen, self.color, self.rect.inflate(-4, -4))
+        screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
+        self.cursor(screen)

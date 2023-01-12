@@ -78,6 +78,7 @@ class PowerUp(pygame.sprite.Sprite):
 
     def time_bar(self, screen, player, level):
         if isinstance(self.start, float):
+            player.double_jump_power_up = True
             if self.first_time:
                 self.green_rect.topleft = (self.rect.x, self.rect.bottom + ss.tile_size/2.5)
                 self.red_rect.topleft = (self.rect.right, self.rect.bottom + ss.tile_size/2.5)
@@ -102,4 +103,3 @@ class PowerUp(pygame.sprite.Sprite):
                 self.start_track = time.time()
             pygame.draw.rect(screen, (255, 0, 0), self.red_rect)
             pygame.draw.rect(screen, (0, 255, 0), self.green_rect)
-

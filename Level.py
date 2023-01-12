@@ -191,15 +191,13 @@ class Level2(Level):
         self.obstruct_group.add(po.Obstacle(50 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
                                             "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(63 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
-                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2,
-                                            set_colorkey=(0, 0, 0)))
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(78 * ss.tile_size, ss.SCREEN_HEIGHT - 12 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
         self.obstruct_group.add(po.Obstacle(87 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size,
                                             "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(109 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size,
-                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2,
-                                            set_colorkey=(0, 0, 0)))
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
 
     def make_power_ups(self):
         self.power_up_group.add(pu.PowerUp(46 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
