@@ -2,6 +2,15 @@ import pygame
 import Level
 import screen_size as ss
 import letter
+import numpy
+
+
+def grayscale(img):
+    arr = pygame.surfarray.array3d(img)
+    # luminosity filter
+    avgs = [[(r * 0.298 + g * 0.587 + b * 0.114) for (r, g, b) in col] for col in arr]
+    arr = numpy.array([[[avg, avg, avg] for avg in col] for col in avgs])
+    return pygame.surfarray.make_surface(arr)
 
 
 # Set up the game window
@@ -69,7 +78,7 @@ class Player(pygame.sprite.Sprite):
         self.index_dead = 0
         self.jumping = False
         self.on_ground = True
-        self.double_jump_bool = False
+        self.double_jump_power_up = False
         self.old_list = "right"
         self.move_speed = 7
         self.num_jumps = 0
@@ -78,8 +87,12 @@ class Player(pygame.sprite.Sprite):
         self.obstacle_collided_with = None
         self.letter_lis = []
         self.mystery_letter_lis = []
+        self.power_up_lis = []
         self.process = "right"
-        self.start_pos = 6*ss.tile_size
+        self.start_pos = 6 * ss.tile_size
+        self.color = True
+        self.color_num = 0
+        self.current_image = None
 
     def move_right(self, level: Level.Level, direction: str = ""):
         if direction == "right":
@@ -95,6 +108,8 @@ class Player(pygame.sprite.Sprite):
                         p.rect.x -= self.move_speed
                     for a in level.letter_group:
                         a.rect_original.x -= self.move_speed
+                    for p in level.power_up_group:  # moves obstacles like snowman
+                        p.rect.x -= self.move_speed
                 else:
                     # if self.rect.x + self.move_speed <= ss.SCREEN_WIDTH - self.image.get_width():
                     self.rect.x += self.move_speed
@@ -115,6 +130,8 @@ class Player(pygame.sprite.Sprite):
                         p.rect.x += self.move_speed
                     for a in level.letter_group:
                         a.rect_original.x += self.move_speed
+                    for p in level.power_up_group:  # moves obstacles like snowman
+                        p.rect.x += self.move_speed
                 else:
                     if self.rect.x - self.move_speed >= 0:
                         self.rect.x -= self.move_speed
@@ -144,18 +161,28 @@ class Player(pygame.sprite.Sprite):
         #     self.next_screen
 
     def jump(self, level: Level.Level):
-        if self.double_jump_bool:
-            self.double_jump(level)
+        if self.double_jump_power_up:
+            if not self.kill_player:
+                if self.color and self.color_num % 3 == 0:
+                    self.image = pygame.mask.from_surface(self.image).to_surface()
+                    self.image.set_colorkey((0, 0, 0))
+                    self.color = False
+                elif self.color_num % 3 == 0:
+                    self.image.set_colorkey((0, 0, 0))
+                    self.color = True
+                if self.jumping:
+                    self.double_jump(level)
+            self.color_num += 1
         elif self.jumping:
             self.rect.y -= 11.2
-            self.jumping = True
+            # self.jumping = True
             self.on_ground = False
             self.obstruct_platforms(level, "jump")
             self.obstruct_obstacles(level)
             self.num_jumps += 1
 
     def double_jump(self, level: Level.Level):
-        self.rect.y -= 22.4
+        self.rect.y -= 16
         self.jumping = True
         self.on_ground = False
         self.obstruct_platforms(level, "jump")
@@ -172,11 +199,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = collided.rect.top
                 self.jumping = False
                 self.on_ground = True
-                self.double_jump_bool = False
                 return True
             elif process == "jump" and 0 > self.rect.y - collided.rect.bottom > -50:
                 self.jumping = False
-                self.double_jump_bool = False
                 self.rect.top = collided.rect.bottom
                 return True
 
@@ -210,6 +235,14 @@ class Player(pygame.sprite.Sprite):
                 self.letter_lis.append(collided)
             elif isinstance(collided, letter.MysteryLetter):
                 self.mystery_letter_lis.append(collided)
+            collided.collecting_animation = True
+
+    def collect_power_up(self, level: Level.Level):
+        collided_list = pygame.sprite.spritecollide(self, level.power_up_group, False)
+        if collided_list:
+            collided = collided_list[0]
+            self.power_up_lis.append(collided)
+            self.double_jump_power_up = True
             collided.collecting_animation = True
 
     def kill_self(self):

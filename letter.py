@@ -24,9 +24,6 @@ class Letter(pygame.sprite.Sprite):
         self.letter = letter
         self.image1 = pygame.image.load(Letter.letter_dic.get(self.letter)).convert()
         self.image1 = pygame.transform.scale(self.image1, (ss.tile_size, ss.tile_size))
-        self.image2 = self.image1.copy()
-        brighten = 60
-        self.image2.fill((brighten, brighten, brighten), special_flags=pygame.BLEND_RGB_ADD)
         self.image = self.image1
         self.rect_original = self.image.get_rect(topleft=(x, y))
         self.rect = self.rect_original.copy()
@@ -43,12 +40,6 @@ class Letter(pygame.sprite.Sprite):
 
     def bounce_brighten(self):
         if self.brighten:
-            # if self.image == self.image1 and self.num >= 30:
-            #     self.image = self.image2
-            #     self.num = 0
-            # elif self.image == self.image2 and self.num >= 30:
-            #     self.image = self.image1
-            #     self.num = 0
             new_width = round(math.sin(math.radians(self.angle)) * self.rect_original.width)
             self.angle += 2
             self.image = self.image1 if new_width >= 0 else pygame.transform.flip(self.image1, True, False)
@@ -99,9 +90,6 @@ class MysteryLetter(pygame.sprite.Sprite):
         self.end_pos = (0, 0)
         self.image1 = pygame.image.load("images/Letters/mysteryLetter.png").convert()
         self.image1 = pygame.transform.scale(self.image1, (ss.tile_size * 2, ss.tile_size * 2))
-        self.image2 = self.image1.copy()
-        brighten = 60
-        self.image2.fill((brighten, brighten, brighten), special_flags=pygame.BLEND_RGB_ADD)
         self.image = self.image1
         self.rect_original = self.image.get_rect(topleft=(x, y))
         self.rect = self.rect_original.copy()
@@ -118,12 +106,6 @@ class MysteryLetter(pygame.sprite.Sprite):
 
     def bounce_brighten(self):
         if self.brighten:
-            # if self.image == self.image1 and self.num >= 30:
-            #     self.image = self.image2
-            #     self.num = 0
-            # elif self.image == self.image2 and self.num >= 30:
-            #     self.image = self.image1
-            #     self.num = 0
             new_width = round(math.sin(math.radians(self.angle)) * self.rect_original.width)
             self.angle += 2
             self.image = self.image1 if new_width >= 0 else pygame.transform.flip(self.image1, True, False)

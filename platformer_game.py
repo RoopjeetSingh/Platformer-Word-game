@@ -18,8 +18,13 @@ def platformer_game(screen):
         current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
         current_level.letter_group.draw(screen)
+        current_level.power_up_group.draw(screen)
         for i in current_level.letter_group:
             i.bounce_brighten()
+
+        for i in current_level.power_up_group:
+            i.bounce_brighten()
+
         screen.blit(player.image, player.rect)
 
         for event in pygame.event.get():
@@ -29,8 +34,8 @@ def platformer_game(screen):
 
         player.kill_self()
         player.gravity(current_level)
-        player.jump(current_level)
         player.collect_letter(current_level)
+        player.collect_power_up(current_level)
 
         if not player.kill_player:
             keys = pygame.key.get_pressed()
@@ -45,16 +50,20 @@ def platformer_game(screen):
                 if player.on_ground or pressed:
                     player.jumping = True
                     pressed = True
-                else:
-                    player.double_jump_bool = True
             else:
                 pressed = False
+
         for i in player.letter_lis:
             i.collect_self(player, current_level)
             screen.blit(i.image, i.rect)
         for i in player.mystery_letter_lis:
             i.collect_self(player, current_level)
             screen.blit(i.image, i.rect)
+        for i in player.power_up_lis:
+            i.collect_self(player, current_level)
+            screen.blit(i.image, i.rect)
+            i.time_bar(screen, player, current_level)
+        player.jump(current_level)
         pygame.display.update()
         clock.tick(75)
 
