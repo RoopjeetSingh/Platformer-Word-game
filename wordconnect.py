@@ -1,3 +1,4 @@
+import PIL.Image
 import pygame as py
 from pygame.locals import *
 import math
@@ -5,10 +6,12 @@ import math
 py.init()
 screen = py.display.set_mode((1000, 500))
 screen.fill((255, 255, 255))
-letters = ["l", "o", "g", "q", "w", "y"]
+letters = ["l", "o"]
+correct_words = []
 input_rect = py.Rect(200, 200, 140, 32)
 score_count = 0
 i = -1
+working = True
 list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png", 'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
                 'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
               'd': "hellop/Platformer-word-game-master/images/Letters/15.png", 'e': "hellop/Platformer-word-game-master/images/Letters/26.png",
@@ -28,14 +31,15 @@ list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png", '
               'y': "hellop/Platformer-word-game-master/images/Letters/4.png", 'z': "hellop/Platformer-word-game-master/images/Letters/14.png"}
 coord = []
 entered = []
-correct_words = ["long", "bol"]
+
 word = ""
 mystery_letter = ""
 mystery_number = 3
+score = 0
 rect_pressed = False
 on = True
 pressed = False
-submit_pressed = False
+
 
 def background(x,y,z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
@@ -96,110 +100,129 @@ def mystery(input):
                 screen.blit(text_pressed, input_rect)
 
 
-def submit():
-    image = py.image.load("hellop/question.png")
-    image = py.transform.scale(image, (50, 50))
-    screen.blit(image, (0,0))
+def mysterybutton(x):
+    if x == True:
+        image = py.image.load("hellop/question.png")
+        image = py.transform.scale(image, (50, 50))
+        screen.blit(image, (0,0))
 
+def submit(x):
+    if x == True:
+        image = py.image.load("hellop/arrow1.png")
+        image_submit = py.transform.scale(image, (50, 50))
+        screen.blit(image_submit, (850, 340))
+
+def score_show(x):
+    font = py.font.Font(None, 50)
+    if x == True:
+        text = font.render(f"score: {score}", True, (0,0,0))
+        screen.blit(text, (800, 50))
+    if x == False:
+        text1 = font.render("game over", True, (0,0,0))
+        text = font.render(f"score: {score}", True, (0,0,0))
+        screen.blit(text1, (500, 100))
+        screen.blit(text, (500, 250))
 
 run = True
 background(255,255,255, 100)
 place(len(letters))
-submit()
-
+mysterybutton(working)
+submit(working)
 start = ()
 clock = py.time.Clock()
 while run:
+    if working == True:
+        clock.tick()
+        mouse = py.mouse.get_pos()
 
-    mouse = py.mouse.get_pos()
+        for ev in py.event.get():
+            if ev.type == QUIT:
+                py.quit()
+            if ev.type == KEYDOWN:
+                if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True  and mystery_number != 0:
+                    if ev.unicode != '\r':
+                        letters.append(ev.unicode)
+                        mystery(ev.unicode)
+                        coord = []
+                        mystery_number -= 1
 
-    for ev in py.event.get():
-        if ev.type == QUIT:
-            py.quit()
-        if ev.type == KEYDOWN:
-            if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True:
-                if ev.unicode != '\r':
-                    letters.append(ev.unicode)
-                    mystery(ev.unicode)
-                    coord = []
+
+            if ev.type == MOUSEBUTTONDOWN:
+                if 850< mouse[0] < 950 and  340< mouse[1] < 390:
+                    background(255,255,255,400)
+                    on = False
+                    working = False
+                elif 0 < mouse[0] < 50 and 0 < mouse[1] < 50:
+                    i += 1
+                    if i % 2 == 0:
+                        pressed = True
+                        print(pressed)
+                    else:
+                        pressed = False
+                        print(pressed)
+                if input_rect.collidepoint(mouse) and pressed== True:
+                    rect_pressed = True
+
+                mystery("")
+
+                if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475:
+
+                    start = near(coord, mouse)
+                    if start not in entered:
+
+                        word += letters[coord.index(start)]
+                        entered.append(start)
+                    else:
+                        word = ""
+                        entered = []
+
+                if pressed == False:
+
+                    background(255, 255, 255, 450)
+                    place(len(letters))
+                    mysterybutton(working)
+                    score_show(working)
+                    submit(working)
+                    if ev.type == KEYDOWN:
+                        if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True:
+
+                            if ev.unicode != '\r':
+                                letters.append(ev.unicode)
+                                mystery(ev.unicode)
 
 
-        if ev.type == MOUSEBUTTONDOWN:
-            if 0 < mouse[0] < 50 and 0 < mouse[1] < 50:
-                i += 1
-                if i % 2 == 0:
-                    pressed = True
-                    print(pressed)
-                else:
-                    pressed = False
-                    print(pressed)
-            if input_rect.collidepoint(mouse) and pressed== True:
-                rect_pressed = True
-
-            mystery("")
-
-            if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475:
-
-                start = near(coord, mouse)
-                if start not in entered:
-                    print(letters)
-                    print(coord)
-
-                    word += letters[coord.index(start)]
-                    entered.append(start)
-                else:
-                    word = ""
-                    entered = []
-
-            if pressed == False:
-
-                background(255, 255, 255, 450)
+        if start != ():
+            background(255,255,255, 450)
+            mysterybutton(working)
+            place(len(letters))
+            submit(working)
+            score_show(working)
+            py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
+            lines()
+            show()
+            if len(word) == len(letters) and word not in correct_words:
+                start= ()
+                entered = []
+                background(201, 47, 4, 450)
+                mysterybutton(working)
+                score_show(working)
                 place(len(letters))
-                submit()
-                if ev.type == KEYDOWN:
-                    if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True:
+                show()
+                print(word)
+                word = ""
 
-                        if ev.unicode != '\r':
-                            letters.append(ev.unicode)
-                            mystery(ev.unicode)
+            elif word in correct_words:
+                score += 1
+                start= ()
+                entered = []
+                background(235, 235, 35, 450)
+                mysterybutton(working)
+                score_show(working)
+                place(len(letters))
+                show()
+                print(word)
+                word = ""
 
 
-
-
-
-
-
-
-    if start != ():
-        background(255,255,255, 450)
-        submit()
-        place(len(letters))
-        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
-        lines()
-        show()
-        if len(word) == len(letters) and word not in correct_words:
-            start= ()
-            entered = []
-            background(201, 47, 4, 450)
-            submit()
-
-            place(len(letters))
-            show()
-            print(word)
-            word = ""
-
-        elif word in correct_words:
-            score_count += 1
-
-            start= ()
-            entered = []
-            background(235, 235, 35, 450)
-            submit()
-            place(len(letters))
-            show()
-            print(word)
-            word = ""
-    #finish()
-    #score()
-    clock.tick(50)
+    score_show(working)
     py.display.update()
