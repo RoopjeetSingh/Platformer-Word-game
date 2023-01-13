@@ -91,12 +91,13 @@ def show():
         screen.blit(im, (500 + (adding * i) - (subtraction * len(word) ), 90))
 
 
-def mystery(input):
+def mystery(input, c):
     if pressed == True:
         py.draw.rect(screen, (30, 212, 212), input_rect)
         font = py.font.Font(None, 32)
-
-        if rect_pressed == True:
+        if c == 0:
+            py.draw.rect(screen, (212, 11, 14), input_rect)
+        if rect_pressed == True :
             py.draw.rect(screen, (95, 204, 0), input_rect)
             text_pressed = font.render(input, True, (255, 255, 255))
             if input != "":
@@ -146,7 +147,7 @@ while run:
                 if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True  and mystery_number != 0:
                     if ev.unicode != '\r':
                         letters.append(ev.unicode)
-                        mystery(ev.unicode)
+                        mystery(ev.unicode, mystery_number)
                         coord = []
                         mystery_number -= 1
 
@@ -169,7 +170,7 @@ while run:
                 else:
                     rect_pressed = False
 
-                mystery("")
+                mystery("", mystery_number)
 
                 if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and rect_pressed != True:
 
@@ -194,7 +195,7 @@ while run:
 
                             if ev.unicode != '\r':
                                 letters.append(ev.unicode)
-                                mystery(ev.unicode)
+                                mystery(ev.unicode, mystery_number)
 
 
         if start != ():
@@ -206,7 +207,7 @@ while run:
             py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
             lines()
             show()
-            if len(word) == len(letters) and d.check(word) == False:
+            if len(word) == len(letters) and (d.check(word) == False or word in check):
                 incorrect = True
                 start= ()
                 entered = []
@@ -230,7 +231,7 @@ while run:
                 show()
                 print(word)
                 word = ""
-
-
-    score_show(working)
+    if working == False:
+        background(255,255,255,450)
+        score_show(working)
     py.display.update()
