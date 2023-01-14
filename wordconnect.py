@@ -13,6 +13,7 @@ intro_rect = py.Rect(200, 200, 140, 32)
 
 i = -1
 working = True
+starting = False
 check = []
 list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png", 'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
                 'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
@@ -143,7 +144,8 @@ while run:
             if ev.type == QUIT:
                 py.quit()
             if ev.type == KEYDOWN:
-                if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True  and mystery_number != 0 and intro_pressed:
+
+                if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True  and mystery_number != 0:
                     if ev.unicode != '\r':
                         letters.append(ev.unicode)
                         mystery(ev.unicode, mystery_number)
@@ -176,7 +178,7 @@ while run:
 
                 mystery("", mystery_number)
 
-                if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and rect_pressed != True and intro_pressed:
+                if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and rect_pressed != True and starting == True:
 
                     start = near(coord, mouse)
                     if start not in entered:
@@ -188,7 +190,7 @@ while run:
                         entered = []
 
                 if pressed == False and intro_pressed:
-
+                    starting = True
                     background(255, 255, 255, 450)
                     place(len(letters), on, coord)
                     mystery_and_submit_button(intro_pressed)
