@@ -188,6 +188,7 @@ while run:
                     else:
                         word = ""
                         entered = []
+                        start = ()
 
                 if pressed == False and intro_pressed:
                     starting = True
