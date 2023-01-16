@@ -26,29 +26,36 @@ class Level:
                                                    ss.SCREEN_HEIGHT))
         self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
                                                   "RGB").convert()
-        self.bg_display = pygame.transform.scale(
-            self.bg_display,
-            (ss.SCREEN_WIDTH / 2.86,
-             ss.SCREEN_HEIGHT / 1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
+        self.bg_display = pygame.transform.scale(self.bg_display, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
+        # self.bg_display = pygame.transform.scale(
+        #     self.bg_display,
+        #     (ss.SCREEN_WIDTH / 2.86,
+        #      ss.SCREEN_HEIGHT / 1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
 
     def draw_for_display(self):
         for i in self.obstruct_group:
             if i.rect.x <= ss.SCREEN_WIDTH:
-                i_pos = ((i.rect.x / ss.SCREEN_WIDTH) * self.bg_display.get_width(),
-                         (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
-                i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
-                                                           i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
-                i_image.set_colorkey((0, 0, 0))
-                self.bg_display.blit(i_image, i_pos)
+                # i_pos = ((i.rect.x / ss.SCREEN_WIDTH) * self.bg_display.get_width(),
+                #          (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
+                # i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
+                #                                            i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
+                # i_image.set_colorkey((0, 0, 0))
+                self.bg_display.blit(i.image, i.rect)
 
         for i in self.platform_group:
             if i.rect.x <= ss.SCREEN_WIDTH:
-                i_pos = ((i.rect.x / ss.SCREEN_HEIGHT) * self.bg_display.get_height(),
-                         (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
-                i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
-                                                           i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
-                i_image.set_colorkey((0, 0, 0))
-                self.bg_display.blit(i_image, i_pos)
+                # i_pos = ((i.rect.x / ss.SCREEN_HEIGHT) * self.bg_display.get_height(),
+                #          (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
+                # i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
+                #                                            i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
+                # i_image.set_colorkey((0, 0, 0))
+                self.bg_display.blit(i.image, i.rect)
+        for i in self.letter_group:
+            if i.rect.x <= ss.SCREEN_WIDTH:
+                self.bg_display.blit(i.image, (i.rect.x, i.rect.y + ss.tile_size))
+        for i in self.power_up_group:
+            if i.rect.x <= ss.SCREEN_WIDTH:
+                self.bg_display.blit(i.image, i.rect)
 
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))
@@ -61,6 +68,7 @@ class Level1(Level):
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
+        self.str = "level1"
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
@@ -125,6 +133,7 @@ class Level2(Level):
         self.make_letters()
         self.draw_for_display()
         self.make_power_ups()
+        self.str = "level2"
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,
@@ -206,3 +215,4 @@ class Level2(Level):
 
 level1 = Level1()
 level2 = Level2()
+level_list = [level1, level2]

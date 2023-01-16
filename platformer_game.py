@@ -1,7 +1,8 @@
 from player import *
-from Level import *
+# from Level import *
 import screen_size as ss
 import json
+from helpful_functions import calculate_current_level
 
 pygame.init()
 
@@ -10,7 +11,10 @@ def platformer_game(screen):
     pressed = False
     with open('variables.json', 'r') as f:
         var = json.load(f)
-    current_level = eval(var["level"])
+
+    # Cleans and uses the json file to determine the level. If someone already chose a level using the level screen than
+    # that is the level, else the level is found out by seeing if the user has ever completed the level
+    current_level = calculate_current_level(var)
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.tile_size, var["skins"])
     while True:
@@ -52,7 +56,7 @@ def platformer_game(screen):
                     pressed = True
             else:
                 pressed = False
-
+        player.jump(current_level)
         for i in player.letter_lis:
             i.collect_self(player, current_level)
             screen.blit(i.image, i.rect)
@@ -63,7 +67,6 @@ def platformer_game(screen):
             i.collect_self(player, current_level)
             screen.blit(i.image, i.rect)
             i.time_bar(screen, player, current_level)
-        player.jump(current_level)
         pygame.display.update()
         clock.tick(75)
 

@@ -36,21 +36,41 @@ def instructions(screen, back_button_func):
             json.dump(var, wvar, indent=4)
         func()
 
-    def go_to_next_page(next_bool: bool = True):
+    def go_to_next_page(next_page_bool: bool = True):
         global x_pos
-        if next_bool and x_pos > -ss.SCREEN_WIDTH*3:
+        # Although global is discouraged, this was a place where it is actually suitable. This is because returning
+        # a value was not possible in a lambda function and creating a class just for a single x_pos variable was not
+        # viable
+        if next_page_bool and x_pos > -ss.SCREEN_WIDTH * 3:
             x_pos -= ss.SCREEN_WIDTH
-        elif not next_bool and x_pos < 0:
+        elif not next_page_bool and x_pos < 0:
             x_pos += ss.SCREEN_WIDTH
+
+        if x_pos <= -ss.SCREEN_WIDTH * 3:
+            next_page.state_disabled = True
+        else:
+            next_page.state_disabled = False
+
+        if x_pos >= 0:
+            previous_page.state_disabled = True
+        else:
+            previous_page.state_disabled = False
+
+        # print(previous_page.state_disabled, next_page.state_disabled, x_pos)
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
     help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
-    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/next_button.png").convert_alpha(),
+    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
                                          (100, 150))
+    disabled_next_button = pygame.transform.scale(
+        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        (100, 150))
     previous_button = pygame.transform.flip(next_button, True, False)
+    disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
+
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = pgb.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
@@ -59,17 +79,17 @@ def instructions(screen, back_button_func):
     next_page = pgb.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
          next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), lambda: go_to_next_page(), image=next_button, fill_bg=False)
+        (0, 0, 0), lambda: go_to_next_page(), image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = pgb.Button(
         (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), lambda: go_to_next_page(False), image=previous_button, fill_bg=False)
+        (0, 0, 0), lambda: go_to_next_page(False), image=previous_button, fill_bg=False,
+        disabled_image=disabled_previous_button, state_disabled=True)
     button_lis = [back_button, next_page, previous_page]
     while True:
         help_surface.blit(background, (0, 0))
         help_surface.blit(background, (ss.SCREEN_WIDTH, 0))
-        help_surface.blit(background, (ss.SCREEN_WIDTH*2, 0))
+        help_surface.blit(background, (ss.SCREEN_WIDTH * 2, 0))
         screen.blit(help_surface, (x_pos, 0))
-        print(x_pos)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 with open('variables.json', 'w') as wvar:
