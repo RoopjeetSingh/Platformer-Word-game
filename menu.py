@@ -7,6 +7,7 @@ import json
 from Level import *
 from level_screen import level_screen
 from platformer_game import platformer_game
+from helpful_functions import calculate_current_level
 
 pygame.init()
 
@@ -41,7 +42,11 @@ def menu(screen):
         (ss.SCREEN_WIDTH / 7.15, ss.SCREEN_HEIGHT / 8.4))  # 200, 100
     # skins_img.set_colorkey((0, 0, 0))
     leader_board_img.set_colorkey((255, 255, 255))
-    level_img = eval(var["level"]).bg_display
+    level_img = calculate_current_level(var).bg_display
+    level_img = pygame.transform.scale(
+        level_img,
+        (ss.SCREEN_WIDTH / 2.86,
+         ss.SCREEN_HEIGHT / 1.56 / level_img.get_width() * level_img.get_height()))
 
     quit_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 3 * ss.SCREEN_WIDTH / 16 / 2, 3 * ss.SCREEN_HEIGHT / 4,
                               3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
@@ -51,12 +56,12 @@ def menu(screen):
                                   (255, 255, 255), lambda: change_screen(lambda: instructions(screen, menu)),
                                   hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=help_text)
     scoreboard_btn = pgb.Button((0, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
-                                (255, 255, 255), lambda: change_screen(scoreboard),
+                                (255, 255, 255), lambda: change_screen(lambda: scoreboard()),
                                 hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=score_board_img,
                                 text="Scoreboard", image_align="bottom", font_color=(0, 0, 0))
     leaderboard_btn = pgb.Button(
         (13 * ss.SCREEN_WIDTH / 16, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
-        (255, 255, 255), lambda: change_screen(leaderboard),
+        (255, 255, 255), lambda: change_screen(lambda: leaderboard()),
         hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=leader_board_img,
         text="Leaderboard", image_align="bottom", font_color=(0, 0, 0))
 
@@ -68,7 +73,7 @@ def menu(screen):
     multiplayer = pgb.Button(
         (3 * ss.SCREEN_WIDTH / 4 - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
-        (5, 176, 254), lambda: change_screen(instructions), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
+        (5, 176, 254), lambda: print("Multiplayer"), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
         text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, 48))
     skins_btn = pgb.Button(
         (0, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
@@ -86,10 +91,7 @@ def menu(screen):
         screen.blit(background, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
-                pygame.quit()
-                exit()
+                end_screen()
             for i in button_lis:
                 i.check_event(event)
 
