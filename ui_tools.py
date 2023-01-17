@@ -75,6 +75,10 @@ class Button:
         self.clicked_text = None
         self.render_text()
 
+    def move(self, x_add):
+        self.rect_original.x += x_add
+        self.rect_inflated.x += x_add
+
     def render_text(self):
         """Pre render the button text."""
         if self.text:
@@ -96,6 +100,7 @@ class Button:
 
     def on_click(self, event):
         if self.rect.collidepoint(event.pos):
+            print("clicked")
             self.clicked = True
             if not self.call_on_release:
                 self.function()

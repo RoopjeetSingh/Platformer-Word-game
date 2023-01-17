@@ -12,8 +12,6 @@ def platformer_game(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
 
-    # Cleans and uses the json file to determine the level. If someone already chose a level using the level screen than
-    # that is the level, else the level is found out by seeing if the user has ever completed the level
     current_level = calculate_current_level(var)
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.tile_size, var["skins"])

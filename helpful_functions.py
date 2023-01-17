@@ -2,10 +2,15 @@ from Level import *
 
 
 def calculate_current_level(variables_dic: dict):
+    """
+    Cleans and uses the json file to determine the level. If someone already chose a level using the level screen than
+    that is the level, else the level is found out by seeing if the user has ever completed the level
+    :param variables_dic: The json file that has been opened
+    :return: returns the level object
+    """
     current_level = variables_dic["level"]
     if not current_level:
         levels = variables_dic["users"][variables_dic["current_user"][0]][1]
-        print(levels)
         for level in level_list:
             for i in levels:
                 if level.str == i[0]:

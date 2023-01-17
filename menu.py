@@ -82,7 +82,7 @@ def menu(screen):
         text="Avatar", image_align="bottom", image=skins_img)
     level_btn = pgb.Button(
         (ss.SCREEN_WIDTH / 2 - level_img.get_width() / 2, ss.SCREEN_HEIGHT / 4 - level_img.get_height() / 2,
-         level_img.get_width(), level_img.get_height()), (0, 0, 0), lambda: change_screen(lambda: level_screen(screen)),
+         level_img.get_width(), level_img.get_height()), (0, 0, 0), lambda: change_screen(lambda: level_screen(screen, menu)),
         image=level_img)
     button_lis = [quit_button, instructions_btn, scoreboard_btn, leaderboard_btn, single_player, multiplayer,
                   skins_btn, level_btn]
