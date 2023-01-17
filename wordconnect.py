@@ -1,4 +1,4 @@
-from spellchecker import SpellChecker
+import enchant
 import pygame
 import math
 from letter import Letter
@@ -6,8 +6,8 @@ from letter import Letter
 pygame.init()
 screen = pygame.display.set_mode((1000, 500))
 screen.fill((255, 255, 255))
-letters = ["h", "b", "u", "t", "o", "k"]
-d = SpellChecker()
+letters = ["h", "b"]
+d = enchant.Dict("en_US")
 input_rect = pygame.Rect(200, 200, 140, 32)
 intro_rect = pygame.Rect(200, 200, 140, 32)
 
@@ -30,8 +30,7 @@ intro_pressed = False
 
 
 def background(x, y, z, c):
-    # bg_image = pygame.image.load("hellop/flat-design-copygame-space-winter-background_52683-48883.jpeg")
-    bg_image = pygame.image.load("images/Menu_page/menu_bg.png")
+    bg_image = pygame.image.load("hellop/flat-design-copygame-space-winter-background_52683-48883.jpeg")
     bg_image = pygame.transform.scale(bg_image, (1000, 500))
     table = pygame.Surface((420, c))
     table.set_alpha(128)
@@ -47,7 +46,7 @@ def place(n, on, coord):
         for i in range(0, n):
             im = pygame.image.load(list_images[letters[i]])
             im = pygame.transform.scale(im, (35, 35))
-            screen.blit(im, (480 + 130 * math.cos(a), 300 + 130 * math.sin(a)))
+            screen.blit(im, ((480 + 130 * math.cos(a), 300 + 130 * math.sin(a))))
             if len(coord) < len(letters):
                 coord.append((480 + 130 * math.cos(a), 300 + 130 * math.sin(a)))
             a += adding
@@ -57,7 +56,7 @@ def lines():
     if entered:
         for cd in range(len(entered) - 1):
             pygame.draw.line(screen, (34, 153, 153), (entered[cd][0] + 20, entered[cd][1] + 20),
-                             (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
+                         (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
 
 
 def near(x, y):
@@ -93,11 +92,10 @@ def mystery(input, c):
 
 def mystery_and_submit_button(x):
     if x:
-        # image = pygame.image.load("hellop/question.png")
-        image = pygame.image.load("images/Letters/mysteryLetter.png")
+        image = pygame.image.load("hellop/question.png")
         image = pygame.transform.scale(image, (50, 50))
         screen.blit(image, (0, 0))
-        image = pygame.image.load("images/back_button.png")
+        image = pygame.image.load("hellop/arrow1.png")
         image_submit = pygame.transform.scale(image, (50, 50))
         screen.blit(image_submit, (850, 340))
 
@@ -119,19 +117,19 @@ def intro():
     pygame.draw.rect(screen, (0, 0, 0), intro_rect)
 
 
+run = True
 intro()
 
 start = ()
 clock = pygame.time.Clock()
-while True:
+while run:
     if working:
         clock.tick()
         mouse = pygame.mouse.get_pos()
 
         for ev in pygame.event.get():
-            if ev.type == pygame.QUIT or (ev.type == pygame.KEYDOWN and ev.key == pygame.K_ESCAPE):
+            if ev.type == pygame.QUIT:
                 pygame.quit()
-                exit()
             if ev.type == pygame.KEYDOWN:
 
                 if mystery_number and ev.unicode not in letters and rect_pressed and mystery_number:
@@ -198,10 +196,10 @@ while True:
 
             score_show(intro_pressed)
             pygame.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20),
-                             width=5)
+                         width=5)
             lines()
             show(word)
-            if len(word) == len(letters) and (not word == d.correction(word) or word in check):
+            if len(word) == len(letters) and (not d.check(word) or word in check):
                 incorrect = True
                 start = ()
                 entered = []
@@ -213,7 +211,7 @@ while True:
                 print(word)
                 word = ""
 
-            if len(word) > 1 and word not in check and word == d.correction(word):
+            if len(word) > 1 and word not in check and d.check(word):
                 check.append(word)
                 score += len(word)
                 start = ()
