@@ -16,15 +16,23 @@ i = -1
 working = True
 starting = False
 check = []
-letter_dic = {'a': "images/Letters/1.png", 'b': "images/Letters/9.png", 'c': "images/Letters/19.png",
-                  'd': "images/Letters/15.png", 'e': "images/Letters/26.png", 'f': "images/Letters/23.png",
-                  'g': "images/Letters/18.png", 'h': "images/Letters/2.png", 'i': "images/Letters/7.png",
-                  'j': "images/Letters/12.png", 'k': "images/Letters/3.png", 'l': "images/Letters/16.png",
-                  'm': "images/Letters/28.png", 'n': "images/Letters/25.png", 'o': "images/Letters/22.png",
-                  'p': "images/Letters/0.png", 'q': "images/Letters/6.png", 'r': "images/Letters/17.png",
-                  's': "images/Letters/20.png", 't': "images/Letters/13.png", 'u': "images/Letters/21.png",
-                  'v': "images/Letters/24.png", 'w': "images/Letters/11.png", 'x': "images/Letters/10.png",
-                  'y': "images/Letters/4.png", 'z': "images/Letters/14.png"}
+list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png", 'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
+                'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
+              'd': "hellop/Platformer-word-game-master/images/Letters/15.png", 'e': "hellop/Platformer-word-game-master/images/Letters/26.png",
+                'f': "hellop/Platformer-word-game-master/images/Letters/23.png",
+              'g': "hellop/Platformer-word-game-master/images/Letters/18.png", 'h': "hellop/Platformer-word-game-master/images/Letters/2.png",
+                'i': "hellop/Platformer-word-game-master/images/Letters/7.png",
+              'j': "hellop/Platformer-word-game-master/images/Letters/12.png", 'k': "hellop/Platformer-word-game-master/images/Letters/3.png",
+                'l': "hellop/Platformer-word-game-master/images/Letters/16.png",
+              'm': "hellop/Platformer-word-game-master/images/Letters/28.png", 'n': "hellop/Platformer-word-game-master/images/Letters/25.png",
+                'o': "hellop/Platformer-word-game-master/images/Letters/22.png",
+              'p': "hellop/Platformer-word-game-master/images/Letters/0.png", 'q': "hellop/Platformer-word-game-master/images/Letters/6.png",
+                'r': "hellop/Platformer-word-game-master/images/Letters/17.png",
+              's': "hellop/Platformer-word-game-master/images/Letters/20.png", 't': "hellop/Platformer-word-game-master/images/Letters/13.png",
+                'u': "hellop/Platformer-word-game-master/images/Letters/21.png",
+              'v': "hellop/Platformer-word-game-master/images/Letters/24.png", 'w': "hellop/Platformer-word-game-master/images/Letters/11.png",
+                'x': "hellop/Platformer-word-game-master/images/Letters/10.png",
+              'y': "hellop/Platformer-word-game-master/images/Letters/4.png", 'z': "hellop/Platformer-word-game-master/images/Letters/14.png"}
 coord = []
 entered = []
 word = ""
