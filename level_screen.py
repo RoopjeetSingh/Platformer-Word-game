@@ -94,10 +94,9 @@ def level_screen(screen, back_button_func):
             (0, 0, 0), lambda: set_level(level), text=level.str.upper(),
             image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
             image_align="bottom")
-        print(border_thickness)
         button_level_list.append(button)
 
-    add_level = ui_tools.Button(((len(button_level_list) - 1) * (width_image + 20) + 20 + previous_page.rect.right, ))
+    # add_level = ui_tools.Button(((len(button_level_list) - 1) * (width_image + 20) + 20 + previous_page.rect.right, ))
     button_lis = [back_button, next_page, previous_page] + button_level_list
     while True:
         screen.blit(background, (0, 0))
