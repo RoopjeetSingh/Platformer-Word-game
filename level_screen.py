@@ -4,10 +4,11 @@ import screen_size as ss
 import json
 from Level import level_list
 from platformer_game import platformer_game
-from helpful_functions import calculate_current_level
+from helpful_functions import calculate_current_level, blit_text
 from math import ceil
 
 pygame.init()
+show_no_add_page = False
 
 
 def level_screen(screen, back_button_func):
@@ -24,7 +25,7 @@ def level_screen(screen, back_button_func):
             else:
                 button_level.move(ss.SCREEN_WIDTH)
             if not checked:
-                if button_level.rect.x <= -ss.SCREEN_WIDTH * (ceil((len(level_list)+1)/3) - 1) + width_image:
+                if button_level.rect.x <= -ss.SCREEN_WIDTH * (ceil((len(level_list) + 1) / 3) - 1) + width_image:
                     next_page.state_disabled = True
                 else:
                     next_page.state_disabled = False
@@ -39,6 +40,10 @@ def level_screen(screen, back_button_func):
     def set_level(new_level):
         var["level"] = new_level.str
         change_screen(lambda: platformer_game(screen))
+
+    def make_level():
+        global show_no_add_page
+        show_no_add_page = True
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -58,10 +63,11 @@ def level_screen(screen, back_button_func):
                                   lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
                                   fill_bg=False)
 
-    disabled = True if len(level_list)+1 <= 3 else False
+    disabled = True if len(level_list) + 1 <= 3 else False
     next_page = ui_tools.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
-         next_button.get_width(), next_button.get_height()), (0, 0, 0), lambda: go_to_next_page(), state_disabled=disabled,
+         next_button.get_width(), next_button.get_height()), (0, 0, 0), lambda: go_to_next_page(),
+        state_disabled=disabled,
         image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = ui_tools.Button(
         (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
@@ -70,11 +76,15 @@ def level_screen(screen, back_button_func):
 
     font = pygame.font.Font(None, 156)
     level_txt = font.render("Choose your Level", True, (255, 255, 255))
+    font = pygame.font.Font(None, 36)
 
     button_level_list = []
     current_level = calculate_current_level(var)
 
     width_image = ((ss.SCREEN_WIDTH - 2 * previous_page.rect.right) / 2 - 40) / 1.5
+    lock = pygame.transform.scale(
+        pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha(),
+        (width_image, 200))
     # This makes the width enough for 3 levels to be in it
     for index, level in enumerate(level_list):
         # Need to show the current level
@@ -96,12 +106,20 @@ def level_screen(screen, back_button_func):
             image_align="bottom")
         button_level_list.append(button)
 
-    # add_level = ui_tools.Button(((len(button_level_list) - 1) * (width_image + 20) + 20 + previous_page.rect.right, ))
-    button_lis = [back_button, next_page, previous_page] + button_level_list
+    add_level = ui_tools.Button((
+        (len(button_level_list)) * (width_image + 20) + 20 + previous_page.rect.right, ss.SCREEN_HEIGHT / 2 - 200 / 2,
+        width_image, 200), (152, 152, 152), make_level, text="Add Level", border_radius=15,
+        border_color=(152, 152, 152), font=pygame.font.Font(None, 72),
+        hover_color=(80, 80, 80), image=lock, image_position=(0, 0))
+    add_level.text_position = (add_level.rect.w / 2 - add_level.text.get_width() / 2,
+                               add_level.rect.h / 2 - add_level.text.get_height() / 2)
+    button_lis = [back_button, next_page, previous_page, add_level] + button_level_list
+    alpha = 0
     while True:
         screen.blit(background, (0, 0))
         screen.blit(level_txt, (
             ss.SCREEN_WIDTH / 2 - level_txt.get_width() / 2, ss.SCREEN_HEIGHT / 8 - level_txt.get_height() / 2))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 with open('variables.json', 'w') as wvar:
@@ -110,6 +128,13 @@ def level_screen(screen, back_button_func):
                 exit()
             for i in button_lis:
                 i.check_event(event)
+
+        if show_no_add_page:
+            blit_text(screen, "Add Level would be added in the next update",
+                      (add_level.rect.centerx, add_level.rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2),
+                      font, add_level.rect.right, color=(255, 255, 255), alpha=alpha)
+            if alpha <= 300:
+                alpha += 0.25
 
         for i in button_lis:
             i.update(screen)

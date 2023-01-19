@@ -40,7 +40,7 @@ class Player(pygame.sprite.Sprite):
 
         if skin == "female_zombie":
             fall = 1.8
-        self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert_alpha()
+        self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
         height = 75
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.right_images = []
         self.left_images = []
         for i in range(1, run_max_index):
-            img = pygame.image.load(fr"images/{skin.title()}/{run} ({i}).png").convert_alpha()
+            img = pygame.image.load(fr"images/{skin.title()}/{run} ({i}).png").convert()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
 
         self.death_images = []
         for i in range(1, death_max_index):
-            img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert_alpha()
+            img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)

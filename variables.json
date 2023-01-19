@@ -1,6 +1,5 @@
 {
-    "skins": "female_zombie",
-    "level": "level2",
+    "level": "",
     "1_time": "True",
     "users": [
         [
@@ -8,23 +7,21 @@
             [
                 [
                     "level1",
-                    3,
-                    256,
+                    69,
+                    420,
                     "date"
                 ]
-            ]
+            ],
+            "boy"
         ],
         [
-            "bgy",
-            []
-        ],
-        [
-            "n",
-            []
+            "Tanishq",
+            [],
+            "boy"
         ]
     ],
     "current_user": [
-        2,
-        "n"
+        1,
+        "Tanishq"
     ]
 }

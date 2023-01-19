@@ -8,7 +8,7 @@ pygame.init()
 
 def skins(screen, back_button_func):
     def change_skin(skin: str):
-        var["skins"] = skin
+        var["users"][var["current_user"][0]][2] = skin
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
@@ -69,7 +69,7 @@ def skins(screen, back_button_func):
     button_lis = [back_button, santa_btn, boy_btn, female_zombie_btn, male_zombie_btn]
     while True:
         santa_border = boy_border = female_zombie_border = male_zombie_border = 0
-        match var["skins"]:
+        match var["users"][var["current_user"][0]][2]:
             case "santa":
                 santa_border = 25
             case "boy":

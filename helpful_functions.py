@@ -25,7 +25,7 @@ def calculate_current_level(variables_dic: dict):
     return current_level
 
 
-def blit_text(surface, text, pos, font: pygame.font.Font, max_width, color=(0, 0, 0)):
+def blit_text(surface, text, pos, font: pygame.font.Font, max_width, color=(0, 0, 0), alpha=255):
     words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
     centerx, centery = pos
     for line in words:
@@ -35,10 +35,11 @@ def blit_text(surface, text, pos, font: pygame.font.Font, max_width, color=(0, 0
             word_surface = font.render(text_line, True, color)
             word_width, word_height = word_surface.get_size()
             if centerx + word_width/2 > max_width:
-                word = font.render(text_line, True, color)
-                surface.blit(word, word.get_rect(center=(centerx, centery)))
+                word_surface.set_alpha(alpha)
+                surface.blit(word_surface, word_surface.get_rect(center=(centerx, centery)))
                 text_line = ""
                 centery += word_height  # Start on new row.
         word = font.render(text_line, True, color)
+        word.set_alpha(alpha)
         surface.blit(word, word.get_rect(center=(centerx, centery)))
         centery += word_height  # Start on new row.

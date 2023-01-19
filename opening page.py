@@ -12,7 +12,7 @@ def opening_page(screen):
     def get_name():
         name_user = name.text
         if name_user:
-            var["users"].append([name_user, []]) # [["Roopjeet", [["level1", 3, 256, time], ...]], ...]
+            var["users"].append([name_user, [], "boy"])  # [["Roopjeet", [["level1", 3, 256, time], ...]], ...]
             # Users is a list of people, a dictionary would have been more suitable, but it can not be used because it is
             # not sorted. Later a list of the name and a list that would store another list of level, stars, score and time
             var["current_user"] = [len(var["users"]) - 1, name_user]
@@ -73,7 +73,7 @@ def opening_page(screen):
             i.update(screen)
 
         pygame.display.update()
-        clock.tick(75)
+        clock.tick()
 
 
 # def show_level(screen):

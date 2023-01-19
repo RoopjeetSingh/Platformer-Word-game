@@ -60,12 +60,12 @@ class Button:
         self.disabled_border_color = disabled_border_color
         if self.image_original:
             self.image_copy = pygame.transform.scale(
-                self.image_original, (self.image_original.get_width() - 35,
-                                      self.image_original.get_height() - 35))
+                self.image_original, (0.87*self.image_original.get_width(), 0.76*self.image_original.get_height()))
 
         self.rect_original = pygame.Rect(rect)
         self.rect = self.rect_original.copy()
-        self.rect_inflated = self.rect_original.inflate(-35, -35)
+        self.rect_inflated = self.rect_original.inflate(-0.13*self.rect_original.w,
+                                                        -0.24*self.rect_original.h)
         self.color = color
         self.color_copy = color
         self.function = function
@@ -75,9 +75,11 @@ class Button:
         self.clicked_text = None
         self.render_text()
 
-    def move(self, x_add):
+    def move(self, x_add=0, y_add=0):
         self.rect_original.x += x_add
         self.rect_inflated.x += x_add
+        self.rect_original.y += y_add
+        self.rect_inflated.y += y_add
 
     def render_text(self):
         """Pre render the button text."""
@@ -100,7 +102,6 @@ class Button:
 
     def on_click(self, event):
         if self.rect.collidepoint(event.pos):
-            print("clicked")
             self.clicked = True
             if not self.call_on_release:
                 self.function()
@@ -155,9 +156,8 @@ class Button:
             # draw_rounded_rect(surface, self.rect, color, self.border_radius)
             pygame.draw.rect(surface, color, self.rect, border_radius=self.border_radius)
         elif self.fill_bg:
-            # self.rect = self.image.get_rect(center=self.rect.center)
             surface.fill(pygame.Color("black"), self.rect)
-            surface.fill(color, self.rect.inflate(-4, -4))
+            pygame.draw.rect(surface, self.color, self.rect.inflate(-4, -4))
 
         if text and not self.text_position and not self.image:
             text_rect = text.get_rect(center=self.rect.center)
@@ -197,7 +197,7 @@ class InputBox:
                  color_active: tuple[int, int, int], color_hover: tuple[int, int, int], function=None,
                  font: pygame.font.Font = None, text: str = '',
                  font_color: tuple[int, int, int] = (255, 255, 255), active: bool = False, border_radius: int = 0,
-                 remove_active=False):
+                 remove_active=False, cursor_color=(0, 0, 0)):
         self.rect = pygame.Rect(x, y, w, h)
         self.color = color_inactive
         self.color_active = color_active
@@ -211,6 +211,7 @@ class InputBox:
         self.function = function
         self.border_radius = border_radius
         self.remove_active = remove_active
+        self.cursor_color = cursor_color
         if self.active:
             self.txt_surface = self.font.render(self.text, True, self.font_color)
         else:
@@ -249,8 +250,8 @@ class InputBox:
 
     def cursor(self, screen):
         if self.active:
-            if (self.drawn and self.draw_cursor % 30 != 0) or (not self.drawn and self.draw_cursor % 30 == 0):
-                pygame.draw.line(screen, (0, 0, 0), (self.txt_surface.get_width()+self.rect.x+5, self.rect.y+7),
+            if (self.drawn and self.draw_cursor % 60 != 0) or (not self.drawn and self.draw_cursor % 60 == 0):
+                pygame.draw.line(screen, self.cursor_color, (self.txt_surface.get_width()+self.rect.x+5, self.rect.y+7),
                                  (self.txt_surface.get_width()+self.rect.x+5, self.rect.bottom - 7), width=2)
                 self.drawn = True
             else:

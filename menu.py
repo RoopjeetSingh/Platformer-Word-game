@@ -7,9 +7,10 @@ import json
 from Level import *
 from level_screen import level_screen
 from platformer_game import platformer_game
-from helpful_functions import calculate_current_level
+from helpful_functions import calculate_current_level, blit_text
 
 pygame.init()
+show_no_multiplayer_page = False
 
 
 def menu(screen):
@@ -23,6 +24,10 @@ def menu(screen):
             json.dump(var, wvar, indent=4)
         pygame.quit()
         exit()
+
+    def make_level():
+        global show_no_multiplayer_page
+        show_no_multiplayer_page = True
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -40,7 +45,10 @@ def menu(screen):
     skins_img = pygame.transform.scale(
         pygame.image.load("images/Menu_page/skins.png").convert(),
         (ss.SCREEN_WIDTH / 7.15, ss.SCREEN_HEIGHT / 8.4))  # 200, 100
-    # skins_img.set_colorkey((0, 0, 0))
+    lock = pygame.transform.scale(
+        pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha(),
+        (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
+
     leader_board_img.set_colorkey((255, 255, 255))
     level_img = calculate_current_level(var).bg_display
     level_img = pygame.transform.scale(
@@ -73,8 +81,11 @@ def menu(screen):
     multiplayer = pgb.Button(
         (3 * ss.SCREEN_WIDTH / 4 - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
-        (5, 176, 254), lambda: print("Multiplayer"), hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
-        text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, 48))
+        (5, 176, 254), make_level, hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
+        text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, 48), image=lock,
+        image_position=(0, 0))
+    multiplayer.text_position = (multiplayer.rect.w/2 - multiplayer.text.get_width()/2,
+                                 multiplayer.rect.h/2 - multiplayer.text.get_height()/2)
     skins_btn = pgb.Button(
         (0, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
         (255, 255, 255), lambda: change_screen(lambda: skins(screen, menu)), hover_color=(150, 150, 150),
@@ -82,11 +93,13 @@ def menu(screen):
         text="Avatar", image_align="bottom", image=skins_img)
     level_btn = pgb.Button(
         (ss.SCREEN_WIDTH / 2 - level_img.get_width() / 2, ss.SCREEN_HEIGHT / 4 - level_img.get_height() / 2,
-         level_img.get_width(), level_img.get_height()), (0, 0, 0), lambda: change_screen(lambda: level_screen(screen, menu)),
+         level_img.get_width(), level_img.get_height()), (0, 0, 0),
+        lambda: change_screen(lambda: level_screen(screen, menu)),
         image=level_img)
     button_lis = [quit_button, instructions_btn, scoreboard_btn, leaderboard_btn, single_player, multiplayer,
                   skins_btn, level_btn]
-
+    font = pygame.font.Font(None, 36)
+    alpha = 0
     while True:
         screen.blit(background, (0, 0))
         for event in pygame.event.get():
@@ -94,6 +107,13 @@ def menu(screen):
                 end_screen()
             for i in button_lis:
                 i.check_event(event)
+
+        if show_no_multiplayer_page:
+            blit_text(screen, "Multiplayer would be added in the next update",
+                      (multiplayer.rect.centerx, multiplayer.rect.bottom + 36/2),
+                      font, multiplayer.rect.right, color=(255, 255, 255, 0), alpha=min(alpha, 255))
+            if alpha <= 300:
+                alpha += 0.25
 
         for i in button_lis:
             i.update(screen)

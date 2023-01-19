@@ -14,7 +14,7 @@ def platformer_game(screen):
 
     current_level = calculate_current_level(var)
     clock = pygame.time.Clock()
-    player = Player(ss.tile_size, ss.tile_size, var["skins"])
+    player = Player(ss.tile_size, ss.tile_size, var["users"][var["current_user"][0]][2])
     while True:
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)

@@ -1,5 +1,5 @@
 import pygame
-import ui_tools as pgb
+import ui_tools
 import screen_size as ss
 import json
 
@@ -73,14 +73,15 @@ def instructions(screen, back_button_func):
 
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
-    back_button = pgb.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                             lambda: change_screen(lambda: back_button_func(screen)), image=back_image, fill_bg=False)
+    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
+                                  fill_bg=False)
 
-    next_page = pgb.Button(
+    next_page = ui_tools.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
          next_button.get_width(), next_button.get_height()),
         (0, 0, 0), lambda: go_to_next_page(), image=next_button, fill_bg=False, disabled_image=disabled_next_button)
-    previous_page = pgb.Button(
+    previous_page = ui_tools.Button(
         (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
         (0, 0, 0), lambda: go_to_next_page(False), image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True)
