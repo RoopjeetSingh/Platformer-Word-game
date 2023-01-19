@@ -31,7 +31,7 @@ class Button:
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
                  image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
                  border_thickness: int = 7, state_disabled: bool = False, disabled_image=None, disabled_color=None,
-                 disabled_border_color=None):
+                 disabled_border_color=None, **kwargs):
 
         self.image = image
         self.text = text
@@ -58,6 +58,7 @@ class Button:
         self.disabled_image = disabled_image
         self.disabled_color = disabled_color
         self.disabled_border_color = disabled_border_color
+        self.kwargs = kwargs
         if self.image_original:
             self.image_copy = pygame.transform.scale(
                 self.image_original, (0.87*self.image_original.get_width(), 0.76*self.image_original.get_height()))
@@ -104,11 +105,17 @@ class Button:
         if self.rect.collidepoint(event.pos):
             self.clicked = True
             if not self.call_on_release:
-                self.function()
+                if self.kwargs:
+                    self.function(self.kwargs)
+                else:
+                    self.function()
 
     def on_release(self):
         if self.clicked and self.call_on_release:
-            self.function()
+            if self.kwargs:
+                self.function(self.kwargs)
+            else:
+                self.function()
         self.clicked = False
 
     def check_hover(self):

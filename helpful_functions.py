@@ -21,7 +21,7 @@ def calculate_current_level(variables_dic: dict):
     else:
         # Could have also looped over all the levels in the level list and checked their str but this was faster and shorter
         current_level = eval(current_level)
-
+    # print(current_level)
     return current_level
 
 

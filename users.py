@@ -19,7 +19,7 @@ def users(screen, back_button_func):
         :param index_name:
         :return:
         """
-        print(index_name)
+        index_name = index_name["index_name"]
         var["current_user"] = [index_name, var["users"][index_name][0]]
         print(var["current_user"])
 
@@ -28,7 +28,7 @@ def users(screen, back_button_func):
             pygame.image.load(r"images/Boy/Idle (1).png").convert(), (100, 160))
         image.set_colorkey((0, 0, 0))
         users_button = ui_tools.Button((300, (len(users_button_list)) * 175 + 150, 800, 150), (34, 54, 75),
-                                       lambda: set_user(len(users_button_list)),
+                                       set_user,
                                        text="", image=image, image_position=(30, -5),
                                        text_position=(60 + image.get_width(), 30), border_radius=20,
                                        border_color=(255, 255, 255), font=font, state_disabled=True)
@@ -62,7 +62,7 @@ def users(screen, back_button_func):
                 image.set_colorkey((0, 0, 0))
                 font = pygame.font.Font(None, 48)
                 users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75),
-                                               lambda: set_user(index),
+                                               set_user,
                                                text=value[0], image=image, image_position=(30, -5),
                                                text_position=(60 + image.get_width(), 30), border_radius=20,
                                                border_color=(255, 255, 255), font=font, state_disabled=True)
@@ -70,9 +70,9 @@ def users(screen, back_button_func):
                 users_button_list.append(users_button)
                 button_lis.append(
                     ui_tools.Button((users_button.rect.right - 200, users_button.rect.bottom - 50, 200, 50),
-                                    (32, 84, 101), lambda: set_user(index),
+                                    (32, 84, 101), set_user,
                                     text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
-                                    border_color=(255, 255, 255), border_radius=20))
+                                    border_color=(255, 255, 255), border_radius=20, index_name=index))
                 current_level = "Completed"
                 for level in level_list:
                     for i in value[1]:
@@ -111,16 +111,16 @@ def users(screen, back_button_func):
             pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
         image.set_colorkey((0, 0, 0))
         font = pygame.font.Font(None, 48)
-        users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75), lambda: set_user(index),
+        users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75), set_user,
                                        text=value[0], image=image, image_position=(30, -5),
                                        text_position=(60 + image.get_width(), 30), border_radius=20,
                                        border_color=(255, 255, 255), font=font, state_disabled=True)
         button_lis.append(users_button)
         users_button_list.append(users_button)
         button_lis.append(ui_tools.Button((users_button.rect.right - 200, users_button.rect.bottom - 50, 200, 50),
-                                          (32, 84, 101), lambda: set_user(index),
+                                          (32, 84, 101), set_user,
                                           text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
-                                          border_color=(255, 255, 255), border_radius=20))
+                                          border_color=(255, 255, 255), border_radius=20, index_name=index))
         current_level = "Completed"
         for level in level_list:
             for i in value[1]:
@@ -153,11 +153,11 @@ def users(screen, back_button_func):
     # Add rect positions for scroll_up and down
     scroll_up = ui_tools.Button(
         (1340 - go_up.get_width()/2, 40, go_up.get_width(), go_up.get_height()),
-        (0, 0, 0), lambda: scroll(), image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
+        (0, 0, 0), scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
         (1340 - go_down.get_width()/2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
-        (0, 0, 0), lambda: scroll(False), image=go_down, fill_bg=False,
-        disabled_image=disabled_go_down, state_disabled=True)
+        (0, 0, 0), scroll, image=go_down, fill_bg=False,
+        disabled_image=disabled_go_down, state_disabled=True, up=False)
     button_lis.append(scroll_down)
     button_lis.append(scroll_up)
 
