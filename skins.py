@@ -7,8 +7,8 @@ pygame.init()
 
 
 def skins(screen, back_button_func):
-    def change_skin(skin: str):
-        var["users"][var["current_user"][0]][2] = skin
+    def change_skin(skin: dict):
+        var["users"][var["current_user"][0]][2] = skin["skin"]
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
@@ -53,19 +53,19 @@ def skins(screen, back_button_func):
                              border_color=(255, 255, 255))
 
     santa_btn = pgb.Button((ss.SCREEN_WIDTH / 8 - santa.get_width() / 2, ss.SCREEN_HEIGHT / 2 - santa.get_height() / 2,
-                            santa.get_width(), santa.get_height()), (0, 0, 0), lambda: change_skin("santa"),
-                           image=santa, border_color=(255, 255, 255), border_radius=1)
+                            santa.get_width(), santa.get_height()), (0, 0, 0), change_skin,
+                           image=santa, border_color=(255, 255, 255), border_radius=1, skin="santa")
     boy_btn = pgb.Button((3 * ss.SCREEN_WIDTH / 8 - boy.get_width() / 2, ss.SCREEN_HEIGHT / 2 - boy.get_height() / 2,
-                          boy.get_width(), boy.get_height()), (0, 0, 0), lambda: change_skin("boy"), image=boy,
-                         border_color=(255, 255, 255), border_radius=1)
+                          boy.get_width(), boy.get_height()), (0, 0, 0), change_skin, image=boy,
+                         border_color=(255, 255, 255), border_radius=1, skin="boy")
     female_zombie_btn = pgb.Button(
         (5 * ss.SCREEN_WIDTH / 8 - female_zombie.get_width() / 2, ss.SCREEN_HEIGHT / 2 - female_zombie.get_height() / 2,
-         female_zombie.get_width(), female_zombie.get_height()), (0, 0, 0), lambda: change_skin("female_zombie"),
-        image=female_zombie, border_color=(255, 255, 255), border_radius=1)
+         female_zombie.get_width(), female_zombie.get_height()), (0, 0, 0), change_skin,
+        image=female_zombie, border_color=(255, 255, 255), border_radius=1, skin="female_zombie")
     male_zombie_btn = pgb.Button(
         (7 * ss.SCREEN_WIDTH / 8 - santa.get_width() / 2, ss.SCREEN_HEIGHT / 2 - santa.get_height() / 2,
-         santa.get_width(), santa.get_height()), (0, 0, 0), lambda: change_skin("male_zombie"), image=male_zombie,
-        border_color=(255, 255, 255), border_radius=1)
+         santa.get_width(), santa.get_height()), (0, 0, 0), change_skin, image=male_zombie,
+        border_color=(255, 255, 255), border_radius=1, skin="male_zombie")
     button_lis = [back_button, santa_btn, boy_btn, female_zombie_btn, male_zombie_btn]
     while True:
         santa_border = boy_border = female_zombie_border = male_zombie_border = 0

@@ -17,7 +17,7 @@ def level_screen(screen, back_button_func):
             json.dump(var, wvar, indent=4)
         func()
 
-    def go_to_next_page(going_to_next_page: dict = None):
+    def go_to_next_page(going_to_next_page: dict = {}):
         going_to_next_page = going_to_next_page.get("going_to_next_page", True)
         if going_to_next_page is None:
             going_to_next_page = {}
@@ -41,8 +41,8 @@ def level_screen(screen, back_button_func):
                 checked = True
 
     def set_level(new_level_dic):
-        var["level"] = new_level_dic["new_level"].str
-        change_screen(lambda: platformer_game(screen))
+        # var["level"] = new_level_dic["new_level"].str
+        change_screen(lambda: platformer_game(screen, new_level_dic["new_level"]))
 
     def make_level():
         global show_no_add_page

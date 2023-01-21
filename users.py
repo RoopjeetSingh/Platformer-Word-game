@@ -5,13 +5,14 @@ import json
 from Level import level_list
 
 pygame.init()
+y_pos = 226
 
 
 def users(screen, back_button_func):
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
             json.dump(var, wvar, indent=4)
-        func()
+        func["func"]()
 
     def set_user(index_name):
         """
@@ -21,24 +22,24 @@ def users(screen, back_button_func):
         """
         index_name = index_name["index_name"]
         var["current_user"] = [index_name, var["users"][index_name][0]]
-        print(var["current_user"])
 
     def create_user():
-        image = pygame.transform.scale(
+        image_new_user = pygame.transform.scale(
             pygame.image.load(r"images/Boy/Idle (1).png").convert(), (100, 160))
-        image.set_colorkey((0, 0, 0))
-        users_button = ui_tools.Button((300, (len(users_button_list)) * 175 + 150, 800, 150), (34, 54, 75),
+        image_new_user.set_colorkey((0, 0, 0))
+        button_with_input = ui_tools.Button(
+            (300, (len(users_button_list)) * 175 + users_button_list[0].rect.y, 800, 150), (34, 54, 75),
                                        set_user,
-                                       text="", image=image, image_position=(30, -5),
-                                       text_position=(60 + image.get_width(), 30), border_radius=20,
+                                       text="", image=image_new_user, image_position=(30, -5),
+                                       text_position=(60 + image_new_user.get_width(), 30), border_radius=20,
                                        border_color=(255, 255, 255), font=font, state_disabled=True)
         input_lis.append(ui_tools.InputBox(
-            users_button.rect.x + 60 + image.get_width(), users_button.rect.y + 30, 300, 53, (32, 84, 101),
+            button_with_input.rect.x + 60 + image_new_user.get_width(), button_with_input.rect.y + 30, 300, 53, (32, 84, 101),
             (14, 31, 47),
             (28, 48, 65), add_user_with_name, text="What is the user's name?", active=True,
-            cursor_color=(255, 255, 255)))
-        button_lis.append(users_button)
-        users_button_list.append(users_button)
+            cursor_color=(255, 255, 255), remove_active=True))
+        button_lis.append(button_with_input)
+        users_button_list.append(button_with_input)
         add_user.move(y_add=175)
         add_user.state_disabled = True
 
@@ -55,13 +56,14 @@ def users(screen, back_button_func):
             button_lis.clear()
             button_lis.append(back_button)
             level_font.clear()
+            first_button_y_pos = users_button_list[0].rect.y
             users_button_list.clear()
             for index, value in enumerate(var["users"]):
                 image = pygame.transform.scale(
                     pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
                 image.set_colorkey((0, 0, 0))
                 font = pygame.font.Font(None, 48)
-                users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75),
+                users_button = ui_tools.Button((300, index * 175 + first_button_y_pos, 800, 150), (34, 54, 75),
                                                set_user,
                                                text=value[0], image=image, image_position=(30, -5),
                                                text_position=(60 + image.get_width(), 30), border_radius=20,
@@ -82,16 +84,25 @@ def users(screen, back_button_func):
                         current_level = level.str
                         break
                 level_font.append(font.render("Current level: " + current_level.upper(), True, (255, 255, 255)))
-            print(add_user.rect.y)
             add_user.rect.y = users_button_list[-1].rect.bottom + 16
-            print(add_user.rect.y)
             add_user.state_disabled = False
             button_lis.append(add_user)
-            button_lis.append(scroll_down)
-            button_lis.append(scroll_up)
 
-    def scroll(up=True):
-        pass
+    def scroll(up: dict = {}):
+        global y_pos
+        up = up.get("up", True)
+        if up:
+            for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
+                button.move(y_add=200)
+            for input in input_lis:
+                input.rect.y += 200
+            y_pos += 200
+        else:
+            for button in button_lis:
+                button.move(y_add=-200)
+            for input in input_lis:
+                input.rect.y -= 200
+            y_pos -= 200
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -100,10 +111,10 @@ def users(screen, back_button_func):
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
-                                  fill_bg=False)
+                                  change_screen, image=back_image,
+                                  fill_bg=False, func=lambda: back_button_func(screen))
 
-    button_lis = [back_button]
+    button_lis = []
     level_font = []
     users_button_list = []
     for index, value in enumerate(var["users"]):
@@ -158,18 +169,24 @@ def users(screen, back_button_func):
         (1340 - go_down.get_width()/2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
         (0, 0, 0), scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
-    button_lis.append(scroll_down)
-    button_lis.append(scroll_up)
 
     font = pygame.font.Font(None, 128)
     users_text = font.render("Choose or add your User", True, (255, 255, 255))
+    surface_font = pygame.Surface((ss.SCREEN_WIDTH, users_button_list[0].rect.y))
     while True:
         if add_user.rect.bottom > ss.SCREEN_HEIGHT:
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
+        if users_button_list[0].rect.y < surface_font.get_height():
+            print(users_button_list[0].rect.y, surface_font.get_height())
+            scroll_up.state_disabled = False
+        else:
+            scroll_up.state_disabled = True
+
         screen.blit(background, (0, 0))
-        screen.blit(users_text, (
+        surface_font.blit(background, (0, 0))
+        surface_font.blit(users_text, (
             ss.SCREEN_WIDTH / 2 - users_text.get_width() / 2, ss.SCREEN_HEIGHT / 8 - users_text.get_height() / 2))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -177,25 +194,26 @@ def users(screen, back_button_func):
                     json.dump(var, wvar, indent=4)
                 pygame.quit()
                 exit()
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     circle_pos.append(event.pos)
-            #     print(event.pos)
+
             for i in button_lis:
                 i.check_event(event)
             for i in input_lis:
                 i.check_event(event)
+            back_button.check_event(event)
+            scroll_up.check_event(event)
+            scroll_down.check_event(event)
 
         for i in button_lis:
             i.update(screen)
+        back_button.update(surface_font)
+        scroll_up.update(surface_font)
+        scroll_down.update(screen)
         for i in input_lis:
             i.update(screen)
 
         for index, value in enumerate(level_font):
             screen.blit(value, (users_button_list[-1].rect.x + users_button_list[-1].image.get_width() + 60,
-                                index * 175 + 190 + 36))
-
-        for i in circle_pos:
-            pygame.draw.circle(screen, (255, 0, 0), i, 7)
+                                index * 175 + y_pos))
         pygame.display.update()
         clock.tick()
 

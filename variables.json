@@ -7,8 +7,20 @@
             [
                 [
                     "level1",
-                    69,
+                    3,
                     420,
+                    "date"
+                ],
+                [
+                    "level1",
+                    3,
+                    600,
+                    "date"
+                ],
+                [
+                    "level1",
+                    3,
+                    480,
                     "date"
                 ]
             ],
@@ -17,11 +29,16 @@
         [
             "Tanishq",
             [],
-            "boy"
+            "santa"
+        ],
+        [
+            "Shrey",
+            [],
+            "male_zombie"
         ]
     ],
     "current_user": [
-        1,
-        "Tanishq"
+        0,
+        "Roopjeet"
     ]
 }

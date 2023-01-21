@@ -34,13 +34,14 @@ def instructions(screen, back_button_func):
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
             json.dump(var, wvar, indent=4)
-        func()
+        func["func"]()
 
-    def go_to_next_page(next_page_bool: bool = True):
+    def go_to_next_page(next_page_bool: dict = {}):
         global x_pos
         # Although global is discouraged, this was a place where it is actually suitable. This is because returning
         # a value was not possible in a lambda function and creating a class just for a single x_pos variable was not
         # viable
+        next_page_bool = next_page_bool.get("next_page_bool", True)
         if next_page_bool and x_pos > -ss.SCREEN_WIDTH * 3:
             x_pos -= ss.SCREEN_WIDTH
         elif not next_page_bool and x_pos < 0:
@@ -74,17 +75,17 @@ def instructions(screen, back_button_func):
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
-                                  fill_bg=False)
+                                  change_screen, image=back_image,
+                                  fill_bg=False, func=lambda: back_button_func(screen))
 
     next_page = ui_tools.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
          next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), lambda: go_to_next_page(), image=next_button, fill_bg=False, disabled_image=disabled_next_button)
+        (0, 0, 0), go_to_next_page, image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = ui_tools.Button(
         (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), lambda: go_to_next_page(False), image=previous_button, fill_bg=False,
-        disabled_image=disabled_previous_button, state_disabled=True)
+        (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
+        disabled_image=disabled_previous_button, state_disabled=True, next_page_bool=False)
     button_lis = [back_button, next_page, previous_page]
     while True:
         help_surface.blit(background, (0, 0))

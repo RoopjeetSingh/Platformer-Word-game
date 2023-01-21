@@ -94,6 +94,40 @@ class Player(pygame.sprite.Sprite):
         self.color_num = 0
         self.current_image = None
 
+    def update_player(self, screen, current_level, pressed):
+        self.kill_self()
+        self.jump(current_level)
+        self.gravity(current_level)
+        self.collect_letter(current_level)
+        self.collect_power_up(current_level)
+
+        if not self.kill_player:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                self.move_right(current_level, "right")
+            elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                self.move_right(current_level, "left")
+            else:
+                self.move_right(current_level, "")
+
+            if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
+                if self.on_ground or pressed:
+                    self.jumping = True
+                    pressed = True
+            else:
+                pressed = False
+        for i in self.letter_lis:
+            i.collect_self(self, current_level)
+            screen.blit(i.image, i.rect)
+        for i in self.mystery_letter_lis:
+            i.collect_self(self, current_level)
+            screen.blit(i.image, i.rect)
+        for i in self.power_up_lis:
+            i.collect_self(self, current_level)
+            screen.blit(i.image, i.rect)
+            i.time_bar(screen, self, current_level)
+        return pressed
+
     def move_right(self, level: Level.Level, direction: str = ""):
         if direction == "right":
             self.image = self.right_images[int(self.index)]

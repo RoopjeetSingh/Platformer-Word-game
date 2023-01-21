@@ -7,14 +7,14 @@ from helpful_functions import calculate_current_level
 pygame.init()
 
 
-def platformer_game(screen):
+def platformer_game(screen, current_level=None):
     pressed = False
     with open('variables.json', 'r') as f:
         var = json.load(f)
 
-    current_level = calculate_current_level(var)
+    current_level = current_level or calculate_current_level(var)
     clock = pygame.time.Clock()
-    player = Player(ss.tile_size, ss.tile_size, var["users"][var["current_user"][0]][2])
+    player = Player(ss.tile_size, ss.tile_size*2, var["users"][var["current_user"][0]][2])
     while True:
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
@@ -34,37 +34,7 @@ def platformer_game(screen):
                 pygame.quit()
                 exit()
 
-        player.kill_self()
-        player.gravity(current_level)
-        player.collect_letter(current_level)
-        player.collect_power_up(current_level)
-
-        if not player.kill_player:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-                player.move_right(current_level, "right")
-            elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
-                player.move_right(current_level, "left")
-            else:
-                player.move_right(current_level, "")
-
-            if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
-                if player.on_ground or pressed:
-                    player.jumping = True
-                    pressed = True
-            else:
-                pressed = False
-        player.jump(current_level)
-        for i in player.letter_lis:
-            i.collect_self(player, current_level)
-            screen.blit(i.image, i.rect)
-        for i in player.mystery_letter_lis:
-            i.collect_self(player, current_level)
-            screen.blit(i.image, i.rect)
-        for i in player.power_up_lis:
-            i.collect_self(player, current_level)
-            screen.blit(i.image, i.rect)
-            i.time_bar(screen, player, current_level)
+        pressed = player.update_player(screen, current_level, pressed)
         pygame.display.update()
         clock.tick(75)
 
