@@ -31,7 +31,7 @@ def scoreboard(screen, back_button_func):
     background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     scoreboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg.jpg").convert()
-    scoreboard_bg = pygame.transform.scale(scoreboard_bg, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
+    scoreboard_bg = pygame.transform.scale(scoreboard_bg, (ss.SCREEN_WIDTH/1.5, ss.SCREEN_HEIGHT/1.5))
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
@@ -75,6 +75,8 @@ def scoreboard(screen, back_button_func):
     while True:
         screen.blit(background, (0, 0))
         surface_font.blit(background, (0, 0))
+        screen.blit(scoreboard_bg, ((ss.SCREEN_WIDTH - scoreboard_bg.get_width())/2,
+                                    (ss.SCREEN_HEIGHT - scoreboard_bg.get_height())/2))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 with open('variables.json', 'w') as wvar:
