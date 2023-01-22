@@ -275,4 +275,7 @@ class Level5(Level):
 
 level1 = Level1()
 level2 = Level2()
-level_list = [level1, level2]
+level3 = Level3()
+level4 = Level4()
+level5 = Level5()
+level_list = [level1, level2, level3, level4, level5]
