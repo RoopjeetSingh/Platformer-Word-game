@@ -136,8 +136,8 @@ class Level2(Level):
         self.str = "level2"
 
     def make_letters(self):
-        self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,  # tile_size = 200
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))  # 1 is the original +3 ground platform+1 bouncing=5 normally, 5
         self.letter_group.add(letter.Letter(self.letter_list[1], 8 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
         self.letter_group.add(letter.Letter(self.letter_list[2], 14 * ss.tile_size,
@@ -176,9 +176,10 @@ class Level2(Level):
             self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 113, False,
                                                 "images/platform/platform_sprites_(1).png"))
         # # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 113, False))
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 113, False))  # 0+3
+        # the upper stuff should be copied
 
-        self.platform_group.add(po.Platform(8 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
+        self.platform_group.add(po.Platform(8 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # x, y, no_of_tiles, rectangle or curve
         self.platform_group.add(po.Platform(13 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(25 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(30 * ss.tile_size, ss.SCREEN_HEIGHT - 13 * ss.tile_size, 1))
