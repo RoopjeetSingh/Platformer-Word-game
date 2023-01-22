@@ -213,6 +213,66 @@ class Level2(Level):
         self.power_up_group.add(pu.PowerUp(71 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
 
+class Level3(Level):
+    def __init__(self):
+        super(Level3, self).__init__(r"images/Background_platformer/BG_04.png", 112)
+        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.make_platforms_objects()
+        self.make_letters()
+        self.draw_for_display()
+        self.make_power_ups()
+        self.str = "level3"
+
+    def make_platforms_objects(self):
+        pass
+
+    def make_power_ups(self):
+        pass
+
+    def make_letters(self):
+        pass
+
+
+class Level4(Level):
+    def __init__(self):
+        super(Level4, self).__init__(r"images/Background_platformer/BG_04.png", 112)
+        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.make_platforms_objects()
+        self.make_letters()
+        self.draw_for_display()
+        self.make_power_ups()
+        self.str = "level4"
+
+    def make_platforms_objects(self):
+        pass
+
+    def make_power_ups(self):
+        pass
+
+    def make_letters(self):
+        pass
+
+
+class Level5(Level):
+    def __init__(self):
+        super(Level5, self).__init__(r"images/Background_platformer/BG_04.png", 112)
+        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.make_platforms_objects()
+        self.make_letters()
+        self.draw_for_display()
+        self.make_power_ups()
+        self.str = "level5"
+
+    def make_platforms_objects(self):
+        pass
+
+    def make_power_ups(self):
+        pass
+
+    def make_letters(self):
+        pass
+
+
 level1 = Level1()
 level2 = Level2()
 level_list = [level1, level2]
