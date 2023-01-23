@@ -97,11 +97,15 @@ def level_screen(screen, back_button_func):
         #         width_image - 25, (width_image - 25) / level.bg_display.get_width() * level.bg_display.get_height()))
         #     border_thickness = 25
         # else:
+        different_page_difference = 0
+        if index % 3 == 0 and index != 0:
+            different_page_difference = 20 + previous_page.rect.right + (ss.SCREEN_WIDTH - button.rect.right)
         image = pygame.transform.scale(level.bg_display, (width_image, width_image / level.bg_display.get_width() *
                                                           level.bg_display.get_height()))
+        x_value = 20 + previous_page.rect.right if index == 0 else button.rect.right + 20 + different_page_difference
         border_thickness = 0
         button = ui_tools.Button(
-            (index * (width_image + 20) + 20 + previous_page.rect.right,
+            (x_value,
              ss.SCREEN_HEIGHT / 3, width_image, width_image / level.bg_display.get_width() *
              level.bg_display.get_height() + 35),
             (0, 0, 0), set_level, text=level.str.upper(),

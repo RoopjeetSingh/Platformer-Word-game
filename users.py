@@ -58,11 +58,11 @@ def users(screen, back_button_func):
             level_font.clear()
             first_button_y_pos = users_button_list[0].rect.y
             users_button_list.clear()
+            font = pygame.font.Font(None, 48)
             for index, value in enumerate(var["users"]):
                 image = pygame.transform.scale(
                     pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
                 image.set_colorkey((0, 0, 0))
-                font = pygame.font.Font(None, 48)
                 users_button = ui_tools.Button((300, index * 175 + first_button_y_pos, 800, 150), (34, 54, 75),
                                                set_user,
                                                text=value[0], image=image, image_position=(30, -5),
@@ -117,11 +117,11 @@ def users(screen, back_button_func):
     button_lis = []
     level_font = []
     users_button_list = []
+    font = pygame.font.Font(None, 48)
     for index, value in enumerate(var["users"]):
         image = pygame.transform.scale(
             pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
         image.set_colorkey((0, 0, 0))
-        font = pygame.font.Font(None, 48)
         users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75), set_user,
                                        text=value[0], image=image, image_position=(30, -5),
                                        text_position=(60 + image.get_width(), 30), border_radius=20,
@@ -149,7 +149,6 @@ def users(screen, back_button_func):
         border_color=(255, 255, 255), border_radius=20)
     button_lis.append(add_user)
     input_lis = []
-    circle_pos = []
 
     # scrolling
     go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
@@ -184,6 +183,11 @@ def users(screen, back_button_func):
         else:
             scroll_up.state_disabled = True
 
+        for index, value in enumerate(users_button_list):
+            if index == var["current_user"][0]:
+                value.border_thickness = 25
+            else:
+                value.border_thickness = 7
         screen.blit(background, (0, 0))
         surface_font.blit(background, (0, 0))
         surface_font.blit(users_text, (
@@ -214,6 +218,7 @@ def users(screen, back_button_func):
         for index, value in enumerate(level_font):
             screen.blit(value, (users_button_list[-1].rect.x + users_button_list[-1].image.get_width() + 60,
                                 index * 175 + y_pos))
+        screen.blit(surface_font, (0, 0))
         pygame.display.update()
         clock.tick()
 

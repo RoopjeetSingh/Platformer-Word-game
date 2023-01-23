@@ -24,17 +24,29 @@
                     "date"
                 ]
             ],
-            "santa"
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
         ],
         [
             "Tanishq",
             [],
-            "santa"
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
         ],
         [
             "Shrey",
             [],
-            "male_zombie"
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
         ]
     ],
     "current_user": [

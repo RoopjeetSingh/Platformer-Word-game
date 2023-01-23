@@ -30,13 +30,13 @@ def block():
 
 
 def place(n, on, coord, letters, list_images):
-    if on == True:
+    if on:
         a = 0
         adding = (2 * 3.14) / n
         for i in range(0, n):
             im = py.image.load(list_images[letters[i]])
             im = py.transform.scale(im, (35, 35))
-            screen.blit(im, ((500 + 130 * math.cos(a), 300 + 130 * math.sin(a))))
+            screen.blit(im, (500 + 130 * math.cos(a), 300 + 130 * math.sin(a)))
             if len(coord) < len(letters):
                 coord.append((500 + 130 * math.cos(a), 300 + 130 * math.sin(a)))
             a += adding
@@ -51,7 +51,7 @@ def update(incorect, shake_count):
 
 
 def lines(entered):
-    if entered != []:
+    if entered:
         for cd in range(len(entered) - 1):
             py.draw.line(screen, (34, 153, 153), (entered[cd][0] + 20, entered[cd][1] + 20),
                          (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
@@ -77,12 +77,12 @@ def show(word, x_change):
 
 
 def mystery(input, c, pressed, input_rect, rect_pressed):
-    if pressed == True:
+    if pressed:
         py.draw.rect(screen, (30, 212, 212), input_rect)
         font = py.font.Font(None, 32)
         if c == 0:
             py.draw.rect(screen, (212, 11, 14), input_rect)
-        if rect_pressed == True and c != 0:
+        if rect_pressed and c != 0:
             py.draw.rect(screen, (95, 204, 0), input_rect)
             text_pressed = font.render(input, True, (255, 255, 255))
             if input != "":
@@ -100,10 +100,10 @@ def mystery_and_submit_button():
 
 def score_show(x, score):
     font = py.font.Font(None, 50)
-    if x == True:
+    if x:
         text = font.render(f"score: {score}", True, (0, 0, 0))
         screen.blit(text, (800, 50))
-    if x == False:
+    if not x:
         text1 = font.render("game over", True, (0, 0, 0))
         text = font.render(f"score: {score}", True, (0, 0, 0))
         screen.blit(text1, (500, 100))
@@ -125,7 +125,7 @@ def shake(shake_count, working, letters, incorrect, on, coord, word, score, list
 
 
 def check_word(word, check):
-    if word == spell.correction(word):
+    if word == spell.correction(word) and len(word) > 2:
         check.append(word)
         return True
     else:
@@ -174,14 +174,14 @@ def game(screen, letters, mystery_number):
 
     while run:
 
-        if working == True:
+        if working:
 
             mouse = py.mouse.get_pos()
 
             for ev in py.event.get():
                 if ev.type == QUIT:
                     py.quit()
-                if ev.type == timer_event and mouse_pressed == True:
+                if ev.type == timer_event and mouse_pressed:
                     counter -= 1
                     text_draw(counter)
                     if counter == 0:
@@ -189,7 +189,7 @@ def game(screen, letters, mystery_number):
 
                 if ev.type == KEYDOWN:
 
-                    if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True and mystery_number != 0:
+                    if mystery_number != 0 and ev.unicode not in letters and rect_pressed and mystery_number != 0:
                         if ev.unicode not in cannot_be_entered:
                             letters.append(ev.unicode)
                             mystery(ev.unicode, mystery_number, pressed, input_rect, rect_pressed)
@@ -213,15 +213,14 @@ def game(screen, letters, mystery_number):
                             pressed = False
                             print(pressed)
 
-                    if input_rect.collidepoint(mouse) and pressed == True:
+                    if input_rect.collidepoint(mouse) and pressed:
                         rect_pressed = True
                     else:
                         rect_pressed = False
 
                     mystery("", mystery_number, pressed, input_rect, rect_pressed)
 
-                    if on == True and 300 < mouse[0] < 700 and 25 < mouse[
-                        1] < 475 and rect_pressed != True and starting == True:
+                    if on and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and not rect_pressed and starting:
 
                         start = near(coord, mouse)
                         if start not in entered and clock.tick() > 250:
@@ -232,7 +231,7 @@ def game(screen, letters, mystery_number):
                             print(word)
                             incorrect = True
 
-                    if pressed == False:
+                    if not pressed:
                         starting = True
                         background(255, 255, 255, 450)
                         text_draw(counter)
@@ -241,7 +240,7 @@ def game(screen, letters, mystery_number):
                         score_show(working, score)
 
                         if ev.type == KEYDOWN:
-                            if mystery_number != 0 and ev.unicode not in letters and rect_pressed == True:
+                            if mystery_number != 0 and ev.unicode not in letters and rect_pressed:
 
                                 if ev.unicode != '\r':
                                     letters.append(ev.unicode)
@@ -258,10 +257,10 @@ def game(screen, letters, mystery_number):
                              width=5)
                 lines(entered)
                 show(word, x_change)
-                if len(word) == len(letters) and ((check_word(word, check) == False) or word in check):
+                if len(word) == len(letters) and ((not check_word(word, check)) or word in check):
                     incorrect = True
 
-                if len(word) > 1 and word not in check and check_word(word, check) == True:
+                if len(word) > 1 and word not in check and check_word(word, check):
                     check.append(word)
                     score += len(word)
                     start = ()
@@ -275,7 +274,7 @@ def game(screen, letters, mystery_number):
                     show(word, x_change)
 
                     word = ""
-            if incorrect == True:
+            if incorrect:
                 start = ()
                 entered = []
 
@@ -286,10 +285,10 @@ def game(screen, letters, mystery_number):
 
             text_draw(counter)
 
-        if working == False:
+        if not working:
             background(255, 255, 255, 450)
             score_show(working, score)
         py.display.update()
 
 
-game(screen, ["h", "t", "u", "a", "b"], 2)
+game(screen, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"], 2)
