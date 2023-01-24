@@ -2,18 +2,7 @@ import pygame
 import Level
 import screen_size as ss
 import letter
-import numpy
 
-
-def grayscale(img):
-    arr = pygame.surfarray.array3d(img)
-    # luminosity filter
-    avgs = [[(r * 0.298 + g * 0.587 + b * 0.114) for (r, g, b) in col] for col in arr]
-    arr = numpy.array([[[avg, avg, avg] for avg in col] for col in avgs])
-    return pygame.surfarray.make_surface(arr)
-
-
-# Set up the game window
 
 # Set up the player class
 class Player(pygame.sprite.Sprite):
