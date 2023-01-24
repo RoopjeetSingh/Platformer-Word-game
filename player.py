@@ -40,11 +40,12 @@ class Player(pygame.sprite.Sprite):
 
         if skin == "female_zombie":
             fall = 1.8
+
+        alpha = (0, 0, 0)
         self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
         height = 75
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
-        alpha = (0, 0, 0)
         self.idle_image.set_colorkey(alpha)
         self.idle_image_flipped = pygame.transform.flip(self.idle_image, True, False)
         self.idle_image_flipped.set_colorkey(alpha)
