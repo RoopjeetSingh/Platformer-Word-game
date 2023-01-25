@@ -77,7 +77,7 @@ def menu(screen):
         (13 * ss.SCREEN_WIDTH / 16, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
         (255, 255, 255), change_screen,
         hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=leader_board_img,
-        text="Leaderboard", image_align="bottom", font_color=(0, 0, 0), func=lambda: leaderboard())
+        text="Leaderboard", image_align="bottom", font_color=(0, 0, 0), func=lambda: leaderboard(screen, menu))
 
     single_player = pgb.Button(
         (ss.SCREEN_WIDTH / 4, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
@@ -119,7 +119,7 @@ def menu(screen):
                       (multiplayer.rect.centerx, multiplayer.rect.bottom + 36 / 2),
                       font, multiplayer.rect.right, color=(255, 255, 255, 0), alpha=min(alpha, 255))
             if alpha <= 300:
-                alpha += 0.25
+                alpha += 0.5
 
         for i in button_lis:
             i.update(screen)

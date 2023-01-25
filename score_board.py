@@ -75,7 +75,7 @@ def scoreboard(screen, back_button_func):
     stars_img = pygame.image.load('images/Menu_page/Stars.png').convert_alpha()
     stars_img = pygame.transform.scale(stars_img, (80 / stars_img.get_height() * stars_img.get_width(), 70))
 
-    games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: x[2], reverse=True)
+    games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
     if len(games_played) > 15:
         games_played = games_played[:15]
     for index, value in enumerate(games_played):
@@ -111,14 +111,14 @@ def scoreboard(screen, back_button_func):
 
     surface_font = pygame.Surface((ss.SCREEN_WIDTH, 165 + text_height))
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
-            ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - 45 - scoreboard_bg.get_height()))
+            ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - 45 - scoreboard_bg.get_height() + 15))
     # button_lis = []
     font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100)
     scoreboard_text = font_main_text.render("ScoreBoard", True, (0, 0, 0))
-    circle_pos = []
+    # circle_pos = []
     while True:
         if len(stars_surface_list) > 1 and stars_surface_list[-1][1] + stars_img.get_height() + y_pos_text > (
-                ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height():
+                ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() + 15:
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
@@ -145,9 +145,10 @@ def scoreboard(screen, back_button_func):
 
         if len(games_played) < 15:
             play_more_y = 170+text_height*2 if len(stars_surface_list) == 0 \
-                else stars_surface_list[-1][1] + text_height*2
-            blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH/2, play_more_y), pygame.font.Font(None, 72),
-                      3*ss.SCREEN_WIDTH/4, (255, 255, 255))
+                else stars_surface_list[-1][1] + text_height*1.5
+            blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH/2, play_more_y),
+                      pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 42),
+                      3*ss.SCREEN_WIDTH/4)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -178,15 +179,15 @@ def scoreboard(screen, back_button_func):
         back_button.update(surface_font)
         scroll_up.update(surface_font)
         scroll_down.update(screen)
-        for circle in circle_pos:
-            pygame.draw.circle(screen, (255, 0, 0), circle, 10)
-        screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), 20))
+        # for circle in circle_pos:
+        #     pygame.draw.circle(screen, (255, 0, 0), circle, 10)
+        screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), 15))
         screen.blit(surface_font, (0, 0))
         down_side_surface.blit(background, (0, 0), (
-            0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height(),
+            0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() - 15,
             background.get_width(), background.get_height()))
         screen.blit(down_side_surface,
-                    (0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height()))
+                    (0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() - 15))
         pygame.display.update()
         clock.tick()
 

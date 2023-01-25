@@ -8,6 +8,7 @@ import letter
 class Player(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, skin: str):
         super().__init__()
+        # Fall has to be tested
         match skin:
             case "santa":
                 run_max_index = 12
@@ -19,16 +20,68 @@ class Player(pygame.sprite.Sprite):
                 death_max_index = 10
                 run = "Run"
                 fall = 3.5
-            case "female_zombie" | "male_zombie":
+            case "female_zombie":
+                run_max_index = 10
+                death_max_index = 12
+                run = "Walk"
+                fall = 1.8
+            case "male_zombie":
                 run_max_index = 10
                 death_max_index = 12
                 run = "Walk"
                 fall = 3
+            case "adventure_boy":
+                run_max_index = 10
+                death_max_index = 10
+                run = "Run"
+                fall = 3.8  # Fall is good
+            case "adventure_girl":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 3.8
+            case "cat":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 2.8  # Fall is good
+            case "dinosaur":
+                run_max_index = 8
+                death_max_index = 8
+                run = "Run"
+                fall = 5  # Fall is good
+            case "dog":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5  # Fall is good
+            case "knight":
+                run_max_index = 10
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5  # Fall is good
+            case "ninja_girl":
+                run_max_index = 10
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5  # Fall is good
+            case "ninja_girl2":
+                run_max_index = 10
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5  # Fall is good
+            case "pumpkin":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 3.5  # Fall is good
+            case "robot":
+                run_max_index = 8
+                death_max_index = 10
+                run = "Run"
+                fall = 4.4  # Fall is good
             case _:
                 raise AttributeError("Invalid skin type " + skin)
-
-        if skin == "female_zombie":
-            fall = 1.8
 
         alpha = (0, 0, 0)
         self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()

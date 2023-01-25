@@ -36,7 +36,6 @@ def level_screen(screen, back_button_func):
                 if button_level.rect.x >= 0:
                     previous_page.state_disabled = True
                 else:
-                    print(button_level.rect.x)
                     previous_page.state_disabled = False
                 checked = True
 
@@ -103,6 +102,7 @@ def level_screen(screen, back_button_func):
         image = pygame.transform.scale(level.bg_display, (width_image, width_image / level.bg_display.get_width() *
                                                           level.bg_display.get_height()))
         x_value = 20 + previous_page.rect.right if index == 0 else button.rect.right + 20 + different_page_difference
+        print(x_value)
         border_thickness = 0
         button = ui_tools.Button(
             (x_value,
@@ -112,15 +112,20 @@ def level_screen(screen, back_button_func):
             image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
             image_align="bottom", new_level=level)
         button_level_list.append(button)
-
+    different_page_difference = 0
+    if len(level_list) % 3 == 0 and len(level_list) != 0:
+        different_page_difference = 20 + previous_page.rect.right + (ss.SCREEN_WIDTH - button.rect.right)
+    x_value = button.rect.right + 20 + different_page_difference
+    print(x_value)
     add_level = ui_tools.Button((
-        (len(button_level_list)) * (width_image + 20) + 20 + previous_page.rect.right, ss.SCREEN_HEIGHT / 2 - 200 / 2,
+        x_value, ss.SCREEN_HEIGHT / 2 - 200 / 2,
         width_image, 200), (152, 152, 152), make_level, text="Add Level", border_radius=15,
         border_color=(152, 152, 152), font=pygame.font.Font(None, 72),
         hover_color=(80, 80, 80), image=lock, image_position=(0, 0))
     add_level.text_position = (add_level.rect.w / 2 - add_level.text.get_width() / 2,
                                add_level.rect.h / 2 - add_level.text.get_height() / 2)
-    button_lis = [back_button, next_page, previous_page, add_level] + button_level_list
+    button_level_list.append(add_level)
+    button_lis = [back_button, next_page, previous_page] + button_level_list
     alpha = 0
     while True:
         screen.blit(background, (0, 0))
@@ -139,9 +144,9 @@ def level_screen(screen, back_button_func):
         if show_no_add_page:
             blit_text(screen, "Add Level would be added in the next update",
                       (add_level.rect.centerx, add_level.rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2),
-                      font, add_level.rect.right, color=(255, 255, 255), alpha=alpha)
+                      font, add_level.rect.right, color=(255, 255, 255), alpha=min(alpha, 255))
             if alpha <= 300:
-                alpha += 0.25
+                alpha += 0.5
 
         for i in button_lis:
             i.update(screen)

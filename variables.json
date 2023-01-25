@@ -30,31 +30,31 @@
                     "date"
                 ],
                 [
-                    "level1",
+                    "level2",
                     2,
                     480,
                     "date"
                 ],
                 [
                     "level1",
-                    2,
+                    3,
                     480,
+                    "date"
+                ],
+                [
+                    "level2",
+                    1,
+                    240,
                     "date"
                 ],
                 [
                     "level1",
                     2,
-                    480,
-                    "date"
-                ],
-                [
-                    "level1",
-                    2,
-                    480,
+                    200,
                     "date"
                 ]
             ],
-            "boy",
+            "adventure_girl",
             [
                 "boy",
                 "santa"
@@ -62,7 +62,14 @@
         ],
         [
             "Tanishq",
-            [],
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
             "boy",
             [
                 "boy",
