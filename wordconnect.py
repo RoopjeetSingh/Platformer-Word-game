@@ -109,18 +109,18 @@ def mystery_and_submit_button(mystery_number):
     screen.blit(image_submit, (900, 350))
 
 
-#def score_show(x, score):
- #   font = py.font.Font(None, 50)
-  #  if x == True:
-   #     py.draw.rect(screen, (224, 177, 22), (780, 60, 170, 35))
-    #    text = font.render(f"score: {score}", True, (0, 0, 0))
-     #   screen.blit(text, (800, 60))
+def score_show(x, score):
+    font = py.font.Font(None, 50)
+    if x == True:
+        py.draw.rect(screen, (224, 177, 22), (780, 60, 170, 35))
+        text = font.render(f"score: {score}", True, (0, 0, 0))
+        screen.blit(text, (800, 60))
 
-    #if x == False:
-     #   text1 = font.render("game over", True, (0, 0, 0))
-      #  text = font.render(f"score: {score}", True, (0, 0, 0))
-       # screen.blit(text1, (500, 100))
-        #screen.blit(text, (500, 250))
+    if x == False:
+        text1 = font.render("game over", True, (0, 0, 0))
+        text = font.render(f"score: {score}", True, (0, 0, 0))
+        screen.blit(text1, (500, 100))
+        screen.blit(text, (500, 250))
 
 
 
@@ -344,7 +344,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
             progress_bar(score, 20)
             text_draw(counter)
 
-            #score_show(working, score)
+            score_show(working, score)
             mystery_and_submit_button(mystery_number)
 
         if working == False:
