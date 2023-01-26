@@ -1,10 +1,9 @@
-from spellchecker import SpellChecker
 import pygame as py
 from pygame.locals import *
 import math
 from pygame import mixer
+import main
 
-spell = SpellChecker()
 py.init()
 mixer.init()
 
@@ -139,14 +138,6 @@ def shake(shake_count, working, letters, incorrect, on, coord, word, score, list
         py.display.update()
         shake_count += 1
 
-
-def check_word(word, check):
-    if word == spell.correction(word):
-        check.append(word)
-        return True
-    else:
-        return False
-
 def text_draw(counter):
     py.draw.rect(screen, (blink(counter)), (20, 50,50,50))
     font = py.font.Font(None, 30)
@@ -167,7 +158,7 @@ def blink(counter):
         return (0,0,0)
 
 def progress_bar(x, time1):
-    x1 = round(((x + time1) / 45) * 500)
+    x1 = round((x / 45) * 500) - time1
     py.draw.rect(screen, (0,0,0), (255, 460, 500, 30), width = 5)
     if x1 < 500:
 
@@ -245,8 +236,6 @@ def game_Loop_Wordle(screen, letters, mystery_number):
             clock1.tick()
             for ev in py.event.get():
                 if ev.type == QUIT:
-
-                    py.quit()
                     run = False
                 if ev.type == timer_event and game_started:
                     counter -= 1
@@ -264,15 +253,22 @@ def game_Loop_Wordle(screen, letters, mystery_number):
                             coord = []
                             mystery_number -= 1
 
+                    #elif ev.key == K_BACKSPACE:
+                    #    letters.pop()
+
+                    elif ev.key == K_SPACE:
+                        print(123)
+                        incorrect = True
+
 
                 if ev.type == MOUSEBUTTONDOWN:
-                    print(mouse)
+
                     if 850 < mouse[0] < 950 and 340 < mouse[1] < 390:
 
                         on = False
                         working = False
 
-                    elif 20 < mouse[0] < 70 and 300< mouse[1] < 350:
+                    elif 25 < mouse[0] < 75 and 350< mouse[1] < 400:
                         i += 1
                         if i % 2 == 0:
                             pressed = True
@@ -296,10 +292,10 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
                     mystery("", mystery_number, pressed,rect_pressed)
 
-                    if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and not pressed:
+                    if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and not pressed  and clock.tick() > 100:
                         game_started = True
                         start = near(coord, mouse)
-                        if start not in entered  and clock.tick() > 450:
+                        if start not in entered:
 
                             word += letters[coord.index(start)]
                             entered.append(start)
@@ -312,19 +308,17 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
                 if start != ():
                     background(255, 255, 255, 420)
-
-                    #mystery_and_submit_button()
                     place(len(letters), on, coord, letters, list_images)
-                    #score_show(working, score)
-                    py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20),
-                               width=5)
+                    if 280 < mouse[0] < 750 and 25 < mouse[1] < 475:
+                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
                     lines(entered)
                     show(word, x_change)
-                    if len(word) == len(letters) and ((check_word(word, check) == False) or word in check):
+                    if len(word) == len(letters) and not main.WORDS.get(word, False):
+
                         incorrect = True
 
 
-                    if len(word) > 1 and word not in check and check_word(word, check) == True:
+                    if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
                         check.append(word)
                         score += len(word)
                         start = ()
