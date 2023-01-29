@@ -3,24 +3,50 @@ from pygame.locals import *
 import math
 from pygame import mixer
 import main
-from letter import Letter
+
 
 py.init()
 mixer.init()
 
 screen = py.display.set_mode((1000, 500))
 screen.fill((255, 255, 255))
+image_list = ["hellop/zero_stars.png", "hellop/single_star.png", "hellop/double _star.png", "hellop/triple_star.png"]
+
+count = 0
+clock_star = py.time.Clock()
 x_change = 0
 
+list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png",
+               'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
+               'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
+               'd': "hellop/Platformer-word-game-master/images/Letters/15.png",
+               'e': "hellop/Platformer-word-game-master/images/Letters/26.png",
+               'f': "hellop/Platformer-word-game-master/images/Letters/23.png",
+               'g': "hellop/Platformer-word-game-master/images/Letters/18.png",
+               'h': "hellop/Platformer-word-game-master/images/Letters/2.png",
+               'i': "hellop/Platformer-word-game-master/images/Letters/7.png",
+               'j': "hellop/Platformer-word-game-master/images/Letters/12.png",
+               'k': "hellop/Platformer-word-game-master/images/Letters/3.png",
+               'l': "hellop/Platformer-word-game-master/images/Letters/16.png",
+               'm': "hellop/Platformer-word-game-master/images/Letters/28.png",
+               'n': "hellop/Platformer-word-game-master/images/Letters/25.png",
+               'o': "hellop/Platformer-word-game-master/images/Letters/22.png",
+               'p': "hellop/Platformer-word-game-master/images/Letters/0.png",
+               'q': "hellop/Platformer-word-game-master/images/Letters/6.png",
+               'r': "hellop/Platformer-word-game-master/images/Letters/17.png",
+               's': "hellop/Platformer-word-game-master/images/Letters/20.png",
+               't': "hellop/Platformer-word-game-master/images/Letters/13.png",
+               'u': "hellop/Platformer-word-game-master/images/Letters/21.png",
+               'v': "hellop/Platformer-word-game-master/images/Letters/24.png",
+               'w': "hellop/Platformer-word-game-master/images/Letters/11.png",
+               'x': "hellop/Platformer-word-game-master/images/Letters/10.png",
+               'y': "hellop/Platformer-word-game-master/images/Letters/4.png",
+               'z': "hellop/Platformer-word-game-master/images/Letters/14.png"}
 
-def music(x):
-    mixer.music.load("hellop/digital-love-127441.mp3")
+possible_characters = list(list_images.keys())
 
-    if x == 0:
-        mixer.music.play()
-    elif x == 1:
-        mixer.music.stop()
-
+def music():
+    pass
 def background(x, y, z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
     bg_image = py.transform.scale(bg_image, (1000, 500))
@@ -120,8 +146,10 @@ def score_show(x, score):
     if x == False:
         text1 = font.render("game over", True, (0, 0, 0))
         text = font.render(f"score: {score}", True, (0, 0, 0))
-        screen.blit(text1, (500, 100))
-        screen.blit(text, (500, 250))
+        text1_rect = text1.get_rect()
+        text1_rect.center = (500, 250)
+        screen.blit(text1, text1_rect)
+        screen.blit(text, (445, 350))
 
 
 
@@ -131,9 +159,9 @@ def shake(shake_count, working, letters, incorrect, on, coord, word, score, list
         mystery_and_submit_button(mystery_number)
 
         text_draw(counter)
-        #score_show(working, score)
+
         place(len(letters), on, coord, letters, list_images)
-        progress_bar(score, 20)
+        progress_bar(score, 20, 30)
         show(word, x_change)
         update(incorrect, shake_count)
         py.display.update()
@@ -158,34 +186,65 @@ def blink(counter):
     else:
         return (0,0,0)
 
-def progress_bar(x, time1):
-    x1 = round((x / 45) * 500) - time1
-    py.draw.rect(screen, (0,0,0), (255, 460, 500, 30), width = 5)
+def progress_bar(x, time1,points):
+    x1 = round((x /points) * 500)
+    py.draw.rect(screen, (21, 28, 28), (255, 460, 500, 30))
+    im = py.image.load("hellop/600-6003350_star-game-icon-png-image-free-download-searchpng__1_-removebg-preview.png")
+    im = py.transform.scale(im, (42, 35))
+    first = round(260 + 0.2 * 500)
+    print(first)
     if x1 < 500:
-
-        py.draw.rect(screen, (204, 55, 75), (260,460, 500, 25))
-        py.draw.rect(screen, (255,215,0), (260, 460, x1, 25))
-        py.draw.rect(screen, (80, 199, 100),(260, 460,x1, 25), width = 5)
+        py.draw.rect(screen, (204, 55, 75), (260,455, 500, 25))
+        py.draw.rect(screen, (255,215,0), (260, 455, x1, 25))
+        py.draw.rect(screen, (80, 199, 100),(260, 455,x1, 25), width = 5)
+        py.draw.line(screen, (0, 0, 0), (260 + 0.2 * 500 + 20, 455), (260 + 0.2 * 500+ 20, 483), width =3)
+        py.draw.line(screen, (0, 0, 0), (260 + 0.5*500 + 40, 455), (260 + 0.5*500 + 40, 483), width = 3)
+        py.draw.line(screen, (0, 0, 0), (760, 455), (760, 479), width = 3)
+        screen.blit(im, (round(260 + 0.2*500), 423))
+        screen.blit(im, (round(260 + 0.5*500), 423))
+        screen.blit(im, (round(260 + 0.5* 500) + 42, 423))
+        screen.blit(im,(round(260+ 500) -65, 423))
+        screen.blit(im, (round(260 + 500) - 25, 423))
+        screen.blit(im, (round(260 + 500) + 15, 423))
     else:
         py.draw.rect(screen, (255,215,0), (260, 460, 500, 25))
+
+def stars():
+    global count
+    if count <= len(image_list) - 1:
+        im = py.image.load(image_list[count])
+        im = py.transform.scale(im, (300,300))
+        screen.blit(im, (360,0))
+
+def update_stars(score, points):
+    global count
+    if score == points and count < 3:
+
+        count += 1
+
+    elif round(0.5*points) <= score < points and count < 2:
+
+        count += 1
+
+    elif round(0.2 * points)<= score < round(0.5 * points) and count < 1:
+
+        count += 1
+
+    elif score == 0:
+        count = 0
 
 def game_Loop_Wordle(screen, letters, mystery_number):
 
     x_change = 0
     i = -1
     shake_count = 0
-
     check = []
-
-    cannot_be_entered = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "/", "[", "]"]
-    list_images = Letter.letter_dic
     coord = []
     entered = []
     word = ""
-
-
     score = 0
     rect_pressed = False
+    outside = False
     on = True
     pressed = False
     incorrect = False
@@ -198,135 +257,140 @@ def game_Loop_Wordle(screen, letters, mystery_number):
     run = True
     background(255, 255, 255, 420)
     place(len(letters), on, coord, letters, list_images)
-
-    music(0)
+    mystery_and_submit_button(mystery_number)
+    music()
     start = ()
     clock = py.time.Clock()
-
-    clock1 = py.time.Clock()
+    mixer.music.load("hellop/digital-love-127441.mp3")
+    mixer.music.play()
     while run:
 
-        if working == True:
+
 
             mouse = py.mouse.get_pos()
-            clock1.tick()
+
             for ev in py.event.get():
                 if ev.type == QUIT:
                     run = False
-                if ev.type == timer_event and game_started:
-                    counter -= 1
-                    text_draw(counter)
+                if working == True:
+                    if ev.type == timer_event and game_started:
+                        counter -= 1
+                        text_draw(counter)
 
-                    if counter == 0:
-                        working = False
+                        if counter == 0:
+                            working = False
 
-                if ev.type == KEYDOWN:
+                    if ev.type == KEYDOWN:
 
-                    if mystery_number != 0 and ev.unicode not in letters and rect_pressed and mystery_number != 0:
-                        if ev.unicode not in cannot_be_entered:
-                            letters.append(ev.unicode.lower())
-                            mystery(ev.unicode.lower(), mystery_number, pressed, rect_pressed)
-                            coord = []
-                            mystery_number -= 1
+                        if mystery_number != 0 and ev.unicode not in letters and rect_pressed and mystery_number != 0:
+                            if ev.unicode.lower() in possible_characters:
+                                letters.append(ev.unicode.lower())
+                                mystery(ev.unicode.lower(), mystery_number, pressed, rect_pressed)
+                                coord = []
+                                mystery_number -= 1
 
-                    #elif ev.key == K_BACKSPACE:
-                    #    letters.pop()
-
-                    elif ev.key == K_SPACE:
-                        print(123)
-                        incorrect = True
-
-
-                if ev.type == MOUSEBUTTONDOWN:
-
-                    if 850 < mouse[0] < 950 and 340 < mouse[1] < 390:
-
-                        on = False
-                        working = False
-
-                    elif 25 < mouse[0] < 75 and 350< mouse[1] < 400:
-                        i += 1
-                        if i % 2 == 0:
-                            pressed = True
-
-                            print(pressed)
-                        else:
-                            pressed = False
-
-                            background(255, 255, 255, 420)
-                            text_draw(counter)
-                            place(len(letters), on, coord, letters, list_images)
-                            mystery_and_submit_button(mystery_number)
-                            #score_show(working, score)
-                            print(1)
-
-                    if 470< mouse[0]< 570 and 210< mouse[1]< 315 and pressed:
-                        rect_pressed = True
-                        print(123)
-                    else:
-                        rect_pressed = False
-
-                    mystery("", mystery_number, pressed,rect_pressed)
-
-                    if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and not pressed  and clock.tick() > 100:
-                        game_started = True
-                        start = near(coord, mouse)
-                        if start not in entered:
-
-                            word += letters[coord.index(start)]
-                            entered.append(start)
-
-                        else:
-                            print(word)
+                        elif ev.key == K_SPACE:
+                            print(123)
                             incorrect = True
 
 
+                    if ev.type == MOUSEBUTTONDOWN:
 
-                if start != ():
-                    background(255, 255, 255, 420)
-                    place(len(letters), on, coord, letters, list_images)
-                    if 280 < mouse[0] < 750 and 25 < mouse[1] < 475:
-                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
-                    lines(entered)
-                    show(word, x_change)
-                    if len(word) == len(letters) and not main.WORDS.get(word, False):
+                        if 850 < mouse[0] < 950 and 340 < mouse[1] < 390 and start == ():
 
-                        incorrect = True
+                            on = False
+                            working = False
+
+                        elif 25 < mouse[0] < 75 and 350< mouse[1] < 400:
+                            i += 1
+                            if i % 2 == 0:
+                                pressed = True
+
+                            else:
+                                pressed = False
+
+                                background(255, 255, 255, 420)
+                                text_draw(counter)
+                                place(len(letters), on, coord, letters, list_images)
+                                mystery_and_submit_button(mystery_number)
+                                score_show(working, score)
 
 
-                    if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
-                        check.append(word)
-                        score += len(word)
+                        if 470< mouse[0]< 570 and 210< mouse[1]< 315 and pressed:
+                            rect_pressed = True
+                            print(123)
+                        else:
+                            rect_pressed = False
+
+                        mystery("", mystery_number, pressed,rect_pressed)
+
+                        if on == True and 300 < mouse[0] < 700 and 25 < mouse[1] < 475 and not pressed  and clock.tick() > 100:
+                            game_started = True
+                            start = near(coord, mouse)
+                            outside = False
+                            if start not in entered:
+
+                                word += letters[coord.index(start)]
+                                entered.append(start)
+
+                            else:
+                                print(word)
+                                incorrect = True
+                        if mouse[0] < 300:
+                            outside = True
+
+
+                    if start != ():
+                        background(255, 255, 255, 420)
+                        place(len(letters), on, coord, letters, list_images)
+                        if 280 < mouse[0] < 750 and 25 < mouse[1] < 475:
+                            py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20), (mouse[0] + 20, mouse[1] + 20), width=5)
+                        lines(entered)
+                        show(word, x_change)
+                        if len(word) == len(letters) and not main.WORDS.get(word, False):
+
+                            incorrect = True
+
+
+                        if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
+                            check.append(word)
+                            score += len(word)
+                            start = ()
+                            entered = []
+                            background(235, 235, 35, 420)
+
+                            text_draw(counter)
+                            mystery_and_submit_button(mystery_number)
+                            score_show(working, score)
+                            place(len(letters), on, coord, letters, list_images)
+                            show(word, x_change)
+
+                            word = ""
+                    if incorrect == True:
                         start = ()
                         entered = []
-                        background(235, 235, 35, 420)
 
-                        text_draw(counter)
-                        mystery_and_submit_button(mystery_number)
-                        #score_show(working, score)
-                        place(len(letters), on, coord, letters, list_images)
-                        show(word, x_change)
+                        shake(shake_count, working, letters, incorrect, on, coord, word, score, list_images, counter, mystery_number)
 
+                        incorrect = False
                         word = ""
-                if incorrect == True:
-                    start = ()
-                    entered = []
 
-                    shake(shake_count, working, letters, incorrect, on, coord, word, score, list_images, counter, mystery_number)
+                    progress_bar(score, 20, 30)
+                    text_draw(counter)
+                    if outside and start == ():
+                        mystery_and_submit_button(mystery_number)
+                    score_show(working, score)
 
-                    incorrect = False
-                    word = ""
 
-            progress_bar(score, 20)
-            text_draw(counter)
+            if working == False:
+                mixer.music.fadeout(1)
+                background(255, 255, 255, 450)
+                clock_star.tick(5)
+                stars()
+                update_stars(score, 30)
+                score_show(working, score)
 
-            score_show(working, score)
-            mystery_and_submit_button(mystery_number)
+            py.display.update()
 
-        if working == False:
-            music(1)
-            background(255, 255, 255, 450)
-            #score_show(working, score)
-        py.display.update()
-
-game_Loop_Wordle(screen, ["h", "u", "t", "p", "j", "a"],3)
+game_Loop_Wordle(screen, ["a", "b", "c", "d", "e"],3)
+py.quit()
