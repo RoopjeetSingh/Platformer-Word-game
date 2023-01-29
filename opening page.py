@@ -1,24 +1,30 @@
 import pygame
+
+import ui_tools
 import ui_tools as pgb
 import screen_size as ss
 import json
 from Level import level1
 from helpful_functions import blit_text
+from player import Player
 
 pygame.init()
 
 
 def opening_page(screen):
-    def get_name():
-        name_user = name.text
+    def get_name(name_user=""):
+        name_user = name_user or name.text
         if name_user:
-            var["users"].append([name_user, [], "boy", ["boy", "santa"]])  # [["Roopjeet", [["level1", 3, 256, time],
+            # var["users"].append([name_user, [], "boy", ["boy", "santa"]])  # [["Roopjeet", [["level1", 3, 256, time],
             # ...], current skin, unlocked skins], ...]
             # Users is a list of people, a dictionary would have been more suitable, but it can not be
             # used because it is not sorted. Later a list of the name and a list that would store another list of
             # level, stars, score and time
-            var["current_user"] = [len(var["users"]) - 1, name_user]
+            # var["current_user"] = [len(var["users"]) - 1, name_user]
+            with open('variables.json', 'w') as wvar:
+                json.dump(var, wvar, indent=4)
             # Current_user is a list with two values, the index of the current user and the actual name
+            show_level(screen)
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -27,16 +33,16 @@ def opening_page(screen):
     background = pygame.transform.scale(pygame.image.load("images/Menu_page/fblaGameBg.jpg"), (ss.SCREEN_WIDTH,
                                                                                                ss.SCREEN_HEIGHT))
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
-    name = pgb.InputBox(int(name_surface.get_width()/9.5)+ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
-                        int(name_surface.get_height()/3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                        name_surface.get_width() - 2*int(name_surface.get_width()/9.5), 50, (255, 255, 255),
+    name = pgb.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
+                        int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
+                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), 50, (255, 255, 255),
                         color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
-                        border_radius=15, font_color=(0, 0, 0), active=True, remove_active=True)
+                        border_radius=15, font_color=(0, 0, 0), active=True, remove_active=True, function=get_name)
     font = pygame.font.SysFont("copperplate", 32)
     ask_name = font.render("What is your name?", True, (255, 255, 255))
     font_text = pygame.font.SysFont("copperplate", 24, bold=True)
-    ok_button = pgb.Button((ss.SCREEN_WIDTH/2 - 175/2,
-                            2.6*name_surface.get_height()/4+ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
+    ok_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 175 / 2,
+                            2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
                             175, 100), (5, 176, 254), get_name, disabled_color=(156, 153, 157), border_radius=15,
                            hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
                            text="OK", border_color=(8, 143, 254), state_disabled=True,
@@ -47,12 +53,13 @@ def opening_page(screen):
         screen.blit(background, (0, 0))
         pygame.draw.rect(name_surface, (100, 103, 127), name_surface.get_rect(), border_radius=15)
         pygame.draw.rect(name_surface, (222, 234, 244),
-                         (25, 50 + ask_name.get_height(), name_surface.get_width() - 50, name_surface.get_height() - 75 - ask_name.get_height()),
+                         (25, 50 + ask_name.get_height(), name_surface.get_width() - 50,
+                          name_surface.get_height() - 75 - ask_name.get_height()),
                          border_radius=15)
-        name_surface.blit(ask_name, (name_surface.get_width()/2 - ask_name.get_width()/2, 25))
+        name_surface.blit(ask_name, (name_surface.get_width() / 2 - ask_name.get_width() / 2, 25))
         blit_text(name_surface, "Pick a name you'd like other users to know you by",
-                  (name_surface.get_width()/2, name_surface.get_height()/2), font_text,
-                  name_surface.get_width() - name_surface.get_width()/7.91, (95, 99, 110))
+                  (name_surface.get_width() / 2, name_surface.get_height() / 2), font_text,
+                  name_surface.get_width() - name_surface.get_width() / 7.91, (95, 99, 110))
         screen.blit(name_surface, (
             ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2, ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2))
         if name.text:
@@ -78,7 +85,139 @@ def opening_page(screen):
         clock.tick()
 
 
-# def show_level(screen):
+text_show = 0
+
+
+def show_level(screen):
+    def change_text():
+        global text_show
+        text_show += 1
+
+    pressed = False
+    with open('variables.json', 'r') as f:
+        var = json.load(f)
+
+    current_level = level1
+    clock = pygame.time.Clock()
+    player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
+    arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
+    arrow_img = pygame.transform.scale(arrow_img, (75, 50))
+    button_lis = []
+    surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, 300))
+    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, ss.SCREEN_HEIGHT - 100, 75, 50), (0, 0, 0), change_text,
+                                   fill_bg=False, image=arrow_img, call_on_release=False)
+    current_skin = var["users"][var["current_user"][0]][2]
+    current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
+    current_image = pygame.transform.scale(current_image,
+                                           (350 / current_image.get_height() * current_image.get_width(), 350))
+    current_image.set_colorkey((0, 0, 0))
+    while True:
+        button_lis.clear()
+        stop = False
+        current_level.draw(screen)
+        current_level.obstruct_group.draw(screen)
+        current_level.platform_group.draw(screen)
+        current_level.letter_group.draw(screen)
+        current_level.power_up_group.draw(screen)
+
+        for i in current_level.letter_group:
+            i.bounce_brighten()
+
+        for i in current_level.power_up_group:
+            i.bounce_brighten()
+        screen.blit(player.image, player.rect)
+        print(player.rect.right)
+
+        if text_show == 0:
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the letters "
+                              f"so that you can use those letters to make new words. Sounds complicated, well "
+                              f"you haven't heard nothing. You can collect a max of 8 letters. So keep that in "
+                              f"mind. Only collect the letters you actually think you need. For your help though "
+                              f"we also have mystery letters which you can collect and later convert into any "
+                              f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
+                              f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
+                              f"Cool right, let's get started...",
+                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      pygame.font.SysFont("copperplate", 25), arrow_button.rect.x - 50, (255, 255, 255),
+                      alignment="left")
+            stop = True
+        elif text_show == 1:
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            arrow_keys = pygame.image.load(
+                "images/Menu_page/arrow_keys.png").convert_alpha()
+            arrow_keys = pygame.transform.scale(arrow_keys, (120, 80))
+            right_pos = blit_text(screen, "Use the arrow keys to move",
+                                  (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                                  pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                                  alignment="left")
+            screen.blit(arrow_keys, (right_pos + 5, ss.SCREEN_HEIGHT - 280))
+            stop = True
+        elif text_show == 2 and player.rect.right > 5 * ss.tile_size:
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            arrow_keys = pygame.image.load(
+                "images/Menu_page/arrow_keys.png").convert_alpha()
+            arrow_keys = pygame.transform.scale(arrow_keys, (120, 80))
+            right_pos = blit_text(screen, "Use the arrow up button or the space bar to jump",
+                                  (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                                  pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                                  alignment="left")
+            screen.blit(arrow_keys, (right_pos + 5, ss.SCREEN_HEIGHT - 280))
+            stop = True
+        elif text_show == 3 and player.rect.right > 7 * ss.tile_size:
+            print("I'm in")
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            blit_text(screen, "Collect these letters! Remember you can only collect a max of 8. Try to "
+                              "collect the letters you actually want",
+                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                      alignment="left")
+            stop = True
+        elif text_show == 4 and player.rect.right > 16 * ss.tile_size:
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even christmas tree"
+                              "; avoid them or else you would have to make the words from the limited letters you "
+                              "have right now.",
+                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                      alignment="left")
+            stop = True
+        elif text_show == 5 and player.rect.right > 20 * ss.tile_size:
+            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            blit_text(screen, "Look there is a mystery letter we talked about. It is precious and allows you to convert"
+                              " it into any letter from a through z.",
+                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                      alignment="left")
+            stop = True
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and stop:
+                change_text()
+            for i in button_lis:
+                i.check_event(event)
+
+        for i in button_lis:
+            i.update(screen)
+        pressed = player.update_player(screen, current_level, pressed, stop_working=stop)
+        pygame.display.update()
+        clock.tick(90)
+
 
 if __name__ == "__main__":
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))

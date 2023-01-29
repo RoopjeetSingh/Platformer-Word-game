@@ -263,7 +263,7 @@ class InputBox:
                     self.text = self.text[:-1]
                 else:
                     if self.font.render(self.text + event.unicode, True,
-                                        self.font_color).get_width() <= self.rect.w - 10:
+                                        self.font_color).get_width() <= self.rect.w - 10 and event.key != pygame.K_RETURN:
                         self.text += event.unicode
                 # Re-render the text.
         if self.active:

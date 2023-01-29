@@ -3,6 +3,7 @@ from pygame.locals import *
 import math
 from pygame import mixer
 import main
+from letter import Letter
 
 py.init()
 mixer.init()
@@ -177,32 +178,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
     check = []
 
     cannot_be_entered = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "/", "[", "]"]
-    list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png",
-                   'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
-                   'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
-                   'd': "hellop/Platformer-word-game-master/images/Letters/15.png",
-                   'e': "hellop/Platformer-word-game-master/images/Letters/26.png",
-                   'f': "hellop/Platformer-word-game-master/images/Letters/23.png",
-                   'g': "hellop/Platformer-word-game-master/images/Letters/18.png",
-                   'h': "hellop/Platformer-word-game-master/images/Letters/2.png",
-                   'i': "hellop/Platformer-word-game-master/images/Letters/7.png",
-                   'j': "hellop/Platformer-word-game-master/images/Letters/12.png",
-                   'k': "hellop/Platformer-word-game-master/images/Letters/3.png",
-                   'l': "hellop/Platformer-word-game-master/images/Letters/16.png",
-                   'm': "hellop/Platformer-word-game-master/images/Letters/28.png",
-                   'n': "hellop/Platformer-word-game-master/images/Letters/25.png",
-                   'o': "hellop/Platformer-word-game-master/images/Letters/22.png",
-                   'p': "hellop/Platformer-word-game-master/images/Letters/0.png",
-                   'q': "hellop/Platformer-word-game-master/images/Letters/6.png",
-                   'r': "hellop/Platformer-word-game-master/images/Letters/17.png",
-                   's': "hellop/Platformer-word-game-master/images/Letters/20.png",
-                   't': "hellop/Platformer-word-game-master/images/Letters/13.png",
-                   'u': "hellop/Platformer-word-game-master/images/Letters/21.png",
-                   'v': "hellop/Platformer-word-game-master/images/Letters/24.png",
-                   'w': "hellop/Platformer-word-game-master/images/Letters/11.png",
-                   'x': "hellop/Platformer-word-game-master/images/Letters/10.png",
-                   'y': "hellop/Platformer-word-game-master/images/Letters/4.png",
-                   'z': "hellop/Platformer-word-game-master/images/Letters/14.png"}
+    list_images = Letter.letter_dic
     coord = []
     entered = []
     word = ""
@@ -353,4 +329,4 @@ def game_Loop_Wordle(screen, letters, mystery_number):
             #score_show(working, score)
         py.display.update()
 
-game_Loop_Wordle(screen, ["a", "b", "c", "d", "e"],3)
+game_Loop_Wordle(screen, ["h", "u", "t", "p", "j", "a"],3)

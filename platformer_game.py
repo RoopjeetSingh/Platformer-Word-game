@@ -1,5 +1,5 @@
 from player import *
-# from Level import *
+from Level import *
 import screen_size as ss
 import json
 from helpful_functions import calculate_current_level
@@ -41,4 +41,4 @@ def platformer_game(screen, current_level=None):
 
 if __name__ == "__main__":
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root)
+    platformer_game(root, level5)
