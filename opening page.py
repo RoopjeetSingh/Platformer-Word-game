@@ -206,7 +206,7 @@ def show_level(screen):
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
             screen.blit(current_image, (125, 0))
-            blit_text(screen, "The jumping beautiful object is a power up. This is a super jump power up. When you "
+            blit_text(screen, "The jumping beautiful object is a super jump power up. When you "
                               "collect this power up, you would be able to jump a higher distance but for a limited "
                               "time.",
                       (150 + current_image.get_width(), 45),
