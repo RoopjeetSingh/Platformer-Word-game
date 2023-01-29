@@ -2,7 +2,6 @@ from Level import *
 from functools import cache, lru_cache
 
 
-@lru_cache(maxsize=1)
 def calculate_current_level(vars_dic: dict):
     """
     Cleans and uses the json file to determine the level. If someone already chose a level using the level screen than
