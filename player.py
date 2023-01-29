@@ -140,7 +140,6 @@ class Player(pygame.sprite.Sprite):
     def update_player(self, screen, current_level, pressed, stop_working=False):
         if not stop_working:
             self.kill_self()
-            self.jump(current_level)
             self.gravity(current_level)
             self.collect_letter(current_level)
             self.collect_power_up(current_level)
@@ -160,6 +159,8 @@ class Player(pygame.sprite.Sprite):
                         pressed = True
                 else:
                     pressed = False
+            self.jump(current_level)
+
         for i in self.letter_lis:
             i.collect_self(self, current_level)
             screen.blit(i.image, i.rect)
@@ -170,6 +171,7 @@ class Player(pygame.sprite.Sprite):
             i.collect_self(self, current_level)
             screen.blit(i.image, i.rect)
             i.time_bar(screen, self, current_level)
+
         return pressed
 
     def move_right(self, level: Level.Level, direction: str = ""):
@@ -248,15 +250,14 @@ class Player(pygame.sprite.Sprite):
         # else:
         #     self.rect.y += self.velocity_y
 
-
     def jump(self, level: Level.Level):
         if self.double_jump_power_up:
             if not self.kill_player:
-                if self.color and self.color_num % 3 == 0:
+                if (self.color and self.color_num % 5 == 0) or (not self.color and self.color_num % 5 != 0):
                     self.image = pygame.mask.from_surface(self.image).to_surface()
                     self.image.set_colorkey((0, 0, 0))
                     self.color = False
-                elif self.color_num % 3 == 0:
+                elif self.color_num % 5 == 0:
                     self.image.set_colorkey((0, 0, 0))
                     self.color = True
                 if self.jumping:

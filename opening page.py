@@ -104,7 +104,7 @@ def show_level(screen):
     arrow_img = pygame.transform.scale(arrow_img, (75, 50))
     button_lis = []
     surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, 300))
-    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, ss.SCREEN_HEIGHT - 100, 75, 50), (0, 0, 0), change_text,
+    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, 225, 75, 50), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
@@ -126,79 +126,90 @@ def show_level(screen):
         for i in current_level.power_up_group:
             i.bounce_brighten()
         screen.blit(player.image, player.rect)
-        print(player.rect.right)
 
         if text_show == 0:
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            # screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
-            blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the letters "
-                              f"so that you can use those letters to make new words. Sounds complicated, well "
-                              f"you haven't heard nothing. You can collect a max of 8 letters. So keep that in "
+            screen.blit(current_image, (125, 0))
+            blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the "
+                              f"letters so that you can use those letters to make new words. Sounds complicated, well "
+                              f"you haven't heard nothing. You can collect a max of 10 letters. So keep that in "
                               f"mind. Only collect the letters you actually think you need. For your help though "
                               f"we also have mystery letters which you can collect and later convert into any "
                               f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
                               f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
                               f"Cool right, let's get started...",
-                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 25), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
         elif text_show == 1:
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            screen.blit(current_image, (125, 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
             arrow_keys = pygame.transform.scale(arrow_keys, (120, 80))
             right_pos = blit_text(screen, "Use the arrow keys to move",
-                                  (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                                  (150 + current_image.get_width(), 45),
                                   pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                                   alignment="left")
-            screen.blit(arrow_keys, (right_pos + 5, ss.SCREEN_HEIGHT - 280))
+            screen.blit(arrow_keys, (right_pos + 5, 45))
             stop = True
-        elif text_show == 2 and player.rect.right > 5 * ss.tile_size:
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+        elif text_show == 2 and player.rect.right - current_level.start > 5 * ss.tile_size:
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            screen.blit(current_image, (125, 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
             arrow_keys = pygame.transform.scale(arrow_keys, (120, 80))
             right_pos = blit_text(screen, "Use the arrow up button or the space bar to jump",
-                                  (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                                  (150 + current_image.get_width(), 45),
                                   pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                                   alignment="left")
-            screen.blit(arrow_keys, (right_pos + 5, ss.SCREEN_HEIGHT - 280))
+            screen.blit(arrow_keys, (right_pos + 5, 45))
             stop = True
-        elif text_show == 3 and player.rect.right > 7 * ss.tile_size:
-            print("I'm in")
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+        elif text_show == 3 and player.rect.right - current_level.start > 7 * ss.tile_size:
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
-            blit_text(screen, "Collect these letters! Remember you can only collect a max of 8. Try to "
+            screen.blit(current_image, (125, 0))
+            blit_text(screen, "Collect these letters! Remember you can only collect a max of 10. Try to "
                               "collect the letters you actually want",
-                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 4 and player.rect.right > 16 * ss.tile_size:
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+        elif text_show == 4 and player.rect.right - current_level.start > 15 * ss.tile_size:
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            screen.blit(current_image, (125, 0))
             blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even christmas tree"
                               "; avoid them or else you would have to make the words from the limited letters you "
                               "have right now.",
-                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 5 and player.rect.right > 20 * ss.tile_size:
-            screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
+        elif text_show == 5 and player.rect.right - current_level.start > 23 * ss.tile_size:
+            screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
-            screen.blit(current_image, (125, ss.SCREEN_HEIGHT - 350))
+            screen.blit(current_image, (125, 0))
             blit_text(screen, "Look there is a mystery letter we talked about. It is precious and allows you to convert"
                               " it into any letter from a through z.",
-                      (150 + current_image.get_width(), ss.SCREEN_HEIGHT - 280),
+                      (150 + current_image.get_width(), 45),
+                      pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
+                      alignment="left")
+            stop = True
+
+        elif text_show == 6 and player.rect.right - current_level.start > 49 * ss.tile_size:
+            screen.blit(surface_text, (75, 25))
+            button_lis.append(arrow_button)
+            screen.blit(current_image, (125, 0))
+            blit_text(screen, "The jumping beautiful object is a power up. This is a super jump power up. When you "
+                              "collect this power up, you would be able to jump a higher distance but for a limited "
+                              "time.",
+                      (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True

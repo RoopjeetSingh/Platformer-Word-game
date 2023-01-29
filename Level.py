@@ -67,6 +67,7 @@ class Level1(Level):
         self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
         self.make_platforms_objects()
         self.make_letters()
+        self.make_power_ups()
         self.draw_for_display()
         self.str = "level1"
         self.stars = [5, 15, 25]
@@ -74,12 +75,12 @@ class Level1(Level):
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
-        # for j in range(1, 3):
-        #     self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
-        #                                         "images/platform/platform_sprites_(1).png"))
+        for j in range(1, 3):
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
+                                                "images/platform/platform_sprites_(1).png"))
         # ground row
-        # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
+        # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
 
         # obstacles and platforms
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # first platform
@@ -126,6 +127,9 @@ class Level1(Level):
             letter.Letter(self.letter_list[8], 60 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         self.letter_group.add(
             letter.Letter(self.letter_list[9], 59 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+
+    def make_power_ups(self):
+        self.power_up_group.add(pu.PowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
 class Level2(Level):
@@ -500,6 +504,7 @@ class Level5(Level):
         # self.power_up_group.add(pu.PowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         self.power_up_group.add(pu.PowerUp(112 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
         self.power_up_group.add(pu.PowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+
 
 level1 = Level1()
 level2 = Level2()
