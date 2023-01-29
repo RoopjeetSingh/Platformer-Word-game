@@ -60,13 +60,19 @@ class Button:
         self.disabled_border_color = disabled_border_color
         self.kwargs = kwargs
         if self.image_original:
-            self.image_copy = pygame.transform.scale(
-                self.image_original, (0.87*self.image_original.get_width(), 0.76*self.image_original.get_height()))
+            if not isinstance(self.image_original, list):
+                self.image_copy = pygame.transform.scale(
+                    self.image_original,
+                    (0.87 * self.image_original.get_width(), 0.76 * self.image_original.get_height()))
+            else:
+                self.image_copy = [pygame.transform.scale(
+                    image, (0.87 * image.get_width(), 0.76 * image.get_height()))
+                    for image in self.image_original]
 
         self.rect_original = pygame.Rect(rect)
         self.rect = self.rect_original.copy()
-        self.rect_inflated = self.rect_original.inflate(-0.13*self.rect_original.w,
-                                                        -0.24*self.rect_original.h)
+        self.rect_inflated = self.rect_original.inflate(-0.13 * self.rect_original.w,
+                                                        -0.24 * self.rect_original.h)
         self.color = color
         self.color_copy = color
         self.function = function
@@ -143,6 +149,7 @@ class Button:
             self.color = self.disabled_color
         if self.state_disabled and self.disabled_border_color:
             self.border_color = self.disabled_border_color
+
         if self.clicked:
             if self.clicked_color:
                 color = self.clicked_color
@@ -171,8 +178,14 @@ class Button:
             surface.blit(text, text_rect)
         elif text and self.text_position:
             surface.blit(text, (self.rect.x + self.text_position[0], self.rect.y + self.text_position[1]))
+
         if self.image and self.image_position:
-            surface.blit(self.image, (self.rect.x + self.image_position[0], self.rect.y + self.image_position[1]))
+            if not isinstance(self.image, list):
+                surface.blit(self.image, (self.rect.x + self.image_position[0], self.rect.y + self.image_position[1]))
+            else:
+                for index, image in enumerate(self.image):
+                    surface.blit(image, (
+                        self.rect.x + self.image_position[index][0], self.rect.y + self.image_position[index][1]))
         elif self.image and self.image_align == "bottom":
             image_rect = self.image.get_rect()
             image_rect.centerx = self.rect.centerx
@@ -249,7 +262,8 @@ class InputBox:
                 elif event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
                 else:
-                    if self.font.render(self.text + event.unicode, True, self.font_color).get_width() <= self.rect.w - 10:
+                    if self.font.render(self.text + event.unicode, True,
+                                        self.font_color).get_width() <= self.rect.w - 10:
                         self.text += event.unicode
                 # Re-render the text.
         if self.active:
@@ -258,8 +272,9 @@ class InputBox:
     def cursor(self, screen):
         if self.active:
             if (self.drawn and self.draw_cursor % 60 != 0) or (not self.drawn and self.draw_cursor % 60 == 0):
-                pygame.draw.line(screen, self.cursor_color, (self.txt_surface.get_width()+self.rect.x+5, self.rect.y+7),
-                                 (self.txt_surface.get_width()+self.rect.x+5, self.rect.bottom - 7), width=2)
+                pygame.draw.line(screen, self.cursor_color,
+                                 (self.txt_surface.get_width() + self.rect.x + 5, self.rect.y + 7),
+                                 (self.txt_surface.get_width() + self.rect.x + 5, self.rect.bottom - 7), width=2)
                 self.drawn = True
             else:
                 self.drawn = False
@@ -267,5 +282,5 @@ class InputBox:
 
     def update(self, screen):
         draw_bordered_rounded_rect(screen, self.rect, self.color, (0, 0, 0), self.border_radius, 2)
-        screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
+        screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
         self.cursor(screen)

@@ -3,6 +3,7 @@ import pygame as py
 from pygame.locals import *
 import math
 from pygame import mixer
+from letter import Letter
 
 spell = SpellChecker()
 py.init()
@@ -13,13 +14,13 @@ screen.fill((255, 255, 255))
 x_change = 0
 
 
-def music(x):
-    mixer.music.load("hellop/digital-love-127441.mp3")
-
-    if x == 0:
-        mixer.music.play()
-    elif x == 1:
-        mixer.music.stop()
+# def music(x):
+#     mixer.music.load("hellop/digital-love-127441.mp3")
+#
+#     if x == 0:
+#         mixer.music.play()
+#     elif x == 1:
+#         mixer.music.stop()
 
 def background(x, y, z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
@@ -186,32 +187,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
     check = []
 
     cannot_be_entered = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ",", "/", "[", "]"]
-    list_images = {'a': "hellop/Platformer-word-game-master/images/Letters/1.png",
-                   'b': "hellop/Platformer-word-game-master/images/Letters/9.png",
-                   'c': "hellop/Platformer-word-game-master/images/Letters/19.png",
-                   'd': "hellop/Platformer-word-game-master/images/Letters/15.png",
-                   'e': "hellop/Platformer-word-game-master/images/Letters/26.png",
-                   'f': "hellop/Platformer-word-game-master/images/Letters/23.png",
-                   'g': "hellop/Platformer-word-game-master/images/Letters/18.png",
-                   'h': "hellop/Platformer-word-game-master/images/Letters/2.png",
-                   'i': "hellop/Platformer-word-game-master/images/Letters/7.png",
-                   'j': "hellop/Platformer-word-game-master/images/Letters/12.png",
-                   'k': "hellop/Platformer-word-game-master/images/Letters/3.png",
-                   'l': "hellop/Platformer-word-game-master/images/Letters/16.png",
-                   'm': "hellop/Platformer-word-game-master/images/Letters/28.png",
-                   'n': "hellop/Platformer-word-game-master/images/Letters/25.png",
-                   'o': "hellop/Platformer-word-game-master/images/Letters/22.png",
-                   'p': "hellop/Platformer-word-game-master/images/Letters/0.png",
-                   'q': "hellop/Platformer-word-game-master/images/Letters/6.png",
-                   'r': "hellop/Platformer-word-game-master/images/Letters/17.png",
-                   's': "hellop/Platformer-word-game-master/images/Letters/20.png",
-                   't': "hellop/Platformer-word-game-master/images/Letters/13.png",
-                   'u': "hellop/Platformer-word-game-master/images/Letters/21.png",
-                   'v': "hellop/Platformer-word-game-master/images/Letters/24.png",
-                   'w': "hellop/Platformer-word-game-master/images/Letters/11.png",
-                   'x': "hellop/Platformer-word-game-master/images/Letters/10.png",
-                   'y': "hellop/Platformer-word-game-master/images/Letters/4.png",
-                   'z': "hellop/Platformer-word-game-master/images/Letters/14.png"}
+    list_images = Letter.letter_dic
     coord = []
     entered = []
     word = ""
@@ -232,7 +208,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
     background(255, 255, 255, 420)
     place(len(letters), on, coord, letters, list_images)
 
-    music(0)
+    # music(0)
     start = ()
     clock = py.time.Clock()
 
@@ -354,7 +330,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
             mystery_and_submit_button(mystery_number)
 
         if working == False:
-            music(1)
+            # music(1)
             background(255, 255, 255, 450)
             #score_show(working, score)
         py.display.update()

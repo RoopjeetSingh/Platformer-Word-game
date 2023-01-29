@@ -36,7 +36,7 @@ def platformer_game(screen, current_level=None):
 
         pressed = player.update_player(screen, current_level, pressed)
         pygame.display.update()
-        clock.tick(75)
+        clock.tick(90)
 
 
 if __name__ == "__main__":

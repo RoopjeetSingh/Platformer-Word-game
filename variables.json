@@ -54,10 +54,11 @@
                     "date"
                 ]
             ],
-            "adventure_girl",
+            "santa",
             [
                 "boy",
-                "santa"
+                "santa",
+                "female_zombie"
             ]
         ],
         [
@@ -78,7 +79,94 @@
         ],
         [
             "Shrey",
-            [],
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
+        ],
+        [
+            "abc",
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
+        ],
+        [
+            "bcd",
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
+        ],
+        [
+            "cde",
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
+        ],
+        [
+            "efe",
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
+            "boy",
+            [
+                "boy",
+                "santa"
+            ]
+        ],
+        [
+            "ghi",
+            [
+                [
+                    "level1",
+                    3,
+                    200,
+                    "date"
+                ]
+            ],
             "boy",
             [
                 "boy",

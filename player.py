@@ -306,13 +306,13 @@ class Player(pygame.sprite.Sprite):
 
     def collect_letter(self, level: Level.Level):
         collided_list = pygame.sprite.spritecollide(self, level.letter_group, False)
-        if collided_list:
-            collided = collided_list[0]
-            if isinstance(collided, letter.Letter):
-                self.letter_lis.append(collided)
-            elif isinstance(collided, letter.MysteryLetter):
-                self.mystery_letter_lis.append(collided)
-            collided.collecting_animation = True
+        if collided_list and len(self.letter_lis) < 8 and isinstance(collided_list[0], letter.Letter):
+            if isinstance(collided_list[0], letter.Letter):
+                self.letter_lis.append(collided_list[0])
+            collided_list[0].collecting_animation = True
+        elif collided_list and isinstance(collided_list[0], letter.MysteryLetter):
+            self.mystery_letter_lis.append(collided_list[0])
+            collided_list[0].collecting_animation = True
 
     def collect_power_up(self, level: Level.Level):
         collided_list = pygame.sprite.spritecollide(self, level.power_up_group, False)

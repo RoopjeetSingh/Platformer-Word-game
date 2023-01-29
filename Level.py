@@ -69,6 +69,8 @@ class Level1(Level):
         self.make_letters()
         self.draw_for_display()
         self.str = "level1"
+        self.stars = [5, 15, 25]
+        self.time = 90
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
@@ -134,6 +136,8 @@ class Level2(Level):
         self.draw_for_display()
         self.make_power_ups()
         self.str = "level2"
+        self.stars = [5, 15, 25]
+        self.time = 90
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,  # tile_size = 200
@@ -187,7 +191,7 @@ class Level2(Level):
         self.platform_group.add(po.Platform(53 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 4, False))
         self.platform_group.add(po.Platform(69 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(76 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 7, False))
-        self.platform_group.add(po.Platform(84 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 7, False))
+        self.platform_group.add(po.Platform(84 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 7, False))
         self.platform_group.add(po.Platform(92 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(97 * ss.tile_size, ss.SCREEN_HEIGHT - 15 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(102 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size, 2, False))
@@ -204,7 +208,7 @@ class Level2(Level):
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(78 * ss.tile_size, ss.SCREEN_HEIGHT - 12 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
-        self.obstruct_group.add(po.Obstacle(87 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size,
+        self.obstruct_group.add(po.Obstacle(87 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size,
                                             "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(109 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size,
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
@@ -223,6 +227,8 @@ class Level3(Level):
         self.draw_for_display()
         self.make_power_ups()
         self.str = "level3"
+        self.stars = [5, 15, 25]
+        self.time = 90
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 3 * ss.tile_size,  # tile_size = 200
@@ -317,6 +323,8 @@ class Level4(Level):
         self.draw_for_display()
         self.make_power_ups()
         self.str = "level4"
+        self.stars = [5, 15, 25]
+        self.time = 90
 
     def make_platforms_objects(self):
         pass
@@ -337,6 +345,8 @@ class Level5(Level):
         self.draw_for_display()
         self.make_power_ups()
         self.str = "level5"
+        self.stars = [5, 15, 25]
+        self.time = 90
 
     def make_platforms_objects(self):
         pass

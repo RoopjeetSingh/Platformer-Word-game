@@ -59,12 +59,6 @@ def level_screen(screen, back_button_func):
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
-    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
-                                        (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
-    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
-                                  fill_bg=False)
-
     disabled = True if len(level_list) + 1 <= 3 else False
     next_page = ui_tools.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
@@ -76,6 +70,12 @@ def level_screen(screen, back_button_func):
         (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, going_to_next_page=False)
 
+    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
+                                        (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
+    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
+                                  fill_bg=False)
+
     font = pygame.font.Font(None, 156)
     level_txt = font.render("Choose your Level", True, (255, 255, 255))
     font = pygame.font.Font(None, 36)
@@ -84,39 +84,45 @@ def level_screen(screen, back_button_func):
     current_level = calculate_current_level(var)
 
     width_image = ((ss.SCREEN_WIDTH - 2 * previous_page.rect.right) / 2 - 40) / 1.5
-    lock = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha(),
-        (width_image, 200))
+    lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
+    lock = pygame.transform.scale(lock_original, (width_image, 200))
     # This makes the width enough for 3 levels to be in it
     for index, level in enumerate(level_list):
-        # Need to show the current level
-
-        # if level.str == current_level.str:
-        #     image = pygame.transform.scale(level.bg_display, (
-        #         width_image - 25, (width_image - 25) / level.bg_display.get_width() * level.bg_display.get_height()))
-        #     border_thickness = 25
-        # else:
         different_page_difference = 0
         if index % 3 == 0 and index != 0:
-            different_page_difference = 20 + previous_page.rect.right + (ss.SCREEN_WIDTH - button.rect.right)
+            different_page_difference = 20 + previous_page.rect.right + (ss.SCREEN_WIDTH * (index // 3 - 1)) + (
+                        ss.SCREEN_WIDTH - button.rect.right)
         image = pygame.transform.scale(level.bg_display, (width_image, width_image / level.bg_display.get_width() *
                                                           level.bg_display.get_height()))
         x_value = 20 + previous_page.rect.right if index == 0 else button.rect.right + 20 + different_page_difference
-        print(x_value)
         border_thickness = 0
-        button = ui_tools.Button(
-            (x_value,
-             ss.SCREEN_HEIGHT / 3, width_image, width_image / level.bg_display.get_width() *
-             level.bg_display.get_height() + 35),
-            (0, 0, 0), set_level, text=level.str.upper(),
-            image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
-            image_align="bottom", new_level=level)
+        if index > level_list.index(current_level):
+            image = [image, pygame.transform.scale(
+                lock_original, (width_image, width_image / level.bg_display.get_width() *
+                                level.bg_display.get_height() + 35))]
+            button = ui_tools.Button(
+                (x_value,
+                 ss.SCREEN_HEIGHT / 3, width_image, width_image / level.bg_display.get_width() *
+                 level.bg_display.get_height() + 35),
+                (0, 0, 0), set_level, text=level.str.upper(),
+                image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
+                image_position=[(0, width_image / level.bg_display.get_width() *
+                                 level.bg_display.get_height() + 35 - image[0].get_height()), (0, 0)],
+                state_disabled=True, new_level=level)
+            button.text_position = ((button.rect.w - button.text.get_width()) / 2, 5)
+        else:
+            button = ui_tools.Button(
+                (x_value,
+                 ss.SCREEN_HEIGHT / 3, width_image, width_image / level.bg_display.get_width() *
+                 level.bg_display.get_height() + 35),
+                (0, 0, 0), set_level, text=level.str.upper(),
+                image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
+                image_align="bottom", new_level=level)
         button_level_list.append(button)
     different_page_difference = 0
     if len(level_list) % 3 == 0 and len(level_list) != 0:
         different_page_difference = 20 + previous_page.rect.right + (ss.SCREEN_WIDTH - button.rect.right)
     x_value = button.rect.right + 20 + different_page_difference
-    print(x_value)
     add_level = ui_tools.Button((
         x_value, ss.SCREEN_HEIGHT / 2 - 200 / 2,
         width_image, 200), (152, 152, 152), make_level, text="Add Level", border_radius=15,

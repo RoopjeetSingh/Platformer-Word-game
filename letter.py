@@ -89,7 +89,7 @@ class MysteryLetter(pygame.sprite.Sprite):
         self.distance = None
         self.end_pos = (0, 0)
         self.image1 = pygame.image.load("images/Letters/mysteryLetter.png").convert()
-        self.image1 = pygame.transform.scale(self.image1, (ss.tile_size * 2, ss.tile_size * 2))
+        self.image1 = pygame.transform.scale(self.image1, (ss.tile_size * 1.5, ss.tile_size * 1.5))
         self.image = self.image1
         self.rect_original = self.image.get_rect(topleft=(x, y))
         self.rect = self.rect_original.copy()

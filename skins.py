@@ -1,19 +1,43 @@
 import pygame
-import ui_tools as pgb
+import ui_tools
 import screen_size as ss
 import json
+from math import ceil
 
 pygame.init()
 
 
 def skins(screen, back_button_func):
-    def change_skin(skin: dict):
-        var["users"][var["current_user"][0]][2] = skin["skin"]
+    def change_skin(current_skin_change: dict):
+        var["users"][var["current_user"][0]][2] = current_skin_change["skin"]
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
             json.dump(var, wvar, indent=4)
         func()
+
+    def go_to_next_page(going_to_next_page: dict = {}):
+        going_to_next_page = going_to_next_page.get("going_to_next_page", True)
+        if going_to_next_page is None:
+            going_to_next_page = {}
+        checked = False
+        for button_skin in skins_btn:
+            button_skin = button_skin[1]
+            if going_to_next_page:
+                button_skin.move(-ss.SCREEN_WIDTH)
+            else:
+                button_skin.move(ss.SCREEN_WIDTH)
+            if not checked:
+                if button_skin.rect.x <= -ss.SCREEN_WIDTH * (ceil((len(list_skins)) / 3) - 1) + button_skin.rect.w:
+                    next_page.state_disabled = True
+                else:
+                    next_page.state_disabled = False
+
+                if button_skin.rect.x >= 0:
+                    previous_page.state_disabled = True
+                else:
+                    previous_page.state_disabled = False
+                checked = True
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -25,45 +49,70 @@ def skins(screen, back_button_func):
     font = pygame.font.Font(None, 156)
     skins_txt = font.render("Choose your Avatar", True, (255, 255, 255))
 
-    back_button = pgb.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
-                             lambda: change_screen(lambda: back_button_func(screen)), image=back_image, fill_bg=False,
-                             border_color=(255, 255, 255))
-    button_lis = [back_button]
+    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+                                  lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
+                                  fill_bg=False,
+                                  border_color=(255, 255, 255))
+
+    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
+                                         (100, 150))
+    disabled_next_button = pygame.transform.scale(
+        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        (100, 150))
+    previous_button = pygame.transform.flip(next_button, True, False)
+    disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
+
+    list_skins = ["santa", "boy", "female_zombie", "male_zombie", "adventure_boy", "adventure_girl", "cat", "dinosaur",
+                  "dog", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
+
+    disabled = True if len(list_skins) <= 3 else False
+    next_page = ui_tools.Button(
+        (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
+         next_button.get_width(), next_button.get_height()), (0, 0, 0), go_to_next_page,
+        state_disabled=disabled,
+        image=next_button, fill_bg=False, disabled_image=disabled_next_button)
+    previous_page = ui_tools.Button(
+        (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
+        (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
+        disabled_image=disabled_previous_button, state_disabled=True, going_to_next_page=False)
+
+    button_lis = [back_button, previous_page, next_page]
     skins_btn = []
-    # Add more skins as well as scroll button that moves the button for which we also need to reduce the gap
-    list_skins = ["Santa", "Boy", "Female_zombie", "Male_zombie"]
+    lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
+
     for index, skin in enumerate(list_skins):
-        idle_image = pygame.image.load(f"images/{skin}/Idle (1).png").convert()
+        different_page_difference = 122
+        if index % 3 == 0 and index != 0:
+            different_page_difference = 30 + previous_page.rect.right+(ss.SCREEN_WIDTH*(index//3 - 1)) + \
+                                        (ss.SCREEN_WIDTH - skin_btn.rect.right)
+        idle_image = pygame.image.load(f"images/{skin.title()}/Idle (1).png").convert()
         idle_image = pygame.transform.scale(idle_image,
                                             (ss.SCREEN_WIDTH / 5,
                                              ss.SCREEN_WIDTH / 5 / idle_image.get_width() * idle_image.get_height()))
         idle_image.set_colorkey((0, 0, 0))
-        skin_btn = pgb.Button(
-            ((index * 2 + 1) * ss.SCREEN_WIDTH / 8 - idle_image.get_width() / 2,
-             ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
-             idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
-            image=idle_image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower())
+        x_value = 30 + previous_page.rect.right if index == 0 else skin_btn.rect.right + different_page_difference
+        if skin in var["users"][var["current_user"][0]][3]:
+            skin_btn = ui_tools.Button(
+                (x_value,
+                 ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
+                 idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
+                image=idle_image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower())
+        else:
+            image = [idle_image, pygame.transform.scale(
+                lock_original, (skin_btn.rect.w, lock_original.get_height()/lock_original.get_width()*skin_btn.rect.w))]
+            skin_btn = ui_tools.Button(
+                (x_value,
+                 ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
+                 idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
+                image=image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower(), state_disabled=True,
+                image_position=[(0, 0), (0, (idle_image.get_height() - image[1].get_height())/2)])
         button_lis.append(skin_btn)
-        skins_btn.append(skin_btn)
+        skins_btn.append((skin, skin_btn))
 
     while True:
-        santa_border = boy_border = female_zombie_border = male_zombie_border = 0
-        match var["users"][var["current_user"][0]][2]:
-            case "santa":
-                santa_border = 25
-            case "boy":
-                boy_border = 25
-            case "male_zombie":
-                male_zombie_border = 25
-            case "female_zombie":
-                female_zombie_border = 25
-        border_lis = [santa_border, boy_border, female_zombie_border, male_zombie_border]
+        current_skin = {var["users"][var["current_user"][0]][2]: 25}
         for index, skin in enumerate(skins_btn):
-            skin.border_thickness = border_lis[index]
-        # santa_btn.border_thickness = santa_border
-        # boy_btn.border_thickness = boy_border
-        # female_zombie_btn.border_thickness = female_zombie_border
-        # male_zombie_btn.border_thickness = male_zombie_border
+            skin[1].border_thickness = current_skin.get(skin[0].lower(), 0)
         screen.blit(background, (0, 0))
         screen.blit(skins_txt, (
             ss.SCREEN_WIDTH / 2 - skins_txt.get_width() / 2, ss.SCREEN_HEIGHT / 12 - skins_txt.get_height() / 2))
