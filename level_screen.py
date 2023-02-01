@@ -8,7 +8,6 @@ from helpful_functions import calculate_current_level, blit_text
 from math import ceil
 
 pygame.init()
-show_no_add_page = False
 
 
 def level_screen(screen, back_button_func):
@@ -44,8 +43,8 @@ def level_screen(screen, back_button_func):
         change_screen(lambda: platformer_game(screen, new_level_dic["new_level"]))
 
     def make_level():
-        global show_no_add_page
         show_no_add_page = True
+        return show_no_add_page
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -134,6 +133,7 @@ def level_screen(screen, back_button_func):
     button_lis = [back_button, next_page, previous_page] + button_level_list
     alpha = 0
     while True:
+        show_no_add_page = add_level.value_from_function
         screen.blit(background, (0, 0))
         screen.blit(level_txt, (
             ss.SCREEN_WIDTH / 2 - level_txt.get_width() / 2, ss.SCREEN_HEIGHT / 8 - level_txt.get_height() / 2))

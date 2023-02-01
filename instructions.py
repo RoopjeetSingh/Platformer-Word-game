@@ -5,7 +5,6 @@ import json
 
 pygame.init()
 font = pygame.font.Font(None, 36)
-x_pos = 0
 
 
 def display_text_animation(screen, string: str, text: str, i: int, x: int, y: int):
@@ -36,28 +35,32 @@ def instructions(screen, back_button_func):
             json.dump(var, wvar, indent=4)
         func["func"]()
 
-    def go_to_next_page(next_page_bool: dict = {}):
-        global x_pos
-        # Although global is discouraged, this was a place where it is actually suitable. This is because returning
-        # a value was not possible in a lambda function and creating a class just for a single x_pos variable was not
-        # viable
-        next_page_bool = next_page_bool.get("next_page_bool", True)
-        if next_page_bool and x_pos > -ss.SCREEN_WIDTH * 3:
-            x_pos -= ss.SCREEN_WIDTH
-        elif not next_page_bool and x_pos < 0:
-            x_pos += ss.SCREEN_WIDTH
+    class Scroller:
+        def __init__(self):
+            self.x_pos = 0
 
-        if x_pos <= -ss.SCREEN_WIDTH * 3:
-            next_page.state_disabled = True
-        else:
-            next_page.state_disabled = False
+        def go_to_next_page(self, next_page_bool: dict = {}):
+            # global x_pos
+            # Although global is discouraged, this was a place where it is actually suitable. This is because returning
+            # a value was not possible in a lambda function and creating a class just for a single x_pos variable was not
+            # viable
+            next_page_bool = next_page_bool.get("next_page_bool", True)
+            if next_page_bool and self.x_pos > -ss.SCREEN_WIDTH * 3:
+                self.x_pos -= ss.SCREEN_WIDTH
+            elif not next_page_bool and self.x_pos < 0:
+                self.x_pos += ss.SCREEN_WIDTH
 
-        if x_pos >= 0:
-            previous_page.state_disabled = True
-        else:
-            previous_page.state_disabled = False
+            if self.x_pos <= -ss.SCREEN_WIDTH * 3:
+                next_page.state_disabled = True
+            else:
+                next_page.state_disabled = False
 
-        # print(previous_page.state_disabled, next_page.state_disabled, x_pos)
+            if self.x_pos >= 0:
+                previous_page.state_disabled = True
+            else:
+                previous_page.state_disabled = False
+
+            # print(previous_page.state_disabled, next_page.state_disabled, x_pos)
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -77,21 +80,21 @@ def instructions(screen, back_button_func):
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
                                   fill_bg=False, func=lambda: back_button_func(screen))
-
+    scroller = Scroller()
     next_page = ui_tools.Button(
         (ss.SCREEN_WIDTH - 20 - next_button.get_width(), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2,
          next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), go_to_next_page, image=next_button, fill_bg=False, disabled_image=disabled_next_button)
+        (0, 0, 0), scroller.go_to_next_page, image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = ui_tools.Button(
         (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
-        (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
+        (0, 0, 0), scroller.go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, next_page_bool=False)
     button_lis = [back_button, next_page, previous_page]
     while True:
         help_surface.blit(background, (0, 0))
         help_surface.blit(background, (ss.SCREEN_WIDTH, 0))
         help_surface.blit(background, (ss.SCREEN_WIDTH * 2, 0))
-        screen.blit(help_surface, (x_pos, 0))
+        screen.blit(help_surface, (scroller.x_pos, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 with open('variables.json', 'w') as wvar:

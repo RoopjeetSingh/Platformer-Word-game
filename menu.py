@@ -11,7 +11,6 @@ from helpful_functions import calculate_current_level, blit_text
 from users import users
 
 pygame.init()
-show_no_multiplayer_page = False
 
 
 def menu(screen):
@@ -27,8 +26,9 @@ def menu(screen):
         exit()
 
     def show_multiplayer():
-        global show_no_multiplayer_page
+        # global show_no_multiplayer_page
         show_no_multiplayer_page = True
+        return show_no_multiplayer_page
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -108,18 +108,18 @@ def menu(screen):
     alpha = 0
     while True:
         screen.blit(background, (0, 0))
+        show_no_multiplayer_page = multiplayer.value_from_function or False
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 end_screen()
             for i in button_lis:
                 i.check_event(event)
-
         if show_no_multiplayer_page:
             blit_text(screen, "Multiplayer would be added in the next update",
                       (multiplayer.rect.centerx, multiplayer.rect.bottom + 36 / 2),
                       font, multiplayer.rect.right, color=(255, 255, 255, 0), alpha=min(alpha, 255))
             if alpha <= 300:
-                alpha += 0.5
+                alpha += 0.75
 
         for i in button_lis:
             i.update(screen)

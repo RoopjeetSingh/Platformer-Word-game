@@ -5,7 +5,9 @@ import json
 from helpful_functions import blit_text
 
 font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
-y_pos_text = 0
+
+
+# y_pos_text = 0
 
 
 def scoreboard(screen, back_button_func):
@@ -14,13 +16,16 @@ def scoreboard(screen, back_button_func):
             json.dump(var, wvar, indent=4)
         func["func"]()
 
-    def scroll(up: dict = {}):
-        up = up.get("up", True)
-        global y_pos_text
-        if up:
-            y_pos_text += 50
-        else:
-            y_pos_text -= 50
+    class Scroller:
+        def __init__(self):
+            self.y_pos_text = 0
+
+        def scroll(self, up: dict = {}):
+            up = up.get("up", True)
+            if up:
+                self.y_pos_text += 50
+            else:
+                self.y_pos_text -= 50
 
     def bg_font(rect, text_render, surface):
         # pygame.draw.rect(surface, color, rect, 4)
@@ -54,12 +59,13 @@ def scoreboard(screen, back_button_func):
     disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
+    scroller = Scroller()
     scroll_up = ui_tools.Button(
         (1340 - go_up.get_width() / 2, 80, go_up.get_width(), go_up.get_height()),
-        (0, 0, 0), scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
+        (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
         (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
-        (0, 0, 0), scroll, image=go_down, fill_bg=False,
+        (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
     text_width, text_height = 280, 75
@@ -117,13 +123,13 @@ def scoreboard(screen, back_button_func):
     scoreboard_text = font_main_text.render("ScoreBoard", True, (0, 0, 0))
     # circle_pos = []
     while True:
-        if len(stars_surface_list) > 1 and stars_surface_list[-1][1] + stars_img.get_height() + y_pos_text > (
+        if len(stars_surface_list) > 1 and stars_surface_list[-1][1] + stars_img.get_height() + scroller.y_pos_text > (
                 ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() + 15:
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
 
-        if len(stars_surface_list) > 1 and stars_surface_list[0][1] + y_pos_text < surface_font.get_height():
+        if len(stars_surface_list) > 1 and stars_surface_list[0][1] + scroller.y_pos_text < surface_font.get_height():
             scroll_up.state_disabled = False
         else:
             scroll_up.state_disabled = True
@@ -144,11 +150,11 @@ def scoreboard(screen, back_button_func):
             ss.SCREEN_HEIGHT / 10 - scoreboard_text.get_height() / 2))
 
         if len(games_played) < 15:
-            play_more_y = 170+text_height*2 if len(stars_surface_list) == 0 \
-                else stars_surface_list[-1][1] + text_height*1.5
-            blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH/2, play_more_y),
+            play_more_y = 170 + text_height * 2 if len(stars_surface_list) == 0 \
+                else stars_surface_list[-1][1] + text_height * 1.5
+            blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH / 2, play_more_y),
                       pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 42),
-                      3*ss.SCREEN_WIDTH/4)
+                      3 * ss.SCREEN_WIDTH / 4)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -168,13 +174,13 @@ def scoreboard(screen, back_button_func):
         # for i in button_lis:
         #     i.update(screen)
         for rect_font, text_font in scores_levels_fonts:
-            bg_font((rect_font[0], rect_font[1] + y_pos_text), text_font, screen)
+            bg_font((rect_font[0], rect_font[1] + scroller.y_pos_text), text_font, screen)
 
         for rect_font, text_font in font_lis_top:
             bg_font(rect_font, text_font, surface_font)
 
         for rect_stars in stars_surface_list:
-            screen.blit(stars_img, (rect_stars[0], rect_stars[1] + y_pos_text))
+            screen.blit(stars_img, (rect_stars[0], rect_stars[1] + scroller.y_pos_text))
 
         back_button.update(surface_font)
         scroll_up.update(surface_font)

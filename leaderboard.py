@@ -6,7 +6,7 @@ import json
 # from helpful_functions import blit_text
 
 font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
-y_pos_text = 0
+# y_pos_text = 0
 text_width, text_height = 250, 75  # Change text_width
 
 
@@ -82,14 +82,18 @@ def leaderboard(screen, back_button_func):
             bg_font((4 * text_width + 60, 0), make_font(str(value[1][3])), surface)
             surface_list.append((70, (index + 1) * (text_height + 10) + 170 + y_pos, surface))
 
-    def scroll(up: dict = {}):
-        up = up.get("up", True)
-        global y_pos_text
-        if up:
-            y_pos_text += 50
-        else:
-            y_pos_text -= 50
-        # create_font(y_pos_text)
+    class Scroller:
+        def __init__(self):
+            self.y_pos_text = 0
+
+        def scroll(self, up: dict = {}):
+            up = up.get("up", True)
+            # global y_pos_text
+            if up:
+                self.y_pos_text += 50
+            else:
+                self.y_pos_text -= 50
+            # create_font(y_pos_text)
 
     def bg_font(pos, text_render, surface, width=text_width):
         # draw rect as boundary
@@ -124,12 +128,13 @@ def leaderboard(screen, back_button_func):
     disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
+    scroller = Scroller()
     scroll_up = ui_tools.Button(
         (1340 - go_up.get_width() / 2, 80, go_up.get_width(), go_up.get_height()),
-        (0, 0, 0), scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
+        (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
         (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
-        (0, 0, 0), scroll, image=go_down, fill_bg=False,
+        (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
     # Could have done this using for loop but any one of them might have some different optimisation than the other
@@ -161,15 +166,15 @@ def leaderboard(screen, back_button_func):
     # button_lis = []
     font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100)
     leaderboard_text = font_main_text.render("Leaderboard", True, (0, 0, 0))
-    circle_pos = []
+    # circle_pos = []
     while True:
-        if len(surface_list) > 1 and surface_list[-1][1] + stars_img.get_height() + y_pos_text > (
+        if len(surface_list) > 1 and surface_list[-1][1] + stars_img.get_height() + scroller.y_pos_text > (
                 ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45 + leaderboard_bg.get_height() + 15:
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
 
-        if len(surface_list) > 1 and surface_list[0][1] + y_pos_text < surface_font.get_height():
+        if len(surface_list) > 1 and surface_list[0][1] + scroller.y_pos_text < surface_font.get_height():
             scroll_up.state_disabled = False
         else:
             scroll_up.state_disabled = True
@@ -196,9 +201,9 @@ def leaderboard(screen, back_button_func):
                     json.dump(var, wvar, indent=4)
                 pygame.quit()
                 exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                circle_pos.append(event.pos)
-                print(event.pos)
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     circle_pos.append(event.pos)
+            #     print(event.pos)
             # for i in button_lis:
             #     i.check_event(event)
             back_button.check_event(event)
@@ -216,13 +221,13 @@ def leaderboard(screen, back_button_func):
         # for rect_stars in stars_surface_list:
         #     screen.blit(stars_img, (rect_stars[0], rect_stars[1] + y_pos_text))
         for posx, posy, surface in surface_list:
-            screen.blit(surface, (posx, posy + y_pos_text))
+            screen.blit(surface, (posx, posy + scroller.y_pos_text))
 
         back_button.update(surface_font)
         scroll_up.update(surface_font)
         scroll_down.update(screen)
-        for circle in circle_pos:
-            pygame.draw.circle(screen, (255, 0, 0), circle, 10)
+        # for circle in circle_pos:
+        #     pygame.draw.circle(screen, (255, 0, 0), circle, 10)
         screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), 20))
         screen.blit(surface_font, (0, 0))
         down_side_surface.blit(background, (0, 0), (

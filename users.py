@@ -5,14 +5,37 @@ import json
 from Level import level_list
 
 pygame.init()
-y_pos = 226
 
 
 def users(screen, back_button_func):
+    class Scroller:
+        def __init__(self):
+            self.y_pos = 226
+
+        def scroll(self, params: dict = {}):
+            up = params.get("up", True)
+            # y_pos = params.get("y_pos", True)
+
+            if up:
+                for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
+                    button.move(y_add=200)
+                for input in input_lis:
+                    input.rect.y += 200
+                self.y_pos += 200
+            else:
+                for button in button_lis:
+                    button.move(y_add=-200)
+                for input in input_lis:
+                    input.rect.y -= 200
+                self.y_pos -= 200
+
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
             json.dump(var, wvar, indent=4)
         func["func"]()
+
+    def change_name(location, name):
+        pass
 
     def set_user(index_name):
         """
@@ -29,14 +52,15 @@ def users(screen, back_button_func):
         image_new_user.set_colorkey((0, 0, 0))
         button_with_input = ui_tools.Button(
             (300, (len(users_button_list)) * 175 + users_button_list[0].rect.y, 800, 150), (34, 54, 75),
-                                       set_user,
-                                       text="", image=image_new_user, image_position=(30, -5),
-                                       text_position=(60 + image_new_user.get_width(), 30), border_radius=20,
-                                       border_color=(255, 255, 255), font=font, state_disabled=True)
+            set_user,
+            text="", image=image_new_user, image_position=(30, -5),
+            text_position=(60 + image_new_user.get_width(), 30), border_radius=20,
+            border_color=(255, 255, 255), font=font, state_disabled=True)
         input_lis.append(ui_tools.InputBox(
-            button_with_input.rect.x + 60 + image_new_user.get_width(), button_with_input.rect.y + 30, 300, 53, (32, 84, 101),
+            button_with_input.rect.x + 60 + image_new_user.get_width(), button_with_input.rect.y + 30, 300, 53,
+            (32, 84, 101),
             (14, 31, 47),
-            (28, 48, 65), add_user_with_name, text="What is the user's name?", active=True,
+            (28, 48, 65), add_user_with_name, active=True,
             cursor_color=(255, 255, 255), remove_active=True))
         button_lis.append(button_with_input)
         users_button_list.append(button_with_input)
@@ -88,21 +112,24 @@ def users(screen, back_button_func):
             add_user.state_disabled = False
             button_lis.append(add_user)
 
-    def scroll(up: dict = {}):
-        global y_pos
-        up = up.get("up", True)
-        if up:
-            for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
-                button.move(y_add=200)
-            for input in input_lis:
-                input.rect.y += 200
-            y_pos += 200
-        else:
-            for button in button_lis:
-                button.move(y_add=-200)
-            for input in input_lis:
-                input.rect.y -= 200
-            y_pos -= 200
+    # def scroll(params: dict = {}):
+    #     # global y_pos
+    #     up = params.get("up", True)
+    #     y_pos = params.get("y_pos", True)
+    #
+    #     if up:
+    #         for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
+    #             button.move(y_add=200)
+    #         for input in input_lis:
+    #             input.rect.y += 200
+    #         y_pos += 200
+    #     else:
+    #         for button in button_lis:
+    #             button.move(y_add=-200)
+    #         for input in input_lis:
+    #             input.rect.y -= 200
+    #         y_pos -= 200
+    #     return y_pos
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
@@ -126,13 +153,14 @@ def users(screen, back_button_func):
                                        text=value[0], image=image, image_position=(30, -5),
                                        text_position=(60 + image.get_width(), 30), border_radius=20,
                                        border_color=(255, 255, 255), font=font, state_disabled=True)
+        # change_name_button = ui_tools.Button((300, index * 175 + 150, 800, 150))
         button_lis.append(users_button)
         users_button_list.append(users_button)
         button_lis.append(ui_tools.Button((users_button.rect.right - 200, users_button.rect.bottom - 50, 200, 50),
                                           (32, 84, 101), set_user,
                                           text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
                                           border_color=(255, 255, 255), border_radius=20, index_name=index))
-        current_level = "Completed"
+        current_level = "Completed all levels"
         for level in level_list:
             for i in value[1]:
                 if i and level.str == i[0]:
@@ -161,12 +189,13 @@ def users(screen, back_button_func):
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     # Add rect positions for scroll_up and down
+    scroller = Scroller()
     scroll_up = ui_tools.Button(
-        (1340 - go_up.get_width()/2, 40, go_up.get_width(), go_up.get_height()),
-        (0, 0, 0), scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
+        (1340 - go_up.get_width() / 2, 40, go_up.get_width(), go_up.get_height()),
+        (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
-        (1340 - go_down.get_width()/2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
-        (0, 0, 0), scroll, image=go_down, fill_bg=False,
+        (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
+        (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
     font = pygame.font.Font(None, 128)
@@ -178,7 +207,7 @@ def users(screen, back_button_func):
         else:
             scroll_down.state_disabled = True
         if users_button_list[0].rect.y < surface_font.get_height():
-            print(users_button_list[0].rect.y, surface_font.get_height())
+            # print(users_button_list[0].rect.y, surface_font.get_height())
             scroll_up.state_disabled = False
         else:
             scroll_up.state_disabled = True
@@ -217,7 +246,8 @@ def users(screen, back_button_func):
 
         for index, value in enumerate(level_font):
             screen.blit(value, (users_button_list[-1].rect.x + users_button_list[-1].image.get_width() + 60,
-                                index * 175 + y_pos))
+                                index * 175 + scroller.y_pos))
+            # print(index * 175 + y_pos, y_pos, index)
         screen.blit(surface_font, (0, 0))
         pygame.display.update()
         clock.tick()

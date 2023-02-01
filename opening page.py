@@ -111,7 +111,7 @@ def show_level(screen):
     surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, 300))
     arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, 225, 75, 50), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
-    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 152, 282, 75, 30), (80, 80, 80), skip_instructions,
+    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 155, 282, 75, 30), (80, 80, 80), skip_instructions,
                                   border_radius=15, call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()

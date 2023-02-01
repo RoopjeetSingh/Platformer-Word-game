@@ -59,6 +59,7 @@ class Button:
         self.disabled_color = disabled_color
         self.disabled_border_color = disabled_border_color
         self.kwargs = kwargs
+        self.value_from_function = None
         if self.image_original:
             if not isinstance(self.image_original, list):
                 self.image_copy = pygame.transform.scale(
@@ -112,16 +113,16 @@ class Button:
             self.clicked = True
             if not self.call_on_release:
                 if self.kwargs:
-                    self.function(self.kwargs)
+                    self.value_from_function = self.function(self.kwargs)
                 else:
-                    self.function()
+                    self.value_from_function = self.function()
 
     def on_release(self):
         if self.clicked and self.call_on_release:
             if self.kwargs:
-                self.function(self.kwargs)
+                self.value_from_function = self.function(self.kwargs)
             else:
-                self.function()
+                self.value_from_function = self.function()
         self.clicked = False
 
     def check_hover(self):
@@ -132,6 +133,7 @@ class Button:
                     self.hover_sound.play()
         else:
             self.hovered = False
+
 
     def update(self, surface):
         """Update needs to be called every frame in the main loop."""
