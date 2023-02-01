@@ -86,12 +86,17 @@ def opening_page(screen):
 
 
 text_show = 0
+show_instructions = True
 
 
 def show_level(screen):
     def change_text():
         global text_show
         text_show += 1
+
+    def skip_instructions():
+        global show_instructions
+        show_instructions = False
 
     pressed = False
     with open('variables.json', 'r') as f:
@@ -106,6 +111,8 @@ def show_level(screen):
     surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, 300))
     arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, 225, 75, 50), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
+    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 152, 282, 75, 30), (80, 80, 80), skip_instructions,
+                                  border_radius=15, call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
     current_image = pygame.transform.scale(current_image,
@@ -129,10 +136,11 @@ def show_level(screen):
         pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
         stop = False
 
-        if text_show == 0:
+        if text_show == 0 and show_instructions:
             # screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the "
                               f"letters so that you can use those letters to make new words. Sounds complicated, well "
@@ -145,9 +153,10 @@ def show_level(screen):
                       pygame.font.SysFont("copperplate", 25), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 1:
+        elif text_show == 1 and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
@@ -158,9 +167,10 @@ def show_level(screen):
                                   alignment="left")
             screen.blit(arrow_keys, (right_pos + 5, 45))
             stop = True
-        elif text_show == 2 and player.rect.right - current_level.start > 5 * ss.tile_size:
+        elif text_show == 2 and player.rect.right - current_level.start > 5 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
@@ -171,18 +181,20 @@ def show_level(screen):
                                   alignment="left")
             screen.blit(arrow_keys, (right_pos + 5, 45))
             stop = True
-        elif text_show == 3 and player.rect.right - current_level.start > 7 * ss.tile_size:
+        elif text_show == 3 and player.rect.right - current_level.start > 7 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             blit_text(screen, "Collect these letters!",
                       (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 4 and player.rect.right - current_level.start > 15 * ss.tile_size:
+        elif text_show == 4 and player.rect.right - current_level.start > 15 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even a christmas "
                               "tree; avoid them or else you would have to make the words from the limited letters you "
@@ -191,9 +203,10 @@ def show_level(screen):
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 5 and player.rect.right - current_level.start > 23 * ss.tile_size:
+        elif text_show == 5 and player.rect.right - current_level.start > 23 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             blit_text(screen, "Look there is a mystery letter we talked about. It is precious and allows you to convert"
                               " it into any letter from a through z.",
@@ -202,9 +215,10 @@ def show_level(screen):
                       alignment="left")
             stop = True
 
-        elif text_show == 6 and player.rect.right - current_level.start > 49 * ss.tile_size:
+        elif text_show == 6 and player.rect.right - current_level.start > 49 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
+            button_lis.append(skip_button)
             screen.blit(current_image, (125, 0))
             blit_text(screen, "The jumping beautiful object is a super jump power up. When you "
                               "collect this power up, you would be able to jump a higher distance but for a limited "

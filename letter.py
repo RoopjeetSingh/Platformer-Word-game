@@ -133,7 +133,7 @@ class MysteryLetter(pygame.sprite.Sprite):
                 self.image = self.image1
                 self.brighten = False
                 self.end_pos = (
-                    ((len(player.mystery_letter_lis) - 1) * (ss.tile_size + 70) + 20, ss.tile_size * 2 + 10),
+                    ((len(player.mystery_letter_lis) - 1) * (ss.tile_size + 45) + 20, ss.tile_size * 2 + 10),
                     (self.rect_original.x, self.rect_original.y))
                 self.distance = ((self.end_pos[1][0] - self.end_pos[0][0]) / 5,
                                  (self.end_pos[1][1] - self.end_pos[0][1]) / 5)
