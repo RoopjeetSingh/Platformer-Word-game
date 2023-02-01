@@ -14,6 +14,7 @@ class Level:
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
         self.power_up_group = pygame.sprite.Group()
+        self.letter_list = []
         self.start = 0
         self.width = no_tiles * ss.tile_size
         bg_lis = []
@@ -75,12 +76,12 @@ class Level1(Level):
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
-        for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
-                                                "images/platform/platform_sprites_(1).png"))
+        # for j in range(1, 3):
+        #     self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
+        #                                         "images/platform/platform_sprites_(1).png"))
         # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
-        # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
+        # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
 
         # obstacles and platforms
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # first platform

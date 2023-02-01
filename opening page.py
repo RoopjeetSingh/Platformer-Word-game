@@ -111,9 +111,9 @@ def show_level(screen):
     current_image = pygame.transform.scale(current_image,
                                            (350 / current_image.get_height() * current_image.get_width(), 350))
     current_image.set_colorkey((0, 0, 0))
+    stop = False
     while True:
         button_lis.clear()
-        stop = False
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
@@ -126,6 +126,8 @@ def show_level(screen):
         for i in current_level.power_up_group:
             i.bounce_brighten()
         screen.blit(player.image, player.rect)
+        pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
+        stop = False
 
         if text_show == 0:
             # screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
@@ -134,8 +136,7 @@ def show_level(screen):
             screen.blit(current_image, (125, 0))
             blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the "
                               f"letters so that you can use those letters to make new words. Sounds complicated, well "
-                              f"you haven't heard nothing. You can collect a max of 10 letters. So keep that in "
-                              f"mind. Only collect the letters you actually think you need. For your help though "
+                              f"it isn't. For your help though "
                               f"we also have mystery letters which you can collect and later convert into any "
                               f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
                               f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
@@ -174,8 +175,7 @@ def show_level(screen):
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
             screen.blit(current_image, (125, 0))
-            blit_text(screen, "Collect these letters! Remember you can only collect a max of 10. Try to "
-                              "collect the letters you actually want",
+            blit_text(screen, "Collect these letters!",
                       (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
@@ -184,8 +184,8 @@ def show_level(screen):
             screen.blit(surface_text, (75, 25))
             button_lis.append(arrow_button)
             screen.blit(current_image, (125, 0))
-            blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even christmas tree"
-                              "; avoid them or else you would have to make the words from the limited letters you "
+            blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even a christmas "
+                              "tree; avoid them or else you would have to make the words from the limited letters you "
                               "have right now.",
                       (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
@@ -208,7 +208,7 @@ def show_level(screen):
             screen.blit(current_image, (125, 0))
             blit_text(screen, "The jumping beautiful object is a super jump power up. When you "
                               "collect this power up, you would be able to jump a higher distance but for a limited "
-                              "time.",
+                              "period of time.",
                       (150 + current_image.get_width(), 45),
                       pygame.font.SysFont("copperplate", 30), arrow_button.rect.x - 50, (255, 255, 255),
                       alignment="left")
@@ -225,7 +225,6 @@ def show_level(screen):
 
         for i in button_lis:
             i.update(screen)
-        pressed = player.update_player(screen, current_level, pressed, stop_working=stop)
         pygame.display.update()
         clock.tick(90)
 

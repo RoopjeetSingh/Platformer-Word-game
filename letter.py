@@ -53,7 +53,7 @@ class Letter(pygame.sprite.Sprite):
                 self.pos[1] -= self.gravity
                 self.rect_original.y = round(self.pos[1])
 
-            if self.start_y > self.rect_original.y:
+            if self.start_y >= self.rect_original.y:
                 self.going_down = True
                 self.rect_original.y = self.start_y
             if self.rect_original.y - self.start_y >= 50:

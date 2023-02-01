@@ -2,6 +2,7 @@ import pygame
 import Level
 import screen_size as ss
 import letter
+from math import ceil
 
 
 # Set up the player class
@@ -138,8 +139,9 @@ class Player(pygame.sprite.Sprite):
         self.current_image = None
 
     def update_player(self, screen, current_level, pressed, stop_working=False):
+        killed = False
         if not stop_working:
-            self.kill_self()
+            killed = self.kill_self()
             self.gravity(current_level)
             self.collect_letter(current_level)
             self.collect_power_up(current_level)
@@ -172,7 +174,7 @@ class Player(pygame.sprite.Sprite):
             screen.blit(i.image, i.rect)
             i.time_bar(screen, self, current_level)
 
-        return pressed
+        return pressed, killed
 
     def move_right(self, level: Level.Level, direction: str = ""):
         if direction == "right":
@@ -235,20 +237,23 @@ class Player(pygame.sprite.Sprite):
     def gravity(self, level: Level.Level):
         self.velocity_y += 0.4
         self.rect.y += self.velocity_y
-        self.obstruct_platforms(level, "gravity")
+        collided = self.obstruct_platforms(level, "gravity")
         self.obstruct_obstacles(level)
-        # if self.rect.y >= ss.SCREEN_HEIGHT - 2*ss.tile_size:
-        #     for p in level.platform_group:  # moves platforms
-        #         p.rect.y -= self.velocity_y
-        #     for p in level.obstruct_group:  # moves obstacles like snowman
-        #         p.rect.y -= self.velocity_y
-        #     for a in level.letter_group:
-        #         a.pos[1] -= self.velocity_y
-        #         a.start_y -= self.velocity_y
-        #     for p in level.power_up_group:
-        #         p.rect.y -= self.velocity_y
-        # else:
-        #     self.rect.y += self.velocity_y
+        if not collided:
+            if self.rect.y >= ss.SCREEN_HEIGHT - 2*ss.tile_size:
+                for p in level.platform_group:  # moves platforms
+                    p.rect.y -= self.velocity_y
+                for p in level.obstruct_group:  # moves obstacles like snowman
+                    p.rect.y -= self.velocity_y
+                for a in level.letter_group:
+                    a.start_y -= self.velocity_y
+                    a.pos[1] = a.start_y
+                    a.going_down = False
+                for p in level.power_up_group:
+                    p.rect.y -= self.velocity_y
+            else:
+                self.rect.y += self.velocity_y
+            self.rect.y = ceil(self.rect.y - self.velocity_y)
 
     def jump(self, level: Level.Level):
         if self.double_jump_power_up:
@@ -319,7 +324,7 @@ class Player(pygame.sprite.Sprite):
 
     def collect_letter(self, level: Level.Level):
         collided_list = pygame.sprite.spritecollide(self, level.letter_group, False)
-        if collided_list and len(self.letter_lis) < 8 and isinstance(collided_list[0], letter.Letter):
+        if collided_list and isinstance(collided_list[0], letter.Letter):
             if isinstance(collided_list[0], letter.Letter):
                 self.letter_lis.append(collided_list[0])
             collided_list[0].collecting_animation = True
@@ -347,3 +352,6 @@ class Player(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(center=self.rect.center)
             if not self.index_dead + 0.33 >= len(self.death_images):
                 self.index_dead += 0.33  # image will change around every 3 times the function is called
+            else:
+                return True
+        return False
