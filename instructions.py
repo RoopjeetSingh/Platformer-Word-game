@@ -4,7 +4,7 @@ import screen_size as ss
 import json
 
 pygame.init()
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font(None, int(ss.SCREEN_WIDTH/39.72))
 
 
 def display_text_animation(screen, string: str, text: str, i: int, x: int, y: int):
@@ -68,10 +68,10 @@ def instructions(screen, back_button_func):
     clock = pygame.time.Clock()
     background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
     next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                         (100, 150))
+                                         (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     disabled_next_button = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (100, 150))
+        (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 

@@ -9,12 +9,16 @@ import power_ups as pu
 
 class Level:
     def __init__(self, bg, no_tiles: int):
+        self.tiles = no_tiles
         self.bg_start = cv2.imread(bg)
         self.platform_group = pygame.sprite.Group()
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
         self.power_up_group = pygame.sprite.Group()
+        # Would be overloaded in the subclasses
         self.letter_list = []
+        self.time = 0
+        self.stars = [0, 0, 0]
         self.start = 0
         self.width = no_tiles * ss.tile_size
         bg_lis = []
@@ -77,10 +81,10 @@ class Level1(Level):
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 63, False,
+            self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                                                 "images/platform/platform_sprites_(1).png"))
         # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 63, False))
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))
         # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
 
         # obstacles and platforms
@@ -183,10 +187,10 @@ class Level2(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 113, False,
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                                                 "images/platform/platform_sprites_(1).png"))
         # # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 113, False))  # 0+3
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
 
         self.platform_group.add(po.Platform(8 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # x, y, no_of_tiles, rectangle or curve
@@ -271,10 +275,10 @@ class Level3(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 92, False,
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                                                 "images/platform/platform_sprites_(1).png"))
         # # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 92, False))  # 0+3
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
 
         self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 8, False))  # x, y, no_of_tiles, rectangle or curve
@@ -419,10 +423,10 @@ class Level5(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 175, False,
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                                                 "images/platform/platform_sprites_(1).png"))
         # # ground row
-        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 175, False))  # 0+3
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
 
         self.platform_group.add(po.Platform(6 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,

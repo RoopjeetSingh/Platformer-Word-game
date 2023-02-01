@@ -5,9 +5,8 @@ import json
 
 # from helpful_functions import blit_text
 
-font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
-# y_pos_text = 0
-text_width, text_height = 250, 75  # Change text_width
+font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH/28.6))
+text_width, text_height = ss.SCREEN_WIDTH/5.72, ss.SCREEN_WIDTH/19.07  # Change text_width
 
 
 def leaderboard(screen, back_button_func):
@@ -18,11 +17,11 @@ def leaderboard(screen, back_button_func):
 
     def create_font(y_pos):
         rank_1_image = pygame.image.load("images/Menu_page/rank1.png").convert_alpha()
-        rank_1_image = pygame.transform.scale(rank_1_image, (50, text_height - 10))
+        rank_1_image = pygame.transform.scale(rank_1_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
         rank_2_image = pygame.image.load("images/Menu_page/rank2.png").convert_alpha()
-        rank_2_image = pygame.transform.scale(rank_2_image, (50, text_height - 10))
+        rank_2_image = pygame.transform.scale(rank_2_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
         rank_3_image = pygame.image.load("images/Menu_page/rank3.png").convert_alpha()
-        rank_3_image = pygame.transform.scale(rank_3_image, (50, text_height - 10))
+        rank_3_image = pygame.transform.scale(rank_3_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
         rank_images_dic = {1: rank_1_image, 2: rank_2_image, 3: rank_3_image}
         surface_list.clear()
         for index, value in enumerate(games_played):
@@ -32,55 +31,53 @@ def leaderboard(screen, back_button_func):
             rank_type = rank_images_dic.get((index + 1), (index + 1))
 
             color = (28, 249, 15) if value[0] == var["current_user"][1] else (42, 74, 105)
-            surface = pygame.Surface((text_width * 5 + 30, text_height))
+            surface = pygame.Surface((text_width * 5 + int(ss.SCREEN_WIDTH/47.67), text_height))
             surface.fill(color)
             color_name = (0, 0, 0)
             if isinstance(rank_type, int):
-                bg_font((0, 0), make_font(str(index + 1)), surface, 60)
+                bg_font((0, 0), make_font(str(index + 1)), surface, int(ss.SCREEN_WIDTH/23.8))
             else:
                 if color != (28, 249, 15):
                     color_name = (250, 213, 70)
                 surface.blit(rank_type,
-                             ((60 - rank_type.get_width()) / 2, (surface.get_height() - rank_type.get_height()) / 2))
+                             ((int(ss.SCREEN_WIDTH/23.8) - rank_type.get_width()) / 2, (surface.get_height() - rank_type.get_height()) / 2))
             # scores_levels_fonts.append(())  # Name
-            bg_font((0 * text_width + 60, 0), make_font(str(value[0]), color_name), surface)
+            bg_font((0 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[0]), color_name), surface)
             # scores_levels_fonts.append(())  # Level
-            bg_font((1 * text_width + 60, 0), make_font(str(value[1][0])), surface)
+            bg_font((1 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[1][0])), surface)
             # Decides the arrangement based on the number of Stars -- value[1] is the number of stars
             if int(value[1][1]) == 1:  # x of Stars text
                 # stars_surface_list.append([2 * text_width + text_width / 2 - stars_img.get_width() / 2,
                 #                            0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + text_width / 2 - stars_img.get_width() / 2 + 60,
+                surface.blit(stars_img, (2 * text_width + text_width / 2 - stars_img.get_width() / 2 + int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2 + y_pos))
             elif int(value[1][1]) == 2:
                 # stars_surface_list.append([2 * text_width + text_width / 3 - stars_img.get_width() / 2,
                 #                            -0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + text_width / 3 - stars_img.get_width() / 2 + 60,
+                surface.blit(stars_img, (2 * text_width + text_width / 3 - stars_img.get_width() / 2 + int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2))
                 # stars_surface_list.append([2 * text_width + 2 * text_width / 3 - stars_img.get_width() / 2,
                 #                            -0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + 2 * text_width / 3 - stars_img.get_width() / 2 + 60,
+                surface.blit(stars_img, (2 * text_width + 2 * text_width / 3 - stars_img.get_width() / 2 + int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2))
             elif int(value[1][1]) == 3:
-                # stars_surface_list.append([2 * text_width + ((text_width / 3 - 75) / 2),
-                #                            -0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - 75) / 2) + 60,
+                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - int(ss.SCREEN_WIDTH/19.06)) / 2) +
+                                         int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2))
-                # stars_surface_list.append([2 * text_width + ((text_width / 3 - 75) / 2) * 3 + 75,
-                #                            -0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - 75) / 2) * 3 + 75 + 60,
+                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - int(ss.SCREEN_WIDTH/19.06)) / 2) * 3 +
+                                         int(ss.SCREEN_WIDTH/19.06) + int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2))
-                # stars_surface_list.append([2 * text_width + ((text_width / 3 - 75) / 2) * 5 + 75 * 2,
-                #                            -0 + (text_height - stars_img.get_height()) / 2])
-                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - 75) / 2) * 5 + 75 * 2 + 60,
+                surface.blit(stars_img, (2 * text_width + ((text_width / 3 - int(ss.SCREEN_WIDTH/19.06)) / 2) * 5 +
+                                         int(ss.SCREEN_WIDTH/19.06) * 2 + int(ss.SCREEN_WIDTH/23.8),
                                          (text_height - stars_img.get_height()) / 2))
 
             # scores_levels_fonts.append(())  # Score
-            bg_font((3 * text_width + 60, 0), make_font(str(value[1][2])), surface)
+            bg_font((3 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[1][2])), surface)
             # scores_levels_fonts.append(((4 * text_width,
             #                              0), make_font(str(value[1][3]))))  # Time
-            bg_font((4 * text_width + 60, 0), make_font(str(value[1][3])), surface)
-            surface_list.append((70, (index + 1) * (text_height + 10) + 170 + y_pos, surface))
+            bg_font((4 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[1][3])), surface)
+            surface_list.append((int(ss.SCREEN_WIDTH/20.43), (index + 1) * (text_height + 10) + int(ss.SCREEN_WIDTH/8.4)
+                                 + y_pos, surface))
 
     class Scroller:
         def __init__(self):
@@ -90,9 +87,9 @@ def leaderboard(screen, back_button_func):
             up = up.get("up", True)
             # global y_pos_text
             if up:
-                self.y_pos_text += 50
+                self.y_pos_text += int(ss.SCREEN_WIDTH/28.6)
             else:
-                self.y_pos_text -= 50
+                self.y_pos_text -= int(ss.SCREEN_WIDTH/28.6)
             # create_font(y_pos_text)
 
     def bg_font(pos, text_render, surface, width=text_width):
@@ -114,43 +111,49 @@ def leaderboard(screen, back_button_func):
     leaderboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg Background Removed.png").convert_alpha()
     leaderboard_bg = pygame.transform.scale(leaderboard_bg, (ss.SCREEN_WIDTH / 1.05, ss.SCREEN_HEIGHT / 1.2))
     leaderboard_bg.set_colorkey((255, 255, 255))
+    # Left here
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # text_height, text_height
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
                                   fill_bg=False, func=lambda: back_button_func(screen))
     go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                     (100, 150))
+                                     (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     disabled_go_down = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (100, 150))
+        (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     go_down = pygame.transform.rotate(go_down, -90)
     disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     scroller = Scroller()
     scroll_up = ui_tools.Button(
-        (1340 - go_up.get_width() / 2, 80, go_up.get_width(), go_up.get_height()),
+        (int(ss.SCREEN_WIDTH/1.07) - go_up.get_width() / 2, int(ss.SCREEN_WIDTH/17.875), go_up.get_width(),
+         go_up.get_height()),
         (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
-        (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
+        (int(ss.SCREEN_WIDTH/1.07) - go_down.get_width() / 2, int(ss.SCREEN_WIDTH/1.93) - go_down.get_height(),
+         go_down.get_width(), go_down.get_height()),
         (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
     # Could have done this using for loop but any one of them might have some different optimisation than the other
-    font_lis_top = [((120, 165), make_font("Name")),
-                    ((120 + text_width, 165), make_font("Level")),
-                    ((120 + text_width * 2, 165), make_font("Stars")),
-                    ((120 + text_width * 3, 165), make_font("Score")),
-                    ((120 + text_width * 4, 165), make_font("Time"))]
+    starting_y = ss.SCREEN_WIDTH/8.6
+    x_start = ss.SCREEN_WIDTH/11.9
+    font_lis_top = [((x_start, starting_y), make_font("Name")),
+                    ((x_start + text_width, starting_y), make_font("Level")),
+                    ((x_start + text_width * 2, starting_y), make_font("Stars")),
+                    ((x_start + text_width * 3, starting_y), make_font("Score")),
+                    ((x_start + text_width * 4, starting_y), make_font("Time"))]
 
-    font_current_usr = pygame.font.SysFont("copperplate", 50, bold=True)
+    font_current_usr = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH/28.6), bold=True)
 
     current_user_text = font_current_usr.render(var["current_user"][1], True, (255, 0, 0))
     # scores_levels_fonts = []
     # stars_surface_list = []  # Would have lists of x and y position
     stars_img = pygame.image.load('images/Menu_page/Stars.png').convert_alpha()
-    stars_img = pygame.transform.scale(stars_img, (80 / stars_img.get_height() * stars_img.get_width(), 70))
+    stars_img = pygame.transform.scale(stars_img, (int(ss.SCREEN_WIDTH/17.875) / stars_img.get_height() *
+                                                   stars_img.get_width(), int(ss.SCREEN_WIDTH/20.4)))
 
     users_top_score = [[user[0], max(user[1], key=lambda x: (x[0], x[1], x[2], x[3]))] for user in var["users"] if
                        len(user[1])]
@@ -160,16 +163,17 @@ def leaderboard(screen, back_button_func):
     surface_list = []
     create_font(0)
 
-    surface_font = pygame.Surface((ss.SCREEN_WIDTH, 165 + text_height))
+    surface_font = pygame.Surface((ss.SCREEN_WIDTH, starting_y + text_height))
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
             ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 - 45 - leaderboard_bg.get_height() + 15))
     # button_lis = []
-    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100)
+    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH/14.3))
     leaderboard_text = font_main_text.render("Leaderboard", True, (0, 0, 0))
     # circle_pos = []
     while True:
         if len(surface_list) > 1 and surface_list[-1][1] + stars_img.get_height() + scroller.y_pos_text > (
-                ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45 + leaderboard_bg.get_height() + 15:
+                ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH/31.78) + \
+                leaderboard_bg.get_height() + int(ss.SCREEN_WIDTH/95.3):
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
@@ -181,14 +185,14 @@ def leaderboard(screen, back_button_func):
 
         screen.blit(background, (0, 0))
         screen.blit(leaderboard_bg, ((ss.SCREEN_WIDTH - leaderboard_bg.get_width()) / 2,
-                                     (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45))
+                                     (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH/31.78)))
         screen.blit(leaderboard_text, (
             ss.SCREEN_WIDTH / 2 - leaderboard_text.get_width() / 2,
             ss.SCREEN_HEIGHT / 10 - leaderboard_text.get_height() / 2))
 
         surface_font.blit(background, (0, 0))
         surface_font.blit(leaderboard_bg, ((ss.SCREEN_WIDTH - leaderboard_bg.get_width()) / 2,
-                                           (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45))
+                                           (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH/31.78)))
         surface_font.blit(leaderboard_text, (
             ss.SCREEN_WIDTH / 2 - leaderboard_text.get_width() / 2,
             ss.SCREEN_HEIGHT / 10 - leaderboard_text.get_height() / 2))
@@ -228,13 +232,15 @@ def leaderboard(screen, back_button_func):
         scroll_down.update(screen)
         # for circle in circle_pos:
         #     pygame.draw.circle(screen, (255, 0, 0), circle, 10)
-        screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), 20))
+        screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), int(ss.SCREEN_WIDTH/71.5)))
         screen.blit(surface_font, (0, 0))
         down_side_surface.blit(background, (0, 0), (
-            0, (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45 + leaderboard_bg.get_height() - 15,
+            0, (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH/31.78) +
+            leaderboard_bg.get_height() - int(ss.SCREEN_WIDTH/95.3),
             background.get_width(), background.get_height()))
         screen.blit(down_side_surface,
-                    (0, (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + 45 + leaderboard_bg.get_height() - 15))
+                    (0, (ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH/31.78) +
+                     leaderboard_bg.get_height() - int(ss.SCREEN_WIDTH/95.3)))
         pygame.display.update()
         clock.tick()
 

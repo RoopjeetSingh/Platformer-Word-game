@@ -137,6 +137,7 @@ class Player(pygame.sprite.Sprite):
         self.color = True
         self.color_num = 0
         self.current_image = None
+        self.death_by_obstacle = False
 
     def update_player(self, screen, current_level, pressed, stop_working=False):
         killed = False
@@ -193,7 +194,8 @@ class Player(pygame.sprite.Sprite):
                     for p in level.power_up_group:  # moves obstacles like snowman
                         p.rect.x -= self.move_speed
                 else:
-                    # if self.rect.x + self.move_speed <= ss.SCREEN_WIDTH - self.image.get_width():
+                    if self.rect.x + self.move_speed > ss.SCREEN_WIDTH:
+                        self.kill_player = True
                     self.rect.x += self.move_speed
             self.rect.x -= self.move_speed
             self.obstruct_obstacles(level)
@@ -320,6 +322,7 @@ class Player(pygame.sprite.Sprite):
             collide_mask = pygame.sprite.collide_mask(self, collided_list[0])
             if collide_mask:
                 self.kill_player = True
+                self.death_by_obstacle = True
                 self.obstacle_collided_with = collided_list[0]
 
     def collect_letter(self, level: Level.Level):
@@ -342,6 +345,8 @@ class Player(pygame.sprite.Sprite):
 
     def kill_self(self):
         """Kill animation"""
+        if not self.death_by_obstacle and self.kill_player:
+            return True
         if self.kill_player:
             self.obstacle_collided_with.die(self.old_list)
             if self.old_list == "right":

@@ -26,7 +26,6 @@ def menu(screen):
         exit()
 
     def show_multiplayer():
-        # global show_no_multiplayer_page
         show_no_multiplayer_page = True
         return show_no_multiplayer_page
 
@@ -118,7 +117,7 @@ def menu(screen):
             blit_text(screen, "Multiplayer would be added in the next update",
                       (multiplayer.rect.centerx, multiplayer.rect.bottom + 36 / 2),
                       font, multiplayer.rect.right, color=(255, 255, 255, 0), alpha=min(alpha, 255))
-            if alpha <= 300:
+            if alpha <= 300: # Remove this change
                 alpha += 0.75
 
         for i in button_lis:

@@ -7,6 +7,7 @@ import json
 from Level import level1
 from helpful_functions import blit_text
 from player import Player
+from wordconnect import game_Loop_Wordle
 
 pygame.init()
 
@@ -85,18 +86,35 @@ def opening_page(screen):
         clock.tick()
 
 
-text_show = 0
-show_instructions = True
+# text_show = 0
+# show_instructions = True
 
 
 def show_level(screen):
-    def change_text():
-        global text_show
+    text_show = 0
+
+    def show_word_connect():
+        start_color = 150
+        while start_color >= 0:
+            screen.fill((start_color, start_color, start_color))
+            start_color -= 1
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    pygame.quit()
+                    exit()
+            clock.tick()
+            pygame.display.flip()
+        game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
+                         len(player.mystery_letter_lis))
+
+    def change_text(text_show):
+        text_show = text_show["text_show"]
         text_show += 1
+        return text_show
 
     def skip_instructions():
-        global show_instructions
         show_instructions = False
+        return show_instructions
 
     pressed = False
     with open('variables.json', 'r') as f:
@@ -119,7 +137,11 @@ def show_level(screen):
                                            (350 / current_image.get_height() * current_image.get_width(), 350))
     current_image.set_colorkey((0, 0, 0))
     stop = False
+    surface_text.fill((20, 20, 20))
+    surface_text.set_alpha(200)
     while True:
+        arrow_button.kwargs["text_show"] = text_show
+        text_show = arrow_button.value_from_function if arrow_button.value_from_function is not None else text_show
         button_lis.clear()
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
@@ -134,7 +156,14 @@ def show_level(screen):
             i.bounce_brighten()
         screen.blit(player.image, player.rect)
         pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
+        if killed:
+            show_word_connect()
         stop = False
+        if skip_button.value_from_function is None:
+            show_instructions = True
+        else:
+            show_instructions = False
+        # show_instructions = skip_button.value_from_function or True
 
         if text_show == 0 and show_instructions:
             # screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
@@ -233,7 +262,7 @@ def show_level(screen):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and stop:
-                change_text()
+                text_show = change_text({"text_show": text_show})
             for i in button_lis:
                 i.check_event(event)
 

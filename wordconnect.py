@@ -389,6 +389,6 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
         py.display.update()
 
-
-game_Loop_Wordle(screen, ["a", "b", "c", "y"], 3)
-py.quit()
+if __name__ == "__main__":
+    game_Loop_Wordle(screen, ["a", "b", "c", "y"], 3)
+    py.quit()
