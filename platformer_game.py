@@ -38,8 +38,9 @@ def platformer_game(screen, current_level=None):
     player = Player(ss.tile_size, ss.tile_size * 2, var["users"][var["current_user"][0]][2])
     font = pygame.font.SysFont("images/Menu_page/SnowtopCaps.ttf", 75, bold=True)
     while True:
-        show_time -= round(time.time() - show_time_actual)
-        show_time_actual = time.time()
+        if time.time() - show_time_actual >= 1:
+            show_time -= round(time.time() - show_time_actual)
+            show_time_actual = time.time()
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
@@ -62,8 +63,7 @@ def platformer_game(screen, current_level=None):
         if killed:
             empty_screen()
 
-        print(show_time)
-        time_as_str = time_str(minute=show_time // 60, second=show_time % 60)
+        time_as_str = f"{show_time//60}"
         time_surface = font.render(str(time_as_str), True, (20, 20, 20))
         time_surface.set_alpha(200)
         screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size, ss.tile_size))

@@ -75,9 +75,9 @@ def level_screen(screen, back_button_func):
                                   lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
                                   fill_bg=False)
 
-    font = pygame.font.Font(None, ss.SCREEN_WIDTH / 9.17)
+    font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 9.17))
     level_txt = font.render("Choose your Level", True, (255, 255, 255))
-    font = pygame.font.Font(None, ss.SCREEN_WIDTH / 39.72)
+    font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 39.72))
 
     button_level_list = []
     current_level = calculate_current_level(var)
