@@ -150,8 +150,8 @@ def level_screen(screen, back_button_func):
         if show_no_add_page:
             blit_text(screen, "Add Level would be added in the next update",
                       (add_level.rect.centerx, add_level.rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2),
-                      font, add_level.rect.right, color=(255, 255, 255), alpha=min(alpha, int(ss.SCREEN_WIDTH / 5.6)))
-            if alpha <= int(ss.SCREEN_WIDTH / 4.77):
+                      font, add_level.rect.right, color=(255, 255, 255), alpha=min(alpha, 255))
+            if alpha <= 300:
                 alpha += 0.5
 
         for i in button_lis:
