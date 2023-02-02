@@ -14,7 +14,7 @@ pygame.init()
 
 def platformer_game(screen, current_level=None):
     def empty_screen():
-        start_color = 150
+        start_color = int(ss.SCREEN_WIDTH / 9.533)
         while start_color >= 0:
             screen.fill((start_color, start_color, start_color))
             start_color -= 1
@@ -37,7 +37,7 @@ def platformer_game(screen, current_level=None):
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.tile_size * 2, var["users"][var["current_user"][0]][2])
     print(pygame.font.get_fonts())
-    font = pygame.font.SysFont("", 75)
+    font = pygame.font.SysFont("", int(ss.SCREEN_WIDTH / 19.067))
     while True:
         if time.time() - show_time_actual >= 1:
             show_time -= round(time.time() - show_time_actual)
@@ -60,7 +60,7 @@ def platformer_game(screen, current_level=None):
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print((event.pos[0] - current_level.start)/50, event.pos[1])
+                print((event.pos[0] - current_level.start)/int(ss.SCREEN_WIDTH / 28.6), event.pos[1])
 
         pressed, killed = player.update_player(screen, current_level, pressed)
         if killed:
@@ -68,10 +68,10 @@ def platformer_game(screen, current_level=None):
 
         time_as_str = f"{show_time//60: 02d}: {show_time % 60: 02d}"
         time_surface = font.render(time_as_str, True, (20, 20, 20))
-        time_surface.set_alpha(200)
+        time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
         screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size*2, ss.tile_size))
         pygame.display.update()
-        clock.tick(90)
+        clock.tick(int(ss.SCREEN_WIDTH / 15.889))
 
 
 if __name__ == "__main__":
