@@ -12,38 +12,38 @@ class Player(pygame.sprite.Sprite):
         # Fall has to be tested
         match skin:
             case "santa":
-                run_max_index = 12
-                death_max_index = 16
+                run_max_index = int(ss.SCREEN_WIDTH / 119.17)
+                death_max_index = int(ss.SCREEN_WIDTH / 89.375)
                 run = "Run"
                 fall = 2
             case "boy":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5
             case "female_zombie":
-                run_max_index = 10
-                death_max_index = 12
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 119.17)
                 run = "Walk"
                 fall = 1.8
             case "male_zombie":
-                run_max_index = 10
-                death_max_index = 12
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 119.17)
                 run = "Walk"
                 fall = 3
             case "adventure_boy":
-                run_max_index = 10
-                death_max_index = 10
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.8  # Fall is good
             case "adventure_girl":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.8
             case "cat":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 2.8  # Fall is good
             case "dinosaur":
@@ -53,32 +53,32 @@ class Player(pygame.sprite.Sprite):
                 fall = 5  # Fall is good
             case "dog":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "knight":
-                run_max_index = 10
-                death_max_index = 10
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "ninja_girl":
-                run_max_index = 10
-                death_max_index = 10
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "ninja_girl2":
-                run_max_index = 10
-                death_max_index = 10
+                run_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "pumpkin":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "robot":
                 run_max_index = 8
-                death_max_index = 10
+                death_max_index = int(ss.SCREEN_WIDTH / 143)
                 run = "Run"
                 fall = 4.4  # Fall is good
             case _:
@@ -86,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 
         alpha = (0, 0, 0)
         self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
-        height = 75
+        height = int(ss.SCREEN_WIDTH / 19.067)
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
         self.idle_image.set_colorkey(alpha)
@@ -271,7 +271,7 @@ class Player(pygame.sprite.Sprite):
                     self.double_jump(level)
             self.color_num += 1
         elif self.jumping:
-            self.rect.y -= 11.2
+            self.rect.y -= int(ss.SCREEN_WIDTH / 127.68)
             # self.jumping = True
             self.on_ground = False
             self.obstruct_platforms(level, "jump")
@@ -279,7 +279,7 @@ class Player(pygame.sprite.Sprite):
             self.num_jumps += 1
 
     def double_jump(self, level: Level.Level):
-        self.rect.y -= 16
+        self.rect.y -= int(ss.SCREEN_WIDTH / 89.375)
         self.jumping = True
         self.on_ground = False
         self.obstruct_platforms(level, "jump")
