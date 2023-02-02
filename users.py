@@ -10,7 +10,7 @@ pygame.init()
 def users(screen, back_button_func):
     class Scroller:
         def __init__(self):
-            self.y_pos = 226
+            self.y_pos = int(ss.SCREEN_WIDTH / 6.33)
 
         def scroll(self, params: dict = {}):
             up = params.get("up", True)
@@ -18,16 +18,16 @@ def users(screen, back_button_func):
 
             if up:
                 for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
-                    button.move(y_add=200)
+                    button.move(y_add=int(ss.SCREEN_WIDTH / 7.15))
                 for input in input_lis:
-                    input.rect.y += 200
-                self.y_pos += 200
+                    input.rect.y += int(ss.SCREEN_WIDTH / 7.15)
+                self.y_pos += int(ss.SCREEN_WIDTH / 7.15)
             else:
                 for button in button_lis:
-                    button.move(y_add=-200)
+                    button.move(y_add=-int(ss.SCREEN_WIDTH / 7.15))
                 for input in input_lis:
-                    input.rect.y -= 200
-                self.y_pos -= 200
+                    input.rect.y -= int(ss.SCREEN_WIDTH / 7.15)
+                self.y_pos -= int(ss.SCREEN_WIDTH / 7.15)
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
@@ -48,23 +48,23 @@ def users(screen, back_button_func):
 
     def create_user():
         image_new_user = pygame.transform.scale(
-            pygame.image.load(r"images/Boy/Idle (1).png").convert(), (100, 160))
+            pygame.image.load(r"images/Boy/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 8.9375)))
         image_new_user.set_colorkey((0, 0, 0))
         button_with_input = ui_tools.Button(
-            (300, (len(users_button_list)) * 175 + users_button_list[0].rect.y, 800, 150), (34, 54, 75),
+            (int(ss.SCREEN_WIDTH / 4.77), (len(users_button_list)) * int(ss.SCREEN_WIDTH / 8.17) + users_button_list[0].rect.y, int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.533)), (34, 54, 75),
             set_user,
-            text="", image=image_new_user, image_position=(30, -5),
-            text_position=(60 + image_new_user.get_width(), 30), border_radius=20,
+            text="", image=image_new_user, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
+            text_position=(int(ss.SCREEN_WIDTH / 23.83) + image_new_user.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=int(ss.SCREEN_WIDTH / 71.5),
             border_color=(255, 255, 255), font=font, state_disabled=True)
         input_lis.append(ui_tools.InputBox(
-            button_with_input.rect.x + 60 + image_new_user.get_width(), button_with_input.rect.y + 30, 300, 53,
+            button_with_input.rect.x + int(ss.SCREEN_WIDTH / 23.833) + image_new_user.get_width(), button_with_input.rect.y + int(ss.SCREEN_WIDTH / 47.67), int(ss.SCREEN_WIDTH / 4.77), int(ss.SCREEN_WIDTH / 26.98),
             (32, 84, 101),
             (14, 31, 47),
             (28, 48, 65), add_user_with_name, active=True,
             cursor_color=(255, 255, 255), remove_active=True))
         button_lis.append(button_with_input)
         users_button_list.append(button_with_input)
-        add_user.move(y_add=175)
+        add_user.move(y_add=int(ss.SCREEN_WIDTH / 8.17))
         add_user.state_disabled = True
 
     def add_user_with_name(text):
@@ -82,15 +82,15 @@ def users(screen, back_button_func):
             level_font.clear()
             first_button_y_pos = users_button_list[0].rect.y
             users_button_list.clear()
-            font = pygame.font.Font(None, 48)
+            font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79))
             for index, value in enumerate(var["users"]):
                 image = pygame.transform.scale(
-                    pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
+                    pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 8.9375)))
                 image.set_colorkey((0, 0, 0))
-                users_button = ui_tools.Button((300, index * 175 + first_button_y_pos, 800, 150), (34, 54, 75),
+                users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + first_button_y_pos, int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.533)), (34, 54, 75),
                                                set_user,
-                                               text=value[0], image=image, image_position=(30, -5),
-                                               text_position=(60 + image.get_width(), 30), border_radius=20,
+                                               text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
+                                               text_position=(60 + image.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=20,
                                                border_color=(255, 255, 255), font=font, state_disabled=True)
                 button_lis.append(users_button)
                 users_button_list.append(users_button)
