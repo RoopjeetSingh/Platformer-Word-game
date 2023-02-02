@@ -49,16 +49,16 @@ def skins(screen, back_button_func):
     font = pygame.font.Font(None, 156)
     skins_txt = font.render("Choose your Avatar", True, (255, 255, 255))
 
-    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+    back_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
                                   fill_bg=False,
                                   border_color=(255, 255, 255))
 
     next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                         (100, 150))
+                                         (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
     disabled_next_button = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (100, 150))
+        (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
@@ -72,7 +72,7 @@ def skins(screen, back_button_func):
         state_disabled=disabled,
         image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = ui_tools.Button(
-        (20, ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
+        (int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
         (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, going_to_next_page=False)
 
@@ -81,16 +81,16 @@ def skins(screen, back_button_func):
     lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
 
     for index, skin in enumerate(list_skins):
-        different_page_difference = 122
+        different_page_difference = int(ss.SCREEN_WIDTH / 11.72)
         if index % 3 == 0 and index != 0:
-            different_page_difference = 30 + previous_page.rect.right+(ss.SCREEN_WIDTH*(index//3 - 1)) + \
+            different_page_difference = int(ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right+(ss.SCREEN_WIDTH*(index//3 - 1)) + \
                                         (ss.SCREEN_WIDTH - skin_btn.rect.right)
         idle_image = pygame.image.load(f"images/{skin.title()}/Idle (1).png").convert()
         idle_image = pygame.transform.scale(idle_image,
                                             (ss.SCREEN_WIDTH / 5,
                                              ss.SCREEN_WIDTH / 5 / idle_image.get_width() * idle_image.get_height()))
         idle_image.set_colorkey((0, 0, 0))
-        x_value = 30 + previous_page.rect.right if index == 0 else skin_btn.rect.right + different_page_difference
+        x_value = int(ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right if index == 0 else skin_btn.rect.right + different_page_difference
         if skin in var["users"][var["current_user"][0]][3]:
             skin_btn = ui_tools.Button(
                 (x_value,
