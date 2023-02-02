@@ -171,7 +171,7 @@ def users(screen, back_button_func):
         level_font.append(font.render("Current level: " + current_level.upper(), True, (255, 255, 255)))
 
     add_user = ui_tools.Button(
-        (users_button_list[-1].rect.centerx - 120, users_button_list[-1].rect.bottom + 16, 240, 50),
+        (users_button_list[-1].rect.centerx - int(ss.SCREEN_WIDTH / 11.92), users_button_list[-1].rect.bottom + int(ss.SCREEN_WIDTH / 89.375), int(ss.SCREEN_WIDTH / 5.96), int(ss.SCREEN_WIDTH / 28.6)),
         (34, 54, 75), create_user,
         text="Add User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
         border_color=(255, 255, 255), border_radius=int(ss.SCREEN_WIDTH / 71.5))
@@ -180,25 +180,25 @@ def users(screen, back_button_func):
 
     # scrolling
     go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                     (100, 150))
+                                     (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
     disabled_go_down = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (100, 150))
-    go_down = pygame.transform.rotate(go_down, -90)
-    disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
+        (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
+    go_down = pygame.transform.rotate(go_down, -int(ss.SCREEN_WIDTH / 15.889))
+    disabled_go_down = pygame.transform.rotate(disabled_go_down, -int(ss.SCREEN_WIDTH / 15.889))
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     # Add rect positions for scroll_up and down
     scroller = Scroller()
     scroll_up = ui_tools.Button(
-        (1340 - go_up.get_width() / 2, 40, go_up.get_width(), go_up.get_height()),
+        (int(ss.SCREEN_WIDTH / 1.067) - go_up.get_width() / 2, int(ss.SCREEN_WIDTH / 35.75), go_up.get_width(), go_up.get_height()),
         (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
-        (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
+        (int(ss.SCREEN_WIDTH / 1.067) - go_down.get_width() / 2, int(ss.SCREEN_WIDTH / 1.93) - go_down.get_height(), go_down.get_width(), go_down.get_height()),
         (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
-    font = pygame.font.Font(None, 128)
+    font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 11.17))
     users_text = font.render("Choose or add your User", True, (255, 255, 255))
     surface_font = pygame.Surface((ss.SCREEN_WIDTH, users_button_list[0].rect.y))
     while True:
@@ -214,7 +214,7 @@ def users(screen, back_button_func):
 
         for index, value in enumerate(users_button_list):
             if index == var["current_user"][0]:
-                value.border_thickness = 25
+                value.border_thickness = int(ss.SCREEN_WIDTH / 57.2)
             else:
                 value.border_thickness = 7
         screen.blit(background, (0, 0))
@@ -245,8 +245,8 @@ def users(screen, back_button_func):
             i.update(screen)
 
         for index, value in enumerate(level_font):
-            screen.blit(value, (users_button_list[-1].rect.x + users_button_list[-1].image.get_width() + 60,
-                                index * 175 + scroller.y_pos))
+            screen.blit(value, (users_button_list[-1].rect.x + users_button_list[-1].image.get_width() + int(ss.SCREEN_WIDTH / 23.833),
+                                index * int(ss.SCREEN_WIDTH / 8.17) + scroller.y_pos))
             # print(index * 175 + y_pos, y_pos, index)
         screen.blit(surface_font, (0, 0))
         pygame.display.update()
