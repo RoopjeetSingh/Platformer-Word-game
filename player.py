@@ -12,8 +12,8 @@ class Player(pygame.sprite.Sprite):
         # Fall has to be tested
         match skin:
             case "santa":
-                run_max_index = int(ss.SCREEN_WIDTH / 119.17)
-                death_max_index = int(ss.SCREEN_WIDTH / 89.375)
+                run_max_index = 12
+                death_max_index = 16
                 run = "Run"
                 fall = 2
             case "boy":
@@ -23,27 +23,27 @@ class Player(pygame.sprite.Sprite):
                 fall = 3.5
             case "female_zombie":
                 run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 119.17)
+                death_max_index = 12
                 run = "Walk"
                 fall = 1.8
             case "male_zombie":
                 run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 119.17)
+                death_max_index = 12
                 run = "Walk"
                 fall = 3
             case "adventure_boy":
-                run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                run_max_index = 10
+                death_max_index = 10
                 run = "Run"
                 fall = 3.8  # Fall is good
             case "adventure_girl":
                 run_max_index = 8
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = 10
                 run = "Run"
                 fall = 3.8
             case "cat":
                 run_max_index = 8
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = 10
                 run = "Run"
                 fall = 2.8  # Fall is good
             case "dinosaur":
@@ -53,32 +53,32 @@ class Player(pygame.sprite.Sprite):
                 fall = 5  # Fall is good
             case "dog":
                 run_max_index = 8
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = 10
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "knight":
-                run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                run_max_index = 10
+                death_max_index = 10
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "ninja_girl":
-                run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                run_max_index = 10
+                death_max_index = 10
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "ninja_girl2":
-                run_max_index = int(ss.SCREEN_WIDTH / 143)
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                run_max_index = 10
+                death_max_index = 10
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "pumpkin":
                 run_max_index = 8
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = 10
                 run = "Run"
                 fall = 3.5  # Fall is good
             case "robot":
                 run_max_index = 8
-                death_max_index = int(ss.SCREEN_WIDTH / 143)
+                death_max_index = 10
                 run = "Run"
                 fall = 4.4  # Fall is good
             case _:
