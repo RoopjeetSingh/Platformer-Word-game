@@ -291,23 +291,23 @@ class Player(pygame.sprite.Sprite):
         # if collided_list:
         #     collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False, pygame.sprite.collide_mask)
         for collided in collided_list:
-            if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= 50:
+            if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= int(ss.SCREEN_WIDTH / 28.6):
                 self.velocity_y = 0
                 self.rect.bottom = collided.rect.top
                 self.jumping = False
                 self.on_ground = True
                 return True
-            elif process == "jump" and 0 > self.rect.y - collided.rect.bottom > -50:
+            elif process == "jump" and 0 > self.rect.y - collided.rect.bottom > -int(ss.SCREEN_WIDTH / 28.6):
                 self.jumping = False
                 self.rect.top = collided.rect.bottom
                 return True
 
             # addressing the point where the object is on the space is causing the error
-            elif process == "right" and 0 < self.rect.right - collided.rect.x < 10 and not \
+            elif process == "right" and 0 < self.rect.right - collided.rect.x < int(ss.SCREEN_WIDTH / 143) and not \
                     (0 < self.rect.bottom - collided.rect.y < 5):
                 self.rect.right = collided.rect.x + 1
                 return True
-            elif process == "left" and 0 > self.rect.x - collided.rect.right > -10 and not \
+            elif process == "left" and 0 > self.rect.x - collided.rect.right > -int(ss.SCREEN_WIDTH / 143) and not \
                     (0 < self.rect.bottom - collided.rect.y < 5):
                 self.rect.left = collided.rect.right - 1
                 return True
