@@ -36,7 +36,7 @@ def platformer_game(screen, current_level=None):
     show_time_actual = time.time()
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.tile_size * 2, var["users"][var["current_user"][0]][2])
-    print(pygame.font.get_fonts() )
+    print(pygame.font.get_fonts())
     font = pygame.font.SysFont("", 75)
     while True:
         if time.time() - show_time_actual >= 1:
@@ -59,6 +59,8 @@ def platformer_game(screen, current_level=None):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print((event.pos[0] - current_level.start)/50, event.pos[1])
 
         pressed, killed = player.update_player(screen, current_level, pressed)
         if killed:

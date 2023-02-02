@@ -303,9 +303,9 @@ class Level3(Level):
         self.platform_group.add(po.Platform(50 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 1, False))
         self.platform_group.add(po.Platform(52 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 3))
         self.platform_group.add(po.Platform(56 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 3))
-        self.platform_group.add(po.Platform(62 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(61.5 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 2, False))
         self.platform_group.add(po.Platform(64 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 0))
-        self.platform_group.add(po.Platform(67 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(66.5 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 2, False))
         self.platform_group.add(po.Platform(69 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 0))
         self.platform_group.add(po.Platform(75 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 0))
         self.platform_group.add(po.Platform(79 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size, 0))
@@ -324,13 +324,21 @@ class Level3(Level):
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
         self.obstruct_group.add(po.Obstacle(56 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+        self.obstruct_group.add(po.Obstacle(61.5 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size,
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+        self.obstruct_group.add(po.Obstacle(66.5 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size,
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+        self.obstruct_group.add(po.Obstacle(71 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+        self.obstruct_group.add(po.Obstacle(73 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
+                                            "spikes", w=ss.tile_size*2, h=ss.tile_size))
         self.obstruct_group.add(po.Obstacle(85 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size,
-                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
+                                            "snowman", w=ss.tile_size*2, h=ss.tile_size * 2))
 
     def make_power_ups(self):
-        self.power_up_group.add(pu.PowerUp(17 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        # self.power_up_group.add(pu.PowerUp(17 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
         self.power_up_group.add(pu.PowerUp(39 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(69 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
+        # self.power_up_group.add(pu.PowerUp(69 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
 
 
 class Level4(Level):
