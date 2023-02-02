@@ -36,28 +36,28 @@ def opening_page(screen):
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
     name = pgb.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
                         int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), 50, (255, 255, 255),
+                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), ss.SCREEN_WIDTH // 28.6, (255, 255, 255),
                         color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
-                        border_radius=15, font_color=(0, 0, 0), active=True, remove_active=True, function=get_name)
-    font = pygame.font.SysFont("copperplate", 32)
+                        border_radius=ss.SCREEN_WIDTH // 95.33, font_color=(0, 0, 0), active=True, remove_active=True, function=get_name)
+    font = pygame.font.SysFont("copperplate", ss.SCREEN_WIDTH // 44.6875)
     ask_name = font.render("What is your name?", True, (255, 255, 255))
-    font_text = pygame.font.SysFont("copperplate", 24, bold=True)
-    ok_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 175 / 2,
+    font_text = pygame.font.SysFont("copperplate", ss.SCREEN_WIDTH // 59.583, bold=True)
+    ok_button = pgb.Button((ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH // 8.17 / 2,
                             2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                            175, 100), (5, 176, 254), get_name, disabled_color=(156, 153, 157), border_radius=15,
+                            ss.SCREEN_WIDTH // 8.17, ss.SCREEN_WIDTH // 14.3), (5, 176, 254), get_name, disabled_color=(156, 153, 157), border_radius=ss.SCREEN_WIDTH // 95.33,
                            hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
                            text="OK", border_color=(8, 143, 254), state_disabled=True,
-                           font=pygame.font.Font(None, 48), disabled_border_color=(70, 67, 72))
+                           font=pygame.font.Font(None, ss.SCREEN_WIDTH // 29.79), disabled_border_color=(70, 67, 72))
     button_lis = [ok_button]
     input_lis = [name]
     while True:
         screen.blit(background, (0, 0))
-        pygame.draw.rect(name_surface, (100, 103, 127), name_surface.get_rect(), border_radius=15)
+        pygame.draw.rect(name_surface, (100, 103, 127), name_surface.get_rect(), border_radius=ss.SCREEN_WIDTH // 95.33)
         pygame.draw.rect(name_surface, (222, 234, 244),
-                         (25, 50 + ask_name.get_height(), name_surface.get_width() - 50,
-                          name_surface.get_height() - 75 - ask_name.get_height()),
-                         border_radius=15)
-        name_surface.blit(ask_name, (name_surface.get_width() / 2 - ask_name.get_width() / 2, 25))
+                         (ss.SCREEN_WIDTH // 57.2, ss.SCREEN_WIDTH // 28.6 + ask_name.get_height(), name_surface.get_width() - ss.SCREEN_WIDTH // 28.6,
+                          name_surface.get_height() - ss.SCREEN_WIDTH // 19.067 - ask_name.get_height()),
+                         border_radius=ss.SCREEN_WIDTH // 95.33)
+        name_surface.blit(ask_name, (name_surface.get_width() / 2 - ask_name.get_width() / 2, ss.SCREEN_WIDTH // 57.2))
         blit_text(name_surface, "Pick a name you'd like other users to know you by",
                   (name_surface.get_width() / 2, name_surface.get_height() / 2), font_text,
                   name_surface.get_width() - name_surface.get_width() / 7.91, (95, 99, 110))
@@ -94,7 +94,7 @@ def show_level(screen):
     text_show = 0
 
     def show_word_connect():
-        start_color = 150
+        start_color = ss.SCREEN_WIDTH // 9.533
         while start_color >= 0:
             screen.fill((start_color, start_color, start_color))
             start_color -= 1
@@ -124,12 +124,12 @@ def show_level(screen):
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
-    arrow_img = pygame.transform.scale(arrow_img, (75, 50))
+    arrow_img = pygame.transform.scale(arrow_img, (ss.SCREEN_WIDTH // 19.067, ss.SCREEN_WIDTH // 28.6))
     button_lis = []
-    surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, 300))
-    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, 225, 75, 50), (0, 0, 0), change_text,
+    surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, ss.SCREEN_WIDTH // 4.77))
+    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, ss.SCREEN_WIDTH // 6.3556, ss.SCREEN_WIDTH // 19.067, ss.SCREEN_WIDTH // 28.6), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
-    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 155, 282, 75, 30), (80, 80, 80), skip_instructions,
+    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 155, ss.SCREEN_WIDTH // 5.07, 75, 30), (80, 80, 80), skip_instructions,
                                   border_radius=15, call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
