@@ -59,21 +59,21 @@ def menu(screen):
     quit_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 3 * ss.SCREEN_WIDTH / 16 / 2, 3 * ss.SCREEN_HEIGHT / 4,
                               3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
                              end_screen, hover_color=(150, 150, 150), clicked_color=(80, 80, 80), text="Quit",
-                             font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 17.875)), font_color=(0, 0, 0), border_radius=ss.SCREEN_WIDTH // 95.33)
+                             font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 17.875)), font_color=(0, 0, 0), border_radius=int(ss.SCREEN_WIDTH // 95.33))
     users_button = pgb.Button(
         (ss.SCREEN_WIDTH - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2 - 3 * ss.SCREEN_HEIGHT / 32,
          3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
         change_screen, hover_color=(150, 150, 150), clicked_color=(80, 80, 80), text="Users",
-        font=pygame.font.Font(None, 80), font_color=(0, 0, 0), func=lambda: users(screen, menu))
-    instructions_btn = pgb.Button((ss.SCREEN_WIDTH // 110 * ss.SCREEN_WIDTH / 16, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
+        font=pygame.font.Font(None, int(ss.SCREEN_WIDTH/17.875)), font_color=(0, 0, 0), func=lambda: users(screen, menu))
+    instructions_btn = pgb.Button((13 * ss.SCREEN_WIDTH / 16, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
                                   (255, 255, 255), change_screen, func=lambda: instructions(screen, menu),
                                   hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=help_text)
-    scoreboard_btn = pgb.Button((0, ss.SCREEN_WIDTH // 110 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
+    scoreboard_btn = pgb.Button((0, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
                                 (255, 255, 255), change_screen, func=lambda: scoreboard(screen, menu),
                                 hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=score_board_img,
                                 text="Scoreboard", image_align="bottom", font_color=(0, 0, 0))
     leaderboard_btn = pgb.Button(
-        (ss.SCREEN_WIDTH // 110 * ss.SCREEN_WIDTH / 16, ss.SCREEN_WIDTH // 110 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
+        (13 * ss.SCREEN_WIDTH / 16, 13 * ss.SCREEN_HEIGHT / 16, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
         (255, 255, 255), change_screen,
         hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=leader_board_img,
         text="Leaderboard", image_align="bottom", font_color=(0, 0, 0), func=lambda: leaderboard(screen, menu))

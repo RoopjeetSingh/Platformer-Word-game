@@ -4,7 +4,7 @@ import ui_tools
 import ui_tools as pgb
 import screen_size as ss
 import json
-from Level import level1
+from Level import level_list
 from helpful_functions import blit_text
 from player import Player
 from wordconnect import game_Loop_Wordle
@@ -120,7 +120,7 @@ def show_level(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
 
-    current_level = level1
+    current_level = level_list[0]
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()

@@ -5,6 +5,19 @@ import letter
 import cv2
 import numpy as np
 import power_ups as pu
+import random
+
+
+def level_generator(no_of_letters: int):
+    letter_lis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                  'u', 'v', 'w', 'x', 'y', 'z']
+    random_letters = random.choices(letter_lis, weights=(
+                                        43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
+                                        15.36,
+                                        33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
+                                        1.39),
+                                    k=no_of_letters)
+    return random_letters
 
 
 class Level:
@@ -19,6 +32,7 @@ class Level:
         self.letter_list = []
         self.time = 0
         self.stars = [0, 0, 0]
+        #######################################
         self.start = 0
         self.width = no_tiles * ss.tile_size
         bg_lis = []
@@ -40,20 +54,10 @@ class Level:
     def draw_for_display(self):
         for i in self.obstruct_group:
             if i.rect.x <= ss.SCREEN_WIDTH:
-                # i_pos = ((i.rect.x / ss.SCREEN_WIDTH) * self.bg_display.get_width(),
-                #          (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
-                # i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
-                #                                            i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
-                # i_image.set_colorkey((0, 0, 0))
                 self.bg_display.blit(i.image, i.rect)
 
         for i in self.platform_group:
             if i.rect.x <= ss.SCREEN_WIDTH:
-                # i_pos = ((i.rect.x / ss.SCREEN_HEIGHT) * self.bg_display.get_height(),
-                #          (i.rect.y / ss.SCREEN_HEIGHT) * self.bg_display.get_height())
-                # i_image = pygame.transform.scale(i.image, (i.rect.w * self.bg_display.get_width() / ss.SCREEN_WIDTH,
-                #                                            i.rect.h * self.bg_display.get_height() / ss.SCREEN_HEIGHT))
-                # i_image.set_colorkey((0, 0, 0))
                 self.bg_display.blit(i.image, i.rect)
         for i in self.letter_group:
             if i.rect.x <= ss.SCREEN_WIDTH:
@@ -69,7 +73,7 @@ class Level:
 class Level1(Level):
     def __init__(self):
         super(Level1, self).__init__(r"images/Background_platformer/BG_03.png", 62)
-        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+        self.letter_list = level_generator(10)
         self.make_platforms_objects()
         self.make_letters()
         self.make_power_ups()
@@ -140,7 +144,7 @@ class Level1(Level):
 class Level2(Level):
     def __init__(self):
         super(Level2, self).__init__(r"images/Background_platformer/BG_04.png", 112)
-        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.letter_list = level_generator(15)
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
@@ -187,13 +191,15 @@ class Level2(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                                                "images/platform/platform_sprites_(1).png"))
+            self.platform_group.add(
+                po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
+                            "images/platform/platform_sprites_(1).png"))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
 
-        self.platform_group.add(po.Platform(8 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # x, y, no_of_tiles, rectangle or curve
+        self.platform_group.add(po.Platform(8 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size,
+                                            1))  # x, y, no_of_tiles, rectangle or curve
         self.platform_group.add(po.Platform(13 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(25 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))
         self.platform_group.add(po.Platform(30 * ss.tile_size, ss.SCREEN_HEIGHT - 13 * ss.tile_size, 1))
@@ -232,7 +238,7 @@ class Level2(Level):
 class Level3(Level):
     def __init__(self):
         super(Level3, self).__init__(r"images/Background_platformer/BG_04.png", 91)
-        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.letter_list = level_generator(13)
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
@@ -275,13 +281,15 @@ class Level3(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                                                "images/platform/platform_sprites_(1).png"))
+            self.platform_group.add(
+                po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
+                            "images/platform/platform_sprites_(1).png"))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
 
-        self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 8, False))  # x, y, no_of_tiles, rectangle or curve
+        self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 8,
+                                            False))  # x, y, no_of_tiles, rectangle or curve
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1, False))
         self.platform_group.add(po.Platform(9 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1, False))
         self.platform_group.add(po.Platform(11 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 3))
@@ -328,7 +336,7 @@ class Level3(Level):
 class Level4(Level):
     def __init__(self):
         super(Level4, self).__init__(r"images/Background_platformer/BG_04.png", 112)
-        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
+        self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
@@ -350,8 +358,7 @@ class Level4(Level):
 class Level5(Level):
     def __init__(self):
         super(Level5, self).__init__(r"images/Background_platformer/BG_04.png", 175)
-        self.letter_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-                            "s", "t", "u"]
+        self.letter_list = level_generator(21)
         self.make_platforms_objects()
         self.make_letters()
         self.draw_for_display()
@@ -423,8 +430,9 @@ class Level5(Level):
 
     def make_platforms_objects(self):
         for j in range(1, 3):
-            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                                                "images/platform/platform_sprites_(1).png"))
+            self.platform_group.add(
+                po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
+                            "images/platform/platform_sprites_(1).png"))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
@@ -512,9 +520,9 @@ class Level5(Level):
         self.power_up_group.add(pu.PowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
-level1 = Level1()
-level2 = Level2()
-level3 = Level3()
-level4 = Level4()
-level5 = Level5()
-level_list = [level1, level2, level3, level4, level5]
+level10 = Level1()
+level20 = Level2()
+level30 = Level3()
+level40 = Level4()
+level50 = Level5()
+level_list = [level10, level20, level30, level40, level50]
