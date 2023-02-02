@@ -90,12 +90,12 @@ def users(screen, back_button_func):
                 users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + first_button_y_pos, int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.533)), (34, 54, 75),
                                                set_user,
                                                text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
-                                               text_position=(60 + image.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=20,
+                                               text_position=(int(ss.SCREEN_WIDTH / 23.83) + image.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=int(ss.SCREEN_WIDTH / 71.5),
                                                border_color=(255, 255, 255), font=font, state_disabled=True)
                 button_lis.append(users_button)
                 users_button_list.append(users_button)
                 button_lis.append(
-                    ui_tools.Button((users_button.rect.right - 200, users_button.rect.bottom - 50, 200, 50),
+                    ui_tools.Button((users_button.rect.right - int(ss.SCREEN_WIDTH / 7.15), users_button.rect.bottom - int(ss.SCREEN_WIDTH / 28.6), int(ss.SCREEN_WIDTH / 7.15), int(ss.SCREEN_WIDTH / 28.6)),
                                     (32, 84, 101), set_user,
                                     text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
                                     border_color=(255, 255, 255), border_radius=20, index_name=index))
@@ -108,7 +108,7 @@ def users(screen, back_button_func):
                         current_level = level.str
                         break
                 level_font.append(font.render("Current level: " + current_level.upper(), True, (255, 255, 255)))
-            add_user.rect.y = users_button_list[-1].rect.bottom + 16
+            add_user.rect.y = users_button_list[-1].rect.bottom + int(ss.SCREEN_WIDTH / 89.375)
             add_user.state_disabled = False
             button_lis.append(add_user)
 
@@ -137,29 +137,29 @@ def users(screen, back_button_func):
     background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
-    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+    back_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
                                   fill_bg=False, func=lambda: back_button_func(screen))
 
     button_lis = []
     level_font = []
     users_button_list = []
-    font = pygame.font.Font(None, 48)
+    font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79))
     for index, value in enumerate(var["users"]):
         image = pygame.transform.scale(
-            pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (100, 160))
+            pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 8.9375)))
         image.set_colorkey((0, 0, 0))
-        users_button = ui_tools.Button((300, index * 175 + 150, 800, 150), (34, 54, 75), set_user,
-                                       text=value[0], image=image, image_position=(30, -5),
-                                       text_position=(60 + image.get_width(), 30), border_radius=20,
+        users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.53)), (34, 54, 75), set_user,
+                                       text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
+                                       text_position=(int(ss.SCREEN_WIDTH / 23.833) + image.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=int(ss.SCREEN_WIDTH / 71.5),
                                        border_color=(255, 255, 255), font=font, state_disabled=True)
         # change_name_button = ui_tools.Button((300, index * 175 + 150, 800, 150))
         button_lis.append(users_button)
         users_button_list.append(users_button)
-        button_lis.append(ui_tools.Button((users_button.rect.right - 200, users_button.rect.bottom - 50, 200, 50),
+        button_lis.append(ui_tools.Button((users_button.rect.right - int(ss.SCREEN_WIDTH / 7.15), users_button.rect.bottom - int(ss.SCREEN_WIDTH / 28.6), int(ss.SCREEN_WIDTH / 7.15), int(ss.SCREEN_WIDTH / 28.6)),
                                           (32, 84, 101), set_user,
                                           text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
-                                          border_color=(255, 255, 255), border_radius=20, index_name=index))
+                                          border_color=(255, 255, 255), border_radius=int(ss.SCREEN_WIDTH / 71.5), index_name=index))
         current_level = "Completed all levels"
         for level in level_list:
             for i in value[1]:
@@ -174,7 +174,7 @@ def users(screen, back_button_func):
         (users_button_list[-1].rect.centerx - 120, users_button_list[-1].rect.bottom + 16, 240, 50),
         (34, 54, 75), create_user,
         text="Add User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
-        border_color=(255, 255, 255), border_radius=20)
+        border_color=(255, 255, 255), border_radius=int(ss.SCREEN_WIDTH / 71.5))
     button_lis.append(add_user)
     input_lis = []
 
