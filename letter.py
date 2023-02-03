@@ -3,7 +3,7 @@ import screen_size as ss
 import math
 
 pygame.init()
-screen = pygame.display.set_mode((600, 400))
+screen = pygame.display.set_mode((int(ss.SCREEN_WIDTH / 2.3833), int(ss.SCREEN_WIDTH / 3.575)))
 
 
 class Letter(pygame.sprite.Sprite):
@@ -68,7 +68,7 @@ class Letter(pygame.sprite.Sprite):
                 self.image = self.image1
                 self.brighten = False
                 self.end_pos = (
-                    ((len(player.letter_lis) - 1) * (ss.tile_size + 20) + 20, ss.tile_size),
+                    ((len(player.letter_lis) - 1) * (ss.tile_size + 20) + int(ss.SCREEN_WIDTH / 71.5), ss.tile_size),
                     (self.rect.x, self.rect.y))
                 self.distance = ((self.end_pos[1][0] - self.end_pos[0][0]) / 5,
                                  (self.end_pos[1][1] - self.end_pos[0][1]) / 5)
@@ -133,7 +133,7 @@ class MysteryLetter(pygame.sprite.Sprite):
                 self.image = self.image1
                 self.brighten = False
                 self.end_pos = (
-                    ((len(player.mystery_letter_lis) - 1) * (ss.tile_size + 45) + 20, ss.tile_size * 2 + 10),
+                    ((len(player.mystery_letter_lis) - 1) * (ss.tile_size + 45) + int(ss.SCREEN_WIDTH / 71.5), ss.tile_size * 2 + int(ss.SCREEN_WIDTH / 143)),
                     (self.rect_original.x, self.rect_original.y))
                 self.distance = ((self.end_pos[1][0] - self.end_pos[0][0]) / 5,
                                  (self.end_pos[1][1] - self.end_pos[0][1]) / 5)
