@@ -7,7 +7,6 @@ import json
 from helpful_functions import calculate_current_level
 import time
 from wordconnect import game_Loop_Wordle
-from datetime import time as time_str
 
 pygame.init()
 
@@ -59,14 +58,13 @@ def platformer_game(screen, current_level=None):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                print((event.pos[0] - current_level.start)/int(ss.SCREEN_WIDTH / 28.6), event.pos[1])
 
         pressed, killed = player.update_player(screen, current_level, pressed)
         if killed:
             empty_screen()
 
-        time_as_str = f"{show_time//60: 02d}: {show_time % 60: 02d}"
+        time_as_str = f"{show_time//60: 002d}: {show_time % 60: 002d}"
+        print(time_as_str)
         time_surface = font.render(time_as_str, True, (20, 20, 20))
         time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
         screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size*2, ss.tile_size))

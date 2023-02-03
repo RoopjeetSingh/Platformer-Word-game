@@ -55,10 +55,10 @@ def skins(screen, back_button_func):
                                   border_color=(255, 255, 255))
 
     next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                         (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
+                                         (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
     disabled_next_button = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
+        (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 

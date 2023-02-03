@@ -271,7 +271,7 @@ class Player(pygame.sprite.Sprite):
                     self.double_jump(level)
             self.color_num += 1
         elif self.jumping:
-            self.rect.y -= int(ss.SCREEN_WIDTH / 127.68)
+            self.rect.y -= int(ss.tile_size/4)
             # self.jumping = True
             self.on_ground = False
             self.obstruct_platforms(level, "jump")
@@ -279,7 +279,7 @@ class Player(pygame.sprite.Sprite):
             self.num_jumps += 1
 
     def double_jump(self, level: Level.Level):
-        self.rect.y -= int(ss.SCREEN_WIDTH / 89.375)
+        self.rect.y -= int(ss.tile_size/3)
         self.jumping = True
         self.on_ground = False
         self.obstruct_platforms(level, "jump")

@@ -56,7 +56,7 @@ class Letter(pygame.sprite.Sprite):
             if self.start_y >= self.rect_original.y:
                 self.going_down = True
                 self.rect_original.y = self.start_y
-            if self.rect_original.y - self.start_y >= 50:
+            if self.rect_original.y - self.start_y >= ss.tile_size:
                 self.going_down = False
             self.num += 1
 
@@ -122,7 +122,7 @@ class MysteryLetter(pygame.sprite.Sprite):
             if self.start_y > self.rect_original.y:
                 self.going_down = True
                 self.rect_original.y = self.start_y
-            if self.rect_original.y - self.start_y >= 50:
+            if self.rect_original.y - self.start_y >= ss.tile_size:
                 self.going_down = False
             self.num += 1
 

@@ -94,7 +94,7 @@ def show_level(screen):
     text_show = 0
 
     def show_word_connect():
-        start_color = int(ss.SCREEN_WIDTH / 9.533)
+        start_color = 150
         while start_color >= 0:
             screen.fill((start_color, start_color, start_color))
             start_color -= 1
@@ -220,7 +220,7 @@ def show_level(screen):
                       pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 4 and player.rect.right - current_level.start > int(ss.SCREEN_WIDTH / 95.33) * ss.tile_size and show_instructions:
+        elif text_show == 4 and player.rect.right - current_level.start > 15 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
             button_lis.append(arrow_button)
             button_lis.append(skip_button)
@@ -228,11 +228,11 @@ def show_level(screen):
             blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even a christmas "
                               "tree; avoid them or else you would have to make the words from the limited letters you "
                               "have right now.",
-                      (int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 17.875) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
+                      (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
                       pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
-        elif text_show == 5 and player.rect.right - current_level.start > int(ss.SCREEN_WIDTH / 62.17) * ss.tile_size and show_instructions:
+        elif text_show == 5 and player.rect.right - current_level.start > 23 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
             button_lis.append(arrow_button)
             button_lis.append(skip_button)
@@ -244,7 +244,7 @@ def show_level(screen):
                       alignment="left")
             stop = True
 
-        elif text_show == 6 and player.rect.right - current_level.start > int(ss.SCREEN_WIDTH / 29.18) * ss.tile_size and show_instructions:
+        elif text_show == 6 and player.rect.right - current_level.start > 49 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
             button_lis.append(arrow_button)
             button_lis.append(skip_button)
@@ -269,7 +269,7 @@ def show_level(screen):
         for i in button_lis:
             i.update(screen)
         pygame.display.update()
-        clock.tick(int(ss.SCREEN_WIDTH / 15.889))
+        clock.tick(90)
 
 
 if __name__ == "__main__":
