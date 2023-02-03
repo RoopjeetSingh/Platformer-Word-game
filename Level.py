@@ -7,6 +7,8 @@ import numpy as np
 import power_ups as pu
 import random
 
+background = [r"images/Background_platformer/BG_03.png", r"images/Background_platformer/BG_04.png",
+              r"images/Background_platformer/BG_01.png", r"images/Background_platformer/BG_02.png"]
 
 def level_generator(no_of_letters: int):
     letter_lis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -72,7 +74,7 @@ class Level:
 
 class Level1(Level):
     def __init__(self):
-        super(Level1, self).__init__(r"images/Background_platformer/BG_03.png", 62)
+        super(Level1, self).__init__(random.choice(background), 62)
         self.letter_list = level_generator(10)
         self.make_platforms_objects()
         self.make_letters()
@@ -143,7 +145,7 @@ class Level1(Level):
 
 class Level2(Level):
     def __init__(self):
-        super(Level2, self).__init__(r"images/Background_platformer/BG_04.png", 112)
+        super(Level2, self).__init__(random.choice(background), 112)
         self.letter_list = level_generator(15)
         self.make_platforms_objects()
         self.make_letters()
@@ -237,7 +239,7 @@ class Level2(Level):
 
 class Level3(Level):
     def __init__(self):
-        super(Level3, self).__init__(r"images/Background_platformer/BG_04.png", 91)
+        super(Level3, self).__init__(random.choice(background), 91)
         self.letter_list = level_generator(13)
         self.make_platforms_objects()
         self.make_letters()
@@ -343,7 +345,7 @@ class Level3(Level):
 
 class Level4(Level):
     def __init__(self):
-        super(Level4, self).__init__(r"images/Background_platformer/BG_04.png", 112)
+        super(Level4, self).__init__(random.choice(background), 112)
         self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
         self.make_platforms_objects()
         self.make_letters()
@@ -365,7 +367,7 @@ class Level4(Level):
 
 class Level5(Level):
     def __init__(self):
-        super(Level5, self).__init__(r"images/Background_platformer/BG_04.png", 175)
+        super(Level5, self).__init__(random.choice(background), 175)
         self.letter_list = level_generator(21)
         self.make_platforms_objects()
         self.make_letters()

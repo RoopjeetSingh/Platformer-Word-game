@@ -7,6 +7,7 @@ import main
 from letter import Letter
 from helpful_functions import blit_text
 import selection
+import screen_size as ss
 
 py.init()
 mixer.init()
@@ -16,8 +17,6 @@ for i in copy:
     if len(i) <= 2:
         main.WORDS[i] = False
 
-screen = py.display.set_mode((1200, 600))
-screen.fill((255, 255, 255))
 image_list = ["hellop/zero_stars.png", "hellop/single_star.png", "hellop/double _star.png", "hellop/triple_star.png"]
 
 single_star = ["you were close, try again", "better luck next time", " you can do better than one star"]
@@ -35,12 +34,12 @@ possible_characters = list(list_images.keys())
 
 def background(x, y, z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
-    bg_image = py.transform.scale(bg_image, (1200, 600))
-    table = py.Surface((540, c))
+    bg_image = py.transform.scale(bg_image, (1200, 600))  # Change
+    table = py.Surface((540, c))  # Change
     table.set_alpha(128)
     table.fill((x, y, z))
     screen.blit(bg_image, (0, 0))
-    screen.blit(table, (340, 50))
+    screen.blit(table, (340, 50))  # Change
 
 
 def place(n, on, coord, letters, list_images):
@@ -49,10 +48,10 @@ def place(n, on, coord, letters, list_images):
         adding = (2 * 3.14) / n
         for i in range(0, n):
             im = py.image.load(list_images[letters[i]])
-            im = py.transform.scale(im, (40,40))
-            screen.blit(im, ((600 + 170 * math.cos(a), 315 + 170 * math.sin(a))))
+            im = py.transform.scale(im, (40,40))  # Change
+            screen.blit(im, ((600 + 170 * math.cos(a), 315 + 170 * math.sin(a))))  # Change
             if len(coord) < len(letters):
-                coord.append((600 + 170* math.cos(a), 315 + 170 * math.sin(a)))
+                coord.append((600 + 170* math.cos(a), 315 + 170 * math.sin(a)))  # Change
             a += adding
 
 
@@ -68,7 +67,7 @@ def lines(entered):
     if entered != []:
         for cd in range(len(entered) - 1):
             py.draw.line(screen, (34, 153, 153), (entered[cd][0] + 20, entered[cd][1] + 20),
-                         (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
+                         (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)  # Change
 
 
 def near(x, y):
@@ -81,68 +80,68 @@ def near(x, y):
 
 def show(word, x_change):
     adding = 5
-    subtraction = 15
-    font = py.font.Font(None, 50)
+    subtraction = 15  # Change
+    font = py.font.Font(None, 50)  # Change
     w = ""
     for i in range(len(word)):
         w += word[i]
         text = font.render(w.upper(), True, (255, 255, 255), (0, 234, 56))
-        screen.blit(text, (600 - (subtraction * len(w)) + (adding * len(w)) + x_change, 85))
+        screen.blit(text, (600 - (subtraction * len(w)) + (adding * len(w)) + x_change, 85))  # Change
 
 
 def mystery(input, c, pressed, rect_pressed):
     if pressed == True:
-        py.draw.circle(screen, (30, 212, 212), (620, 340), 70)
-        font = py.font.Font(None, 80)
+        py.draw.circle(screen, (30, 212, 212), (620, 340), 70)  # Change
+        font = py.font.Font(None, 80)  # Change
         if c == 0:
-            py.draw.circle(screen, (212, 11, 14), (620, 340), 70)
+            py.draw.circle(screen, (212, 11, 14), (620, 340), 70)  # Change
 
         if rect_pressed == True and c != 0:
-            py.draw.circle(screen, (95, 204, 0), (620, 340), 70, width=5)
+            py.draw.circle(screen, (95, 204, 0), (620, 340), 70, width=5)  # Change
             text_pressed = font.render(input.upper(), True, (255, 255, 255))
             text_effect = font.render(input.upper(), True, (0, 0, 0))
             if input != "":
                 rect_image = text_pressed.get_rect()
-                rect_image.center = (620, 340)
+                rect_image.center = (620, 340)  # Change
                 rect_image_1 = text_effect.get_rect()
-                rect_image_1.center = (618, 338)
+                rect_image_1.center = (618, 338)  # Change
                 screen.blit(text_pressed, (rect_image))
                 screen.blit(text_effect, (rect_image_1))
 
 
 def mystery_and_submit_button(mystery_number):
     image = py.image.load("hellop/question.png")
-    image = py.transform.scale(image, (50, 50))
+    image = py.transform.scale(image, (50, 50))  # Change
 
     font = py.font.Font(None, 50)
     text = font.render(f":{mystery_number}", True, (0, 0, 0))
-    py.draw.rect(screen, (22, 171, 171), (20, 445, 100, 60))
-    screen.blit(text, (80, 463))
-    screen.blit(image, (25, 450))
+    py.draw.rect(screen, (22, 171, 171), (20, 445, 100, 60))  # Change
+    screen.blit(text, (80, 463))  # Change
+    screen.blit(image, (25, 450))  # Change
 
     image = py.image.load("hellop/arrow1.png")
-    image_submit = py.transform.scale(image, (50, 50))
-    screen.blit(image_submit, (1100, 450))
+    image_submit = py.transform.scale(image, (50, 50))  # Change
+    screen.blit(image_submit, (1100, 450))  # Change
 
 
 def score_show(x, score):
-    font = py.font.Font(None, 50)
+    font = py.font.Font(None, 50)  # Change
     if x == True:
-        py.draw.rect(screen, (224, 177, 22), (980, 67, 170, 35))
+        py.draw.rect(screen, (224, 177, 22), (980, 67, 170, 35))  # Change
         text = font.render(f"score: {score}", True, (0, 0, 0))
-        screen.blit(text, (1000, 67))
+        screen.blit(text, (1000, 67))  # Change
 
     if x == False:
 
         text = font.render(f"score: {score}", True, (0, 0, 0))
         rect = text.get_rect()
-        rect.center = (620, 400)
+        rect.center = (620, 400)  # Change
         screen.blit(text, rect)
 
 
 def shake(shake_count,working, letters, incorrect, on, coord, word, score, list_images, counter, mystery_number):
     for i in range(4):
-        background(201, 47, 4, 490)
+        background(201, 47, 4, 490)  # Change only last number
         mystery_and_submit_button(mystery_number)
 
         text_draw(counter)
@@ -156,10 +155,10 @@ def shake(shake_count,working, letters, incorrect, on, coord, word, score, list_
 
 
 def text_draw(counter):
-    py.draw.rect(screen, (blink(counter)), (20, 50, 50, 50))
-    font = py.font.Font(None, 30)
+    py.draw.rect(screen, (blink(counter)), (20, 50, 50, 50))  # Change
+    font = py.font.Font(None, 30)  # Change
     text = font.render(str(counter), True, (255, 255, 255))
-    screen.blit(text, (45, 67))
+    screen.blit(text, (45, 67))  # Change
 
 
 def blink(counter):
@@ -175,34 +174,34 @@ def blink(counter):
 
 
 def progress_bar(x, time1, points):
-    x1 = round((x / points) * 500)
-    py.draw.rect(screen, (21, 28, 28), (355, 560, 500, 30))
+    x1 = round((x / points) * 500)  # Change
+    py.draw.rect(screen, (21, 28, 28), (355, 560, 500, 30))  # Change
     im = py.image.load("hellop/600-6003350_star-game-icon-png-image-free-download-searchpng__1_-removebg-preview.png")
     im = py.transform.scale(im, (42, 35))
 
     if x1 < 500:
-        py.draw.rect(screen, (204, 55, 75), (360, 560, 500, 25))
-        py.draw.rect(screen, (255, 215, 0), (360, 560, x1, 25))
-        py.draw.rect(screen, (80, 199, 100), (360, 560, x1, 25), width=5)
-        py.draw.line(screen, (0, 0, 0), (360 + 0.2 * 500 + 20, 560), (360 + 0.2 * 500 + 20, 585), width=3)
-        py.draw.line(screen, (0, 0, 0), (360 + 0.5 * 500 + 40, 560), (360 + 0.5 * 500 + 40, 585), width=3)
-        py.draw.line(screen, (0, 0, 0), (860, 560), (860, 585), width=3)
-        screen.blit(im, (round(360 + 0.2 * 500), 523))
-        screen.blit(im, (round(360 + 0.5 * 500), 523))
-        screen.blit(im, (round(360 + 0.5 * 500) + 42, 523))
-        screen.blit(im, (round(365 + 500) - 65, 523))
-        screen.blit(im, (round(365 + 500) - 25, 523))
-        screen.blit(im, (round(365 + 500) + 15, 523))
+        py.draw.rect(screen, (204, 55, 75), (360, 560, 500, 25))  # Change
+        py.draw.rect(screen, (255, 215, 0), (360, 560, x1, 25))  # Change
+        py.draw.rect(screen, (80, 199, 100), (360, 560, x1, 25), width=5)  # Change
+        py.draw.line(screen, (0, 0, 0), (360 + 0.2 * 500 + 20, 560), (360 + 0.2 * 500 + 20, 585), width=3)  # Change
+        py.draw.line(screen, (0, 0, 0), (360 + 0.5 * 500 + 40, 560), (360 + 0.5 * 500 + 40, 585), width=3)  # Change
+        py.draw.line(screen, (0, 0, 0), (860, 560), (860, 585), width=3)  # Change
+        screen.blit(im, (round(360 + 0.2 * 500), 523))  # Change
+        screen.blit(im, (round(360 + 0.5 * 500), 523))  # Change
+        screen.blit(im, (round(360 + 0.5 * 500) + 42, 523))  # Change
+        screen.blit(im, (round(365 + 500) - 65, 523))  # Change
+        screen.blit(im, (round(365 + 500) - 25, 523))  # Change
+        screen.blit(im, (round(365 + 500) + 15, 523))  # Change
     else:
-        py.draw.rect(screen, (255, 215, 0), (360, 560, 500, 25))
+        py.draw.rect(screen, (255, 215, 0), (360, 560, 500, 25))  # Change
 
 
 def stars():
     global count
     if count <= len(image_list) - 1:
         im = py.image.load(image_list[count])
-        im = py.transform.scale(im, (350, 350))
-        screen.blit(im, (430,0))
+        im = py.transform.scale(im, (350, 350))  # Change
+        screen.blit(im, (430,0))  # Change
 
 
 def update_stars(score, points):
@@ -225,26 +224,24 @@ def update_stars(score, points):
 
 def celebration(score, x, points):
     if score >= points:
-        blit_text(screen, x, (610, 300),
-                  py.font.Font(None, 50), 800)
+        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)  # Change
     elif points > score >= round(0.5 * points):
-        blit_text(screen, x, (610, 300),
-                  py.font.Font(None, 50), 800)
+        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)  # Change
     elif round(0.5 * points) > score >= round(0.2 * points):
-        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)
+        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)  # Change
 
     elif round(0.2*points) > score:
-        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)
+        blit_text(screen, x, (610, 300), py.font.Font(None, 50), 800)  # Change
 
 def message(score, points):
     if score >= points:
-        x = random.choice(triple_star)
+        x = random.choice(triple_star).title()
     elif points > score >= round(0.5* points):
-        x = random.choice(double_star)
+        x = random.choice(double_star).title()
     elif round(0.5 * points) > score >= round(0.2 * points):
-        x = random.choice(single_star)
+        x = random.choice(single_star).title()
     elif round(points * 0.2) > score:
-        x = "you loose, the world is over!!!! HA HA HA HA"
+        x = "You weren't even trying".title()
 
     return x
 
@@ -277,7 +274,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
     py.time.set_timer(timer_event, 1000)
     y = 1
     run = True
-    background(255, 255, 255, 490)
+    background(255, 255, 255, 490)  # Change the last number only
     place(len(letters), on, coord, letters, list_images)
     mystery_and_submit_button(mystery_number)
     start = ()
@@ -314,7 +311,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
                     elif ev.key == K_RETURN and rect_pressed:
                         i += 1
                         pressed = False
-                        background(255, 255, 255, 520)
+                        background(255, 255, 255, 520)  # Change the last number
                         text_draw(counter)
                         place(len(letters), on, coord, letters, list_images)
                         mystery_and_submit_button(mystery_number)
@@ -322,25 +319,25 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
                 if ev.type == MOUSEBUTTONDOWN:
 
-                    if 1100 < mouse[0] < 1150 and 450 < mouse[1] < 500 and start == ():
+                    if 1100 < mouse[0] < 1150 and 450 < mouse[1] < 500 and start == ():  # Change
 
                         on = False
                         working = False
                         transition()
-                    elif 25 < mouse[0] < 75 and 450 < mouse[1] < 500:
+                    elif 25 < mouse[0] < 75 and 450 < mouse[1] < 500:  # Change
                         i += 1
                         if i % 2 == 0:
                             pressed = True
 
                         else:
                             pressed = False
-                            background(255, 255, 255, 520)
+                            background(255, 255, 255, 520)  # Change the last number
                             text_draw(counter)
                             place(len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(mystery_number)
                             score_show(working, score)
 
-                    if 550 < mouse[0] < 690 and 270 < mouse[1] < 410 and pressed:
+                    if 550 < mouse[0] < 690 and 270 < mouse[1] < 410 and pressed:  # Change
                         rect_pressed = True
 
                     else:
@@ -348,7 +345,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
                     mystery("", mystery_number, pressed, rect_pressed)
 
-                    if on == True  and 300 < mouse[0] < 1000 and 125 < mouse[1] < 575 and not pressed and clock.tick() > 100:
+                    if on == True  and 300 < mouse[0] < 1000 and 125 < mouse[1] < 575 and not pressed and clock.tick() > 100:  # Change
                         game_started = True
                         start = near(coord, mouse)
                         outside = False
@@ -364,11 +361,11 @@ def game_Loop_Wordle(screen, letters, mystery_number):
                         outside = True
 
                 if start != ():
-                    background(255, 255, 255,490)
+                    background(255, 255, 255,490)  # Change the last number
                     place(len(letters), on, coord, letters, list_images)
-                    if 300 < mouse[0] < 1000 and 125 < mouse[1] < 575:
-                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20),
-                                     (mouse[0] + 20, mouse[1] + 20), width=5)
+                    if 300 < mouse[0] < 1000 and 125 < mouse[1] < 575:  # Change
+                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20),  # Change
+                                     (mouse[0] + 20, mouse[1] + 20), width=5)  # Change
                     lines(entered)
                     show(word, x_change)
                     if len(word) == len(letters) and not main.WORDS.get(word, False):
@@ -379,7 +376,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
                         score += len(word)
                         start = ()
                         entered = []
-                        background(235, 235, 35, 490)
+                        background(235, 235, 35, 490)  # Change the last number
 
                         text_draw(counter)
                         mystery_and_submit_button(mystery_number)
@@ -398,7 +395,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
                     incorrect = False
                     word = ""
 
-                progress_bar(score, 20, 30)
+                progress_bar(score, 20, 30)  # Change
                 text_draw(counter)
                 if outside and start == ():
                     mystery_and_submit_button(mystery_number)
@@ -409,7 +406,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
         if working == False:
 
             mixer.music.fadeout(1)
-            background(255, 255, 255, 490)
+            background(255, 255, 255, 490)  # Change the last number
             clock_star.tick(5)
             stars()
             update_stars(score, 30)
@@ -425,7 +422,8 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
 if __name__ == "__main__":
     selection.game_loop_select_letters(3)
-
+    screen = py.display.set_mode((1200, 600))  # Change
+    screen.fill((255, 255, 255))
     game_Loop_Wordle(screen, selection.letter_selected, 3)
 
 

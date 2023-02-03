@@ -35,8 +35,8 @@ def platformer_game(screen, current_level=None):
     show_time_actual = time.time()
     clock = pygame.time.Clock()
     player = Player(ss.tile_size, ss.tile_size * 2, var["users"][var["current_user"][0]][2])
-    print(pygame.font.get_fonts())
-    font = pygame.font.SysFont("", int(ss.SCREEN_WIDTH / 19.067))
+    # print(pygame.font.get_fonts())
+    font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
     while True:
         if time.time() - show_time_actual >= 1:
             show_time -= round(time.time() - show_time_actual)
@@ -63,13 +63,13 @@ def platformer_game(screen, current_level=None):
         if killed:
             empty_screen()
 
-        time_as_str = f"{show_time//60: 002d}: {show_time % 60: 002d}"
-        print(time_as_str)
-        time_surface = font.render(time_as_str, True, (20, 20, 20))
+        time_as_str = f"{show_time//60: 003d}: {show_time % 60: 003d}"
+        # print(time_as_str)
+        time_surface = font.render(time_as_str, True, (20, 255, 255))
         time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
         screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size*2, ss.tile_size))
         pygame.display.update()
-        clock.tick(int(ss.SCREEN_WIDTH / 15.889))
+        clock.tick(90)
 
 
 if __name__ == "__main__":

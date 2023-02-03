@@ -4,10 +4,10 @@ import math
 from letter import Letter
 
 
-screen = py.display.set_mode((1200, 600))
-x = 100
-y = 350
-desired_width = 600
+screen = py.display.set_mode((1200, 600))  # Change
+x = 100  # Change
+y = 350  # Change
+desired_width = 600  # Change
 starting_width = 0
 list_images = Letter.letter_dic
 
@@ -22,30 +22,30 @@ def show():
     global starting_width
     while count < len(letter):
         im = py.image.load(list_images[letter[count]])
-        im = py.transform.scale(im, (50,50))
-        screen.blit(im, (x + starting_width + 250, y))
-        coord.append((x + starting_width + 250, y))
-        x += 60
+        im = py.transform.scale(im, (50,50))  # Change
+        screen.blit(im, (x + starting_width + 250, y))  # Change
+        coord.append((x + starting_width + 250, y))  # Change
+        x += 60  # Change
 
         if x >= desired_width:
-            x = 100
-            y += 60
-            desired_width -= 100
-            starting_width += 50
+            x = 100  # Change
+            y += 60  # Change
+            desired_width -= 100  # Change
+            starting_width += 50  # Change
         count += 1
 
 
 def draw():
     for i in range(len(letter)):
         im = py.image.load(list_images[letter[i]])
-        im = py.transform.scale(im, (50,50))
+        im = py.transform.scale(im, (50,50))  # Change
         screen.blit(im, (coord[i]))
 
 def near(x, y):
     z = []
     for i in range(len(x)):
-        z.append((math.sqrt(pow((x[i][0] + 25) - y[0], 2)) + math.sqrt(pow((x[i][1] + 25) - y[1], 2))))
-    if min(z) < 50:
+        z.append((math.sqrt(pow((x[i][0] + 25) - y[0], 2)) + math.sqrt(pow((x[i][1] + 25) - y[1], 2))))  # Change
+    if min(z) < 50:  # Change
         return x[z.index(min(z))]
     else:
         return False
@@ -54,17 +54,17 @@ rect_list = []
 
 def word_box_show(num):
     word_box = py.image.load("hellop/word_box.jpg")
-    word_box = py.transform.scale(word_box, (50, 50))
+    word_box = py.transform.scale(word_box, (50, 50))  # Change
     for i in range(num):
         rect = word_box.get_rect()
-        rect.center = (425 + 60*i,200)
+        rect.center = (425 + 60*i,200)  # Change
         screen.blit(word_box, rect)
         rect_list.append(rect)
 
 next_button = py.image.load("hellop/arrow1.png")
-next_button = py.transform.scale(next_button, (50, 50))
+next_button = py.transform.scale(next_button, (50, 50))  # Change
 im_rect = next_button.get_rect()
-im_rect.center = (25,25)
+im_rect.center = (25,25)  # Change
 def transition():
     star_color = 100
     while star_color >= 0:
@@ -87,8 +87,10 @@ def game_loop_select_letters(mystery_number):
         draw()
         mouse = py.mouse.get_pos()
         for ev in py.event.get():
-            if ev.type == QUIT:
+            if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
                 run = False
+                py.quit()
+                exit()
             if ev.type == MOUSEBUTTONDOWN:
                 if len(letter_selected) < letters_allowed - mystery_number:
                     if near(coord, mouse):
@@ -110,7 +112,7 @@ def game_loop_select_letters(mystery_number):
         if len(letter_selected) != 0:
             for i in range(len(letter_selected)):
                 im = py.image.load(list_images[letter_selected[i]])
-                im = py.transform.scale(im, (50,50))
+                im = py.transform.scale(im, (50,50))  # Change
                 screen.blit(im, (rect_list[i]))
 
         py.display.update()
