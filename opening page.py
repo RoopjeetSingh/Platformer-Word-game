@@ -126,11 +126,11 @@ def show_level(screen):
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
     arrow_img = pygame.transform.scale(arrow_img, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)))
     button_lis = []
-    surface_text = pygame.Surface((ss.SCREEN_WIDTH - 150, int(ss.SCREEN_WIDTH / 4.77)))
-    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - 150, int(ss.SCREEN_WIDTH / 6.3556), int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)), (0, 0, 0), change_text,
+    surface_text = pygame.Surface((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 4.77)))
+    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 6.3556), int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
-    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - 155, int(ss.SCREEN_WIDTH / 5.07), 75, 30), (80, 80, 80), skip_instructions,
-                                  border_radius=15, call_on_release=False, text="Skip")
+    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.226), int(ss.SCREEN_WIDTH / 5.07), 75, 30), (80, 80, 80), skip_instructions,
+                                  border_radius=int(ss.SCREEN_WIDTH / 95.33), call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
     current_image = pygame.transform.scale(current_image,
