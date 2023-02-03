@@ -8,6 +8,7 @@ from Level import level_list
 from helpful_functions import blit_text
 from player import Player
 from wordconnect import game_Loop_Wordle
+import time
 
 pygame.init()
 
@@ -139,7 +140,13 @@ def show_level(screen):
     stop = False
     surface_text.fill((20, 20, 20))
     surface_text.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
+    font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
+    show_time = current_level.time
+    show_time_actual = time.time()
     while True:
+        if time.time() - show_time_actual >= 1:
+            show_time -= round(time.time() - show_time_actual)
+            show_time_actual = time.time()
         arrow_button.kwargs["text_show"] = text_show
         text_show = arrow_button.value_from_function if arrow_button.value_from_function is not None else text_show
         button_lis.clear()
@@ -158,6 +165,11 @@ def show_level(screen):
         pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
         if killed:
             show_word_connect()
+        time_as_str = f"{show_time // 60: 003d}: {show_time % 60: 003d}"
+        # print(time_as_str)
+        time_surface = font.render(time_as_str, True, (20, 255, 255))
+        time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
+        screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size * 2, ss.tile_size))
         stop = False
         if skip_button.value_from_function is None:
             show_instructions = True

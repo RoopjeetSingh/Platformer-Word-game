@@ -3,7 +3,6 @@ from pygame.locals import *
 import math
 from letter import Letter
 
-
 screen = py.display.set_mode((1200, 600))  # Change
 x = 100  # Change
 y = 350  # Change
@@ -12,8 +11,10 @@ starting_width = 0
 list_images = Letter.letter_dic
 
 count = 0
-letter = ["a", "b","c", "d", "e", "f", "g", "h","i", "j", "k", "l", "m", "n","o", "t", "u", "v"]
+letter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "t", "u", "v"]
 coord = []
+
+
 def show():
     global x
     global y
@@ -22,7 +23,7 @@ def show():
     global starting_width
     while count < len(letter):
         im = py.image.load(list_images[letter[count]])
-        im = py.transform.scale(im, (50,50))  # Change
+        im = py.transform.scale(im, (50, 50))  # Change
         screen.blit(im, (x + starting_width + 250, y))  # Change
         coord.append((x + starting_width + 250, y))  # Change
         x += 60  # Change
@@ -38,8 +39,9 @@ def show():
 def draw():
     for i in range(len(letter)):
         im = py.image.load(list_images[letter[i]])
-        im = py.transform.scale(im, (50,50))  # Change
+        im = py.transform.scale(im, (50, 50))  # Change
         screen.blit(im, (coord[i]))
+
 
 def near(x, y):
     z = []
@@ -50,21 +52,26 @@ def near(x, y):
     else:
         return False
 
+
 rect_list = []
+
 
 def word_box_show(num):
     word_box = py.image.load("hellop/word_box.jpg")
     word_box = py.transform.scale(word_box, (50, 50))  # Change
     for i in range(num):
         rect = word_box.get_rect()
-        rect.center = (425 + 60*i,200)  # Change
+        rect.center = (425 + 60 * i, 200)  # Change
         screen.blit(word_box, rect)
         rect_list.append(rect)
+
 
 next_button = py.image.load("hellop/arrow1.png")
 next_button = py.transform.scale(next_button, (50, 50))  # Change
 im_rect = next_button.get_rect()
-im_rect.center = (25,25)  # Change
+im_rect.center = (25, 25)  # Change
+
+
 def transition():
     star_color = 100
     while star_color >= 0:
@@ -72,16 +79,17 @@ def transition():
         star_color -= 1
         py.display.flip()
 
+
 letter_selected = []
 
-def game_loop_select_letters(mystery_number):
 
+def game_loop_select_letters(mystery_number):
     show()
     letters_allowed = 10
 
     run = True
     while run:
-        screen.fill((255,255,255))
+        screen.fill((255, 255, 255))
         word_box_show(letters_allowed - mystery_number)
         screen.blit(next_button, im_rect)
         draw()
@@ -102,7 +110,6 @@ def game_loop_select_letters(mystery_number):
                         print(letter_selected)
                 if im_rect.collidepoint(mouse):
                     if len(letter_selected) > 0:
-
                         run = False
                     # else:
                     #     font = py.font.Font(None, 30)
@@ -112,7 +119,7 @@ def game_loop_select_letters(mystery_number):
         if len(letter_selected) != 0:
             for i in range(len(letter_selected)):
                 im = py.image.load(list_images[letter_selected[i]])
-                im = py.transform.scale(im, (50,50))  # Change
+                im = py.transform.scale(im, (50, 50))  # Change
                 screen.blit(im, (rect_list[i]))
 
         py.display.update()

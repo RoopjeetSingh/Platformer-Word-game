@@ -128,7 +128,7 @@ def score_show(x, score):
     font = py.font.Font(None, 50)  # Change
     if x == True:
         py.draw.rect(screen, (224, 177, 22), (980, 67, 170, 35))  # Change
-        text = font.render(f"score: {score}", True, (0, 0, 0))
+        text = font.render(f"Score: {score}", True, (0, 0, 0))
         screen.blit(text, (1000, 67))  # Change
 
     if x == False:

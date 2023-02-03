@@ -10,14 +10,15 @@ import random
 background = [r"images/Background_platformer/BG_03.png", r"images/Background_platformer/BG_04.png",
               r"images/Background_platformer/BG_01.png", r"images/Background_platformer/BG_02.png"]
 
+
 def level_generator(no_of_letters: int):
     letter_lis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                   'u', 'v', 'w', 'x', 'y', 'z']
     random_letters = random.choices(letter_lis, weights=(
-                                        43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
-                                        15.36,
-                                        33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
-                                        1.39),
+        43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
+        15.36,
+        33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
+        1.39),
                                     k=no_of_letters)
     return random_letters
 
@@ -333,9 +334,9 @@ class Level3(Level):
         self.obstruct_group.add(po.Obstacle(71 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
         self.obstruct_group.add(po.Obstacle(73 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
-                                            "spikes", w=ss.tile_size*2, h=ss.tile_size))
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
         self.obstruct_group.add(po.Obstacle(85 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size,
-                                            "snowman", w=ss.tile_size*2, h=ss.tile_size * 2))
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
 
     def make_power_ups(self):
         # self.power_up_group.add(pu.PowerUp(17 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
