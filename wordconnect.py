@@ -19,8 +19,9 @@ for i in copy:
 
 image_list = ["hellop/zero_stars.png", "hellop/single_star.png", "hellop/double _star.png", "hellop/triple_star.png"]
 
-single_star = ["you were close, try again", "better luck next time", " you can do better than one star"]
-double_star = ["good job, now try to get three stars", "you can do better than two stars", "you were close to getting three stars"]
+single_star = ["you were close", "better luck next time", " you can do better than one star"]
+double_star = ["good job, now try to get three stars", "you can do better than two stars",
+               "you were close to getting three stars"]
 triple_star = ["Great job! You are a real Future Business Leader of America!!", "You are a G.O.A.T"]
 
 count = 0
@@ -30,7 +31,7 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
-
+screen = py.display.set_mode((1200, 600))  # Change
 
 def background(x, y, z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
@@ -133,7 +134,7 @@ def score_show(x, score):
 
     if x == False:
 
-        text = font.render(f"score: {score}", True, (0, 0, 0))
+        text = font.render(f"Score: {score}", True, (0, 0, 0))
         rect = text.get_rect()
         rect.center = (620, 400)  # Change
         screen.blit(text, rect)
@@ -421,8 +422,7 @@ def game_Loop_Wordle(screen, letters, mystery_number):
 
 
 if __name__ == "__main__":
-    selection.game_loop_select_letters(3)
-    screen = py.display.set_mode((1200, 600))  # Change
+    selection.game_loop_select_letters(["a", "b", "c"], 3, screen)
     screen.fill((255, 255, 255))
     game_Loop_Wordle(screen, selection.letter_selected, 3)
 

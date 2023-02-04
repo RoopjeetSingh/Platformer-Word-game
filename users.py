@@ -147,7 +147,7 @@ def users(screen, back_button_func):
     font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79))
     for index, value in enumerate(var["users"]):
         image = pygame.transform.scale(
-            pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 8.9375)))
+            pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
         image.set_colorkey((0, 0, 0))
         users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.53)), (34, 54, 75), set_user,
                                        text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
@@ -180,12 +180,12 @@ def users(screen, back_button_func):
 
     # scrolling
     go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                     (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
+                                     (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
     disabled_go_down = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (int(ss.SCREEN_WIDTH / 143), int(ss.SCREEN_WIDTH / 9.533)))
-    go_down = pygame.transform.rotate(go_down, -int(ss.SCREEN_WIDTH / 15.889))
-    disabled_go_down = pygame.transform.rotate(disabled_go_down, -int(ss.SCREEN_WIDTH / 15.889))
+        (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
+    go_down = pygame.transform.rotate(go_down, -int(90))
+    disabled_go_down = pygame.transform.rotate(disabled_go_down, -int(90))
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     # Add rect positions for scroll_up and down

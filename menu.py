@@ -53,9 +53,17 @@ def menu(screen):
         (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
 
     leader_board_img.set_colorkey((255, 255, 255))
+
     start = time.time()
     level_img = calculate_current_level(var)
-    level_img = level_img()
+    level_img.clear()
+    level_img.letter_list = level_generator(level_img.no_of_letter)
+    level_img.start = 0
+    level_img.make_platforms_objects()
+    level_img.make_letters()
+    level_img.draw_for_display()
+    level_img.make_power_ups()
+    # level_img = level_img()
     level_img = level_img.bg_display
     level_img = pygame.transform.scale(
         level_img,

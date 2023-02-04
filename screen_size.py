@@ -9,4 +9,4 @@ info = pygame.display.Info()  # You have to call this before pygame.display.set_
 SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w - 10, info.current_h - 120
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1300, 710
-tile_size = SCREEN_WIDTH/28.6
+tile_size = int(SCREEN_WIDTH/28.6)

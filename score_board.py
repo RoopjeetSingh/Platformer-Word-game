@@ -4,7 +4,7 @@ import screen_size as ss
 import json
 from helpful_functions import blit_text
 
-font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
+font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.tile_size))
 
 
 # y_pos_text = 0
@@ -23,9 +23,9 @@ def scoreboard(screen, back_button_func):
         def scroll(self, up: dict = {}):
             up = up.get("up", True)
             if up:
-                self.y_pos_text += 50
+                self.y_pos_text += ss.tile_size
             else:
-                self.y_pos_text -= 50
+                self.y_pos_text -= ss.tile_size
 
     def bg_font(rect, text_render, surface):
         # pygame.draw.rect(surface, color, rect, 4)

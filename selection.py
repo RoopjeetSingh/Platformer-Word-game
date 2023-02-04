@@ -6,7 +6,6 @@ from helpful_functions import blit_text
 import wordconnect
 
 
-screen = py.display.set_mode((1200, 600))
 x = 100
 y = 350
 desired_width = 600
@@ -125,6 +124,7 @@ def game_loop_select_letters(running_letter ,mystery_number, screen):
     transition(screen)
 
 if __name__ == "__main__":
+    screen = py.display.set_mode((1200, 600))
     game_loop_select_letters(["a", "b", "c","d", 'e', 'f', 'g'],3, screen)
     wordconnect.game_Loop_Wordle(screen,letter_selected, 3)
     py.quit()

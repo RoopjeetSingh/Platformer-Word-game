@@ -8,20 +8,18 @@ def calculate_current_level(vars_dic: dict):
     :param vars_dic: The json file that has been opened
     :return: returns the level object
     """
-    current_level = ""
-    if not current_level:
-        levels = vars_dic["users"][vars_dic["current_user"][0]][1]
-        for level in level_list:
-            for i in levels:
-                if level == eval(i[0].title()):
-                    break
-            else:
-                current_level = level
+
+    levels = vars_dic["users"][vars_dic["current_user"][0]][1]
+    current_level = None
+    for level in level_list:
+        for i in levels:
+            if level.str == i[0]:
                 break
-    else:
-        # Could have also looped over all the levels in the level list and checked their str but this was faster and
-        # shorter
-        current_level = eval(current_level)
+        else:
+            current_level = level
+            break
+    if not current_level:
+        current_level = level_list[4]
     # print(current_level)
     return current_level
 

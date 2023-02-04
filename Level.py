@@ -7,8 +7,7 @@ import numpy as np
 import power_ups as pu
 import random
 
-background = [r"images/Background_platformer/BG_03.png", r"images/Background_platformer/BG_04.png",
-              r"images/Background_platformer/BG_01.png", r"images/Background_platformer/BG_02.png"]
+background = [r"images/Background_platformer/BG_03.png", r"images/Background_platformer/BG_04.png"]
 
 
 def level_generator(no_of_letters: int):
@@ -72,15 +71,22 @@ class Level:
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))
 
+    def clear(self):
+        self.platform_group = pygame.sprite.Group()
+        self.obstruct_group = pygame.sprite.Group()
+        self.letter_group = pygame.sprite.Group()
+        self.power_up_group = pygame.sprite.Group()
+
 
 class Level1(Level):
     def __init__(self):
         super(Level1, self).__init__(random.choice(background), 62)
-        self.letter_list = level_generator(10)
-        self.make_platforms_objects()
-        self.make_letters()
-        self.make_power_ups()
-        self.draw_for_display()
+        self.no_of_letter = 10
+        # self.letter_list = level_generator(10)
+        # self.make_platforms_objects()
+        # self.make_letters()
+        # self.make_power_ups()
+        # self.draw_for_display()
         self.str = "level1"
         self.stars = [5, 15, 25]
         self.time = 90
@@ -147,11 +153,12 @@ class Level1(Level):
 class Level2(Level):
     def __init__(self):
         super(Level2, self).__init__(random.choice(background), 112)
-        self.letter_list = level_generator(15)
-        self.make_platforms_objects()
-        self.make_letters()
-        self.draw_for_display()
-        self.make_power_ups()
+        self.no_of_letter = 15
+        # self.letter_list = level_generator(self.no_of_letter)
+        # self.make_platforms_objects()
+        # self.make_letters()
+        # self.draw_for_display()
+        # self.make_power_ups()
         self.str = "level2"
         self.stars = [5, 15, 25]
         self.time = 90
@@ -241,11 +248,12 @@ class Level2(Level):
 class Level3(Level):
     def __init__(self):
         super(Level3, self).__init__(random.choice(background), 91)
-        self.letter_list = level_generator(13)
-        self.make_platforms_objects()
-        self.make_letters()
-        self.draw_for_display()
-        self.make_power_ups()
+        self.no_of_letter = 13
+        # self.letter_list = level_generator(13)
+        # self.make_platforms_objects()
+        # self.make_letters()
+        # self.draw_for_display()
+        # self.make_power_ups()
         self.str = "level3"
         self.stars = [5, 15, 25]
         self.time = 90
@@ -346,41 +354,146 @@ class Level3(Level):
 
 class Level4(Level):
     def __init__(self):
-        super(Level4, self).__init__(random.choice(background), 112)
-        self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
-        self.make_platforms_objects()
-        self.make_letters()
-        self.draw_for_display()
-        self.make_power_ups()
+        super(Level4, self).__init__(random.choice(background), 119)
+        self.no_of_letter = 16
+        # self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
+        # self.make_platforms_objects()
+        # self.make_letters()
+        # self.draw_for_display()
+        # self.make_power_ups()
         self.str = "level4"
         self.stars = [5, 15, 25]
         self.time = 90
 
+    def make_letters(self):
+        self.letter_group.add(letter.Letter(self.letter_list[0], 3 * ss.tile_size,  # tile_size = 200
+                                            ss.SCREEN_HEIGHT - 6 * ss.tile_size))  # 1 is the original +3 ground platform+1 bouncing=5 normally, 5
+        self.letter_group.add(letter.Letter(self.letter_list[1], 18 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[2], 25 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+
+        self.letter_group.add(letter.Letter(self.letter_list[3], 37 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 8 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[4], 46 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 8 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[5], 49 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[6], 54 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
+
+        self.letter_group.add(letter.MysteryLetter(57 * ss.tile_size,
+                                                   ss.SCREEN_HEIGHT - 11.5 * ss.tile_size))
+
+        self.letter_group.add(letter.Letter(self.letter_list[7], 66 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 12 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[8], 70 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[9], 76 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[10], 79 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 8 * ss.tile_size))
+
+        self.letter_group.add(letter.MysteryLetter(83 * ss.tile_size,
+                                                   ss.SCREEN_HEIGHT - 12.5 * ss.tile_size))
+
+        self.letter_group.add(letter.Letter(self.letter_list[11], 86 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[12], 96 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 11 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[13], 103 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[14], 109 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+        self.letter_group.add(letter.Letter(self.letter_list[15], 114 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
+
     def make_platforms_objects(self):
-        pass
+        for j in range(1, 3):
+            self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 119, False,
+                                                "images/platform/platform_sprites_(1).png"))
+        # # ground row
+        self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 119, False))  # 0+3
+        # the upper stuff should be copied
+
+        self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 8, False))
+        self.platform_group.add(po.Platform(18 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(21 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(22 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(24 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1))
+        self.platform_group.add(po.Platform(28 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(29 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(30 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(32 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 5))
+        self.platform_group.add(po.Platform(40 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 3))
+        self.platform_group.add(po.Platform(46 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(54 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(57 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(60 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(61 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(63 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(64 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(65 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size, 1))
+        self.platform_group.add(po.Platform(69 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size, 1))
+        self.platform_group.add(po.Platform(73 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(79 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(83 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(86 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(89 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size, 7))
+        self.platform_group.add(po.Platform(99 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(100 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(101 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 1, False))
+        self.platform_group.add(po.Platform(106 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(114 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 0))
+        self.platform_group.add(po.Platform(117 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 0))
+
+        self.obstruct_group.add(po.Obstacle(32 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+
+        self.obstruct_group.add(po.Obstacle(62 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
+                                            "spikes", w=ss.tile_size * 2, h=ss.tile_size))
+
+        self.obstruct_group.add(po.Obstacle(9 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(34 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size,
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(51 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(90 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size,
+                                            "snowman", w=ss.tile_size * 2, h=ss.tile_size * 2))
+
+        self.obstruct_group.add(po.Obstacle(16 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(41 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size,
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(94 * ss.tile_size, ss.SCREEN_HEIGHT - 11 * ss.tile_size,
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
+        self.obstruct_group.add(po.Obstacle(112 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size,
+                                            "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
 
     def make_power_ups(self):
-        pass
-
-    def make_letters(self):
-        pass
+        self.power_up_group.add(pu.PowerUp(13 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        # self.power_up_group.add(pu.PowerUp(43 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size))
+        # self.power_up_group.add(pu.PowerUp(73 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
+        # self.power_up_group.add(pu.PowerUp(106 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
 
 class Level5(Level):
     def __init__(self):
         super(Level5, self).__init__(random.choice(background), 175)
-        self.letter_list = level_generator(21)
-        self.make_platforms_objects()
-        self.make_letters()
-        self.draw_for_display()
-        self.make_power_ups()
+        self.no_of_letter = 21
+        # self.letter_list = level_generator(21)
+        # self.make_platforms_objects()
+        # self.make_letters()
+        # self.draw_for_display()
+        # self.make_power_ups()
         self.str = "level5"
         self.stars = [5, 15, 25]
         self.time = 90
 
     def make_letters(self):
-        self.letter_group.add(letter.Letter(self.letter_list[0], 2 * ss.tile_size,  # tile_size = 200
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))  # 1 is the original +3 ground platform+1 bouncing=5 normally, 5
+        self.letter_group.add(letter.Letter(self.letter_list[0], 2 * ss.tile_size,
+                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
         self.letter_group.add(letter.Letter(self.letter_list[1], 9 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
         self.letter_group.add(letter.Letter(self.letter_list[2], 22 * ss.tile_size,
@@ -444,6 +557,7 @@ class Level5(Level):
             self.platform_group.add(
                 po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                             "images/platform/platform_sprites_(1).png"))
+            print(ss.SCREEN_HEIGHT - j * ss.tile_size, ss.SCREEN_HEIGHT - 3 * ss.tile_size, ss.tile_size)
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
@@ -531,9 +645,9 @@ class Level5(Level):
         self.power_up_group.add(pu.PowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
-# level10 = Level1()
-# level20 = Level2()
-# level30 = Level3()
-# level40 = Level4()
-# level50 = Level5()
-level_list = [Level1, Level2, Level3, Level4, Level5]
+level1 = Level1()
+level2 = Level2()
+level3 = Level3()
+level4 = Level4()
+level5 = Level5()
+level_list = [level1, level2, level3, level4, level5]

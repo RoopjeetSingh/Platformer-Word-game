@@ -49,7 +49,7 @@ def platformer_game(screen, menu, level=None):
         retry_button = ui_tools.Button((
             ss.SCREEN_WIDTH / 2 + 150,
             ss.SCREEN_HEIGHT / 2 + death_bg.get_height() / 2 - 100, ss.SCREEN_WIDTH / 8, 50),
-            (59, 83, 121), lambda: platformer_game(screen, level), image=retry_img, hover_color=(35, 53, 78),
+            (59, 83, 121), lambda: platformer_game(screen, menu, level), image=retry_img, hover_color=(35, 53, 78),
             clicked_color=(15, 20, 35),
             border_radius=10, border_color=(35, 53, 78))
         if not num:
@@ -61,7 +61,14 @@ def platformer_game(screen, menu, level=None):
         var = json.load(f)
 
     current_level = level or calculate_current_level(var)
-    current_level = current_level()
+    current_level.clear()
+    current_level.letter_list = level_generator(current_level.no_of_letter)
+    current_level.start = 0
+    current_level.make_platforms_objects()
+    current_level.make_letters()
+    current_level.draw_for_display()
+    current_level.make_power_ups()
+    # current_level = current_level()
     time_display = current_level.time
     # time_display_current = time.time()
     timer_event = pygame.USEREVENT
@@ -88,20 +95,19 @@ def platformer_game(screen, menu, level=None):
             i.bounce_brighten()
 
         screen.blit(player.image, player.rect)
-
+        pressed, killed = player.update_player(screen, current_level, pressed)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN and \
                     event.key == pygame.K_r:
-                platformer_game(screen, level)
-            if event.type == timer_event:
+                platformer_game(screen, menu, level)
+            if event.type == timer_event and not killed and time_display != 0:
                 time_display -= 1
             for i in button_lis:
                 i.check_event(event)
-        pressed, killed = player.update_player(screen, current_level, pressed)
-        if killed:
+        if killed or time_display == 0:
             killed_screen(alpha)
             num = True
             alpha += 6
@@ -123,4 +129,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level_list[4])
+    platformer_game(root, menu, level_list[3])

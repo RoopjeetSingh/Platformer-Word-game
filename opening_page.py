@@ -3,7 +3,7 @@ import pygame
 import ui_tools
 import screen_size as ss
 import json
-from Level import level_list
+from Level import level_list, level_generator
 from helpful_functions import blit_text
 from player import Player
 from wordconnect import game_Loop_Wordle
@@ -118,10 +118,6 @@ def show_level(screen):
             border_radius=10, border_color=(35, 53, 78))
         if not num:
             button_lis.append(retry_button)
-        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-                                           len(player.mystery_letter_lis), screen)
-        game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
-                         len(player.mystery_letter_lis))
 
     def show_word_connect():
         start_color = 150
@@ -134,6 +130,8 @@ def show_level(screen):
                     exit()
             clock.tick()
             pygame.display.flip()
+        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+                                           len(player.mystery_letter_lis), screen)
         game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
                          len(player.mystery_letter_lis))
 
@@ -150,7 +148,14 @@ def show_level(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
 
-    current_level = level_list[0]()
+    current_level = level_list[0]
+    current_level.clear()
+    current_level.letter_list = level_generator(current_level.no_of_letter)
+    current_level.start = 0
+    current_level.make_platforms_objects()
+    current_level.make_letters()
+    current_level.draw_for_display()
+    current_level.make_power_ups()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
     arrow_img = pygame.transform.scale(arrow_img, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)))
@@ -199,7 +204,7 @@ def show_level(screen):
             i.bounce_brighten()
         screen.blit(player.image, player.rect)
         pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
-        if killed:
+        if killed or time_display == 0:
             killed_screen(alpha)
             num = True
             alpha += 6
@@ -208,7 +213,6 @@ def show_level(screen):
         time_as_str = f"{time_display // 60: 003d}: {time_display % 60: 003d}"
         # print(time_as_str)
         time_surface = font.render(time_as_str, True, (20, 255, 255))
-        time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
         screen.blit(time_surface, (ss.SCREEN_WIDTH - time_surface.get_width() - ss.tile_size * 2, ss.tile_size))
         stop = False
         if skip_button.value_from_function is None:
@@ -223,9 +227,9 @@ def show_level(screen):
             button_lis_clear.append(arrow_button)
             button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
-            blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the "
-                              f"letters so that you can use those letters to make new words. Sounds complicated, well "
-                              f"it isn't. For your help though "
+            blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. Let us learn how to play this game. Collect "
+                              f"the letters in the runner game and use those letters to create words in the next part. "
+                              f"For your help though "
                               f"we also have mystery letters which you can collect and later convert into any "
                               f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
                               f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
@@ -326,7 +330,7 @@ def show_level(screen):
                 exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and stop:
                 text_show = change_text({"text_show": text_show})
-            if event.type == timer_event and not stop:
+            if event.type == timer_event and not killed and time_display != 0 and not stop:
                 time_display -= 1
             for i in button_lis_clear:
                 i.check_event(event)
