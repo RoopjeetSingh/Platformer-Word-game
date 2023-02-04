@@ -112,7 +112,7 @@ def mystery(screen, input, c, pressed, rect_pressed):
                 screen.blit(text_effect, (rect_image_1))
 
 
-def mystery_and_submit_button(screen, mystery_number, pressed):
+def mystery_and_submit_button(screen, mystery_number):
     font = py.font.Font(None, 75)
     text = font.render(f":{mystery_number}", True, (0, 0, 0))
 
