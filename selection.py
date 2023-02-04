@@ -30,14 +30,15 @@ def show(screen, letter):
 def draw(screen, letter):
     for i in range(len(letter)):
         im = py.image.load(list_images[letter[i]])
-        im = py.transform.scale(im, (500,500))
+        im = py.transform.scale(im, (100,100))
         screen.blit(im, (coord[i]))
 
 def near(x, y):
     z = []
+    index = 105
     for i in range(len(x)):
         z.append((math.sqrt(pow((x[i][0] + 25) - y[0], 2)) + math.sqrt(pow((x[i][1] + 25) - y[1], 2))))
-    if min(z) < 50:
+    if min(z) < index:
         return x[z.index(min(z))]
     else:
         return False
@@ -72,16 +73,14 @@ letter_selected = []
 def game_loop_select_letters(running_letter ,mystery_number, screen, letters_allowed):
 
     show(screen, running_letter)
-
     run = True
-    alpha = 200
     while run:
         screen.fill((255,255,255))
         word_box_show(screen,letters_allowed - mystery_number, )
         screen.blit(next_button, im_rect)
-        show(screen, running_letter)
+        draw(screen, running_letter)
         mouse = py.mouse.get_pos()
-        
+
         for ev in py.event.get():
             if ev.type == QUIT:
                 run = False
@@ -110,6 +109,6 @@ def game_loop_select_letters(running_letter ,mystery_number, screen, letters_all
     transition(screen)
 
 if __name__ == "__main__":
-    game_loop_select_letters(["a", "b", "c","d", 'e', 'f', 'g','h', 'i', 'j', 'k', "h"],3, screen, 15)
+    game_loop_select_letters(["a", "b", "c","d", 'e', 'f', 'g','h', 'i', 'j', 'k', "h"],3, screen, 10)
     wordconnect.game_Loop_Wordle(screen,letter_selected, 3)
     py.quit()
