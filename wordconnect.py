@@ -112,7 +112,7 @@ def mystery(screen, input, c, pressed, rect_pressed):
                 screen.blit(text_effect, (rect_image_1))
 
 
-def mystery_and_submit_button(screen, mystery_number):
+def mystery_and_submit_button(screen, mystery_number, pressed):
     font = py.font.Font(None, 75)
     text = font.render(f":{mystery_number}", True, (0, 0, 0))
 
@@ -121,7 +121,11 @@ def mystery_and_submit_button(screen, mystery_number):
     py.draw.rect(screen, (22, 171, 171), (20,545, 130,65))
     screen.blit(text, (85, 553))
     screen.blit(image, (30, 553))
-
+    if mystery_number ==0:
+        surface = py.Surface((130, 65))
+        surface.set_alpha(128)
+        surface.fill((255,255,255))
+        screen.blit(surface, (20, 545))
     image = py.image.load("hellop/arrow1.png")
     image_submit = py.transform.scale(image, (50, 50))
     screen.blit(image_submit, (1150, 550))
@@ -346,7 +350,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points):
                     elif 20 < mouse[0] < 150 and 545 < mouse[1] < 610:
 
                         i += 1
-                        if i % 2 == 0:
+                        if i % 2 == 0 and mystery_number != 0:
                             pressed = True
                             background(screen, 255, 255, 255, 590)
                             text_draw(screen, counter)
