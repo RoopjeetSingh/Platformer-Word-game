@@ -1,14 +1,12 @@
 import pygame
 
 import ui_tools
-import ui_tools as pgb
 import screen_size as ss
 import json
 from Level import level_list
 from helpful_functions import blit_text
 from player import Player
 from wordconnect import game_Loop_Wordle
-import time
 import selection
 
 pygame.init()
@@ -36,24 +34,25 @@ def opening_page(screen):
     background = pygame.transform.scale(pygame.image.load("images/Menu_page/fblaGameBg.jpg"), (ss.SCREEN_WIDTH,
                                                                                                ss.SCREEN_HEIGHT))
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
-    name = pgb.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
-                        int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), int(ss.SCREEN_WIDTH / 28.6),
-                        (255, 255, 255),
-                        color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
-                        border_radius=int(ss.SCREEN_WIDTH / 95.33), font_color=(0, 0, 0), active=True,
-                        remove_active=True, function=get_name)
+    name = ui_tools.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
+                             int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
+                             name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5),
+                             int(ss.SCREEN_WIDTH / 28.6),
+                             (255, 255, 255),
+                             color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
+                             border_radius=int(ss.SCREEN_WIDTH / 95.33), font_color=(0, 0, 0), active=True,
+                             remove_active=True, function=get_name)
     font = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 44.6875))
     ask_name = font.render("What is your name?", True, (255, 255, 255))
     font_text = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 59.583), bold=True)
-    ok_button = pgb.Button((ss.SCREEN_WIDTH / 2 - int(ss.SCREEN_WIDTH / 8.17) / 2,
-                            2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                            int(ss.SCREEN_WIDTH / 8.17), int(ss.SCREEN_WIDTH / 14.3)), (5, 176, 254), get_name,
-                           disabled_color=(156, 153, 157), border_radius=int(ss.SCREEN_WIDTH / 95.33),
-                           hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
-                           text="OK", border_color=(8, 143, 254), state_disabled=True,
-                           font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)),
-                           disabled_border_color=(70, 67, 72))
+    ok_button = ui_tools.Button((ss.SCREEN_WIDTH / 2 - int(ss.SCREEN_WIDTH / 8.17) / 2,
+                                 2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
+                                 int(ss.SCREEN_WIDTH / 8.17), int(ss.SCREEN_WIDTH / 14.3)), (5, 176, 254), get_name,
+                                disabled_color=(156, 153, 157), border_radius=int(ss.SCREEN_WIDTH / 95.33),
+                                hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
+                                text="OK", border_color=(8, 143, 254), state_disabled=True,
+                                font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)),
+                                disabled_border_color=(70, 67, 72))
     button_lis = [ok_button]
     input_lis = [name]
     while True:
