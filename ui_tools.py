@@ -31,9 +31,10 @@ class Button:
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
                  image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
                  border_thickness: int = 7, state_disabled: bool = False, disabled_image=None, disabled_color=None,
-                 disabled_border_color=None, **kwargs):
+                 disabled_border_color=None, alpha=255, **kwargs):
 
         self.image = image
+        self.alpha = alpha
         self.text = text
         self.font = font
         self.call_on_release = call_on_release
@@ -134,7 +135,6 @@ class Button:
         else:
             self.hovered = False
 
-
     def update(self, surface):
         """Update needs to be called every frame in the main loop."""
         color = self.color
@@ -164,6 +164,10 @@ class Button:
             if self.hover_font_color:
                 text = self.hover_text
 
+        if self.image and not isinstance(self.image, list):
+            self.image.set_alpha(self.alpha)
+        if self.text:
+            self.text.set_alpha(self.alpha)
         if self.border_radius and self.border_color and not self.clicked:
             draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius,
                                        self.border_thickness)

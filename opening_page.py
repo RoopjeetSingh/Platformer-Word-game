@@ -9,6 +9,7 @@ from helpful_functions import blit_text
 from player import Player
 from wordconnect import game_Loop_Wordle
 import time
+import selection
 
 pygame.init()
 
@@ -37,28 +38,35 @@ def opening_page(screen):
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
     name = pgb.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
                         int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                        name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5), int(ss.SCREEN_WIDTH / 28.6),
+                        (255, 255, 255),
                         color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
-                        border_radius=int(ss.SCREEN_WIDTH / 95.33), font_color=(0, 0, 0), active=True, remove_active=True, function=get_name)
+                        border_radius=int(ss.SCREEN_WIDTH / 95.33), font_color=(0, 0, 0), active=True,
+                        remove_active=True, function=get_name)
     font = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 44.6875))
     ask_name = font.render("What is your name?", True, (255, 255, 255))
     font_text = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 59.583), bold=True)
     ok_button = pgb.Button((ss.SCREEN_WIDTH / 2 - int(ss.SCREEN_WIDTH / 8.17) / 2,
                             2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
-                            int(ss.SCREEN_WIDTH / 8.17), int(ss.SCREEN_WIDTH / 14.3)), (5, 176, 254), get_name, disabled_color=(156, 153, 157), border_radius=int(ss.SCREEN_WIDTH / 95.33),
+                            int(ss.SCREEN_WIDTH / 8.17), int(ss.SCREEN_WIDTH / 14.3)), (5, 176, 254), get_name,
+                           disabled_color=(156, 153, 157), border_radius=int(ss.SCREEN_WIDTH / 95.33),
                            hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
                            text="OK", border_color=(8, 143, 254), state_disabled=True,
-                           font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)), disabled_border_color=(70, 67, 72))
+                           font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)),
+                           disabled_border_color=(70, 67, 72))
     button_lis = [ok_button]
     input_lis = [name]
     while True:
         screen.blit(background, (0, 0))
-        pygame.draw.rect(name_surface, (100, 103, 127), name_surface.get_rect(), border_radius=int(ss.SCREEN_WIDTH / 95.33))
+        pygame.draw.rect(name_surface, (100, 103, 127), name_surface.get_rect(),
+                         border_radius=int(ss.SCREEN_WIDTH / 95.33))
         pygame.draw.rect(name_surface, (222, 234, 244),
-                         (int(ss.SCREEN_WIDTH / 57.2), int(ss.SCREEN_WIDTH / 28.6) + ask_name.get_height(), name_surface.get_width() - int(ss.SCREEN_WIDTH / 28.6),
+                         (int(ss.SCREEN_WIDTH / 57.2), int(ss.SCREEN_WIDTH / 28.6) + ask_name.get_height(),
+                          name_surface.get_width() - int(ss.SCREEN_WIDTH / 28.6),
                           name_surface.get_height() - int(ss.SCREEN_WIDTH / 19.067) - ask_name.get_height()),
                          border_radius=int(ss.SCREEN_WIDTH / 95.33))
-        name_surface.blit(ask_name, (name_surface.get_width() / 2 - ask_name.get_width() / 2, int(ss.SCREEN_WIDTH / 57.2)))
+        name_surface.blit(ask_name,
+                          (name_surface.get_width() / 2 - ask_name.get_width() / 2, int(ss.SCREEN_WIDTH / 57.2)))
         blit_text(name_surface, "Pick a name you'd like other users to know you by",
                   (name_surface.get_width() / 2, name_surface.get_height() / 2), font_text,
                   name_surface.get_width() - name_surface.get_width() / 7.91, (95, 99, 110))
@@ -87,12 +95,34 @@ def opening_page(screen):
         clock.tick()
 
 
-# text_show = 0
-# show_instructions = True
+death_bg = pygame.image.load("images/Menu_page/Death_screen_bg.jpg").convert_alpha()
+death_bg = pygame.transform.scale(death_bg, (
+    ss.SCREEN_WIDTH, ss.SCREEN_WIDTH / death_bg.get_width() * death_bg.get_height()))
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
+retry_img = pygame.transform.scale(pygame.image.load("images/Menu_page/retrybg.png").convert_alpha(), (50, 50))
 
 
 def show_level(screen):
     text_show = 0
+
+    def killed_screen(alpha):
+        blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
+                  pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100), 1000)
+        death_bg.set_alpha(alpha)
+        screen.blit(death_bg, (0, ss.SCREEN_HEIGHT / 2 - death_bg.get_height() / 2))
+        retry_button = ui_tools.Button((
+            ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16,
+            ss.SCREEN_HEIGHT / 2 + death_bg.get_height() / 2 - 100, ss.SCREEN_WIDTH / 8, 50),
+            (59, 83, 121), lambda: show_level(screen), image=retry_img, hover_color=(35, 53, 78),
+            clicked_color=(15, 20, 35),
+            border_radius=10, border_color=(35, 53, 78))
+        if not num:
+            button_lis.append(retry_button)
+        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+                                           len(player.mystery_letter_lis), screen)
+        game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
+                         len(player.mystery_letter_lis))
 
     def show_word_connect():
         start_color = 150
@@ -121,35 +151,42 @@ def show_level(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
 
-    current_level = level_list[0]
-    clock = pygame.time.Clock()
+    current_level = level_list[0]()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
     arrow_img = pygame.transform.scale(arrow_img, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)))
+    button_lis_clear = []
     button_lis = []
     surface_text = pygame.Surface((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 4.77)))
-    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 6.3556), int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)), (0, 0, 0), change_text,
+    arrow_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 6.3556),
+                                    int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)), (0, 0, 0), change_text,
                                    fill_bg=False, image=arrow_img, call_on_release=False)
-    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.226), int(ss.SCREEN_WIDTH / 5.07), 75, 30), (80, 80, 80), skip_instructions,
+    skip_button = ui_tools.Button((ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 9.226), int(ss.SCREEN_WIDTH / 5.07), 75, 30),
+                                  (80, 80, 80), skip_instructions,
                                   border_radius=int(ss.SCREEN_WIDTH / 95.33), call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
     current_image = pygame.transform.scale(current_image,
-                                           (int(ss.SCREEN_WIDTH / 4.0857) / current_image.get_height() * current_image.get_width(), int(ss.SCREEN_WIDTH / 4.0857)))
+                                           (
+                                               int(ss.SCREEN_WIDTH / 4.0857) / current_image.get_height() * current_image.get_width(),
+                                               int(ss.SCREEN_WIDTH / 4.0857)))
     current_image.set_colorkey((0, 0, 0))
     stop = False
     surface_text.fill((20, 20, 20))
     surface_text.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
-    font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
-    show_time = current_level.time
-    show_time_actual = time.time()
+    time_display = current_level.time
+    # time_display_current = time.time()
+    timer_event = pygame.USEREVENT
+    pygame.time.set_timer(timer_event, 1000)
+    alpha = 0
+    num = False
     while True:
-        if time.time() - show_time_actual >= 1:
-            show_time -= round(time.time() - show_time_actual)
-            show_time_actual = time.time()
+        # if time.time() - show_time_actual >= 1:
+        #     show_time -= round(time.time() - show_time_actual)
+        #     show_time_actual = time.time()
         arrow_button.kwargs["text_show"] = text_show
         text_show = arrow_button.value_from_function if arrow_button.value_from_function is not None else text_show
-        button_lis.clear()
+        button_lis_clear.clear()
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
@@ -164,8 +201,12 @@ def show_level(screen):
         screen.blit(player.image, player.rect)
         pressed, killed = player.update_player(screen, current_level, pressed, stop_working=stop)
         if killed:
+            killed_screen(alpha)
+            num = True
+            alpha += 6
+        if player.completed:
             show_word_connect()
-        time_as_str = f"{show_time // 60: 003d}: {show_time % 60: 003d}"
+        time_as_str = f"{time_display // 60: 003d}: {time_display % 60: 003d}"
         # print(time_as_str)
         time_surface = font.render(time_as_str, True, (20, 255, 255))
         time_surface.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
@@ -180,8 +221,8 @@ def show_level(screen):
         if text_show == 0 and show_instructions:
             # screen.blit(surface_text, (75, ss.SCREEN_HEIGHT - 300))
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             blit_text(screen, f"Hi there, Hello!!! I'm the game speaking. The instructions are clear. Collect the "
                               f"letters so that you can use those letters to make new words. Sounds complicated, well "
@@ -191,81 +232,92 @@ def show_level(screen):
                               f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
                               f"Cool right, let's get started...",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 57.2)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 57.2)),
+                      arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
         elif text_show == 1 and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
-            arrow_keys = pygame.transform.scale(arrow_keys, (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
+            arrow_keys = pygame.transform.scale(arrow_keys,
+                                                (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
             right_pos = blit_text(screen, "Use the arrow keys to move",
-                                  (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                                  pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                                  (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(),
+                                   int(ss.SCREEN_WIDTH / 31.78)),
+                                  pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                                  arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                                   alignment="left")
             screen.blit(arrow_keys, (right_pos + 5, int(ss.SCREEN_WIDTH / 31.78)))
             stop = True
         elif text_show == 2 and player.rect.right - current_level.start > 5 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             arrow_keys = pygame.image.load(
                 "images/Menu_page/arrow_keys.png").convert_alpha()
-            arrow_keys = pygame.transform.scale(arrow_keys, (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
+            arrow_keys = pygame.transform.scale(arrow_keys,
+                                                (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
             right_pos = blit_text(screen, "Use the arrow up button or the space bar to jump",
-                                  (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                                  pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                                  (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(),
+                                   int(ss.SCREEN_WIDTH / 31.78)),
+                                  pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                                  arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                                   alignment="left")
             screen.blit(arrow_keys, (right_pos + 5, int(ss.SCREEN_WIDTH / 31.78)))
             stop = True
         elif text_show == 3 and player.rect.right - current_level.start > 7 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             blit_text(screen, "Collect these letters!",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                      arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
         elif text_show == 4 and player.rect.right - current_level.start > 15 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             blit_text(screen, "Caution: there is an obstacle. Obstacles look like spikes, snowman or even a christmas "
                               "tree; avoid them or else you would have to make the words from the limited letters you "
                               "have right now.",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                      arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
         elif text_show == 5 and player.rect.right - current_level.start > 23 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             blit_text(screen, "Look there is a mystery letter we talked about. It is precious and allows you to convert"
                               " it into any letter from a through z.",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                      arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
 
         elif text_show == 6 and player.rect.right - current_level.start > 49 * ss.tile_size and show_instructions:
             screen.blit(surface_text, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 57.2)))
-            button_lis.append(arrow_button)
-            button_lis.append(skip_button)
+            button_lis_clear.append(arrow_button)
+            button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             blit_text(screen, "The jumping beautiful object is a super jump power up. When you "
                               "collect this power up, you would be able to jump a higher distance but for a limited "
                               "period of time.",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
-                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)), arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
+                      pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 47.67)),
+                      arrow_button.rect.x - int(ss.SCREEN_WIDTH / 28.6), (255, 255, 255),
                       alignment="left")
             stop = True
 
@@ -275,9 +327,15 @@ def show_level(screen):
                 exit()
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN and stop:
                 text_show = change_text({"text_show": text_show})
+            if event.type == timer_event and not stop:
+                time_display -= 1
+            for i in button_lis_clear:
+                i.check_event(event)
             for i in button_lis:
                 i.check_event(event)
 
+        for i in button_lis_clear:
+            i.update(screen)
         for i in button_lis:
             i.update(screen)
         pygame.display.update()

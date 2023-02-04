@@ -531,9 +531,9 @@ class Level5(Level):
         self.power_up_group.add(pu.PowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
-level10 = Level1()
-level20 = Level2()
-level30 = Level3()
-level40 = Level4()
-level50 = Level5()
-level_list = [level10, level20, level30, level40, level50]
+# level10 = Level1()
+# level20 = Level2()
+# level30 = Level3()
+# level40 = Level4()
+# level50 = Level5()
+level_list = [Level1, Level2, Level3, Level4, Level5]

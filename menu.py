@@ -9,11 +9,14 @@ from level_screen import level_screen
 from platformer_game import platformer_game
 from helpful_functions import calculate_current_level, blit_text
 from users import users
+import time
 
 pygame.init()
 
 
 def menu(screen):
+    start_time = time.time()
+
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
             json.dump(var, wvar, indent=4)
@@ -50,21 +53,27 @@ def menu(screen):
         (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
 
     leader_board_img.set_colorkey((255, 255, 255))
-    level_img = calculate_current_level(var).bg_display
+    start = time.time()
+    level_img = calculate_current_level(var)
+    level_img = level_img()
+    level_img = level_img.bg_display
     level_img = pygame.transform.scale(
         level_img,
         (ss.SCREEN_WIDTH / 2.86,
          ss.SCREEN_HEIGHT / 1.56 / level_img.get_width() * level_img.get_height()))
+    print(time.time() - start)
 
     quit_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 3 * ss.SCREEN_WIDTH / 16 / 2, 3 * ss.SCREEN_HEIGHT / 4,
                               3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
                              end_screen, hover_color=(150, 150, 150), clicked_color=(80, 80, 80), text="Quit",
-                             font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 17.875)), font_color=(0, 0, 0), border_radius=int(ss.SCREEN_WIDTH // 95.33))
+                             font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 17.875)), font_color=(0, 0, 0),
+                             border_radius=int(ss.SCREEN_WIDTH // 95.33))
     users_button = pgb.Button(
         (ss.SCREEN_WIDTH - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2 - 3 * ss.SCREEN_HEIGHT / 32,
          3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
         change_screen, hover_color=(150, 150, 150), clicked_color=(80, 80, 80), text="Users",
-        font=pygame.font.Font(None, int(ss.SCREEN_WIDTH/17.875)), font_color=(0, 0, 0), func=lambda: users(screen, menu))
+        font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 17.875)), font_color=(0, 0, 0),
+        func=lambda: users(screen, menu))
     instructions_btn = pgb.Button((13 * ss.SCREEN_WIDTH / 16, 0, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
                                   (255, 255, 255), change_screen, func=lambda: instructions(screen, menu),
                                   hover_color=(150, 150, 150), clicked_color=(80, 80, 80), image=help_text)
@@ -81,13 +90,15 @@ def menu(screen):
     single_player = pgb.Button(
         (ss.SCREEN_WIDTH / 4, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16),
         (255, 185, 2), change_screen, hover_color=(254, 158, 2),
-        clicked_color=(187, 99, 5), func=lambda: platformer_game(screen),
-        text="Single player", border_radius=int(ss.SCREEN_WIDTH // 143), border_color=(254, 158, 2), font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)))
+        clicked_color=(187, 99, 5), func=lambda: platformer_game(screen, menu),
+        text="Single player", border_radius=int(ss.SCREEN_WIDTH // 143), border_color=(254, 158, 2),
+        font=pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79)))
     multiplayer = pgb.Button(
         (3 * ss.SCREEN_WIDTH / 4 - 3 * ss.SCREEN_WIDTH / 16, ss.SCREEN_HEIGHT / 2, 3 * ss.SCREEN_WIDTH / 16,
          3 * ss.SCREEN_HEIGHT / 16),
         (5, 176, 254), show_multiplayer, hover_color=(8, 143, 254), clicked_color=(2, 92, 177),
-        text="Multiplayer", border_radius=10, border_color=(8, 143, 254), font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 29.79)), image=lock,
+        text="Multiplayer", border_radius=10, border_color=(8, 143, 254),
+        font=pygame.font.Font(None, int(ss.SCREEN_WIDTH // 29.79)), image=lock,
         image_position=(0, 0))
     multiplayer.text_position = (multiplayer.rect.w / 2 - multiplayer.text.get_width() / 2,
                                  multiplayer.rect.h / 2 - multiplayer.text.get_height() / 2)
@@ -105,6 +116,7 @@ def menu(screen):
                   skins_btn, level_btn, users_button]
     font = pygame.font.Font(None, int(ss.SCREEN_WIDTH // 39.72))
     alpha = 0
+    print(time.time() - start_time)
     while True:
         screen.blit(background, (0, 0))
         show_no_multiplayer_page = multiplayer.value_from_function or False
@@ -124,6 +136,7 @@ def menu(screen):
             i.update(screen)
         pygame.display.update()
         clock.tick()
+        # print(clock.get_fps())
 
 
 if __name__ == "__main__":

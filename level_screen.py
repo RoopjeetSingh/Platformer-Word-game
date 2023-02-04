@@ -40,7 +40,7 @@ def level_screen(screen, back_button_func):
 
     def set_level(new_level_dic):
         # var["level"] = new_level_dic["new_level"].str
-        change_screen(lambda: platformer_game(screen, new_level_dic["new_level"]))
+        change_screen(lambda: platformer_game(screen, back_button_func, new_level_dic["new_level"]))
 
     def make_level():
         show_no_add_page = True
@@ -86,7 +86,8 @@ def level_screen(screen, back_button_func):
     lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
     lock = pygame.transform.scale(lock_original, (width_image, int(ss.SCREEN_WIDTH / 7.15)))
     # This makes the width enough for 3 levels to be in it
-    for index, level in enumerate(level_list):
+    for index, level_orig in enumerate(level_list):
+        level = level_orig()
         different_page_difference = 0
         if index % 3 == 0 and index != 0:
             different_page_difference = int(ss.SCREEN_WIDTH / 71.5) + previous_page.rect.right + (ss.SCREEN_WIDTH * (index // 3 - 1)) + (
@@ -107,7 +108,7 @@ def level_screen(screen, back_button_func):
                 image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
                 image_position=[(0, width_image / level.bg_display.get_width() *
                                  level.bg_display.get_height() + int(ss.SCREEN_WIDTH / 40.86) - image[0].get_height()), (0, 0)],
-                state_disabled=True, new_level=level)
+                state_disabled=True, new_level=level_orig)
             button.text_position = ((button.rect.w - button.text.get_width()) / 2, 5)
         else:
             button = ui_tools.Button(
@@ -116,7 +117,7 @@ def level_screen(screen, back_button_func):
                  level.bg_display.get_height() + int(ss.SCREEN_WIDTH / 40.86)),
                 (0, 0, 0), set_level, text=level.str.upper(),
                 image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
-                image_align="bottom", new_level=level)
+                image_align="bottom", new_level=level_orig)
         button_level_list.append(button)
     different_page_difference = 0
     if len(level_list) % 3 == 0 and len(level_list) != 0:

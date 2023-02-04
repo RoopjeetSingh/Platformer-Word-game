@@ -1,6 +1,7 @@
 import pygame
 import cv2
 import numpy as np
+import screen_size as ss
 
 
 class Platform(pygame.sprite.Sprite):
@@ -20,9 +21,9 @@ class Platform(pygame.sprite.Sprite):
             self.image = pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                                  "RGB").convert_alpha()
             if start:
-                self.image = pygame.transform.scale(self.image, (50 * num_inside + 100, 50))
+                self.image = pygame.transform.scale(self.image, (ss.tile_size * num_inside + ss.tile_size*2, ss.tile_size))
             else:
-                self.image = pygame.transform.scale(self.image, (50 * num_inside, 50))
+                self.image = pygame.transform.scale(self.image, (ss.tile_size * num_inside, ss.tile_size))
             self.image.set_colorkey((0, 0, 0))
             self.rect = self.image.get_rect()
             self.rect.x = x
