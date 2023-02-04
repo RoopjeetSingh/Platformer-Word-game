@@ -2,6 +2,7 @@ import pygame
 import ui_tools
 import screen_size as ss
 import json
+from helpful_functions import blit_text
 
 pygame.init()
 font = pygame.font.Font(None, int(ss.SCREEN_WIDTH/39.72))
@@ -50,7 +51,7 @@ def instructions(screen, back_button_func):
             elif not next_page_bool and self.x_pos < 0:
                 self.x_pos += ss.SCREEN_WIDTH
 
-            if self.x_pos <= -ss.SCREEN_WIDTH * 3:
+            if self.x_pos <= -ss.SCREEN_WIDTH * 4:
                 next_page.state_disabled = True
             else:
                 next_page.state_disabled = False
@@ -64,9 +65,10 @@ def instructions(screen, back_button_func):
 
     with open('variables.json', 'r') as f:
         var = json.load(f)
-    help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
+    help_surface = pygame.Surface((ss.SCREEN_WIDTH * 4, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
+    background = pygame.image.load("hellop/instruction background.jpg").convert()
+    background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
                                          (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     disabled_next_button = pygame.transform.scale(
@@ -90,11 +92,98 @@ def instructions(screen, back_button_func):
         (0, 0, 0), scroller.go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, next_page_bool=False)
     button_lis = [back_button, next_page, previous_page]
+
     while True:
         help_surface.blit(background, (0, 0))
         help_surface.blit(background, (ss.SCREEN_WIDTH, 0))
         help_surface.blit(background, (ss.SCREEN_WIDTH * 2, 0))
+        help_surface.blit(background, (ss.SCREEN_WIDTH * 3, 0))
+        table = pygame.Surface((1000,540 ))
+        table.set_alpha(128)
+        table.fill((255,255,255))
+        #first screen - how to use the game
+        blit_text(help_surface, "Instructions:", (650, 100),
+                  pygame.font.Font(None, 100), 900, color=(255, 255, 255))
+
+        help_surface.blit(table, (150,150))
+        blit_text(help_surface, "HOW TO PLAY THE GAME", (650, 200),
+                  pygame.font.Font(None, 50), 900, color=(130, 1, 29))
+        blit_text(help_surface, "GOAL: ", (210, 250),
+                  pygame.font.Font(None, 40), 300, color=(130, 1, 29))
+        blit_text(help_surface, "COLLECT LETTERS IN THE RUNNING GAME AND USE THEM IN THE WORD-CONNECT GAME TO EARN POINTS BEFORE THE TIME RUNS OUT", (200, 300),
+                  pygame.font.Font(None, 25), 650, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "START THE GAME: ", (290, 420),
+                  pygame.font.Font(None, 40), 390, color=(130, 1, 29))
+        blit_text(help_surface, "FIRST, CREATE A USER, BY CLICKING ON THE USER BUTTON. MORE THAN ONE USER CAN BE ADDED, SO MAKE SURE TO PLAY WITH FRIENDS", (200, 450),
+                  pygame.font.Font(None, 20), 650, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "SECOND, CHOOSE AN AVATAR, BY CLICKING ON THE AVATAR BUTTON. IN THE START ONLY TWO AVATARS CAN BE SELECTED, PLAY MORE TO UNLOCK AVATARS", (200, 510),
+                  pygame.font.Font(None, 20), 850, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "THIRD, TO START THE GAME, CLICK ON SINGLE-PLAYER, OR TO CHOOSE A LEVEL CLICK ON LEVEL ICON, HERE YOU CAN SEE ALL UNLOCKED LEVELS", (200, 570),
+                  pygame.font.Font(None, 20), 850, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "FOURTH, TO SEE YOUR HIGHEST SCORE OR THE USER WITH THE HIGHEST SCORE CLICK ON SCOREBOARD OR LEADERBOARD BUTTON, RESPECTIVELY", (200, 630),
+                  pygame.font.Font(None, 20), 850, color=(130, 1, 29), alignment = "left")
+
+
+        # second screen - how to play the running game
+        blit_text(help_surface, "Instructions:", (1950, 100),
+                  pygame.font.Font(None, 100), 2200, color=(255,255,255))
+        help_surface.blit(table, (1450, 150))
+        blit_text(help_surface, "RUNNING GAME", (1950, 200),
+                  pygame.font.Font(None, 50), 2200, color=(130, 1, 29))
+        blit_text(help_surface, "GOAL: ", (1510, 250),
+                  pygame.font.Font(None, 40), 1600, color=(130, 1, 29))
+        blit_text(help_surface, "DODGE OBSTACLES TO COLLECT LETTERS BEFORE TIME RUNS OUT!!! ", (1500, 310),
+                  pygame.font.Font(None, 30), 1900, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "CONTROLS: ", (1550, 420),
+                  pygame.font.Font(None, 40), 1600, color=(130, 1, 29))
+        blit_text(help_surface, "MOVE LEFT: A-KEY OR LEFT ARROW KEY", (1500, 470),
+                  pygame.font.Font(None, 30), 1950, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "MOVE RIGHT: D-KEY OR RIGHT ARROW KEY", (1500, 530),
+                  pygame.font.Font(None, 30), 1950, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "JUMP: W-KEY OR UP ARROW KEY OR SPACE BAR", (1500, 590),
+                  pygame.font.Font(None, 30), 1950, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "", (1500, 590),
+                  pygame.font.Font(None, 30), 1950, color=(130, 1, 29), alignment = "left")
+
+        # third screen - how to play the word-connect game
+        blit_text(help_surface, "Instructions:", (3250, 100),
+                  pygame.font.Font(None, 100), 3500, color=(255,255,255))
+        help_surface.blit(table, (2750, 150))
+        blit_text(help_surface, "SELECT LETTERS", (3250, 200),
+                  pygame.font.Font(None, 50), 3500, color=(130, 1, 29))
+        blit_text(help_surface, "GOAL:", (2810, 250),
+                  pygame.font.Font(None, 40), 2900, color=(130, 1, 29))
+        blit_text(help_surface, "AFTER THE RUNNING GAME, SELECT A FIXED NUMBER OF LETTERS OUT OF ALL THE LETTERS COLLECTED, IN THIS SECTION, TO PROGRESS TO THE NEXT PART OF THE LEVEL", (2800,300),
+                  pygame.font.Font(None, 25),3400 , color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "CONTROLS: ", (2850, 420),
+                  pygame.font.Font(None, 40), 2900, color=(130, 1, 29))
+        blit_text(help_surface, "TO SELECT LETTERS SIMPLY CLICK ON THEM", (2800, 470),
+                  pygame.font.Font(None, 25), 3250, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "THE MAX NUMBER OF LETTERS THAT CAN BE SELECTED WILL BE SHOWN ON THE TOP OF SCREEN", (2800, 520),
+                  pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "TO GO TO THE NEXT SCREEN, CLICK ON THE ARROW BUTTON, HOWEVER YOU HAVE TO SELECT ATLEAST ONE LETTTER TO MOVE ON", (2800, 590),
+                  pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment = "left")
+
+        #fourth screen - how to play the word-connect game
+        blit_text(help_surface, "Instructions:", (4550, 100),
+                  pygame.font.Font(None, 100), 4800, color=(255,255,255))
+        help_surface.blit(table, (4050, 150))
+        blit_text(help_surface, "WORD-CONNECT", (4550, 200),
+                  pygame.font.Font(None, 50), 4800, color=(130, 1, 29))
+        blit_text(help_surface, "GOAL:", (4110, 250),
+                  pygame.font.Font(None, 40), 4200, color=(130, 1, 29))
+        blit_text(help_surface, "MAKE WORDS BY JOINING LETTERS TO GET POINTS. THE NUMBER OF POINTS YOU GET FOR EACH CORRECT WORD WILL DEPEND UPON THE LENGTH OF THE WORD", (4100,300),
+                  pygame.font.Font(None, 25),4700 , color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "CONTROLS: ", (4150, 420),
+                  pygame.font.Font(None, 40), 4200, color=(130, 1, 29))
+        blit_text(help_surface, "TO MAKE WORDS, SIMPLY CONNECT LETTERS", (4100, 470),
+                  pygame.font.Font(None, 25), 4550, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "TO USE THE MYSTERY LETTER COLLECTED IN THE RUNNING GAME, CLICK ON THE MYSTERY ICON ON THE BOTTON LEFT AND ADD LETTERS IN THE TEXT BOX", (4100, 520),
+                  pygame.font.Font(None, 25), 4750, color=(130, 1, 29), alignment = "left")
+        blit_text(help_surface, "TO GO TO THE NEXT LEVEL BEFORE TIME RUNS OUT, CLICK ON THE NEXT ARROW BUTTON ON THE BOTTOM RIGHT OF THE SCREEN", (4100, 590),
+                  pygame.font.Font(None, 25), 4750, color=(130, 1, 29), alignment = "left")
         screen.blit(help_surface, (scroller.x_pos, 0))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 with open('variables.json', 'w') as wvar:
@@ -106,6 +195,7 @@ def instructions(screen, back_button_func):
 
         for i in button_lis:
             i.update(screen)
+
         pygame.display.update()
         clock.tick()
 
