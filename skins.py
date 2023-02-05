@@ -7,7 +7,7 @@ from Level import level_list
 from helpful_functions import blit_text
 
 pygame.init()
-list_skins = ["santa", "boy", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
+list_skins = ["boy", "santa", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
               "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
 stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
 font_stars = pygame.font.Font(None, 36)

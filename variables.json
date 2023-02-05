@@ -2,13 +2,13 @@
     "1_time": "True",
     "users": [
         [
-            "Roopjeet",
+            "roopjeet",
             [],
-            "santa"
+            "boy"
         ]
     ],
     "current_user": [
         0,
-        "Roopjeet"
+        "roopjeet"
     ]
 }

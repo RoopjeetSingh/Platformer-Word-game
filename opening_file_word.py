@@ -41,7 +41,6 @@ list_images = Letter.letter_dic
 possible_characters = list(list_images.keys())
 
 
-
 def opening_page_word_connect(opening_counter, incorrect, count):
     if count:
         image = py.image.load('images/boy/Idle (1).png')
@@ -50,8 +49,8 @@ def opening_page_word_connect(opening_counter, incorrect, count):
         opening_surface = py.Surface((600, 300))
         incorrect_surface = py.Surface((350, 400))
         if opening_counter:
-            opening_surface.set_alpha(28)
             opening_surface.fill((0, 0, 0))
+            opening_surface.set_alpha(100)
             opening_surface.blit(image, (20, 35))
             blit_text(opening_surface,
                       "Hi there, its me, Gameboy, here again!!!! Good Job on the previous part. We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
@@ -61,18 +60,16 @@ def opening_page_word_connect(opening_counter, incorrect, count):
 
 
         elif incorrect:
-            # incorrect_surface.set_alpha(128)
+            incorrect_surface.set_alpha(200)
             boy = py.transform.flip(image, True, False)
             incorrect_surface.fill((0, 0, 0))
             incorrect_surface.blit(boy, (216, 175))
             blit_text(incorrect_surface,
-                      "If you have difficulty thinking of a new word, you can also use your mystery letters, that you collected in the running game, right now. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. If you want to get out of the mystery text-box, simply click anywhere on the screen or click on the mystery button. Further if you want to restart making a new word simply press space bar or double click on the transparent box. This will be all, Gamboy out!!",
+                      "If you have difficulty thinking of a new word, you can also use your mystery letters, the one you collected in the running game. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. If you want to get out of the mystery text-box, simply click anywhere on the screen or click on the mystery button. Further if you want to restart making a new word simply press space bar or double click on the transparent box. This will be all, Gameboy out!!",
                       (20, 10), py.font.Font(None, 20), 280, color=(255, 255, 255), alignment="left")
 
             screen.blit(incorrect_surface, (20, 110))
             count = False
-
-            print(count)
 
 
 def background(screen, x, y, z, c):
@@ -206,6 +203,7 @@ def shake(screen, shake_count, working, letters, incorrect, on, coord, word, sco
         shake_count += 1
     counter_o = False
 
+
 def text_draw(screen, counter):
     py.draw.rect(screen, (blink(counter)), (20, 50, 50, 50))
     font = py.font.Font(None, 30)
@@ -338,9 +336,6 @@ def next_level(kwargs):
 #             new_skins.append(skin)
 #     if new_skins:
 #         pass
-
-
-
 
 
 def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, opening_platformer, level):
@@ -524,7 +519,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                     mystery_and_submit_button(screen, mystery_number)
                 score_show(screen, working, score)
 
-        if working == False:
+        if not working:
 
             mixer.music.fadeout(1)
             background(screen, 255, 255, 255, 590)

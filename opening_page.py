@@ -1,5 +1,4 @@
 import pygame
-
 import ui_tools
 import screen_size as ss
 import json
@@ -15,7 +14,7 @@ def opening_page(screen):
     def get_name(name_user=""):
         name_user = name_user or name.text
         if name_user:
-            var["users"] = [[name_user, [], "santa"]]
+            var["users"] = [[name_user, [], "boy"]]
             # [["Roopjeet", [["level1", 3, 256, time],
             # ...], current skin, unlocked skins], ...]
             # Users is a list of people, a dictionary would have been more suitable, but it can not be
@@ -138,9 +137,7 @@ def show_level(screen):
             current_level)
 
     def change_text(text_show):
-        text_show = text_show["text_show"]
-        text_show += 1
-        return text_show
+        return text_show["text_show"] + 1
 
     def skip_instructions():
         show_instructions = False
@@ -191,7 +188,8 @@ def show_level(screen):
         #     show_time -= round(time.time() - show_time_actual)
         #     show_time_actual = time.time()
         arrow_button.kwargs["text_show"] = text_show
-        text_show = arrow_button.value_from_function if arrow_button.value_from_function is not None else text_show
+        text_show = max(arrow_button.value_from_function, text_show) if arrow_button.value_from_function is not None \
+            else text_show
         button_lis_clear.clear()
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
