@@ -281,17 +281,6 @@ def transition(screen):
         py.display.flip()
 
 
-def show_mystery_list():
-    a = py.Rect(0, 0, 50 * len(mystery_letters), 30)
-    a.center = 650, 100
-    py.draw.rect(screen, (0, 0, 0), (a))
-    font = py.font.Font(None, 30)
-    text = font.render(str(mystery_letters), True, (255, 255, 255))
-    rect = text.get_rect()
-    rect.center = 650, 100
-    screen.blit(text, rect)
-
-
 def next_level(kwargs):
     # level = kwargs["level"]
     # stars = kwargs["stars"]
@@ -370,7 +359,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     elif ev.key == K_RETURN and rect_pressed:
                         mystery_number -= 1
                         mystery_letters.append(let)
-                        show_mystery_list()
+                        
                         letters.append(let)
                         mystery(screen, "", mystery_number, pressed, rect_pressed)
                         count_mystery_backspace += 1
@@ -395,7 +384,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
-                            show_mystery_list()
+                            
                         elif i % 2 != 0 and count_mystery_backspace == len(mystery_letters):
                             pressed = False
                             background(screen, 255, 255, 255, 590)
@@ -417,7 +406,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
-                            show_mystery_list()
+                            
 
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
 
