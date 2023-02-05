@@ -75,7 +75,7 @@ def users(screen, back_button_func):
                 break
 
         if name_available:
-            var["users"].append([text, [], "boy"])
+            var["users"].append([text, [], "santa"])
             input_lis.pop()
             button_lis.clear()
             button_lis.append(back_button)

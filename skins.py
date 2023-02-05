@@ -4,16 +4,28 @@ import screen_size as ss
 import json
 from math import ceil
 from Level import level_list
+from helpful_functions import blit_text
 
 pygame.init()
 list_skins = ["santa", "boy", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
               "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
 stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
+font_stars = pygame.font.Font(None, 36)
 
 
 def skins(screen, back_button_func):
-    def change_skin(current_skin_change: dict):
-        var["users"][var["current_user"][0]][2] = current_skin_change["skin"]
+    def change_skin(kwargs: dict):
+        button: ui_tools.Button = kwargs["button"]
+        if not isinstance(button.image, list):
+            var["users"][var["current_user"][0]][2] = kwargs["skin"]
+        else:
+            stars = stars_required[list_skins.index(kwargs["skin"])]
+            for i in text_list:
+                if i[1] == button:
+                    break
+            else:
+                text_list.append([f"You need {stars} stars to unlock this skin", button, 0])
+
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
@@ -108,6 +120,7 @@ def skins(screen, back_button_func):
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
                  idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
                 image=idle_image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower())
+            skin_btn.kwargs["button"] = skin_btn
         else:
             image = [idle_image, pygame.transform.scale(
                 lock_original, (skin_btn.rect.w, lock_original.get_height()/lock_original.get_width()*skin_btn.rect.w))]
@@ -115,11 +128,13 @@ def skins(screen, back_button_func):
                 (x_value,
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
                  idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
-                image=image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower(), state_disabled=True,
+                image=image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower(),
                 image_position=[(0, 0), (0, (idle_image.get_height() - image[1].get_height())/2)])
+            skin_btn.kwargs["button"] = skin_btn
         button_lis.append(skin_btn)
         skins_btn.append((skin, skin_btn))
 
+    text_list = []
     while True:
         current_skin = {var["users"][var["current_user"][0]][2]: 25}
         for index, skin in enumerate(skins_btn):
@@ -138,7 +153,13 @@ def skins(screen, back_button_func):
 
         for i in button_lis:
             i.update(screen)
+        for text in text_list:
+            blit_text(screen, text[0], (text[1].rect.centerx, text[1].rect.bottom + 10),
+                      font_stars, text[1].rect.right, [255, 255, 255], text[2])
+            if text[2] < 256:
+                text[2] += 2
         pygame.display.update()
+        print(len(text_list))
         clock.tick(75)
 
 

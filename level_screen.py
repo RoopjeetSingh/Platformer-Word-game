@@ -2,12 +2,13 @@ import pygame
 import ui_tools
 import screen_size as ss
 import json
-from Level import level_list, level_generator
+from Level import level_list
 from platformer_game import platformer_game
 from helpful_functions import calculate_current_level, blit_text
 from math import ceil
 
 pygame.init()
+stars_required = [0, 1, 5, 6, 10]
 
 
 def level_screen(screen, back_button_func):
@@ -38,9 +39,18 @@ def level_screen(screen, back_button_func):
                     previous_page.state_disabled = False
                 checked = True
 
-    def set_level(new_level_dic):
+    def set_level(kwargs):
         # var["level"] = new_level_dic["new_level"].str
-        change_screen(lambda: platformer_game(screen, back_button_func, new_level_dic["new_level"]))
+        button_level: ui_tools.Button = kwargs["button"]
+        if not isinstance(button_level.image, list):
+            change_screen(lambda: platformer_game(screen, back_button_func, kwargs["new_level"]))
+        else:
+            stars = stars_required[level_list.index(kwargs["new_level"])]
+            for i in text_list:
+                if i[1] == button_level:
+                    break
+            else:
+                text_list.append([f"You need {stars} stars to unlock this level", button_level, 0])
 
     def make_level():
         show_no_add_page = True
@@ -77,24 +87,24 @@ def level_screen(screen, back_button_func):
 
     font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 9.17))
     level_txt = font.render("Choose your Level", True, (255, 255, 255))
-    font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 39.72))
+    font = pygame.font.Font(None, 30)
 
     button_level_list = []
     current_level = calculate_current_level(var)
+    games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
+
+    current_stars = 0
+    for level in level_list:
+        for game in games_played:
+            if level.str == game[0]:
+                current_stars += game[1]
+                break
 
     width_image = ((ss.SCREEN_WIDTH - 2 * previous_page.rect.right) / 2 - 40) / 1.5
     lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
     lock = pygame.transform.scale(lock_original, (width_image, int(ss.SCREEN_WIDTH / 7.15)))
     # This makes the width enough for 3 levels to be in it
     for index, level in enumerate(level_list):
-        level.clear()
-        level.letter_list = level_generator(level.no_of_letter)
-        level.start = 0
-        level.make_platforms_objects()
-        level.make_letters()
-        level.draw_for_display()
-        level.make_power_ups()
-        # level = level_orig()
         different_page_difference = 0
         if index % 3 == 0 and index != 0:
             different_page_difference = int(ss.SCREEN_WIDTH / 71.5) + previous_page.rect.right + (ss.SCREEN_WIDTH * (index // 3 - 1)) + (
@@ -103,7 +113,7 @@ def level_screen(screen, back_button_func):
                                                           level.bg_display.get_height()))
         x_value = int(ss.SCREEN_WIDTH / 71.5) + previous_page.rect.right if index == 0 else button.rect.right + int(ss.SCREEN_WIDTH / 71.5) + different_page_difference
         border_thickness = 0
-        if index > level_list.index(current_level):
+        if current_stars < stars_required[index]:
             image = [image, pygame.transform.scale(
                 lock_original, (width_image, width_image / level.bg_display.get_width() *
                                 level.bg_display.get_height() + int(ss.SCREEN_WIDTH / 40.86)))]
@@ -115,7 +125,8 @@ def level_screen(screen, back_button_func):
                 image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
                 image_position=[(0, width_image / level.bg_display.get_width() *
                                  level.bg_display.get_height() + int(ss.SCREEN_WIDTH / 40.86) - image[0].get_height()), (0, 0)],
-                state_disabled=True, new_level=level)
+                new_level=level)
+            button.kwargs["button"] = button
             button.text_position = ((button.rect.w - button.text.get_width()) / 2, 5)
         else:
             button = ui_tools.Button(
@@ -125,6 +136,7 @@ def level_screen(screen, back_button_func):
                 (0, 0, 0), set_level, text=level.str.upper(),
                 image=image, border_radius=1, border_color=(255, 255, 255), border_thickness=border_thickness,
                 image_align="bottom", new_level=level)
+            button.kwargs["button"] = button
         button_level_list.append(button)
     different_page_difference = 0
     if len(level_list) % 3 == 0 and len(level_list) != 0:
@@ -140,6 +152,7 @@ def level_screen(screen, back_button_func):
     button_level_list.append(add_level)
     button_lis = [back_button, next_page, previous_page] + button_level_list
     alpha = 0
+    text_list = []
     while True:
         show_no_add_page = add_level.value_from_function
         screen.blit(background, (0, 0))
@@ -157,13 +170,19 @@ def level_screen(screen, back_button_func):
 
         if show_no_add_page:
             blit_text(screen, "Add Level would be added in the next update",
-                      (add_level.rect.centerx, add_level.rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2),
-                      font, add_level.rect.right, color=(255, 255, 255), alpha=min(alpha, 255))
+                      (add_level.rect.centerx, add_level.rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2 - 5),
+                      font, add_level.rect.right - 30, color=(255, 255, 255), alpha=min(alpha, 255))
             if alpha <= 300:
                 alpha += 0.5
 
         for i in button_lis:
             i.update(screen)
+        for text in text_list:
+            blit_text(screen, text[0], (text[1].rect.centerx,
+                                        text[1].rect.y - font.render(" ", False, (0, 0, 0)).get_height() * 2 - 5),
+                      font, text[1].rect.right - 30, [255, 255, 255], text[2])
+            if text[2] < 256:
+                text[2] += 2
         pygame.display.update()
         clock.tick()
 

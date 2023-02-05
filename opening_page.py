@@ -6,8 +6,7 @@ import json
 from Level import level_list, level_generator
 from helpful_functions import blit_text
 from player import Player
-from wordconnect import game_Loop_Wordle
-import selection
+from opening_file_word import opening_screen_word
 
 pygame.init()
 
@@ -16,7 +15,7 @@ def opening_page(screen):
     def get_name(name_user=""):
         name_user = name_user or name.text
         if name_user:
-            var["users"] = [[name_user, [], "boy"]]
+            var["users"] = [[name_user, [], "santa"]]
             # [["Roopjeet", [["level1", 3, 256, time],
             # ...], current skin, unlocked skins], ...]
             # Users is a list of people, a dictionary would have been more suitable, but it can not be
@@ -131,16 +130,12 @@ def show_level(screen):
                     exit()
             clock.tick()
             pygame.display.flip()
-        # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-        #                                    len(player.mystery_letter_lis), screen)
+
         from platformer_game import platformer_game
-        print([letter_obj.letter for letter_obj in player.letter_lis])
-        # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-        #                                    len(player.mystery_letter_lis), screen,
-        #                                    round(len(current_level.letter_list) * 0.8 + len(player.mystery_letter_lis)))
-        game_Loop_Wordle(
+        opening_screen_word(
             screen, [letter_obj.letter for letter_obj in player.letter_lis],
-            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
+            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, opening_page,
+            current_level)
 
     def change_text(text_show):
         text_show = text_show["text_show"]
@@ -161,7 +156,6 @@ def show_level(screen):
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()
-    current_level.draw_for_display()
     current_level.make_power_ups()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
     arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
@@ -240,7 +234,10 @@ def show_level(screen):
                               f"For your help though "
                               f"we also have mystery letters which you can collect and later convert into any "
                               f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
-                              f"letter and convert it into a \"u\" which would allow you to make \"hut\". "
+                              f"letter and convert it into a \"u\" which would allow you to make \"hut\". But keep "
+                              f"track"
+                              f"of the time, the more time you use here the less time you would have for the next part "
+                              f"where you make the words"
                               f"Cool right, let's get started...",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
                       pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 57.2)),

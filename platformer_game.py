@@ -67,7 +67,6 @@ def platformer_game(screen, menu, level=None):
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()
-    current_level.draw_for_display()
     current_level.make_power_ups()
     # current_level = current_level()
     time_display = current_level.time

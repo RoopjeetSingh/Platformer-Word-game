@@ -38,8 +38,8 @@ def blit_text(surface, text, pos, font: pygame.font.Font, right_pos, color=(0, 0
                     (centerx + word_width > right_pos and alignment == "left"):
                 word_surface.set_alpha(alpha)
                 if alignment == "center":
-                    surface.blit(word_surface, word_surface.get_rect(center=(centerx, top)))
-                    end_pos = max(word_surface.get_rect(center=(centerx, top)).right, end_pos)
+                    surface.blit(word_surface, word_surface.get_rect(midtop=(centerx, top)))
+                    end_pos = max(word_surface.get_rect(midtop=(centerx, top)).right, end_pos)
                 else:
                     surface.blit(word_surface, word_surface.get_rect(topleft=(centerx, top)))
                     end_pos = max(word_surface.get_rect(topleft=(centerx, top)).right, end_pos)
@@ -48,8 +48,8 @@ def blit_text(surface, text, pos, font: pygame.font.Font, right_pos, color=(0, 0
         word = font.render(text_line, True, color)
         word.set_alpha(alpha)
         if alignment == "center":
-            surface.blit(word, word.get_rect(center=(centerx, top)))
-            end_pos = max(word.get_rect(center=(centerx, top)).right, end_pos)
+            surface.blit(word, word.get_rect(midtop=(centerx, top)))
+            end_pos = max(word.get_rect(midtop=(centerx, top)).right, end_pos)
         else:
             surface.blit(word, word.get_rect(topleft=(centerx, top)))
             end_pos = max(word.get_rect(topleft=(centerx, top)).right, end_pos)

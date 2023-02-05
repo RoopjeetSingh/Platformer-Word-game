@@ -17,13 +17,12 @@ def level_generator(no_of_letters: int):
         43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
         15.36,
         33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
-        1.39),
-                                    k=no_of_letters)
+        1.39), k=no_of_letters)
     return random_letters
 
 
 class Level:
-    def __init__(self, bg, no_tiles: int):
+    def __init__(self, bg, no_tiles: int, level_name):
         self.tiles = no_tiles
         self.bg_start = cv2.imread(bg)
         self.platform_group = pygame.sprite.Group()
@@ -37,6 +36,7 @@ class Level:
         #######################################
         self.start = 0
         self.width = no_tiles * ss.tile_size
+        self.str = level_name
         bg_lis = []
         for i in range(int(self.width / self.bg_start.shape[0]) + 1):
             bg_lis.append(self.bg_start)
@@ -45,28 +45,30 @@ class Level:
                                           "RGB").convert()
         self.bg = pygame.transform.scale(self.bg, (ss.SCREEN_HEIGHT / self.bg.get_height() * self.bg.get_width(),
                                                    ss.SCREEN_HEIGHT))
-        self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
-                                                  "RGB").convert()
-        self.bg_display = pygame.transform.scale(self.bg_display, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
+        # self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
+        #                                           "RGB").convert()
+        # self.bg_display = pygame.transform.scale(self.bg_display, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
+        self.bg_display = pygame.image.load(f"images/Background_platformer/{self.str}.png")
         # self.bg_display = pygame.transform.scale(
         #     self.bg_display,
         #     (ss.SCREEN_WIDTH / 2.86,
         #      ss.SCREEN_HEIGHT / 1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
 
-    def draw_for_display(self):
-        for i in self.obstruct_group:
-            if i.rect.x <= ss.SCREEN_WIDTH:
-                self.bg_display.blit(i.image, i.rect)
-
-        for i in self.platform_group:
-            if i.rect.x <= ss.SCREEN_WIDTH:
-                self.bg_display.blit(i.image, i.rect)
-        for i in self.letter_group:
-            if i.rect.x <= ss.SCREEN_WIDTH:
-                self.bg_display.blit(i.image, (i.rect.x, i.rect.y + ss.tile_size))
-        for i in self.power_up_group:
-            if i.rect.x <= ss.SCREEN_WIDTH:
-                self.bg_display.blit(i.image, i.rect)
+    # def draw_for_display(self):
+    #     for i in self.obstruct_group:
+    #         if i.rect.x <= ss.SCREEN_WIDTH:
+    #             self.bg_display.blit(i.image, i.rect)
+    #
+    #     for i in self.platform_group:
+    #         if i.rect.x <= ss.SCREEN_WIDTH:
+    #             self.bg_display.blit(i.image, i.rect)
+    #     for i in self.letter_group:
+    #         if i.rect.x <= ss.SCREEN_WIDTH:
+    #             self.bg_display.blit(i.image, (i.rect.x, i.rect.y + ss.tile_size))
+    #     for i in self.power_up_group:
+    #         if i.rect.x <= ss.SCREEN_WIDTH:
+    #             self.bg_display.blit(i.image, i.rect)
+    #     pygame.image.save(self.bg_display, f"images/Background_platformer/{self.str}.png")
 
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))
@@ -80,14 +82,14 @@ class Level:
 
 class Level1(Level):
     def __init__(self):
-        super(Level1, self).__init__(random.choice(background), 62)
+        super(Level1, self).__init__(random.choice(background), 62, "level1")
         self.no_of_letter = 10
         # self.letter_list = level_generator(10)
         # self.make_platforms_objects()
         # self.make_letters()
         # self.make_power_ups()
         # self.draw_for_display()
-        self.str = "level1"
+        # self.str = "level1"
         self.stars = 25
         self.time = 90
 
@@ -152,14 +154,14 @@ class Level1(Level):
 
 class Level2(Level):
     def __init__(self):
-        super(Level2, self).__init__(random.choice(background), 112)
+        super(Level2, self).__init__(random.choice(background), 112, "level2")
         self.no_of_letter = 15
         # self.letter_list = level_generator(self.no_of_letter)
         # self.make_platforms_objects()
         # self.make_letters()
         # self.draw_for_display()
         # self.make_power_ups()
-        self.str = "level2"
+        # self.str = "level2"
         self.stars = 25
         self.time = 90
 
@@ -247,14 +249,14 @@ class Level2(Level):
 
 class Level3(Level):
     def __init__(self):
-        super(Level3, self).__init__(random.choice(background), 91)
+        super(Level3, self).__init__(random.choice(background), 91, "level3")
         self.no_of_letter = 13
         # self.letter_list = level_generator(13)
         # self.make_platforms_objects()
         # self.make_letters()
         # self.draw_for_display()
         # self.make_power_ups()
-        self.str = "level3"
+        # self.str = "level3"
         self.stars = 25
         self.time = 90
 
@@ -354,14 +356,14 @@ class Level3(Level):
 
 class Level4(Level):
     def __init__(self):
-        super(Level4, self).__init__(random.choice(background), 119)
+        super(Level4, self).__init__(random.choice(background), 119, "level4")
         self.no_of_letter = 16
         # self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
         # self.make_platforms_objects()
         # self.make_letters()
         # self.draw_for_display()
         # self.make_power_ups()
-        self.str = "level4"
+        # self.str = "level4"
         self.stars = 25
         self.time = 90
 
@@ -480,14 +482,14 @@ class Level4(Level):
 
 class Level5(Level):
     def __init__(self):
-        super(Level5, self).__init__(random.choice(background), 175)
+        super(Level5, self).__init__(random.choice(background), 175, "level5")
         self.no_of_letter = 21
         # self.letter_list = level_generator(21)
         # self.make_platforms_objects()
         # self.make_letters()
         # self.draw_for_display()
         # self.make_power_ups()
-        self.str = "level5"
+        # self.str = "level5"
         self.stars = 25
         self.time = 90
 

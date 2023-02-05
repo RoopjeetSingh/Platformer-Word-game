@@ -2,25 +2,13 @@
     "1_time": "True",
     "users": [
         [
-            "Pritpal Singh",
-            [
-                [
-                    "level1",
-                    1,
-                    31,
-                    "02/05/2023"
-                ]
-            ],
-            "santa"
-        ],
-        [
-            "Randeep",
+            "Roopjeet",
             [],
-            "boy"
+            "santa"
         ]
     ],
     "current_user": [
         0,
-        "Pritpal Singh"
+        "Roopjeet"
     ]
 }

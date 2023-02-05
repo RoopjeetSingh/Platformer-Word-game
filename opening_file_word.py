@@ -42,7 +42,7 @@ possible_characters = list(list_images.keys())
 
 
 
-def opening_page(opening_counter, incorrect, count):
+def opening_page_word_connect(opening_counter, incorrect, count):
     if count:
         image = py.image.load('images/boy/Idle (1).png')
         image = py.transform.scale(image, (134, 225))
@@ -199,7 +199,7 @@ def shake(screen, shake_count, working, letters, incorrect, on, coord, word, sco
         progress_bar(screen, score, 20, 30)
         show(screen, word, x_change)
         update(incorrect, shake_count)
-        opening_page(False, True,counter_o)
+        opening_page_word_connect(False, True, counter_o)
 
         py.display.update()
 
@@ -343,7 +343,7 @@ def next_level(kwargs):
 
 
 
-def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, level):
+def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, opening_platformer, level):
     x_change = 0
     i = -1
     shake_count = 0
@@ -378,7 +378,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
     # mixer.music.play()
 
     while run:
-        opening_page(opening_counter, incorrect, counter_o)
+        opening_page_word_connect(opening_counter, incorrect, counter_o)
         mouse = py.mouse.get_pos()
         for ev in py.event.get():
             if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
@@ -459,8 +459,8 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
 
-                    if rect_pressed:
-                        pressed = False
+                    # if rect_pressed:
+                    #     pressed = False
 
                     if on == True and 300 < mouse[0] < 1000 and 125 < mouse[
                         1] < 575 and not pressed and clock.tick() > 100:
@@ -489,7 +489,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
                     if len(word) == len(letters) and not main.WORDS.get(word, False):
                         incorrect = True
-                        opening_page(opening_counter, incorrect, counter_o)
+                        opening_page_word_connect(opening_counter, incorrect, counter_o)
 
                     if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
                         check.append(word)
@@ -503,7 +503,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                         score_show(screen, working, score)
                         place(screen, len(letters), on, coord, letters, list_images)
                         show(screen, word, x_change)
-                        opening_page(opening_counter, True, counter_o)
+                        opening_page_word_connect(opening_counter, True, counter_o)
                         counter_o = False
                         word = ""
                 if incorrect == True:
@@ -542,6 +542,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                 if count > 0:
                     with open('variables.json', 'r') as f:
                         var = json.load(f)
+                    var["1_time"] = "False"
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
                     with open('variables.json', 'w') as wvar:
@@ -555,7 +556,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                     border_radius=10, border_color=(35, 53, 78))
                 retry_button = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16, 520, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), lambda: platformer(screen, menu, level), image=retry_img,
+                    (59, 83, 121), lambda: opening_platformer(screen), image=retry_img,
                     hover_color=(35, 53, 78),
                     clicked_color=(15, 20, 35),
                     border_radius=10, border_color=(35, 53, 78))
@@ -578,5 +579,6 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 if __name__ == "__main__":
     from platformer_game import platformer_game
     from Level import level_list
+    from opening_page import opening_page as op
 
-    opening_screen_word(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, level_list[0])
+    opening_screen_word(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, op, level_list[0])
