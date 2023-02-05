@@ -130,10 +130,12 @@ def show_level(screen):
                     exit()
             clock.tick()
             pygame.display.flip()
-        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-                                           len(player.mystery_letter_lis), screen)
-        game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
-                         len(player.mystery_letter_lis))
+        # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+        #                                    len(player.mystery_letter_lis), screen)
+        from platformer_game import platformer_game
+        game_Loop_Wordle(
+            screen, [letter_obj.letter for letter_obj in player.letter_lis],
+            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def change_text(text_show):
         text_show = text_show["text_show"]

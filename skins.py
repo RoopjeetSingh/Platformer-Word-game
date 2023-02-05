@@ -3,6 +3,7 @@ import ui_tools
 import screen_size as ss
 import json
 from math import ceil
+from Level import level_list
 
 pygame.init()
 
@@ -62,8 +63,17 @@ def skins(screen, back_button_func):
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
-    list_skins = ["santa", "boy", "female_zombie", "male_zombie", "adventure_boy", "adventure_girl", "cat", "dinosaur",
-                  "dog", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
+    list_skins = ["santa", "boy", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
+                  "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
+    stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
+    games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
+
+    current_stars = 0
+    for level in level_list:
+        for game in games_played:
+            if level.str == game[0]:
+                current_stars += game[1]
+                break
 
     disabled = True if len(list_skins) <= 3 else False
     next_page = ui_tools.Button(
@@ -72,7 +82,8 @@ def skins(screen, back_button_func):
         state_disabled=disabled,
         image=next_button, fill_bg=False, disabled_image=disabled_next_button)
     previous_page = ui_tools.Button(
-        (int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(), next_button.get_height()),
+        (int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_HEIGHT / 2 - next_button.get_height() / 2, next_button.get_width(),
+         next_button.get_height()),
         (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, going_to_next_page=False)
 
@@ -91,7 +102,7 @@ def skins(screen, back_button_func):
                                              ss.SCREEN_WIDTH / 5 / idle_image.get_width() * idle_image.get_height()))
         idle_image.set_colorkey((0, 0, 0))
         x_value = int(ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right if index == 0 else skin_btn.rect.right + different_page_difference
-        if skin in var["users"][var["current_user"][0]][3]:
+        if stars_required[index] <= current_stars:
             skin_btn = ui_tools.Button(
                 (x_value,
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,

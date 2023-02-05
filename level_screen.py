@@ -2,7 +2,7 @@ import pygame
 import ui_tools
 import screen_size as ss
 import json
-from Level import level_list
+from Level import level_list, level_generator
 from platformer_game import platformer_game
 from helpful_functions import calculate_current_level, blit_text
 from math import ceil
@@ -87,6 +87,13 @@ def level_screen(screen, back_button_func):
     lock = pygame.transform.scale(lock_original, (width_image, int(ss.SCREEN_WIDTH / 7.15)))
     # This makes the width enough for 3 levels to be in it
     for index, level in enumerate(level_list):
+        level.clear()
+        level.letter_list = level_generator(level.no_of_letter)
+        level.start = 0
+        level.make_platforms_objects()
+        level.make_letters()
+        level.draw_for_display()
+        level.make_power_ups()
         # level = level_orig()
         different_page_difference = 0
         if index % 3 == 0 and index != 0:

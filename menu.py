@@ -1,3 +1,5 @@
+import pygame.transform
+
 import ui_tools as pgb
 from instructions import instructions
 from score_board import scoreboard
@@ -9,13 +11,13 @@ from level_screen import level_screen
 from platformer_game import platformer_game
 from helpful_functions import calculate_current_level, blit_text
 from users import users
-import time
+from letter import Letter
+import random
 
 pygame.init()
 
 
 def menu(screen):
-    start_time = time.time()
 
     def change_screen(func):
         with open('variables.json', 'w') as wvar:
@@ -35,7 +37,7 @@ def menu(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
+    background = pygame.image.load("images/Menu_page/new_winter_bg.jpg").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     help_text = pygame.transform.scale(pygame.image.load("images/Menu_page/help.png").convert_alpha(),
                                        (ss.SCREEN_WIDTH / 5.7, ss.SCREEN_HEIGHT / 8.4))  # 250, 50
@@ -54,7 +56,6 @@ def menu(screen):
 
     leader_board_img.set_colorkey((255, 255, 255))
 
-    start = time.time()
     level_img = calculate_current_level(var)
     level_img.clear()
     level_img.letter_list = level_generator(level_img.no_of_letter)
@@ -69,7 +70,6 @@ def menu(screen):
         level_img,
         (ss.SCREEN_WIDTH / 2.86,
          ss.SCREEN_HEIGHT / 1.56 / level_img.get_width() * level_img.get_height()))
-    print(time.time() - start)
 
     quit_button = pgb.Button((ss.SCREEN_WIDTH / 2 - 3 * ss.SCREEN_WIDTH / 16 / 2, 3 * ss.SCREEN_HEIGHT / 4,
                               3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16), (255, 255, 255),
@@ -120,17 +120,45 @@ def menu(screen):
          level_img.get_width(), level_img.get_height()), (0, 0, 0),
         change_screen,
         image=level_img, func=lambda: level_screen(screen, menu))
+
     button_lis = [quit_button, instructions_btn, scoreboard_btn, leaderboard_btn, single_player, multiplayer,
                   skins_btn, level_btn, users_button]
     font = pygame.font.Font(None, int(ss.SCREEN_WIDTH // 39.72))
     alpha = 0
-    print(time.time() - start_time)
+    games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
+
+    current_stars = 0
+    for level in level_list:
+        for game in games_played:
+            if level.str == game[0]:
+                current_stars += game[1]
+                break
+
+    letter_lis = []
+    font_stars = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
+    number_stars = font_stars.render(str(current_stars), True, (0, 0, 0))
+    stars_img = pygame.image.load('images/Menu_page/numberOfStars.png').convert()
+    stars_img = pygame.transform.scale(stars_img, (40 / stars_img.get_height() * stars_img.get_width(), 40))
+    stars_img.set_colorkey((255, 255, 255))
+    # stars_img.set_colorkey((0, 0, 0))
+    # surface_stars = pygame.Surface(
+    #     (15 + number_stars.get_width() + 41/2, number_stars.get_height() - 22))
+    # surface_stars.set_alpha(120)
     while True:
         screen.blit(background, (0, 0))
+        # screen.blit(surface_stars, (916 + 41/2, 15))
+        screen.blit(stars_img, (916, 18))
+        screen.blit(number_stars, (916 + 41 + 5, 3))
+        print(stars_img.get_width())
         show_no_multiplayer_page = multiplayer.value_from_function or False
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 end_screen()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                rand_letter = random.choice(tuple(Letter.letter_dic.keys()))
+                image = pygame.image.load(Letter.letter_dic.get(rand_letter))
+                image = pygame.transform.scale(image, (50, 50))
+                letter_lis.append([image, [event.pos[0], event.pos[1]]])
             for i in button_lis:
                 i.check_event(event)
         if show_no_multiplayer_page:
@@ -142,6 +170,11 @@ def menu(screen):
 
         for i in button_lis:
             i.update(screen)
+
+        for i in letter_lis:
+            if i[1][1] + 0.5 < ss.SCREEN_HEIGHT - i[0].get_height():
+                i[1][1] += 0.5
+            screen.blit(i[0], i[1])
         pygame.display.update()
         clock.tick()
         # print(clock.get_fps())

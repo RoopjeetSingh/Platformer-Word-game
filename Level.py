@@ -88,7 +88,7 @@ class Level1(Level):
         # self.make_power_ups()
         # self.draw_for_display()
         self.str = "level1"
-        self.stars = [5, 15, 25]
+        self.stars = 25
         self.time = 90
 
     def make_platforms_objects(self):
@@ -160,7 +160,7 @@ class Level2(Level):
         # self.draw_for_display()
         # self.make_power_ups()
         self.str = "level2"
-        self.stars = [5, 15, 25]
+        self.stars = 25
         self.time = 90
 
     def make_letters(self):
@@ -255,7 +255,7 @@ class Level3(Level):
         # self.draw_for_display()
         # self.make_power_ups()
         self.str = "level3"
-        self.stars = [5, 15, 25]
+        self.stars = 25
         self.time = 90
 
     def make_letters(self):
@@ -362,7 +362,7 @@ class Level4(Level):
         # self.draw_for_display()
         # self.make_power_ups()
         self.str = "level4"
-        self.stars = [5, 15, 25]
+        self.stars = 25
         self.time = 90
 
     def make_letters(self):
@@ -488,7 +488,7 @@ class Level5(Level):
         # self.draw_for_display()
         # self.make_power_ups()
         self.str = "level5"
-        self.stars = [5, 15, 25]
+        self.stars = 25
         self.time = 90
 
     def make_letters(self):

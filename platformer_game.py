@@ -1,11 +1,8 @@
-import pygame
-
 from player import *
 from Level import *
 import screen_size as ss
 import json
 from helpful_functions import calculate_current_level, blit_text
-import time
 from wordconnect import game_Loop_Wordle
 import ui_tools
 import selection
@@ -21,7 +18,7 @@ retry_img = pygame.transform.scale(pygame.image.load("images/Menu_page/retrybg.p
 
 def platformer_game(screen, menu, level=None):
     def show_word_connect():
-        start_color = int(ss.SCREEN_WIDTH / 9.533)
+        start_color = 150
         while start_color >= 0:
             screen.fill((start_color, start_color, start_color))
             start_color -= 1
@@ -33,8 +30,9 @@ def platformer_game(screen, menu, level=None):
             pygame.display.flip()
         selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
                                            len(player.mystery_letter_lis), screen)
-        game_Loop_Wordle(screen, [letter_obj.letter for letter_obj in player.letter_lis],
-                         len(player.mystery_letter_lis))
+        game_Loop_Wordle(
+            screen, [letter_obj.letter for letter_obj in player.letter_lis],
+            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def killed_screen(alpha):
         blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
