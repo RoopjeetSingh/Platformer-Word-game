@@ -29,9 +29,10 @@ def platformer_game(screen, menu, level=None):
             clock.tick()
             pygame.display.flip()
         selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-                                           len(player.mystery_letter_lis), screen)
+                                           len(player.mystery_letter_lis), screen,
+                                           round(len(current_level.letter_list)*0.8))
         game_Loop_Wordle(
-            screen, [letter_obj.letter for letter_obj in player.letter_lis],
+            screen, selection.letter_selected,
             len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def killed_screen(alpha):
@@ -127,4 +128,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level_list[3])
+    platformer_game(root, menu)

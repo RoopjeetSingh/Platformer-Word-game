@@ -136,6 +136,8 @@ class Button:
             self.hovered = False
 
     def update(self, surface):
+        if self.state_disabled and not self.disabled_image and not self.disabled_color:
+            self.alpha = 50
         """Update needs to be called every frame in the main loop."""
         color = self.color
         text = self.text

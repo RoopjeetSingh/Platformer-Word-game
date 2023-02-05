@@ -258,13 +258,13 @@ def celebration(screen, score, x, points):
 
 def message(score, points):
     if score >= points:
-        x = random.choice(triple_star)
+        x = random.choice(triple_star).title()
     elif points > score >= round(0.5 * points):
-        x = random.choice(double_star)
+        x = random.choice(double_star).title()
     elif round(0.5 * points) > score >= round(0.2 * points):
-        x = random.choice(single_star)
+        x = random.choice(single_star).title()
     elif round(points * 0.2) > score:
-        x = "you loose, the world is over!!!! HA HA HA HA"
+        x = "you did not even try".title()
 
     return x
 
@@ -289,12 +289,19 @@ def show_mystery_list():
 
 
 def next_level(kwargs):
-    level = kwargs["level"]
-    stars = kwargs["stars"]
-    score = kwargs["score"]
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
-    var["users"][["current_user"][0]][1].append([level, stars, score, current_time.strftime("%d/%m/%Y %H:%M:%S")])
+    # level = kwargs["level"]
+    # stars = kwargs["stars"]
+    # score = kwargs["score"]
+    platformer = kwargs["platformer"]
+    # screen = kwargs["screen"]
+    # with open('variables.json', 'r') as f:
+    #     var = json.load(f)
+    # var["users"][var["current_user"][0]][1].append([level, stars, score, current_time.strftime("%m/%d/%Y %H:%M:%S")])
+    # with open('variables.json', 'w') as wvar:
+    #     json.dump(var, wvar, indent=4)
+    from menu import menu
+    platformer(screen, menu)
+
 
 def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
     x_change = 0
@@ -458,49 +465,58 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     mystery_and_submit_button(screen, mystery_number)
                 score_show(screen, working, score)
 
-        for i in button_lis:
-            i.update(screen)
         if working == False:
-            if not added_button:
-                from menu import menu
-                retry_img = py.transform.scale(py.image.load("images/Menu_page/retrybg.png").convert_alpha(),
-                                               (50, 50))
-                button_menu = ui_tools.Button(
-                    (ss.SCREEN_WIDTH/2 - 150 - ss.SCREEN_WIDTH / 8, 600, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), lambda: menu(screen), text="Menu", hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78),
-                    font=py.font.Font(None, 48))
-                retry_button = ui_tools.Button(
-                    (ss.SCREEN_WIDTH/2 - ss.SCREEN_WIDTH / 16, 600, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), lambda: platformer(screen, menu, level), image=retry_img,
-                    hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78))
-                next_level_button = ui_tools.Button(
-                    (ss.SCREEN_WIDTH / 2 + 150, 600, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), next_level, text="Menu", hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78),
-                    font=py.font.Font(None, 48), stars=count, level=level.str, score=score)
-                button_lis.append(button_menu)
-                button_lis.append(retry_button)
-                button_lis.append(next_level_button)
-                added_button = True
             mixer.music.fadeout(1)
             background(screen, 255, 255, 255, 590)
             clock_star.tick(60)
             stars(screen)
             update_stars(score, points)
+            from menu import menu
+            if not added_button:
+                if count > 0:
+                    with open('variables.json', 'r') as f:
+                        var = json.load(f)
+                    var["users"][var["current_user"][0]][1].append(
+                        [level.str, count, score, current_time.strftime("%m/%d/%Y")])
+                    with open('variables.json', 'w') as wvar:
+                        json.dump(var, wvar, indent=4)
+                retry_img = py.transform.scale(py.image.load("images/Menu_page/retrybg.png").convert_alpha(),
+                                               (50, 50))
+                button_menu = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), lambda: menu(screen), text="Menu", hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78))
+                retry_button = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), lambda: platformer(screen, menu, level), image=retry_img,
+                    hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78))
+                state = False if count > 0 else True
+                next_level_button = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 + 100, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), next_level, text="Next Level", hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78), platformer=platformer, state_disabled=state)
+                button_lis.append(button_menu)
+                button_lis.append(retry_button)
+                button_lis.append(next_level_button)
+                added_button = True
             score_show(screen, working, score)
 
             if message_count != 0:
                 x = message(score, points)
                 message_count -= 1
             celebration(screen, score, x, points)
+
+        for i in button_lis:
+            i.update(screen)
         py.display.update()
+
 
 if __name__ == "__main__":
     from platformer_game import platformer_game
     from Level import level_list
+
     game_Loop_Wordle(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, level_list[0])

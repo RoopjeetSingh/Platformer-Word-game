@@ -166,7 +166,8 @@ def instructions(screen, back_button_func):
         blit_text(help_surface, "GOAL:", (2810, 250),
                   pygame.font.Font(None, 40), 2900, color=(130, 1, 29))
         blit_text(help_surface,
-                  "AFTER THE RUNNING GAME, SELECT A FIXED NUMBER OF LETTERS OUT OF ALL THE LETTERS COLLECTED, IN THIS SECTION, TO PROGRESS TO THE NEXT PART OF THE LEVEL",
+                  "AFTER THE RUNNING GAME, SELECT A FIXED NUMBER OF LETTERS OUT OF ALL THE LETTERS COLLECTED, IN THIS "
+                  "SECTION, TO PROGRESS TO THE NEXT PART OF THE LEVEL",
                   (2800, 300),
                   pygame.font.Font(None, 25), 3400, color=(130, 1, 29), alignment="left")
         blit_text(help_surface, "CONTROLS: ", (2850, 420),
@@ -177,7 +178,8 @@ def instructions(screen, back_button_func):
                   (2800, 520),
                   pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment="left")
         blit_text(help_surface,
-                  "TO GO TO THE NEXT SCREEN, CLICK ON THE ARROW BUTTON, HOWEVER YOU HAVE TO SELECT ATLEAST ONE LETTTER TO MOVE ON",
+                  "TO GO TO THE NEXT SCREEN, CLICK ON THE ARROW BUTTON, HOWEVER YOU HAVE TO SELECT ATLEAST ONE LETTTER "
+                  "TO MOVE ON",
                   (2800, 590),
                   pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment="left")
 

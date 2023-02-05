@@ -133,8 +133,11 @@ def show_level(screen):
         # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
         #                                    len(player.mystery_letter_lis), screen)
         from platformer_game import platformer_game
+        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+                                           len(player.mystery_letter_lis), screen,
+                                           round(len(current_level.letter_list) * 0.8))
         game_Loop_Wordle(
-            screen, [letter_obj.letter for letter_obj in player.letter_lis],
+            screen, selection.letter_selected,
             len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def change_text(text_show):
