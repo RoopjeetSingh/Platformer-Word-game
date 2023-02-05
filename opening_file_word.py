@@ -41,35 +41,35 @@ list_images = Letter.letter_dic
 possible_characters = list(list_images.keys())
 
 
-def opening_page_word_connect(opening_counter, incorrect, count):
+def opening_page(opening_counter, incorrect, count):
     if count:
         image = py.image.load('images/boy/Idle (1).png')
-        image = py.transform.scale(image, (134, 225))
+        image0 = py.transform.scale(image, (134, 225))
+        image1 = py.transform.scale(image, (107,175))
         image.set_colorkey((0, 0, 0))
-        opening_surface = py.Surface((600, 300))
+        opening_surface = py.Surface((600, 320))
         incorrect_surface = py.Surface((350, 400))
         if opening_counter:
+            opening_surface.set_alpha(28)
             opening_surface.fill((0, 0, 0))
-            # opening_surface.set_alpha(100)
-            opening_surface.blit(image, (20, 35))
+            opening_surface.blit(image0, (20, 35))
             blit_text(opening_surface,
-                      "Hi there, its me, Gameboy, here again!!!! Good Job on the previous part. We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
-                      (170, 40), py.font.Font(None, 20), 520, color=(255, 255, 255), alignment="left")
+                      "Hi there, its me, Gameboy, here again!!!! We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
+                      (170, 25), py.font.Font(None, 25), 530, color=(255, 255, 255), alignment="left")
 
             screen.blit(opening_surface, (350, 0))
 
 
         elif incorrect:
-            # incorrect_surface.set_alpha(200)
-            boy = py.transform.flip(image, True, False)
+            # incorrect_surface.set_alpha(128)
+            boy = py.transform.flip(image1, True, False)
             incorrect_surface.fill((0, 0, 0))
-            incorrect_surface.blit(boy, (216, 175))
+            incorrect_surface.blit(boy, (216, 200))
             blit_text(incorrect_surface,
-                      "If you have difficulty thinking of a new word, you can also use your mystery letters, the one you collected in the running game. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. If you want to get out of the mystery text-box, simply click anywhere on the screen or click on the mystery button. Further if you want to restart making a new word simply press space bar or double click on the transparent box. This will be all, Gameboy out!!",
-                      (20, 10), py.font.Font(None, 20), 280, color=(255, 255, 255), alignment="left")
+                      "If you have difficulty thinking of a new word, you can also use your mystery letters right now. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. Further if you want to restart making a new word simply press space bar or double click on the transparent box.",
+                      (20, 10), py.font.Font(None, 23), 260, color=(255, 255, 255), alignment="left")
 
             screen.blit(incorrect_surface, (20, 110))
-            count = False
 
 
 def background(screen, x, y, z, c):
