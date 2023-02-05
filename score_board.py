@@ -68,63 +68,63 @@ def scoreboard(screen, back_button_func):
         (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
-    text_width, text_height = 280, 75
-    font_lis_top = [((101, 165), make_font("Level")),
-                    ((101 + text_width, 165), make_font("Stars")),
-                    ((101 + text_width * 2, 165), make_font("Score")),
-                    ((101 + text_width * 3, 165), make_font("Time"))]
-    font_current_usr = pygame.font.SysFont("copperplate", 50, bold=True)
+    text_width, text_height = int(ss.SCREEN_WIDTH / 5.107), int(ss.SCREEN_WIDTH / 19.067)
+    font_lis_top = [((int(ss.SCREEN_WIDTH / 14.1584), int(ss.SCREEN_WIDTH / 8.67)), make_font("Level")),
+                    ((int(ss.SCREEN_WIDTH / 14.1584) + text_width, int(ss.SCREEN_WIDTH / 8.67)), make_font("Stars")),
+                    ((int(ss.SCREEN_WIDTH / 14.1584) + text_width * 2, int(ss.SCREEN_WIDTH / 8.67)), make_font("Score")),
+                    ((int(ss.SCREEN_WIDTH / 14.1584) + text_width * 3, int(ss.SCREEN_WIDTH / 8.67)), make_font("Time"))]
+    font_current_usr = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 28.6), bold=True)
 
     current_user_text = font_current_usr.render(var["current_user"][1], True, (255, 0, 0))
     scores_levels_fonts = []
     stars_surface_list = []  # Would have lists of x and y position
     stars_img = pygame.image.load('images/Menu_page/Stars.png').convert_alpha()
-    stars_img = pygame.transform.scale(stars_img, (80 / stars_img.get_height() * stars_img.get_width(), 70))
+    stars_img = pygame.transform.scale(stars_img, (int(ss.SCREEN_WIDTH / 17.875) / stars_img.get_height() * stars_img.get_width(), int(ss.SCREEN_WIDTH / 20.43)))
 
     games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
-    if len(games_played) > 15:
-        games_played = games_played[:15]
+    if len(games_played) > int(ss.SCREEN_WIDTH / 95.33):
+        games_played = games_played[:int(ss.SCREEN_WIDTH / 95.33)]
     for index, value in enumerate(games_played):
-        scores_levels_fonts.append(((0 * text_width + 101,
-                                     (index + 1) * text_height + 170), make_font(str(value[0]))))  # Level
+        scores_levels_fonts.append(((0 * text_width + int(ss.SCREEN_WIDTH / 14.1584),
+                                     (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41)), make_font(str(value[0]))))  # Level
         # Decides the arrangement based on the number of Stars -- value[1] is the number of stars
         if int(value[1]) == 1:
-            stars_surface_list.append([1 * text_width + 101 + text_width / 2 - stars_img.get_width() / 2 -
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + text_width / 2 - stars_img.get_width() / 2 -
                                        (ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
         elif int(value[1]) == 2:
-            stars_surface_list.append([1 * text_width + 101 + text_width / 3 - stars_img.get_width() / 2 - (
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + text_width / 3 - stars_img.get_width() / 2 - (
                     ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
-            stars_surface_list.append([1 * text_width + 101 + 2 * text_width / 3 - stars_img.get_width() / 2 - (
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + 2 * text_width / 3 - stars_img.get_width() / 2 - (
                     ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
         elif int(value[1]) == 3:
-            stars_surface_list.append([1 * text_width + 101 + ((text_width / 3 - 75) / 2) - (
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + ((text_width / 3 - 75) / 2) - (
                     ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
-            stars_surface_list.append([1 * text_width + 101 + ((text_width / 3 - 75) / 2) * 3 + 75 - (
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + ((text_width / 3 - 75) / 2) * 3 + 75 - (
                     ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
-            stars_surface_list.append([1 * text_width + 101 + ((text_width / 3 - 75) / 2) * 5 + 75 * 2 - (
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
+            stars_surface_list.append([1 * text_width + int(ss.SCREEN_WIDTH / 14.1584) + ((text_width / 3 - 75) / 2) * 5 + 75 * 2 - (
                     ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                       (index + 1) * text_height + 170 + (text_height - stars_img.get_height()) / 2])
+                                       (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41) + (text_height - stars_img.get_height()) / 2])
 
-        scores_levels_fonts.append(((2 * text_width + 101,
-                                     (index + 1) * text_height + 170), make_font(str(value[2]))))  # Score
-        scores_levels_fonts.append(((3 * text_width + 101,
-                                     (index + 1) * text_height + 170), make_font(str(value[3]))))  # Time
+        scores_levels_fonts.append(((2 * text_width + int(ss.SCREEN_WIDTH / 14.1584),
+                                     (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41)), make_font(str(value[2]))))  # Score
+        scores_levels_fonts.append(((3 * text_width + int(ss.SCREEN_WIDTH / 14.1584),
+                                     (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41)), make_font(str(value[3]))))  # Time
 
-    surface_font = pygame.Surface((ss.SCREEN_WIDTH, 165 + text_height))
+    surface_font = pygame.Surface((ss.SCREEN_WIDTH, int(ss.SCREEN_WIDTH / 8.67) + text_height))
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
-            ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - 45 - scoreboard_bg.get_height() + 15))
+            ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - int(ss.SCREEN_WIDTH / 31.78) - scoreboard_bg.get_height() + int(ss.SCREEN_WIDTH / 95.33)))
     # button_lis = []
-    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100)
+    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH / 14.3))
     scoreboard_text = font_main_text.render("ScoreBoard", True, (0, 0, 0))
     # circle_pos = []
     while True:
         if len(stars_surface_list) > 1 and stars_surface_list[-1][1] + stars_img.get_height() + scroller.y_pos_text > (
-                ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() + 15:
+                ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH / 31.78) + scoreboard_bg.get_height() + int(ss.SCREEN_WIDTH / 95.33):
             scroll_down.state_disabled = False
         else:
             scroll_down.state_disabled = True
@@ -136,24 +136,24 @@ def scoreboard(screen, back_button_func):
 
         screen.blit(background, (0, 0))
         screen.blit(scoreboard_bg, ((ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                    (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45))
+                                    (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH / 31.78)))
         # scoreboard_bg.blit(scoreboard_bg, (0, 0))
         screen.blit(scoreboard_text, (
             ss.SCREEN_WIDTH / 2 - scoreboard_text.get_width() / 2,
-            ss.SCREEN_HEIGHT / 10 - scoreboard_text.get_height() / 2))
+            ss.SCREEN_HEIGHT / int(ss.SCREEN_WIDTH / 143) - scoreboard_text.get_height() / 2))
 
         surface_font.blit(background, (0, 0))
         surface_font.blit(scoreboard_bg, ((ss.SCREEN_WIDTH - scoreboard_bg.get_width()) / 2,
-                                          (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45))
+                                          (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH / 31.78)))
         surface_font.blit(scoreboard_text, (
             ss.SCREEN_WIDTH / 2 - scoreboard_text.get_width() / 2,
-            ss.SCREEN_HEIGHT / 10 - scoreboard_text.get_height() / 2))
+            ss.SCREEN_HEIGHT / int(ss.SCREEN_WIDTH / 143) - scoreboard_text.get_height() / 2))
 
-        if len(games_played) < 15:
-            play_more_y = 170 + text_height * 2 if len(stars_surface_list) == 0 \
+        if len(games_played) < int(ss.SCREEN_WIDTH / 95.33):
+            play_more_y = int(ss.SCREEN_WIDTH / 8.41) + text_height * 2 if len(stars_surface_list) == 0 \
                 else stars_surface_list[-1][1] + text_height * 1.5
             blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH / 2, play_more_y),
-                      pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 42),
+                      pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH / 34.05)),
                       3 * ss.SCREEN_WIDTH / 4)
 
         for event in pygame.event.get():
@@ -187,13 +187,13 @@ def scoreboard(screen, back_button_func):
         scroll_down.update(screen)
         # for circle in circle_pos:
         #     pygame.draw.circle(screen, (255, 0, 0), circle, 10)
-        screen.blit(current_user_text, (ss.SCREEN_WIDTH - 15 - current_user_text.get_width(), 15))
+        screen.blit(current_user_text, (ss.SCREEN_WIDTH - int(ss.SCREEN_WIDTH / 95.33) - current_user_text.get_width(), int(ss.SCREEN_WIDTH / 95.33)))
         screen.blit(surface_font, (0, 0))
         down_side_surface.blit(background, (0, 0), (
-            0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() - 15,
+            0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH / 31.78) + scoreboard_bg.get_height() - int(ss.SCREEN_WIDTH / 95.33),
             background.get_width(), background.get_height()))
         screen.blit(down_side_surface,
-                    (0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + 45 + scoreboard_bg.get_height() - 15))
+                    (0, (ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 + int(ss.SCREEN_WIDTH / 31.78) + scoreboard_bg.get_height() - int(ss.SCREEN_WIDTH / 95.33)))
         pygame.display.update()
         clock.tick()
 
