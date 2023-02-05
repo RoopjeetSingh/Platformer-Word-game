@@ -6,6 +6,9 @@ from math import ceil
 from Level import level_list
 
 pygame.init()
+list_skins = ["santa", "boy", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
+              "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
+stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
 
 
 def skins(screen, back_button_func):
@@ -63,9 +66,6 @@ def skins(screen, back_button_func):
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
-    list_skins = ["santa", "boy", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
-                  "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
-    stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
     games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
 
     current_stars = 0

@@ -28,11 +28,13 @@ def platformer_game(screen, menu, level=None):
                     exit()
             clock.tick()
             pygame.display.flip()
-        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-                                           len(player.mystery_letter_lis), screen,
-                                           round(len(current_level.letter_list)*0.8))
+
+        print([letter_obj.letter for letter_obj in player.letter_lis])
+        # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+        #                                    len(player.mystery_letter_lis), screen,
+        #                                    round(len(current_level.letter_list)*0.8 + len(player.mystery_letter_lis)))
         game_Loop_Wordle(
-            screen, selection.letter_selected,
+            screen, [letter_obj.letter for letter_obj in player.letter_lis],
             len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def killed_screen(alpha):

@@ -69,13 +69,13 @@ next_button = py.transform.scale(next_button, (50, 50))
 im_rect = next_button.get_rect()
 im_rect.center = (25,25)
 def transition(screen):
-    font= py.font.Font(None, 50)
-    text = font.render("will be right back", True, (255,255,255))
+    # font= py.font.Font(None, 50)
+    # text = font.render("will be right back", True, (255,255,255))
     star_color =255
     while star_color >= 0:
         screen.fill((star_color, star_color, star_color))
         star_color -= 1
-        screen.blit(text, (650, 350))
+        # screen.blit(text, (650, 350))
         py.display.flip()
 
 def loading_screen(screen):
@@ -92,8 +92,8 @@ letter_selected = []
 def game_loop_select_letters(running_letter ,mystery_number, screen, letters_allowed):
 
     show(screen, running_letter)
-    print(coord)
-    print(test)
+    # print(coord)
+    # print(test)
     run = True
 
     image = py.image.load("hellop/selecctionfre.jpg")
@@ -132,4 +132,4 @@ def game_loop_select_letters(running_letter ,mystery_number, screen, letters_all
         py.display.update()
 
     transition(screen)
-    loading_screen(screen)
+    # loading_screen(screen)

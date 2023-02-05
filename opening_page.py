@@ -16,12 +16,13 @@ def opening_page(screen):
     def get_name(name_user=""):
         name_user = name_user or name.text
         if name_user:
-            # var["users"].append([name_user, [], "boy", ["boy", "santa"]])  # [["Roopjeet", [["level1", 3, 256, time],
+            var["users"] = [[name_user, [], "boy"]]
+            # [["Roopjeet", [["level1", 3, 256, time],
             # ...], current skin, unlocked skins], ...]
             # Users is a list of people, a dictionary would have been more suitable, but it can not be
             # used because it is not sorted. Later a list of the name and a list that would store another list of
             # level, stars, score and time
-            # var["current_user"] = [len(var["users"]) - 1, name_user]
+            var["current_user"] = [0, name_user]
             with open('variables.json', 'w') as wvar:
                 json.dump(var, wvar, indent=4)
             # Current_user is a list with two values, the index of the current user and the actual name
@@ -133,11 +134,12 @@ def show_level(screen):
         # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
         #                                    len(player.mystery_letter_lis), screen)
         from platformer_game import platformer_game
-        selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
-                                           len(player.mystery_letter_lis), screen,
-                                           round(len(current_level.letter_list) * 0.8))
+        print([letter_obj.letter for letter_obj in player.letter_lis])
+        # selection.game_loop_select_letters([letter_obj.letter for letter_obj in player.letter_lis],
+        #                                    len(player.mystery_letter_lis), screen,
+        #                                    round(len(current_level.letter_list) * 0.8 + len(player.mystery_letter_lis)))
         game_Loop_Wordle(
-            screen, selection.letter_selected,
+            screen, [letter_obj.letter for letter_obj in player.letter_lis],
             len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, current_level)
 
     def change_text(text_show):
@@ -175,14 +177,15 @@ def show_level(screen):
                                   border_radius=int(ss.SCREEN_WIDTH / 95.33), call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
     current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
-    current_image = pygame.transform.scale(current_image,
-                                           (
-                                               int(ss.SCREEN_WIDTH / 4.0857) / current_image.get_height() * current_image.get_width(),
-                                               int(ss.SCREEN_WIDTH / 4.0857)))
+    current_image = pygame.transform.scale(
+        current_image,
+        (
+            int(ss.SCREEN_WIDTH / 4.0857) / current_image.get_height() * current_image.get_width(),
+            int(ss.SCREEN_WIDTH / 4.0857)))
     current_image.set_colorkey((0, 0, 0))
     stop = False
     surface_text.fill((20, 20, 20))
-    surface_text.set_alpha(int(ss.SCREEN_WIDTH / 7.15))
+    surface_text.set_alpha(200)
     time_display = current_level.time
     # time_display_current = time.time()
     timer_event = pygame.USEREVENT

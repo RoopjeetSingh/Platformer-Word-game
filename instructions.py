@@ -114,7 +114,7 @@ def instructions(screen, back_button_func):
                   "COLLECT LETTERS IN THE RUNNING GAME AND USE THEM IN THE WORD-CONNECT GAME TO EARN POINTS BEFORE THE TIME RUNS OUT",
                   (200, 300),
                   pygame.font.Font(None, 25), 650, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "ADVANCED FEATURES: ", (290, 420),
+        blit_text(help_surface, "NEW FEATURES: ", (290, 420),
                   pygame.font.Font(None, 40), 390, color=(130, 1, 29))
         blit_text(help_surface,
                   "ADD USER: CLICK ON THE USER BUTTON WHERE YOU CAN ADD USER TO PLAY WITH FRIENDS.",
