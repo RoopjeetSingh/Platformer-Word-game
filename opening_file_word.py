@@ -447,7 +447,15 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                         rect_pressed = True
 
                     else:
-                        rect_pressed = False
+                        if rect_pressed:
+                            rect_pressed = False
+                            pressed = False
+                            i += 1
+                            background(screen, 255, 255, 255, 590)
+                            text_draw(screen, counter)
+                            place(screen, len(letters), on, coord, letters, list_images)
+                            mystery_and_submit_button(screen, mystery_number)
+                            score_show(screen, working, score)
 
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
 
