@@ -43,28 +43,28 @@ def scoreboard(screen, back_button_func):
     background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     scoreboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg Background Removed.png").convert_alpha()
-    scoreboard_bg = pygame.transform.scale(scoreboard_bg, (ss.SCREEN_WIDTH / 1.05, ss.SCREEN_HEIGHT / 1.2))
+    scoreboard_bg = pygame.transform.scale(scoreboard_bg, (int(ss.SCREEN_WIDTH / 1.05), ss.SCREEN_HEIGHT / 1.2))
     scoreboard_bg.set_colorkey((255, 255, 255))
     back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
-                                        (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # text_height, text_height
-    back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
+                                        (int(ss.SCREEN_WIDTH / 14.3), ss.SCREEN_HEIGHT / 8.4))  # text_height, text_height
+    back_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 19.1), ss.SCREEN_HEIGHT / int(ss.SCREEN_WIDTH / 137.5)), (0, 0, 0),
                                   change_screen, image=back_image,
                                   fill_bg=False, func=lambda: back_button_func(screen))
     go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
-                                     (100, 150))
+                                     (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.53)))
     disabled_go_down = pygame.transform.scale(
         pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
-        (100, 150))
-    go_down = pygame.transform.rotate(go_down, -90)
-    disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
+        (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.53)))
+    go_down = pygame.transform.rotate(go_down, -int(ss.SCREEN_WIDTH / 15.889))
+    disabled_go_down = pygame.transform.rotate(disabled_go_down, -int(ss.SCREEN_WIDTH / 15.889))
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     scroller = Scroller()
     scroll_up = ui_tools.Button(
-        (1340 - go_up.get_width() / 2, 80, go_up.get_width(), go_up.get_height()),
+        (int(ss.SCREEN_WIDTH / 1.07) - go_up.get_width() / 2, int(ss.SCREEN_WIDTH / 17.875), go_up.get_width(), go_up.get_height()),
         (0, 0, 0), scroller.scroll, image=go_up, fill_bg=False, disabled_image=disabled_go_up, state_disabled=True)
     scroll_down = ui_tools.Button(
-        (1340 - go_down.get_width() / 2, 740 - go_down.get_height(), go_down.get_width(), go_down.get_height()),
+        (int(ss.SCREEN_WIDTH / 1.07) - go_down.get_width() / 2, int(ss.SCREEN_WIDTH / 1.93) - go_down.get_height(), go_down.get_width(), go_down.get_height()),
         (0, 0, 0), scroller.scroll, image=go_down, fill_bg=False,
         disabled_image=disabled_go_down, state_disabled=True, up=False)
 
