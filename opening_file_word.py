@@ -367,7 +367,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
     clock = py.time.Clock()
     count_mystery_backspace = 0
     button_lis = []
-    added_button = False
+    added_button = 0
     counter_o = True
     # mixer.music.load("hellop/digital-love-127441.mp3")
     # mixer.music.play()
@@ -533,7 +533,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                 message_count -= 1
             celebration(screen, score, x, points)
             from menu import menu
-            if not added_button:
+            if added_button == 10:
                 if count > 0:
                     with open('variables.json', 'r') as f:
                         var = json.load(f)
@@ -564,7 +564,9 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                 button_lis.append(button_menu)
                 button_lis.append(retry_button)
                 button_lis.append(next_level_button)
-                added_button = True
+                added_button += 1
+            elif added_button < 10:
+                added_button += 1
 
         for i in button_lis:
             i.update(screen)

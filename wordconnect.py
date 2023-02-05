@@ -41,9 +41,6 @@ list_images = Letter.letter_dic
 possible_characters = list(list_images.keys())
 
 
-
-
-
 def background(screen, x, y, z, c):
     bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
     bg_image = py.transform.scale(bg_image, (1300, 710))
@@ -323,7 +320,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     start = ()
     clock = py.time.Clock()
     count_mystery_backspace = 0
-    added_button = False
+    added_button = 0
     button_lis = []
     co = True
     mixer.music.load("hellop/digital-love-127441.mp3")
@@ -359,7 +356,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     elif ev.key == K_RETURN and rect_pressed:
                         mystery_number -= 1
                         mystery_letters.append(let)
-                        
+
                         letters.append(let)
                         mystery(screen, "", mystery_number, pressed, rect_pressed)
                         count_mystery_backspace += 1
@@ -384,7 +381,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
-                            
+
                         elif i % 2 != 0 and count_mystery_backspace == len(mystery_letters):
                             pressed = False
                             background(screen, 255, 255, 255, 590)
@@ -406,7 +403,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
-                            
 
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
 
@@ -475,8 +471,9 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             stars(screen)
             update_stars(score, points)
             from menu import menu
-            if not added_button:
+            if added_button == 10:
                 if count > 0:
+                    print(count)
                     with open('variables.json', 'r') as f:
                         var = json.load(f)
                     var["users"][var["current_user"][0]][1].append(
@@ -505,7 +502,9 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                 button_lis.append(button_menu)
                 button_lis.append(retry_button)
                 button_lis.append(next_level_button)
-                added_button = True
+                added_button += 1
+            elif added_button < 10:
+                added_button += 1
             score_show(screen, working, score)
 
             if message_count != 0:
@@ -516,7 +515,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
         for i in button_lis:
             i.update(screen)
         py.display.update()
-
+        print(count)
 
 
 if __name__ == "__main__":

@@ -102,7 +102,7 @@ def instructions(screen, back_button_func):
         table.set_alpha(128)
         table.fill((255, 255, 255))
         # first screen - how to use the game
-        blit_text(help_surface, "Instructions:", (650, 100),
+        blit_text(help_surface, "Instructions", (650, 100),
                   pygame.font.Font(None, 100), 900, color=(255, 255, 255))
 
         help_surface.blit(table, (150, 150))

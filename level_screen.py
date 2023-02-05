@@ -90,7 +90,6 @@ def level_screen(screen, back_button_func):
     font = pygame.font.Font(None, 30)
 
     button_level_list = []
-    current_level = calculate_current_level(var)
     games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
 
     current_stars = 0

@@ -154,12 +154,11 @@ def skins(screen, back_button_func):
         for i in button_lis:
             i.update(screen)
         for text in text_list:
-            blit_text(screen, text[0], (text[1].rect.centerx, text[1].rect.bottom + 10),
+            blit_text(screen, text[0], (text[1].rect.centerx, text[1].rect.bottom + 20),
                       font_stars, text[1].rect.right, [255, 255, 255], text[2])
             if text[2] < 256:
                 text[2] += 2
         pygame.display.update()
-        print(len(text_list))
         clock.tick(75)
 
 
