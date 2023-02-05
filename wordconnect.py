@@ -7,7 +7,7 @@ import main
 import ui_tools
 from letter import Letter
 from helpful_functions import blit_text
-import selection
+
 import screen_size as ss
 import json
 from datetime import datetime
@@ -39,6 +39,34 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
+
+
+def opening_page(opening_counter, incorrect):
+    image = py.image.load('images/boy/Idle (1).png')
+    image = py.transform.scale(image, (134, 225))
+    image.set_colorkey((0, 0, 0))
+    opening_surface = py.Surface((600, 300))
+    incorrect_surface = py.Surface((350, 400))
+    if opening_counter:
+        opening_surface.set_alpha(28)
+        opening_surface.fill((0,0,0))
+        opening_surface.blit(image, (20, 35))
+        blit_text(opening_surface,
+                  "Hi there, its me, Gameboy, here again!!!! We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
+                  (170, 40), py.font.Font(None, 20), 520, color=(255, 255, 255), alignment="left")
+
+        screen.blit(opening_surface, (350, 0))
+
+    elif incorrect:
+        # incorrect_surface.set_alpha(128)
+        boy = py.transform.flip(image, True, False)
+        incorrect_surface.fill((0, 0, 0))
+        incorrect_surface.blit(boy, (216, 175))
+        blit_text(incorrect_surface,
+                  "If you have difficulty thinking of a new word, you can also use your mystery letters right now. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. Further if you want to restart making a new word simply press space bar or double click on the transparent box.",
+                  (20, 10), py.font.Font(None, 20), 280, color=(255, 255, 255), alignment="left")
+
+        screen.blit(incorrect_surface, (20, 110))
 
 
 def background(screen, x, y, z, c):
@@ -196,7 +224,12 @@ def progress_bar(screen, x, time1, points):
     py.draw.rect(screen, (21, 28, 28), (390, 660, 500, 30))
     im = py.image.load("hellop/600-6003350_star-game-icon-png-image-free-download-searchpng__1_-removebg-preview.png")
     im = py.transform.scale(im, (42, 35))
-
+    screen.blit(im, (round(395 + 0.2 * 500) - 21, 625))
+    screen.blit(im, (round(395 + 0.5 * 500) - 42, 625))
+    screen.blit(im, (round(395 + 0.5 * 500), 625))
+    screen.blit(im, (round(395 + 500) - 65, 625))
+    screen.blit(im, (round(395 + 500) - 25, 625))
+    screen.blit(im, (round(395 + 500) + 15, 625))
     if x1 < 500:
         py.draw.rect(screen, (204, 55, 75), (395, 658, 500, 25))
         py.draw.rect(screen, (255, 215, 0), (395, 658, x1, 25))
@@ -204,12 +237,7 @@ def progress_bar(screen, x, time1, points):
         py.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
-        screen.blit(im, (round(395 + 0.2 * 500), 625))
-        screen.blit(im, (round(395 + 0.5 * 500), 625))
-        screen.blit(im, (round(395 + 0.5 * 500) + 42, 625))
-        screen.blit(im, (round(395 + 500) - 65, 625))
-        screen.blit(im, (round(395 + 500) - 25, 625))
-        screen.blit(im, (round(395 + 500) + 15, 625))
+
     else:
         py.draw.rect(screen, (255, 215, 0), (395, 655, 500, 25))
 
@@ -275,17 +303,6 @@ def transition(screen):
         screen.fill((star_color, star_color, star_color))
         star_color -= 1
         py.display.flip()
-
-
-def show_mystery_list():
-    a = py.Rect(0, 0, 50 * len(mystery_letters), 30)
-    a.center = 650, 100
-    py.draw.rect(screen, (0, 0, 0), (a))
-    font = py.font.Font(None, 30)
-    text = font.render(str(mystery_letters), True, (255, 255, 255))
-    rect = text.get_rect()
-    rect.center = 650, 100
-    screen.blit(text, rect)
 
 
 def next_level(kwargs):
@@ -365,7 +382,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     elif ev.key == K_RETURN and rect_pressed:
                         mystery_number -= 1
                         mystery_letters.append(let)
-                        show_mystery_list()
+
                         letters.append(let)
                         mystery(screen, "", mystery_number, pressed, rect_pressed)
                         count_mystery_backspace += 1
@@ -374,7 +391,11 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                         letters.remove(mystery_letters.pop())
 
                 if ev.type == MOUSEBUTTONDOWN:
-
+                    if rect_pressed:
+                        print(123)
+                        rect_pressed = False
+                        pressed = False
+                        i += 1
                     if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
 
                         on = False
@@ -390,7 +411,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
-                            show_mystery_list()
+
                         elif i % 2 != 0 and count_mystery_backspace == len(mystery_letters):
                             pressed = False
                             background(screen, 255, 255, 255, 590)
@@ -402,12 +423,15 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     if 580 < mouse[0] < 720 and 270 < mouse[1] < 410 and pressed:
                         rect_pressed = True
 
-                    else:
-                        rect_pressed = False
+                    # elif 580 > mouse[0] or 720 < mouse[0] or 270 > mouse[1] or 410 < mouse[1]:
+                    #     if rect_pressed:
+                    #         rect_pressed = False
+                    #         pressed = False
+                    #         i += 1
 
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
 
-                    if on == True and 300 < mouse[0] < 1000 and 125 < mouse[
+                    if on == True and 200 < mouse[0] < 1200 and 125 < mouse[
                         1] < 575 and not pressed and clock.tick() > 100:
                         game_started = True
                         start = near(coord, mouse)
@@ -514,6 +538,217 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             i.update(screen)
         py.display.update()
 
+def opening_screen_word(screen, letters, mystery_number, counter, points):
+    x_change = 0
+    i = -1
+    shake_count = 0
+    message_count = 1
+    check = []
+    coord = []
+    entered = []
+    word = ""
+    score = 0
+    rect_pressed = False
+    outside = False
+    on = True
+    pressed = False
+    incorrect = False
+    game_started = False
+
+    working = True
+    opening_counter = True
+    timer_event = py.USEREVENT
+    py.time.set_timer(timer_event, 1000)
+    run = True
+    background(screen, 255, 255, 255, 590)
+    place(screen, len(letters), on, coord, letters, list_images)
+    mystery_and_submit_button(screen, mystery_number)
+    start = ()
+    clock = py.time.Clock()
+    count_mystery_backspace = 0
+    # mixer.music.load("hellop/digital-love-127441.mp3")
+    # mixer.music.play()
+
+    while run:
+        opening_page(opening_counter, incorrect)
+        mouse = py.mouse.get_pos()
+        for ev in py.event.get():
+            if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
+                py.quit()
+                exit()
+            if working == True:
+
+                if ev.type == timer_event and game_started:
+                    counter -= 1
+                    text_draw(screen, counter)
+
+                    if counter == 0:
+                        working = False
+
+                if ev.type == KEYDOWN:
+
+                    if mystery_number != 0 and rect_pressed:
+                        if ev.unicode.lower() in possible_characters:
+                            let = ev.unicode
+                            mystery(screen, ev.unicode.lower(), mystery_number, pressed, rect_pressed)
+                            coord = []
+
+
+                    if ev.key == K_SPACE:
+                        incorrect = True
+                    elif ev.key == K_RETURN and rect_pressed:
+                        mystery_number -= 1
+                        mystery_letters.append(let)
+
+                        letters.append(let)
+                        mystery(screen, "", mystery_number, pressed, rect_pressed)
+                        count_mystery_backspace += 1
+                    elif ev.key == K_BACKSPACE and count_mystery_backspace != len(mystery_letters) and len(mystery_letters)!= 0:
+                        letters.remove(mystery_letters.pop())
+
+                if ev.type == MOUSEBUTTONDOWN:
+                    opening_counter = False
+                    if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
+
+                        on = False
+                        working = False
+                        transition(screen)
+                    elif 20 < mouse[0] < 150 and 545 < mouse[1] < 610:
+
+                        i += 1
+                        if i % 2 == 0 and mystery_number != 0:
+                            pressed = True
+                            background(screen, 255, 255, 255, 590)
+                            text_draw(screen, counter)
+                            place(screen, len(letters), on, coord, letters, list_images)
+                            mystery_and_submit_button(screen, mystery_number)
+                            score_show(screen, working, score)
+
+                        elif i%2 != 0 and count_mystery_backspace == len(mystery_letters):
+                            pressed = False
+                            background(screen, 255, 255, 255, 590)
+                            text_draw(screen, counter)
+                            place(screen, len(letters), on, coord, letters, list_images)
+                            mystery_and_submit_button(screen, mystery_number)
+                            score_show(screen, working, score)
+
+                    if 580 < mouse[0] < 720 and 270 < mouse[1] < 410 and pressed:
+                        rect_pressed = True
+
+                    else:
+                        rect_pressed = False
+
+                    mystery(screen, "", mystery_number, pressed, rect_pressed)
+
+                    if rect_pressed:
+                        pressed = False
+
+                    if on == True  and 300 < mouse[0] < 1000 and 125 < mouse[1] < 575 and not pressed and clock.tick() > 100:
+                        game_started = True
+                        start = near(coord, mouse)
+                        outside = False
+                        if start not in entered:
+
+                            word += letters[coord.index(start)]
+                            entered.append(start)
+
+                        else:
+                            print(word)
+                            incorrect = True
+                    if mouse[0] < 500:
+                        outside = True
+
+                if start != ():
+                    background(screen, 255, 255, 255,590)
+                    place(screen, len(letters), on, coord, letters, list_images)
+                    if 300 < mouse[0] < 1000 and 125 < mouse[1] < 575:
+                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20),
+                                     (mouse[0] + 20, mouse[1] + 20), width=5)
+                    lines(screen, entered)
+                    show(screen, word, x_change)
+                    if len(word) == len(letters) and not main.WORDS.get(word, False):
+                        incorrect = True
+
+                    if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
+                        check.append(word)
+                        score += len(word)
+                        start = ()
+                        entered = []
+                        background(screen, 235, 235, 35, 590)
+
+                        text_draw(screen, counter)
+                        mystery_and_submit_button(screen, mystery_number)
+                        score_show(screen, working, score)
+                        place(screen, len(letters), on, coord, letters, list_images)
+                        show(screen, word, x_change)
+
+                        word = ""
+                if incorrect == True:
+
+                    start = ()
+                    entered = []
+
+                    shake(screen, shake_count, working, letters, incorrect, on, coord, word, score, list_images, counter,
+                          mystery_number)
+
+                    incorrect = False
+                    word = ""
+
+
+                progress_bar(screen, score, 20, points)
+                text_draw(screen, counter)
+                opening_page(opening_counter, incorrect)
+                if outside and start == ():
+                    mystery_and_submit_button(screen, mystery_number)
+                score_show(screen, working, score)
+
+        if working == False:
+
+            mixer.music.fadeout(1)
+            background(screen, 255, 255, 255, 590)
+            clock_star.tick(5)
+            stars(screen)
+            update_stars(score, points)
+            score_show(screen, working, score)
+
+            if message_count != 0:
+                x = message(score, points)
+                message_count -= 1
+            celebration(screen, score, x, points)
+            from menu import menu
+            if not added_button:
+                if count > 0:
+                    with open('variables.json', 'r') as f:
+                        var = json.load(f)
+                    var["users"][var["current_user"][0]][1].append(
+                        [level.str, count, score, current_time.strftime("%m/%d/%Y")])
+                    with open('variables.json', 'w') as wvar:
+                        json.dump(var, wvar, indent=4)
+                retry_img = py.transform.scale(py.image.load("images/Menu_page/retrybg.png").convert_alpha(),
+                                               (50, 50))
+                button_menu = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), lambda: menu(screen), text="Menu", hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78))
+                retry_button = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), lambda: platformer(screen, menu, level), image=retry_img,
+                    hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78))
+                state = False if count > 0 else True
+                next_level_button = ui_tools.Button(
+                    (ss.SCREEN_WIDTH / 2 + 100, 520, ss.SCREEN_WIDTH / 8, 50),
+                    (59, 83, 121), next_level, text="Next Level", hover_color=(35, 53, 78),
+                    clicked_color=(15, 20, 35),
+                    border_radius=10, border_color=(35, 53, 78), platformer=platformer, state_disabled=state)
+                button_lis.append(button_menu)
+                button_lis.append(retry_button)
+                button_lis.append(next_level_button)
+                added_button = True
+            print(f'count')
+        py.display.update()
 
 if __name__ == "__main__":
     from platformer_game import platformer_game
