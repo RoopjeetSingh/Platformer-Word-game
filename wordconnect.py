@@ -42,6 +42,8 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
+collect_letter_sound = py.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
+incorrect_word_sound = py.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
 
 
 def background(screen, x, y, z, c):
@@ -216,11 +218,12 @@ def progress_bar(screen, x, time1, points):
         py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
 
     else:
-        py.draw.rect(screen, (255,215,0), (395, 658, 500, 25))
+        py.draw.rect(screen, (255, 215, 0), (395, 658, 500, 25))
 
         py.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
+
 
 def stars(screen):
     global count
@@ -286,21 +289,14 @@ def message(score, points):
 
 
 def next_level(kwargs):
-    # level = kwargs["level"]
-    # stars = kwargs["stars"]
-    # score = kwargs["score"]
     platformer = kwargs["platformer"]
-    # screen = kwargs["screen"]
-    # var = json_storer.var
-    #     
-    # var["users"][var["current_user"][0]][1].append([level, stars, score, current_time.strftime("%m/%d/%Y %H:%M:%S")])
-    # with open('json_storer.py', 'w') as wvar:
-    #     wvar.write("var=" + str(var))
     from menu import menu
     platformer(screen, menu)
 
 
 def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
+    py.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
+    py.mixer.music.play(-1)
     x_change = 0
     i = -1
     shake_count = 0
@@ -330,8 +326,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     added_button = 0
     button_lis = []
     co = True
-    mixer.music.load("hellop/digital-love-127441.mp3")
-    mixer.music.play()
 
     while run:
         mouse = py.mouse.get_pos()
@@ -443,8 +437,12 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     show(screen, word, x_change)
                     if len(word) == len(letters) and not main.WORDS.get(word, False):
                         incorrect = True
+                        py.mixer.Sound.play(incorrect_word_sound)
+                        py.mixer.music.stop()
 
                     if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
+                        py.mixer.Sound.play(collect_letter_sound)
+                        py.mixer.music.stop()
                         check.append(word)
                         score += len(word)
                         start = ()
@@ -485,7 +483,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             if added_button == 10:
                 if count > 0:
                     var = json_storer.var
-                        
+
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
                     with open('json_storer.py', 'w') as wvar:
@@ -525,6 +523,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
         for i in button_lis:
             i.update(screen)
         py.display.update()
+
 
 if __name__ == "__main__":
     from platformer_game import platformer_game

@@ -15,6 +15,9 @@ pygame.init()
 
 
 def opening_page(screen):
+    pygame.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
+    pygame.mixer.music.play(-1)
+
     def get_name(name_user=""):
         name_user = name_user or name.text
         if name_user:
@@ -27,6 +30,7 @@ def opening_page(screen):
             var["current_user"] = [0, name_user]
             with open('json_storer.py', 'w') as wvar:
                 wvar.write("var=" + str(var))
+            # pygame.mixer.music.stop()
             # Current_user is a list with two values, the index of the current user and the actual name
             show_level(screen)
 
@@ -35,11 +39,12 @@ def opening_page(screen):
             name.text += entered_text
 
     var = json_storer.var
-        
+
     # if var["1_time"] == "True" and len(var["users"]) == 0:
     clock = pygame.time.Clock()
-    background = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.opening_page_bg)), (ss.SCREEN_WIDTH,
-                                                                                               ss.SCREEN_HEIGHT))
+    background = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.opening_page_bg)),
+                                        (ss.SCREEN_WIDTH,
+                                         ss.SCREEN_HEIGHT))
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
     name = ui_tools.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
                              int(name_surface.get_height() / 3.75) + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,
@@ -153,7 +158,6 @@ def show_level(screen):
 
     pressed = False
     var = json_storer.var
-        
 
     current_level = level_list[0]
     current_level.clear()

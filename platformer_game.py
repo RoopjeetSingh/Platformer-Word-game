@@ -16,6 +16,7 @@ death_bg = pygame.transform.scale(death_bg, (
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
 retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(), (50, 50))
+death_sound = pygame.mixer.Sound("images/Menu_page/videogame-death-sound-43894.mp3")
 
 
 def platformer_game(screen, menu, level=None):
@@ -106,6 +107,9 @@ def platformer_game(screen, menu, level=None):
             for i in button_lis:
                 i.check_event(event)
         if killed or time_display == 0:
+            if alpha == 0:
+                pygame.mixer.Sound.play(death_sound)
+                pygame.mixer.music.stop()
             killed_screen(alpha)
             num = True
             alpha += 6
@@ -120,11 +124,11 @@ def platformer_game(screen, menu, level=None):
         for i in button_lis:
             i.update(screen)
         pygame.display.update()
-        clock.tick(100)
+        clock.tick(90)
 
 
 if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu)
+    platformer_game(root, menu, level_list[2])

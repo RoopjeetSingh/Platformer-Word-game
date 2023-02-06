@@ -33,7 +33,6 @@ def level_generator(no_of_letters: int):
         random_letters.append(random_letter[0])
         weights.remove(weights[letter_lis.index(random_letter[0])])
         letter_lis.remove(random_letter[0])
-    print(random_letters)
     return random_letters
 
 
@@ -78,7 +77,7 @@ class Level1(Level):
         super(Level1, self).__init__(random.choice(background), 62, "level1")
         self.no_of_letter = 8
         self.stars = 20
-        self.time = 30
+        self.time = 45
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen

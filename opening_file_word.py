@@ -44,6 +44,8 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
+collect_letter_sound = py.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
+incorrect_word_sound = py.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
 
 
 def opening_page_word_connect(opening_counter, incorrect, count):
@@ -343,6 +345,8 @@ def next_level(kwargs):
 
 
 def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, opening_platformer, level):
+    py.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
+    py.mixer.music.play(-1)
     x_change = 0
     i = -1
     shake_count = 0
@@ -487,9 +491,13 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
                     if len(word) == len(letters) and not main.WORDS.get(word, False):
                         incorrect = True
+                        py.mixer.Sound.play(incorrect_word_sound)
+                        py.mixer.music.stop()
                         opening_page_word_connect(opening_counter, incorrect, counter_o)
 
                     if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
+                        py.mixer.Sound.play(collect_letter_sound)
+                        py.mixer.music.stop()
                         check.append(word)
                         score += len(word)
                         start = ()

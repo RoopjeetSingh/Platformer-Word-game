@@ -97,6 +97,11 @@ class Player(pygame.sprite.Sprite):
         self.idle_image_flipped.set_colorkey(alpha)
         self.right_images = []
         self.left_images = []
+        self.collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
+        self.jump_sound = pygame.mixer.Sound("images/Menu_page/Jump-SoundBible.com-1007297584.wav")
+        self.land_on_ground = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+        self.land_on_ground.set_volume(0.01)
+        self.jump_sound.set_volume(0.01)
         for i in run_var_name:
             img = pygame.image.load(decode_file(i)).convert()
             img = pygame.transform.scale(img, (
@@ -271,11 +276,17 @@ class Player(pygame.sprite.Sprite):
                     self.image.set_colorkey((0, 0, 0))
                     self.color = True
                 if self.jumping:
+                    if self.on_ground:
+                        pygame.mixer.Sound.play(self.jump_sound)
+                        pygame.mixer.music.stop()
                     self.double_jump(level)
             self.color_num += 1
         elif self.jumping:
             self.rect.y -= int(ss.tile_size/4)
             # self.jumping = True
+            if self.on_ground:
+                pygame.mixer.Sound.play(self.jump_sound)
+                pygame.mixer.music.stop()
             self.on_ground = False
             self.obstruct_platforms(level, "jump")
             self.obstruct_obstacles(level)
@@ -295,6 +306,9 @@ class Player(pygame.sprite.Sprite):
         #     collided_list = pygame.sprite.spritecollide(self, level.obstruct_group, False, pygame.sprite.collide_mask)
         for collided in collided_list:
             if process == "gravity" and 0 < self.rect.bottom - collided.rect.y <= int(ss.SCREEN_WIDTH / 28.6):
+                if self.velocity_y > 10:
+                    pygame.mixer.Sound.play(self.land_on_ground)
+                    pygame.mixer.music.stop()
                 self.velocity_y = 0
                 self.rect.bottom = collided.rect.top
                 self.jumping = False
@@ -330,10 +344,14 @@ class Player(pygame.sprite.Sprite):
     def collect_letter(self, level: Level.Level):
         collided_list = pygame.sprite.spritecollide(self, level.letter_group, False)
         if collided_list and isinstance(collided_list[0], letter.Letter):
+            pygame.mixer.Sound.play(self.collect_letter_sound)
+            pygame.mixer.music.stop()
             if isinstance(collided_list[0], letter.Letter):
                 self.letter_lis.append(collided_list[0])
             collided_list[0].collecting_animation = True
         elif collided_list and isinstance(collided_list[0], letter.MysteryLetter):
+            pygame.mixer.Sound.play(self.collect_letter_sound)
+            pygame.mixer.music.stop()
             self.mystery_letter_lis.append(collided_list[0])
             collided_list[0].collecting_animation = True
 
