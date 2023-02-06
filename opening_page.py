@@ -10,6 +10,7 @@ from decode_file import decode_file
 import images_store 
 import smaller_store
 import other_small_images
+from skins import list_skins, idle_images_list
 
 pygame.init()
 
@@ -34,7 +35,7 @@ def opening_page(screen):
         var = json.load(f)
     # if var["1_time"] == "True" and len(var["users"]) == 0:
     clock = pygame.time.Clock()
-    background = pygame.transform.scale(pygame.image.load("images/Menu_page/menu_bg.jpg"), (ss.SCREEN_WIDTH,
+    background = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.opening_page_bg)), (ss.SCREEN_WIDTH,
                                                                                                ss.SCREEN_HEIGHT))
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
     name = ui_tools.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,
@@ -97,12 +98,12 @@ def opening_page(screen):
         clock.tick()
 
 
-death_bg = pygame.image.load("images/Menu_page/Death_screen_bg.jpg").convert_alpha()
+death_bg = pygame.image.load(decode_file(other_small_images.death_screen)).convert_alpha()
 death_bg = pygame.transform.scale(death_bg, (
     ss.SCREEN_WIDTH, ss.SCREEN_WIDTH / death_bg.get_width() * death_bg.get_height()))
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
-retry_img = pygame.transform.scale(pygame.image.load("images/Menu_page/retrybg.png").convert_alpha(), (50, 50))
+retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(), (50, 50))
 
 
 def show_level(screen):
@@ -159,7 +160,7 @@ def show_level(screen):
     current_level.make_letters()
     current_level.make_power_ups()
     player = Player(ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, var["users"][var["current_user"][0]][2])
-    arrow_img = pygame.image.load("images/arrow1.png").convert_alpha()
+    arrow_img = pygame.image.load(decode_file(other_small_images.arrow)).convert_alpha()
     arrow_img = pygame.transform.scale(arrow_img, (int(ss.SCREEN_WIDTH / 19.067), int(ss.SCREEN_WIDTH / 28.6)))
     button_lis_clear = []
     button_lis = []
@@ -171,7 +172,10 @@ def show_level(screen):
                                   (80, 80, 80), skip_instructions,
                                   border_radius=int(ss.SCREEN_WIDTH / 95.33), call_on_release=False, text="Skip")
     current_skin = var["users"][var["current_user"][0]][2]
-    current_image = pygame.image.load(f"images/{current_skin.capitalize()}/Idle (1).png").convert()
+    for index, skin in enumerate(list_skins):
+        if skin == current_skin:
+            image = idle_images_list[index]
+    current_image = pygame.image.load(decode_file(image)).convert()
     current_image = pygame.transform.scale(
         current_image,
         (
@@ -252,7 +256,7 @@ def show_level(screen):
             button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             arrow_keys = pygame.image.load(
-                "images/Menu_page/arrow_keys.png").convert_alpha()
+                decode_file(other_small_images.arrow_keys)).convert_alpha()
             arrow_keys = pygame.transform.scale(arrow_keys,
                                                 (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
             right_pos = blit_text(screen, "Use the arrow keys to move",
@@ -269,7 +273,7 @@ def show_level(screen):
             button_lis_clear.append(skip_button)
             screen.blit(current_image, (int(ss.SCREEN_WIDTH / 11.44), 0))
             arrow_keys = pygame.image.load(
-                "images/Menu_page/arrow_keys.png").convert_alpha()
+                decode_file(other_small_images.arrow_keys)).convert_alpha()
             arrow_keys = pygame.transform.scale(arrow_keys,
                                                 (int(ss.SCREEN_WIDTH / 11.92), int(ss.SCREEN_WIDTH / 17.875)))
             right_pos = blit_text(screen, "Use the arrow up button or the space bar to jump",

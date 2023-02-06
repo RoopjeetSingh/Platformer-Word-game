@@ -2,9 +2,7 @@ import time
 import pygame
 import screen_size as ss
 from decode_file import decode_file
-import images_store 
-import smaller_store
-import other_small_images
+import extra_images
 
 
 class PowerUp(pygame.sprite.Sprite):
@@ -12,7 +10,7 @@ class PowerUp(pygame.sprite.Sprite):
         super(PowerUp, self).__init__()
         self.distance = None
         self.end_pos = (0, 0)
-        self.image1 = pygame.image.load("images/platform/double_jump_power_up.png").convert_alpha()
+        self.image1 = pygame.image.load(decode_file(extra_images.power_up)).convert_alpha()
         self.image1 = pygame.transform.scale(self.image1, (ss.tile_size, ss.tile_size))
         self.image2 = self.image1.copy()
         brighten = 255

@@ -7,6 +7,7 @@ from decode_file import decode_file
 import images_store 
 import smaller_store
 import other_small_images
+from skins import list_skins, idle_images_list
 
 pygame.init()
 
@@ -52,7 +53,7 @@ def users(screen, back_button_func):
 
     def create_user():
         image_new_user = pygame.transform.scale(
-            pygame.image.load(r"images/Boy/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
+            pygame.image.load(decode_file(images_store.Boy_Idle)).convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
         image_new_user.set_colorkey((0, 0, 0))
         button_with_input = ui_tools.Button(
             (int(ss.SCREEN_WIDTH / 4.77), (len(users_button_list)) * int(ss.SCREEN_WIDTH / 8.17) + users_button_list[0].rect.y, int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.533)), (34, 54, 75),
@@ -88,8 +89,9 @@ def users(screen, back_button_func):
             users_button_list.clear()
             font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79))
             for index, value in enumerate(var["users"]):
+                image = idle_images_list[list_skins.index(value[2])]
                 image = pygame.transform.scale(
-                    pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
+                    pygame.image.load(decode_file(image)).convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
                 image.set_colorkey((0, 0, 0))
                 users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + first_button_y_pos, int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.533)), (34, 54, 75),
                                                set_user,
@@ -150,8 +152,9 @@ def users(screen, back_button_func):
     users_button_list = []
     font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 29.79))
     for index, value in enumerate(var["users"]):
+        image = idle_images_list[list_skins.index(value[2])]
         image = pygame.transform.scale(
-            pygame.image.load(rf"images/{value[2].capitalize()}/Idle (1).png").convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
+            pygame.image.load(decode_file(image)).convert(), (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 8.9375)))
         image.set_colorkey((0, 0, 0))
         users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.53)), (34, 54, 75), set_user,
                                        text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),

@@ -11,12 +11,12 @@ import smaller_store
 import other_small_images
 
 pygame.init()
-death_bg = pygame.image.load("images/Menu_page/Death_screen_bg.jpg").convert_alpha()
+death_bg = pygame.image.load(decode_file(other_small_images.death_screen)).convert_alpha()
 death_bg = pygame.transform.scale(death_bg, (
     ss.SCREEN_WIDTH, ss.SCREEN_WIDTH / death_bg.get_width() * death_bg.get_height()))
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
-retry_img = pygame.transform.scale(pygame.image.load("images/Menu_page/retrybg.png").convert_alpha(), (50, 50))
+retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(), (50, 50))
 
 
 def platformer_game(screen, menu, level=None):

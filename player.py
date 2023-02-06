@@ -88,7 +88,6 @@ class Player(pygame.sprite.Sprite):
                 raise AttributeError("Invalid skin type " + skin)
 
         alpha = (0, 0, 0)
-        # self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
         self.idle_image = pygame.image.load(decode_file(idle_var_name)).convert()
         height = int(ss.SCREEN_WIDTH / 19.067)
         self.idle_image = pygame.transform.scale(self.idle_image, (
@@ -98,15 +97,6 @@ class Player(pygame.sprite.Sprite):
         self.idle_image_flipped.set_colorkey(alpha)
         self.right_images = []
         self.left_images = []
-        # for i in range(1, run_var_name):
-        #     img = pygame.image.load(fr"images/{skin.title()}/{idle_var_name} ({i}).png").convert()
-        #     img = pygame.transform.scale(img, (
-        #         img.get_width() * height / img.get_height(), height))
-        #     img.set_colorkey(alpha)
-        #     self.right_images.append(img)
-        #     img_left = pygame.transform.flip(img, True, False)
-        #     img_left.set_colorkey(alpha)
-        #     self.left_images.append(img_left)
         for i in run_var_name:
             img = pygame.image.load(decode_file(i)).convert()
             img = pygame.transform.scale(img, (
@@ -118,13 +108,6 @@ class Player(pygame.sprite.Sprite):
             self.left_images.append(img_left)
 
         self.death_images = []
-        # for i in range(1, dead_var_name):
-        #     img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert()
-        #     img = pygame.transform.scale(img, (
-        #         img.get_width() * height / img.get_height(), height))
-        #     img.set_colorkey(alpha)
-        #     self.death_images.append(img)
-        #     height -= fall
         for i in dead_var_name:
             img = pygame.image.load(decode_file(i)).convert()
             img = pygame.transform.scale(img, (

@@ -546,7 +546,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
                     with open('variables.json', 'w') as wvar:
                         json.dump(var, wvar, indent=4)
-                retry_img = py.transform.scale(py.image.load("images/Menu_page/retrybg.png").convert_alpha(),
+                retry_img = py.transform.scale(py.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))
                 button_menu = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),

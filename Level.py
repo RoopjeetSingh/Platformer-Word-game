@@ -9,6 +9,7 @@ import random
 from decode_file import decode_file
 import smaller_store
 import other_small_images
+import platforms_obstacles_images
 
 background = [smaller_store.bg_1, smaller_store.bg_2]
 
@@ -84,7 +85,7 @@ class Level1(Level):
         # two rows at the bottom of the screen
         for j in range(1, 3):
             self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                                                "images/platform/platform_sprites_(1).png"))
+                                                (platforms_obstacles_images.base_platform)))
         # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))
         # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
@@ -192,7 +193,7 @@ class Level2(Level):
         for j in range(1, 3):
             self.platform_group.add(
                 po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                            "images/platform/platform_sprites_(1).png"))
+                            (platforms_obstacles_images.base_platform)))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
@@ -283,7 +284,7 @@ class Level3(Level):
         for j in range(1, 3):
             self.platform_group.add(
                 po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                            "images/platform/platform_sprites_(1).png"))
+                            (platforms_obstacles_images.base_platform)))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied
@@ -400,7 +401,7 @@ class Level4(Level):
     def make_platforms_objects(self):
         for j in range(1, 3):
             self.platform_group.add(po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, 119, False,
-                                                "images/platform/platform_sprites_(1).png"))
+                                                (platforms_obstacles_images.base_platform)))
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, 119, False))  # 0+3
         # the upper stuff should be copied
@@ -545,7 +546,7 @@ class Level5(Level):
         for j in range(1, 3):
             self.platform_group.add(
                 po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
-                            "images/platform/platform_sprites_(1).png"))
+                            (platforms_obstacles_images.base_platform)))
             print(ss.SCREEN_HEIGHT - j * ss.tile_size, ss.SCREEN_HEIGHT - 3 * ss.tile_size, ss.tile_size)
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3

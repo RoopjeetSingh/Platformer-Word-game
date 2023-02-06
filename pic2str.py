@@ -6,7 +6,7 @@ def pic2str(file, functionName):
     content = '\n{} = {}\n'.format(functionName, base64.b64encode(pic.read()))
     pic.close()
 
-    with open('other_small_images.py', 'a') as f:
+    with open('extra_images.py', 'a') as f:
         f.write(content)
 
 
@@ -18,7 +18,7 @@ def pic2str_list(file, final=False):
         content = '{}'.format(base64.b64encode(pic.read()))
     pic.close()
 
-    with open('other_small_images.py', 'a') as f:
+    with open('extra_images.py', 'a') as f:
         f.write(content)
 
 
@@ -50,4 +50,4 @@ if __name__ == '__main__':
     #         pic2str_list(f"images/{folder}/Dead ({i}).png", final=True)
     # with open('other_skins.py', 'a') as f:
     #     f.write(f"]\n\n")
-    pic2str("images/Menu_page/menu_bg.jpg", "menu_bg")
+    pic2str("images/platform/double_jump_power_up.png", "power_up")

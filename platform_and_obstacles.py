@@ -6,21 +6,22 @@ from decode_file import decode_file
 import images_store 
 import smaller_store
 import other_small_images
+import platforms_obstacles_images
 
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, num_inside: int = 0, start: bool = True,
-                 img="images/platform/platform_sprites_(27).png", w=0, h=0,
+                 img=(platforms_obstacles_images.platform_default), w=0, h=0,
                  set_colorkey: tuple[int, int, int] = None, new_img=False):
         super(Platform, self).__init__()
         if not new_img:
             image_lis = []
             if start:
-                image_lis.append(cv2.imread("images/platform/platform_sprites_(3).png"))
+                image_lis.append(cv2.imdecode(np.frombuffer(decode_file(platforms_obstacles_images.platform_curved).read(), np.uint8), 1))
             for a in range(num_inside):
-                image_lis.append(cv2.imread(img))
+                image_lis.append(cv2.imdecode(np.frombuffer(decode_file(img).read(), np.uint8), 1))
             if start:
-                image_lis.append(cv2.imread("images/platform/platform_sprites_(26).png"))
+                image_lis.append(cv2.imdecode(np.frombuffer(decode_file(platforms_obstacles_images.platform_curved2).read(), np.uint8), 1))
             image = np.concatenate(image_lis, axis=1)
             self.image = pygame.image.frombuffer(image.tostring(), image.shape[1::-1],
                                                  "RGB").convert_alpha()
@@ -33,7 +34,7 @@ class Platform(pygame.sprite.Sprite):
             self.rect.x = x
             self.rect.y = y
         else:
-            self.image = pygame.image.load(img).convert_alpha()
+            self.image = pygame.image.load(decode_file(img)).convert_alpha()
             if w and h:
                 self.image = pygame.transform.scale(self.image, (w, h))
             self.rect = self.image.get_rect(topleft=(x, y))
@@ -47,21 +48,23 @@ class Platform(pygame.sprite.Sprite):
 class Obstacle(Platform):
     def __init__(self, x: int, y: int, img_type: str, w=0, h=0, set_colorkey: tuple[int, int, int] = (0, 0, 0)):
         if img_type == "snowman":
-            img = "images/platform/platform_sprites_(17).png"
-        # spikes is causing huge error
+            img = platforms_obstacles_images.snowman1
         elif img_type == "spikes":
-            img = "images/platform/spikes_2.png"
+            img = platforms_obstacles_images.spikes
         else:
-            img = "images/platform/platform_sprites_(8).png"
+            img = platforms_obstacles_images.christmas_tree
 
         self.img_type = img_type
 
         super(Obstacle, self).__init__(x, y, img=img, w=w, h=h,
                                        set_colorkey=set_colorkey, new_img=True)
         self.dead_images = []
+
         if img_type == "snowman":
-            for i in range(2, 6):
-                img = pygame.image.load(f"images/platform/platform_sprites_(17) ({i}).png").convert_alpha()
+            snowman_images = [platforms_obstacles_images.snowman2, platforms_obstacles_images.snowman3,
+                              platforms_obstacles_images.snowman4, platforms_obstacles_images.snowman5]
+            for i in snowman_images:
+                img = pygame.image.load(decode_file(i)).convert_alpha()
                 img = pygame.transform.scale(img, (
                     self.image.get_width(), self.image.get_width() / img.get_width() * img.get_height()))
                 if self.set_colorkey:
