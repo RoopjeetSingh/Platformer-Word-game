@@ -4,20 +4,8 @@ from pygame.locals import *
 import math
 from pygame import mixer
 import main
-import ui_tools
 from letter import Letter
 from helpful_functions import blit_text
-
-import screen_size as ss
-import json
-from datetime import datetime
-from decode_file import decode_file
-import images_store 
-import smaller_store
-import other_small_images
-
-# datetime object containing current date and time
-current_time = datetime.now()
 
 py.init()
 mixer.init()
@@ -31,7 +19,7 @@ screen = py.display.set_mode((1300, 710))
 
 image_list = ["hellop/zero_stars.png", "hellop/single_star.png", "hellop/double _star.png", "hellop/triple_star.png"]
 
-single_star = ["you were close", "better luck next time", " you can do better than one star"]
+single_star = ["you were close, try again", "better luck next time", " you can do better than one star"]
 double_star = ["good job, now try to get three stars", "you can do better than two stars",
                "you were close to getting three stars"]
 triple_star = ["Great job! You are a real Future Business Leader of America!!", "You are a G.O.A.T"]
@@ -53,6 +41,10 @@ def background(screen, x, y, z, c):
     table.fill((x, y, z))
     screen.blit(bg_image, (0, 0))
     screen.blit(table, (375, 50))
+
+
+def opening_func():
+    pass
 
 
 def place(screen, n, on, coord, letters, list_images):
@@ -84,13 +76,12 @@ def lines(screen, entered):
                          (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
 
 
-def near(x, y, co):
-    if co:
-        z = []
-        for i in range(len(x)):
-            z.append((math.sqrt(pow(x[i][0] - y[0], 2)) + math.sqrt(pow(x[i][1] - y[1], 2))))
+def near(x, y):
+    z = []
+    for i in range(len(x)):
+        z.append((math.sqrt(pow(x[i][0] - y[0], 2)) + math.sqrt(pow(x[i][1] - y[1], 2))))
 
-        return x[z.index(min(z))]
+    return x[z.index(min(z))]
 
 
 def show(screen, word, x_change):
@@ -170,6 +161,7 @@ def shake(screen, shake_count, working, letters, incorrect, on, coord, word, sco
         progress_bar(screen, score, 20, 30)
         show(screen, word, x_change)
         update(incorrect, shake_count)
+
         py.display.update()
         shake_count += 1
 
@@ -210,8 +202,8 @@ def progress_bar(screen, x, time1, points):
         py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
         screen.blit(im, (round(395 + 0.2 * 500), 625))
-        screen.blit(im, (round(395 + 0.5 * 500) - 42, 625))
         screen.blit(im, (round(395 + 0.5 * 500), 625))
+        screen.blit(im, (round(395 + 0.5 * 500) + 42, 625))
         screen.blit(im, (round(395 + 500) - 65, 625))
         screen.blit(im, (round(395 + 500) - 25, 625))
         screen.blit(im, (round(395 + 500) + 15, 625))
@@ -246,6 +238,8 @@ def update_stars(score, points):
     elif score == 0:
         count = 0
 
+    print(count)
+
 
 def celebration(screen, score, x, points):
     if score >= points:
@@ -263,13 +257,13 @@ def celebration(screen, score, x, points):
 
 def message(score, points):
     if score >= points:
-        x = random.choice(triple_star).title()
+        x = random.choice(triple_star)
     elif points > score >= round(0.5 * points):
-        x = random.choice(double_star).title()
+        x = random.choice(double_star)
     elif round(0.5 * points) > score >= round(0.2 * points):
-        x = random.choice(single_star).title()
+        x = random.choice(single_star)
     elif round(points * 0.2) > score:
-        x = "you did not even try".title()
+        x = "you loose, the world is over!!!! HA HA HA HA"
 
     return x
 
@@ -282,22 +276,8 @@ def transition(screen):
         py.display.flip()
 
 
-def next_level(kwargs):
-    # level = kwargs["level"]
-    # stars = kwargs["stars"]
-    # score = kwargs["score"]
-    platformer = kwargs["platformer"]
-    # screen = kwargs["screen"]
-    # with open('variables.json', 'r') as f:
-    #     var = json.load(f)
-    # var["users"][var["current_user"][0]][1].append([level, stars, score, current_time.strftime("%m/%d/%Y %H:%M:%S")])
-    # with open('variables.json', 'w') as wvar:
-    #     json.dump(var, wvar, indent=4)
-    from menu import menu
-    platformer(screen, menu)
 
-
-def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
+def game_Loop_Wordle(screen, letters, mystery_number, counter, points):
     x_change = 0
     i = -1
     shake_count = 0
@@ -313,7 +293,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     pressed = False
     incorrect = False
     game_started = False
-
+    opening_counter = True
     working = True
     timer_event = py.USEREVENT
     py.time.set_timer(timer_event, 1000)
@@ -324,20 +304,16 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     start = ()
     clock = py.time.Clock()
     count_mystery_backspace = 0
-    added_button = 0
-    button_lis = []
-    co = True
-    mixer.music.load("hellop/digital-love-127441.mp3")
-    mixer.music.play()
+    # mixer.music.load("hellop/digital-love-127441.mp3")
+    # mixer.music.play()
 
     while run:
+
         mouse = py.mouse.get_pos()
         for ev in py.event.get():
             if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
                 py.quit()
                 exit()
-            for i in button_lis:
-                i.check_event(ev)
             if working == True:
 
                 if ev.type == timer_event and game_started:
@@ -360,16 +336,21 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     elif ev.key == K_RETURN and rect_pressed:
                         mystery_number -= 1
                         mystery_letters.append(let)
-
                         letters.append(let)
-                        mystery(screen, "", mystery_number, pressed, rect_pressed)
+
                         count_mystery_backspace += 1
+                        background(screen, 255, 255, 255, 590)
+                        mystery(screen, "", mystery_number, pressed, rect_pressed)
+                        text_draw(screen, counter)
+                        place(screen, len(letters), on, coord, letters, list_images)
+                        mystery_and_submit_button(screen, mystery_number)
+                        score_show(screen, working, score)
                     elif ev.key == K_BACKSPACE and count_mystery_backspace != len(mystery_letters) and len(
                             mystery_letters) != 0:
                         letters.remove(mystery_letters.pop())
 
                 if ev.type == MOUSEBUTTONDOWN:
-
+                    opening_counter = False
                     if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
 
                         on = False
@@ -400,20 +381,21 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     else:
                         if rect_pressed:
                             rect_pressed = False
-                            pressed = False
-                            i += 1
+                            pressed =False
                             background(screen, 255, 255, 255, 590)
                             text_draw(screen, counter)
                             place(screen, len(letters), on, coord, letters, list_images)
                             mystery_and_submit_button(screen, mystery_number)
                             score_show(screen, working, score)
 
+
                     mystery(screen, "", mystery_number, pressed, rect_pressed)
+
 
                     if on == True and 300 < mouse[0] < 1000 and 125 < mouse[
                         1] < 575 and not pressed and clock.tick() > 100:
                         game_started = True
-                        start = near(coord, mouse, co)
+                        start = near(coord, mouse)
                         outside = False
                         if start not in entered:
 
@@ -464,51 +446,18 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
 
                 progress_bar(screen, score, 20, points)
                 text_draw(screen, counter)
+
                 if outside and start == ():
                     mystery_and_submit_button(screen, mystery_number)
                 score_show(screen, working, score)
 
         if working == False:
+
             mixer.music.fadeout(1)
             background(screen, 255, 255, 255, 590)
-            clock_star.tick(60)
+            clock_star.tick(5)
             stars(screen)
             update_stars(score, points)
-            from menu import menu
-            if added_button == 10:
-                if count > 0:
-                    print(count)
-                    with open('variables.json', 'r') as f:
-                        var = json.load(f)
-                    var["users"][var["current_user"][0]][1].append(
-                        [level.str, count, score, current_time.strftime("%m/%d/%Y")])
-                    with open('variables.json', 'w') as wvar:
-                        json.dump(var, wvar, indent=4)
-                retry_img = py.transform.scale(py.image.load(decode_file(other_small_images.retry)).convert_alpha(),
-                                               (50, 50))
-                button_menu = ui_tools.Button(
-                    (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), lambda: menu(screen), text="Menu", hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78))
-                retry_button = ui_tools.Button(
-                    (ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16, 520, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), lambda: platformer(screen, menu, level), image=retry_img,
-                    hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78))
-                state = False if count > 0 else True
-                next_level_button = ui_tools.Button(
-                    (ss.SCREEN_WIDTH / 2 + 100, 520, ss.SCREEN_WIDTH / 8, 50),
-                    (59, 83, 121), next_level, text="Next Level", hover_color=(35, 53, 78),
-                    clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78), platformer=platformer, state_disabled=state)
-                button_lis.append(button_menu)
-                button_lis.append(retry_button)
-                button_lis.append(next_level_button)
-                added_button += 1
-            elif added_button < 10:
-                added_button += 1
             score_show(screen, working, score)
 
             if message_count != 0:
@@ -516,14 +465,10 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                 message_count -= 1
             celebration(screen, score, x, points)
 
-        for i in button_lis:
-            i.update(screen)
+            print(f'count')
         py.display.update()
-        print(count)
 
 
 if __name__ == "__main__":
-    from platformer_game import platformer_game
-    from Level import level_list
-
-    game_Loop_Wordle(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, level_list[0])
+    letter = ["a", "b"]
+    game_Loop_Wordle(screen, letter, 3, 60, 30)
