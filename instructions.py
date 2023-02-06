@@ -148,15 +148,16 @@ def instructions(screen, back_button_func):
                   pygame.font.Font(None, 30), 1900, color=(130, 1, 29), alignment="left")
         blit_text(help_surface, "CONTROLS: ", (1550, 420),
                   pygame.font.Font(None, 40), 1600, color=(130, 1, 29))
-        blit_text(help_surface, "MOVE LEFT: A-KEY OR LEFT ARROW KEY", (1500, 470),
-                  pygame.font.Font(None, 25), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "MOVE RIGHT: D-KEY OR RIGHT ARROW KEY", (1500, 530),
-                  pygame.font.Font(None, 25), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "JUMP: W-KEY OR UP ARROW KEY OR SPACE BAR", (1500, 590),
-                  pygame.font.Font(None, 25), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "AVOID OBSTACLES LIKE SNOWMAN, TREE, SPIKES BY JUMPING OVER THEM. THERE ARE ALSO POWER-UPS LIKE JUMP-BOOST TO HELP YOU FINISH THE LEVEL.", (1500, 650),
-                  pygame.font.Font(None, 25), 2250, color=(130, 1, 29), alignment="left")
-
+        blit_text(help_surface, "MOVE LEFT: A-KEY OR LEFT ARROW KEY", (1500, 450),
+                  pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
+        blit_text(help_surface, "MOVE RIGHT: D-KEY OR RIGHT ARROW KEY", (1500, 480),
+                  pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
+        blit_text(help_surface, "JUMP: W-KEY OR UP ARROW KEY OR SPACE BAR", (1500,510),
+                  pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
+        blit_text(help_surface, "AVOID OBSTACLES LIKE SNOWMAN, TREE, SPIKES BY JUMPING OVER THEM. THERE ARE ALSO POWER-UPS LIKE JUMP-BOOST TO HELP YOU FINISH THE LEVEL.", (1500, 550),
+                  pygame.font.Font(None, 20), 2250, color=(130, 1, 29), alignment="left")
+        blit_text(help_surface, "ALSO TRY TO GET THE MYSTERY LETTER, WHICH YOU CAN USE IN THE NEXT PART OF THE GAME, WORD-CONNECT. THIS WOULD ALLOW YOU TO ADD ANY LETTER OF YOUR WISH WHENEVER YOU NEED IT.", (1500, 610),
+                  pygame.font.Font(None, 20), 2250, color=(130, 1, 29), alignment="left")
         # fourth screen - how to play the word-connect game
         blit_text(help_surface, "Instructions:", (3250, 100),
                   pygame.font.Font(None, 100), 3500, color=(255, 255, 255))
