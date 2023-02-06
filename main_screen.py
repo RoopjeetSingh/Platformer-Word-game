@@ -3,12 +3,15 @@ from opening_page import opening_page
 import json
 import pygame
 import screen_size as ss
+from decode_file import decode_file
+import smaller_store
+import other_small_images
 
 alpha = 0
 root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-fbla_img = pygame.image.load("images/Menu_page/fbla_imagebg.png").convert_alpha()
+fbla_img = pygame.image.load(decode_file(smaller_store.fbla_logo)).convert_alpha()
 fbla_img = pygame.transform.scale(fbla_img, (600/fbla_img.get_height()*fbla_img.get_width(), 600))
-logo_img = pygame.image.load("images/Menu_page/logo.png").convert_alpha()
+logo_img = pygame.image.load(decode_file(smaller_store.game_logo)).convert_alpha()
 logo_img = pygame.transform.scale(logo_img, (400/logo_img.get_height()*logo_img.get_width(), 400))
 
 clock = pygame.time.Clock()

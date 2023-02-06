@@ -2,6 +2,10 @@ import pygame
 import ui_tools
 import screen_size as ss
 import json
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 # from helpful_functions import blit_text
 
@@ -16,11 +20,11 @@ def leaderboard(screen, back_button_func):
         func["func"]()
 
     def create_font(y_pos):
-        rank_1_image = pygame.image.load("images/Menu_page/rank1.png").convert_alpha()
+        rank_1_image = pygame.image.load(decode_file(smaller_store.rank1)).convert_alpha()
         rank_1_image = pygame.transform.scale(rank_1_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
-        rank_2_image = pygame.image.load("images/Menu_page/rank2.png").convert_alpha()
+        rank_2_image = pygame.image.load(decode_file(smaller_store.rank2)).convert_alpha()
         rank_2_image = pygame.transform.scale(rank_2_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
-        rank_3_image = pygame.image.load("images/Menu_page/rank3.png").convert_alpha()
+        rank_3_image = pygame.image.load(decode_file(smaller_store.rank3)).convert_alpha()
         rank_3_image = pygame.transform.scale(rank_3_image, (int(ss.SCREEN_WIDTH/28.6), text_height - 10))
         rank_images_dic = {1: rank_1_image, 2: rank_2_image, 3: rank_3_image}
         surface_list.clear()
@@ -106,21 +110,21 @@ def leaderboard(screen, back_button_func):
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
+    background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     leaderboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg Background Removed.png").convert_alpha()
     leaderboard_bg = pygame.transform.scale(leaderboard_bg, (ss.SCREEN_WIDTH / 1.05, ss.SCREEN_HEIGHT / 1.2))
     leaderboard_bg.set_colorkey((255, 255, 255))
     # Left here
-    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
+    back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # text_height, text_height
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
                                   fill_bg=False, func=lambda: back_button_func(screen))
-    go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
+    go_down = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
                                      (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     disabled_go_down = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
         (ss.SCREEN_WIDTH/14.3, ss.SCREEN_WIDTH/9.53))
     go_down = pygame.transform.rotate(go_down, -90)
     disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
@@ -151,7 +155,7 @@ def leaderboard(screen, back_button_func):
     current_user_text = font_current_usr.render(var["current_user"][1], True, (255, 0, 0))
     # scores_levels_fonts = []
     # stars_surface_list = []  # Would have lists of x and y position
-    stars_img = pygame.image.load('images/Menu_page/Stars.png').convert_alpha()
+    stars_img = pygame.image.load(decode_file(smaller_store.stars_img)).convert_alpha()
     stars_img = pygame.transform.scale(stars_img, (int(ss.SCREEN_WIDTH/17.875) / stars_img.get_height() *
                                                    stars_img.get_width(), int(ss.SCREEN_WIDTH/20.4)))
 

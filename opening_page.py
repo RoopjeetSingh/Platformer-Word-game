@@ -6,6 +6,10 @@ from Level import level_list, level_generator
 from helpful_functions import blit_text
 from player import Player
 from opening_file_word import opening_screen_word
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 pygame.init()
 
@@ -30,7 +34,7 @@ def opening_page(screen):
         var = json.load(f)
     # if var["1_time"] == "True" and len(var["users"]) == 0:
     clock = pygame.time.Clock()
-    background = pygame.transform.scale(pygame.image.load("images/Menu_page/fblaGameBg.jpg"), (ss.SCREEN_WIDTH,
+    background = pygame.transform.scale(pygame.image.load("images/Menu_page/menu_bg.jpg"), (ss.SCREEN_WIDTH,
                                                                                                ss.SCREEN_HEIGHT))
     name_surface = pygame.Surface((ss.SCREEN_WIDTH / 2, ss.SCREEN_HEIGHT / 2), pygame.SRCALPHA)
     name = ui_tools.InputBox(int(name_surface.get_width() / 9.5) + ss.SCREEN_WIDTH / 2 - name_surface.get_width() / 2,

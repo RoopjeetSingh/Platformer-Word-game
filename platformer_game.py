@@ -5,7 +5,10 @@ import json
 from helpful_functions import calculate_current_level, blit_text
 from wordconnect import game_Loop_Wordle
 import ui_tools
-import selection
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 pygame.init()
 death_bg = pygame.image.load("images/Menu_page/Death_screen_bg.jpg").convert_alpha()
@@ -118,7 +121,7 @@ def platformer_game(screen, menu, level=None):
         for i in button_lis:
             i.update(screen)
         pygame.display.update()
-        clock.tick(90)
+        clock.tick(100)
 
 
 if __name__ == "__main__":

@@ -3,31 +3,13 @@ import ui_tools
 import screen_size as ss
 import json
 from helpful_functions import blit_text
+import other_small_images
+import smaller_store
+import other_small_images
+from decode_file import decode_file
 
 pygame.init()
 font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 39.72))
-
-
-def display_text_animation(screen, string: str, text: str, i: int, x: int, y: int):
-    """
-    Supporter method: only to be used by instructions page to create writing effect
-    :param screen: Screen to blit on
-    :param string: String to blit
-    :param text: the string that has yet been blit on screen
-    :param i: the number of words we have blit on the screen yet
-    :param x: x position of text
-    :param y: y position of text
-    :return: returns a tuple of the i which has been incremented and text where the newly added word has been added
-    """
-    if i < len(string):  # could also be if text == string
-        text += string[i]
-        text_surface = font.render(text, True, (255, 255, 255))
-        text_rect = text_surface.get_rect(topleft=(x, y))
-        screen.blit(text_surface, text_rect)
-        pygame.display.update()
-        pygame.time.wait(100)
-        i += 1
-        return i, text
 
 
 def instructions(screen, back_button_func):
@@ -67,17 +49,17 @@ def instructions(screen, back_button_func):
         var = json.load(f)
     help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    background = pygame.image.load("hellop/instruction background.jpg").convert()
+    background = pygame.image.load(decode_file(other_small_images.instruction_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
+    next_button = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
                                          (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_WIDTH / 9.53))
     disabled_next_button = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_WIDTH / 9.53))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
-    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
+    back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,

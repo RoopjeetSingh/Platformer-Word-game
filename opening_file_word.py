@@ -11,6 +11,10 @@ from helpful_functions import blit_text
 import screen_size as ss
 import json
 from datetime import datetime
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 # datetime object containing current date and time
 current_time = datetime.now()
@@ -41,7 +45,7 @@ list_images = Letter.letter_dic
 possible_characters = list(list_images.keys())
 
 
-def opening_page(opening_counter, incorrect, count):
+def opening_page_word_connect(opening_counter, incorrect, count):
     if count:
         image = py.image.load('images/boy/Idle (1).png')
         image0 = py.transform.scale(image, (134, 225))

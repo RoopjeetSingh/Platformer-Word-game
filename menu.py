@@ -1,5 +1,3 @@
-import pygame.transform
-
 import ui_tools as pgb
 from instructions import instructions
 from score_board import scoreboard
@@ -10,9 +8,13 @@ from Level import *
 from level_screen import level_screen
 from platformer_game import platformer_game
 from helpful_functions import calculate_current_level, blit_text
+from decode_file import decode_file
 from users import users
 from letter import Letter
 import random
+import images_store 
+import smaller_store
+import other_small_images
 
 pygame.init()
 
@@ -37,21 +39,21 @@ def menu(screen):
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/new_winter_bg.jpg").convert()
+    background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    help_text = pygame.transform.scale(pygame.image.load("images/Menu_page/help.png").convert_alpha(),
+    help_text = pygame.transform.scale(pygame.image.load(decode_file(smaller_store.help_text)).convert_alpha(),
                                        (ss.SCREEN_WIDTH / 5.7, ss.SCREEN_HEIGHT / 8.4))  # 250, 50
     score_board_img = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/scoreboard.png").convert_alpha(),
+        pygame.image.load(decode_file(smaller_store.scoreboard_bg)).convert_alpha(),
         (ss.SCREEN_WIDTH / 9.53, ss.SCREEN_HEIGHT / 8.4))  # 150, 100
     leader_board_img = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/leaderboard.png").convert_alpha(),
+        pygame.image.load(decode_file(smaller_store.leaderboard_bg)).convert_alpha(),
         (ss.SCREEN_WIDTH / 11.1, ss.SCREEN_HEIGHT / 6.7))  # 125, 125
     skins_img = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/skins.png").convert(),
+        pygame.image.load(decode_file(smaller_store.skins_bg)).convert(),
         (ss.SCREEN_WIDTH / 7.15, ss.SCREEN_HEIGHT / 8.4))  # 200, 100
     lock = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha(),
+        pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha(),
         (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
 
     leader_board_img.set_colorkey((255, 255, 255))
@@ -129,7 +131,7 @@ def menu(screen):
     letter_lis = []
     font_stars = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
     number_stars = font_stars.render(str(current_stars), True, (0, 0, 0))
-    stars_img = pygame.image.load('images/Menu_page/numberOfStars.png').convert()
+    stars_img = pygame.image.load(decode_file(smaller_store.number_of_stars)).convert()
     stars_img = pygame.transform.scale(stars_img, (40 / stars_img.get_height() * stars_img.get_width(), 40))
     stars_img.set_colorkey((255, 255, 255))
     # stars_img.set_colorkey((0, 0, 0))

@@ -2,20 +2,13 @@
     "1_time": "False",
     "users": [
         [
-            "Roopjeet",
-            [
-                [
-                    "level1",
-                    2,
-                    15,
-                    "02/05/2023"
-                ]
-            ],
-            "santa"
+            "roopjeet",
+            [],
+            "boy"
         ]
     ],
     "current_user": [
         0,
-        "Roopjeet"
+        "roopjeet"
     ]
 }

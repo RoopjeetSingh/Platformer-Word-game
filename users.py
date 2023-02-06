@@ -3,6 +3,10 @@ import ui_tools
 import screen_size as ss
 import json
 from Level import level_list
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 pygame.init()
 
@@ -134,8 +138,8 @@ def users(screen, back_button_func):
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
-    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
+    background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
+    back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 71.5), ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
@@ -179,10 +183,10 @@ def users(screen, back_button_func):
     input_lis = []
 
     # scrolling
-    go_down = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
+    go_down = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
                                      (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
     disabled_go_down = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
         (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.533)))
     go_down = pygame.transform.rotate(go_down, -int(90))
     disabled_go_down = pygame.transform.rotate(disabled_go_down, -int(90))

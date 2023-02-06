@@ -1,28 +1,32 @@
 import pygame
 import screen_size as ss
 import math
+from decode_file import decode_file
+import images_store
+import smaller_store
+import other_small_images
 
 pygame.init()
 screen = pygame.display.set_mode((int(ss.SCREEN_WIDTH / 2.3833), int(ss.SCREEN_WIDTH / 3.575)))
 
 
 class Letter(pygame.sprite.Sprite):
-    letter_dic = {'a': "images/Letters/1.png", 'b': "images/Letters/9.png", 'c': "images/Letters/19.png",
-                  'd': "images/Letters/15.png", 'e': "images/Letters/26.png", 'f': "images/Letters/23.png",
-                  'g': "images/Letters/18.png", 'h': "images/Letters/2.png", 'i': "images/Letters/7.png",
-                  'j': "images/Letters/12.png", 'k': "images/Letters/3.png", 'l': "images/Letters/16.png",
-                  'm': "images/Letters/28.png", 'n': "images/Letters/25.png", 'o': "images/Letters/22.png",
-                  'p': "images/Letters/0.png", 'q': "images/Letters/6.png", 'r': "images/Letters/17.png",
-                  's': "images/Letters/20.png", 't': "images/Letters/13.png", 'u': "images/Letters/21.png",
-                  'v': "images/Letters/24.png", 'w': "images/Letters/11.png", 'x': "images/Letters/10.png",
-                  'y': "images/Letters/4.png", 'z': "images/Letters/14.png"}
+    letter_dic = {'a': smaller_store.a, 'b': smaller_store.b, 'c': smaller_store.c,
+                  'd': smaller_store.d, 'e': smaller_store.e, 'f': smaller_store.f,
+                  'g': smaller_store.g, 'h': smaller_store.h, 'i': smaller_store.i,
+                  'j': smaller_store.j, 'k': smaller_store.k, 'l': smaller_store.l,
+                  'm': smaller_store.m, 'n': smaller_store.n, 'o': smaller_store.o,
+                  'p': smaller_store.p, 'q': smaller_store.q, 'r': smaller_store.r,
+                  's': smaller_store.s, 't': smaller_store.t, 'u': smaller_store.u,
+                  'v': smaller_store.v, 'w': smaller_store.w, 'x': smaller_store.x,
+                  'y': smaller_store.y, 'z': smaller_store.z}
 
     def __init__(self, letter: str, x: int, y: int):
         super(Letter, self).__init__()
         self.distance = None
         self.end_pos = (0, 0)
         self.letter = letter
-        self.image1 = pygame.image.load(Letter.letter_dic.get(self.letter)).convert()
+        self.image1 = pygame.image.load(decode_file(Letter.letter_dic.get(self.letter))).convert()
         self.image1 = pygame.transform.scale(self.image1, (ss.tile_size, ss.tile_size))
         self.image = self.image1
         self.rect_original = self.image.get_rect(topleft=(x, y))
@@ -88,7 +92,7 @@ class MysteryLetter(pygame.sprite.Sprite):
         super(MysteryLetter, self).__init__()
         self.distance = None
         self.end_pos = (0, 0)
-        self.image1 = pygame.image.load("images/Letters/mysteryLetter.png").convert()
+        self.image1 = pygame.image.load(decode_file(smaller_store.mystery_letter)).convert()
         self.image1 = pygame.transform.scale(self.image1, (ss.tile_size * 1.5, ss.tile_size * 1.5))
         self.image = self.image1
         self.rect_original = self.image.get_rect(topleft=(x, y))

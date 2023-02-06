@@ -4,8 +4,12 @@ import screen_size as ss
 import json
 from Level import level_list
 from platformer_game import platformer_game
-from helpful_functions import calculate_current_level, blit_text
+from helpful_functions import blit_text
+from decode_file import decode_file
 from math import ceil
+import images_store 
+import smaller_store
+import other_small_images
 
 pygame.init()
 stars_required = [0, 1, 5, 6, 10]
@@ -59,11 +63,11 @@ def level_screen(screen, back_button_func):
     with open('variables.json', 'r') as f:
         var = json.load(f)
     clock = pygame.time.Clock()
-    background = pygame.image.load("images/Menu_page/menu_bg.png").convert()
-    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
+    background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
+    next_button = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
                                          (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.53)))
     disabled_next_button = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
+        pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
         (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.53)))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
@@ -79,7 +83,7 @@ def level_screen(screen, back_button_func):
         (0, 0, 0), go_to_next_page, image=previous_button, fill_bg=False,
         disabled_image=disabled_previous_button, state_disabled=True, going_to_next_page=False)
 
-    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
+    back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
                                         (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_HEIGHT / 8.4)))  # 75, 75
     back_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 71.5), int(ss.SCREEN_WIDTH / 19.1), int(ss.SCREEN_HEIGHT / 10.4)), (0, 0, 0),
                                   lambda: change_screen(lambda: back_button_func(screen)), image=back_image,
@@ -100,7 +104,7 @@ def level_screen(screen, back_button_func):
                 break
 
     width_image = ((ss.SCREEN_WIDTH - 2 * previous_page.rect.right) / 2 - 40) / 1.5
-    lock_original = pygame.image.load("images/Menu_page/lock_bg.png").convert_alpha()
+    lock_original = pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha()
     lock = pygame.transform.scale(lock_original, (width_image, int(ss.SCREEN_WIDTH / 7.15)))
     # This makes the width enough for 3 levels to be in it
     for index, level in enumerate(level_list):

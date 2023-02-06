@@ -11,6 +11,10 @@ from helpful_functions import blit_text
 import screen_size as ss
 import json
 from datetime import datetime
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 # datetime object containing current date and time
 current_time = datetime.now()

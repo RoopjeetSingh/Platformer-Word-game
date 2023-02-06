@@ -63,3 +63,4 @@ def blit_text(surface, text, pos, font, right_pos, color=(0, 0, 0), alpha=255, a
             end_pos = max(word.get_rect(topleft=(centerx, top)).right, end_pos)
         top += word_height  # Start on new row.
     return end_pos
+

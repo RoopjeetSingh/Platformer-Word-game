@@ -6,8 +6,17 @@ import cv2
 import numpy as np
 import power_ups as pu
 import random
+from decode_file import decode_file
+import smaller_store
+import other_small_images
 
-background = [r"images/Background_platformer/BG_03.png", r"images/Background_platformer/BG_04.png"]
+background = [smaller_store.bg_1, smaller_store.bg_2]
+
+bg_display_level = {"level1": smaller_store.level1_bg_display,
+                    "level2": smaller_store.level2_bg_display,
+                    "level3": smaller_store.level3_bg_display,
+                    "level4": smaller_store.level4_bg_display,
+                    "level5": smaller_store.level5_bg_display}
 
 
 def level_generator(no_of_letters: int):
@@ -24,7 +33,8 @@ def level_generator(no_of_letters: int):
 class Level:
     def __init__(self, bg, no_tiles: int, level_name):
         self.tiles = no_tiles
-        self.bg_start = cv2.imread(bg)
+        self.bg_start = cv2.imdecode(np.frombuffer(decode_file(bg).read(), np.uint8), 1)
+        # self.bg_start = cv2.imread(bg)
         self.platform_group = pygame.sprite.Group()
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
@@ -45,30 +55,7 @@ class Level:
                                           "RGB").convert()
         self.bg = pygame.transform.scale(self.bg, (ss.SCREEN_HEIGHT / self.bg.get_height() * self.bg.get_width(),
                                                    ss.SCREEN_HEIGHT))
-        # self.bg_display = pygame.image.frombuffer(self.bg_start.tostring(), self.bg_start.shape[1::-1],
-        #                                           "RGB").convert()
-        # self.bg_display = pygame.transform.scale(self.bg_display, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-        self.bg_display = pygame.image.load(f"images/Background_platformer/{self.str}.png")
-        # self.bg_display = pygame.transform.scale(
-        #     self.bg_display,
-        #     (ss.SCREEN_WIDTH / 2.86,
-        #      ss.SCREEN_HEIGHT / 1.56 / self.bg_display.get_width() * self.bg_display.get_height()))
-
-    # def draw_for_display(self):
-    #     for i in self.obstruct_group:
-    #         if i.rect.x <= ss.SCREEN_WIDTH:
-    #             self.bg_display.blit(i.image, i.rect)
-    #
-    #     for i in self.platform_group:
-    #         if i.rect.x <= ss.SCREEN_WIDTH:
-    #             self.bg_display.blit(i.image, i.rect)
-    #     for i in self.letter_group:
-    #         if i.rect.x <= ss.SCREEN_WIDTH:
-    #             self.bg_display.blit(i.image, (i.rect.x, i.rect.y + ss.tile_size))
-    #     for i in self.power_up_group:
-    #         if i.rect.x <= ss.SCREEN_WIDTH:
-    #             self.bg_display.blit(i.image, i.rect)
-    #     pygame.image.save(self.bg_display, f"images/Background_platformer/{self.str}.png")
+        self.bg_display = pygame.image.load(decode_file(bg_display_level[self.str]))
 
     def draw(self, screen):
         screen.blit(self.bg, (self.start, 0))

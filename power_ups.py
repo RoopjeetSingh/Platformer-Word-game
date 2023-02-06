@@ -1,6 +1,10 @@
 import time
 import pygame
 import screen_size as ss
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 
 class PowerUp(pygame.sprite.Sprite):

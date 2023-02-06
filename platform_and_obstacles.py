@@ -2,6 +2,10 @@ import pygame
 import cv2
 import numpy as np
 import screen_size as ss
+from decode_file import decode_file
+import images_store 
+import smaller_store
+import other_small_images
 
 
 class Platform(pygame.sprite.Sprite):

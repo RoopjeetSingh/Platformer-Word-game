@@ -3,6 +3,9 @@ import Level
 import screen_size as ss
 import letter
 from math import ceil
+from decode_file import decode_file
+import images_store 
+import other_skins
 
 
 # Set up the player class
@@ -12,80 +15,81 @@ class Player(pygame.sprite.Sprite):
         # Fall has to be tested
         match skin:
             case "santa":
-                run_max_index = 12
-                death_max_index = 16
-                run = "Run"
+                run_var_name = other_skins.Santa_Run
+                dead_var_name = other_skins.Santa_Dead
+                idle_var_name = other_skins.Santa_Idle
                 fall = 2
             case "boy":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Boy_Run
+                dead_var_name = images_store.Boy_Dead
+                idle_var_name = images_store.Boy_Idle
                 fall = 3.5
             case "female_zombie":
-                run_max_index = 10
-                death_max_index = 12
-                run = "Walk"
+                run_var_name = other_skins.Female_zombie_Run
+                dead_var_name = other_skins.Female_zombie_Dead
+                idle_var_name = other_skins.Female_zombie_Idle
                 fall = 1.8
             case "male_zombie":
-                run_max_index = 10
-                death_max_index = 12
-                run = "Walk"
+                run_var_name = other_skins.Male_zombie_Run
+                dead_var_name = other_skins.Male_zombie_Dead
+                idle_var_name = other_skins.Male_zombie_Idle
                 fall = 3
             case "adventure_boy":
-                run_max_index = 10
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Adventure_boy_Run
+                dead_var_name = images_store.Adventure_boy_Dead
+                idle_var_name = images_store.Adventure_boy_Idle
                 fall = 3.8  # Fall is good
             case "adventure_girl":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Adventure_boy_Run
+                dead_var_name = images_store.Adventure_boy_Dead
+                idle_var_name = images_store.Adventure_boy_Idle
                 fall = 3.8
             case "cat":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Cat_Run
+                dead_var_name = images_store.Cat_Dead
+                idle_var_name = images_store.Cat_Idle
                 fall = 2.8  # Fall is good
             case "dinosaur":
-                run_max_index = 8
-                death_max_index = 8
-                run = "Run"
+                run_var_name = images_store.Dinosaur_Run
+                dead_var_name = images_store.Dinosaur_Dead
+                idle_var_name = images_store.Dinosaur_Idle
                 fall = 5  # Fall is good
             case "dog":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Dog_Run
+                dead_var_name = images_store.Dog_Dead
+                idle_var_name = images_store.Dog_Idle
                 fall = 3.5  # Fall is good
             case "knight":
-                run_max_index = 10
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Knight_Run
+                dead_var_name = images_store.Knight_Dead
+                idle_var_name = images_store.Knight_Idle
                 fall = 3.5  # Fall is good
             case "ninja_girl":
-                run_max_index = 10
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Ninja_girl_Run
+                dead_var_name = images_store.Ninja_girl_Dead
+                idle_var_name = images_store.Ninja_girl_Idle
                 fall = 3.5  # Fall is good
             case "ninja_girl2":
-                run_max_index = 10
-                death_max_index = 10
-                run = "Run"
+                run_var_name = images_store.Ninja_girl2_Run
+                dead_var_name = images_store.Ninja_girl2_Dead
+                idle_var_name = images_store.Ninja_girl2_Idle
                 fall = 3.5  # Fall is good
             case "pumpkin":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = other_skins.Pumpkin_Run
+                dead_var_name = other_skins.Pumpkin_Dead
+                idle_var_name = other_skins.Pumpkin_Idle
                 fall = 3.5  # Fall is good
             case "robot":
-                run_max_index = 8
-                death_max_index = 10
-                run = "Run"
+                run_var_name = other_skins.Robot_Run
+                dead_var_name = other_skins.Robot_Dead
+                idle_var_name = other_skins.Robot_Idle
                 fall = 4.4  # Fall is good
             case _:
                 raise AttributeError("Invalid skin type " + skin)
 
         alpha = (0, 0, 0)
-        self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
+        # self.idle_image = pygame.image.load(rf"images/{skin.capitalize()}/Idle (1).png").convert()
+        self.idle_image = pygame.image.load(decode_file(idle_var_name)).convert()
         height = int(ss.SCREEN_WIDTH / 19.067)
         self.idle_image = pygame.transform.scale(self.idle_image, (
             self.idle_image.get_width() * height / self.idle_image.get_height(), height))
@@ -94,8 +98,17 @@ class Player(pygame.sprite.Sprite):
         self.idle_image_flipped.set_colorkey(alpha)
         self.right_images = []
         self.left_images = []
-        for i in range(1, run_max_index):
-            img = pygame.image.load(fr"images/{skin.title()}/{run} ({i}).png").convert()
+        # for i in range(1, run_var_name):
+        #     img = pygame.image.load(fr"images/{skin.title()}/{idle_var_name} ({i}).png").convert()
+        #     img = pygame.transform.scale(img, (
+        #         img.get_width() * height / img.get_height(), height))
+        #     img.set_colorkey(alpha)
+        #     self.right_images.append(img)
+        #     img_left = pygame.transform.flip(img, True, False)
+        #     img_left.set_colorkey(alpha)
+        #     self.left_images.append(img_left)
+        for i in run_var_name:
+            img = pygame.image.load(decode_file(i)).convert()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
@@ -105,8 +118,15 @@ class Player(pygame.sprite.Sprite):
             self.left_images.append(img_left)
 
         self.death_images = []
-        for i in range(1, death_max_index):
-            img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert()
+        # for i in range(1, dead_var_name):
+        #     img = pygame.image.load(fr"images/{skin.title()}/Dead ({i}).png").convert()
+        #     img = pygame.transform.scale(img, (
+        #         img.get_width() * height / img.get_height(), height))
+        #     img.set_colorkey(alpha)
+        #     self.death_images.append(img)
+        #     height -= fall
+        for i in dead_var_name:
+            img = pygame.image.load(decode_file(i)).convert()
             img = pygame.transform.scale(img, (
                 img.get_width() * height / img.get_height(), height))
             img.set_colorkey(alpha)
