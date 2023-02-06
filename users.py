@@ -5,7 +5,6 @@ import json_storer
 from Level import level_list
 from decode_file import decode_file
 import images_store 
-import smaller_store
 import other_small_images
 from skins import list_skins, idle_images_list
 
@@ -13,6 +12,7 @@ pygame.init()
 
 
 def users(screen, back_button_func):
+
     class Scroller:
         def __init__(self):
             self.y_pos = int(ss.SCREEN_WIDTH / 6.33)

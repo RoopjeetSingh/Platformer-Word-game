@@ -14,6 +14,7 @@ text_width, text_height = ss.SCREEN_WIDTH/5.72, ss.SCREEN_WIDTH/19.07  # Change 
 
 
 def leaderboard(screen, back_button_func):
+
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:
             wvar.write("var=" + str(var))

@@ -15,6 +15,9 @@ logo_img = pygame.image.load(decode_file(extra_images.var)).convert_alpha()
 logo_img = pygame.transform.scale(logo_img, (400/logo_img.get_height()*logo_img.get_width(), 400))
 
 clock = pygame.time.Clock()
+pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+pygame.mixer.music.set_volume(0.2)
+pygame.mixer.music.play(-1)
 show = True
 while alpha >= 0:
     fbla_img.set_alpha(alpha)
@@ -52,6 +55,9 @@ while alpha >= 0:
     pygame.display.flip()
     clock.tick(60)
 
+# pygame.mixer.music.stop()
+# pygame.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
+# pygame.mixer.music.play(-1)
 
 var = json_storer.var
     

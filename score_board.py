@@ -16,6 +16,7 @@ font = pygame.font.Font(decode_file(extra_images.font_new), int(ss.tile_size))
 
 
 def scoreboard(screen, back_button_func):
+
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:
             wvar.write("var="+str(var))

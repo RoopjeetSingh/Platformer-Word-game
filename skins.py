@@ -24,6 +24,7 @@ font_stars = pygame.font.Font(None, 36)
 
 
 def skins(screen, back_button_func):
+
     def change_skin(kwargs: dict):
         button: ui_tools.Button = kwargs["button"]
         if not isinstance(button.image, list):

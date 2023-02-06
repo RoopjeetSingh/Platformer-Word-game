@@ -10,28 +10,6 @@ pygame.init()
 font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 39.72))
 
 
-def display_text_animation(screen, string: str, text: str, i: int, x: int, y: int):
-    """
-    Supporter method: only to be used by instructions page to create writing effect
-    :param screen: Screen to blit on
-    :param string: String to blit
-    :param text: the string that has yet been blit on screen
-    :param i: the number of words we have blit on the screen yet
-    :param x: x position of text
-    :param y: y position of text
-    :return: returns a tuple of the i which has been incremented and text where the newly added word has been added
-    """
-    if i < len(string):  # could also be if text == string
-        text += string[i]
-        text_surface = font.render(text, True, (255, 255, 255))
-        text_rect = text_surface.get_rect(topleft=(x, y))
-        screen.blit(text_surface, text_rect)
-        pygame.display.update()
-        pygame.time.wait(100)
-        i += 1
-        return i, text
-
-
 def instructions(screen, back_button_func):
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:

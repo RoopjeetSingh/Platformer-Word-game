@@ -295,7 +295,8 @@ def next_level(kwargs):
 
 
 def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
-    py.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
+    py.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+    py.mixer.music.set_volume(0.2)
     py.mixer.music.play(-1)
     x_change = 0
     i = -1

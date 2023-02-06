@@ -7,8 +7,6 @@ from platformer_game import platformer_game
 from helpful_functions import blit_text
 from decode_file import decode_file
 from math import ceil
-import images_store 
-import smaller_store
 import other_small_images
 
 pygame.init()
@@ -16,6 +14,7 @@ stars_required = [0, 1, 5, 6, 10]
 
 
 def level_screen(screen, back_button_func):
+
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:
             wvar.write("var=" + str(var))

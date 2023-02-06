@@ -15,8 +15,6 @@ pygame.init()
 
 
 def opening_page(screen):
-    pygame.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
-    pygame.mixer.music.play(-1)
 
     def get_name(name_user=""):
         name_user = name_user or name.text
@@ -30,7 +28,7 @@ def opening_page(screen):
             var["current_user"] = [0, name_user]
             with open('json_storer.py', 'w') as wvar:
                 wvar.write("var=" + str(var))
-            # pygame.mixer.music.stop()
+            # pygame.mixer.music.pause()
             # Current_user is a list with two values, the index of the current user and the actual name
             show_level(screen)
 

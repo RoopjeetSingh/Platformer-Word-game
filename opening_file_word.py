@@ -1,5 +1,5 @@
 import random
-import pygame as py
+import pygame
 from pygame.locals import *
 import math
 from pygame import mixer
@@ -13,22 +13,21 @@ import json_storer
 from datetime import datetime
 from decode_file import decode_file
 import images_store 
-import smaller_store
 import extra_images
 import other_small_images
 
 # datetime object containing current date and time
 current_time = datetime.now()
 
-py.init()
+pygame.init()
 mixer.init()
 # Removes letters that are 2 letters long
-copy = main.WORDS.copy().keys()
-for i in copy:
+copygame = main.WORDS.keys()
+for i in copygame:
     if len(i) <= 2:
         main.WORDS[i] = False
 
-screen = py.display.set_mode((1300, 710))
+screen = pygame.display.set_mode((1300, 710))
 
 image_list = [extra_images.zero_stars, extra_images.single_stars, extra_images.double_stars, extra_images.triple_stars]
 
@@ -38,51 +37,51 @@ double_star = ["good job, now try to get three stars", "you can do better than t
 triple_star = ["Great job! You are a real Future Business Leader of America!!", "You are a G.O.A.T"]
 mystery_letters = []
 count = 0
-clock_star = py.time.Clock()
+clock_star = pygame.time.Clock()
 x_change = 0
 message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
-collect_letter_sound = py.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
-incorrect_word_sound = py.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
+incorrect_word_sound = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
 
 
 def opening_page_word_connect(opening_counter, incorrect, count):
     if count:
-        image = py.image.load(decode_file(images_store.Boy_Idle))
-        image0 = py.transform.scale(image, (134, 225))
-        image1 = py.transform.scale(image, (107,175))
+        image = pygame.image.load(decode_file(images_store.Boy_Idle))
+        image0 = pygame.transform.scale(image, (134, 225))
+        image1 = pygame.transform.scale(image, (107,175))
         image.set_colorkey((0, 0, 0))
-        opening_surface = py.Surface((600, 320))
-        incorrect_surface = py.Surface((350, 400))
+        opening_surface = pygame.Surface((600, 320))
+        incorrect_surface = pygame.Surface((350, 400))
         if opening_counter:
             opening_surface.set_alpha(28)
             opening_surface.fill((0, 0, 0))
             opening_surface.blit(image0, (20, 35))
             blit_text(opening_surface,
                       "Hi there, its me, Gameboy, here again!!!! We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
-                      (170, 25), py.font.Font(None, 25), 530, color=(255, 255, 255), alignment="left")
+                      (170, 25), pygame.font.Font(None, 25), 530, color=(255, 255, 255), alignment="left")
 
             screen.blit(opening_surface, (350, 0))
 
 
         elif incorrect:
             # incorrect_surface.set_alpha(128)
-            boy = py.transform.flip(image1, True, False)
+            boy = pygame.transform.flip(image1, True, False)
             incorrect_surface.fill((0, 0, 0))
             incorrect_surface.blit(boy, (216, 200))
             blit_text(incorrect_surface,
                       "If you have difficulty thinking of a new word, you can also use your mystery letters right now. To use these simply click on the mystery button on the bottom left corner of the screen. Then click on the circular text-box and add any letter and submit it by pressing enter. Further if you want to restart making a new word simply press space bar or double click on the transparent box.",
-                      (20, 10), py.font.Font(None, 23), 260, color=(255, 255, 255), alignment="left")
+                      (20, 10), pygame.font.Font(None, 23), 260, color=(255, 255, 255), alignment="left")
 
             screen.blit(incorrect_surface, (20, 110))
 
 
 def background(screen, x, y, z, c):
-    bg_image = py.image.load(decode_file(extra_images.word_connect_bg))
-    bg_image = py.transform.scale(bg_image, (1300, 710))
-    table = py.Surface((550, c))
+    bg_image = pygame.image.load(decode_file(extra_images.word_connect_bg))
+    bg_image = pygame.transform.scale(bg_image, (1300, 710))
+    table = pygame.Surface((550, c))
     table.set_alpha(128)
     table.fill((x, y, z))
     screen.blit(bg_image, (0, 0))
@@ -95,8 +94,8 @@ def place(screen, n, on, coord, letters, list_images):
         adding = (2 * 3.14) / n
         for i in range(0, n):
             position = (630 + 190 * math.cos(a), 335 + 190 * math.sin(a))
-            im = py.image.load(decode_file(list_images[letters[i]]))
-            im = py.transform.scale(im, (40, 40))
+            im = pygame.image.load(decode_file(list_images[letters[i]]))
+            im = pygame.transform.scale(im, (40, 40))
             screen.blit(im, (position))
             if len(coord) < len(letters):
                 coord.append(position)
@@ -114,7 +113,7 @@ def update(incorect, shake_count):
 def lines(screen, entered):
     if entered != []:
         for cd in range(len(entered) - 1):
-            py.draw.line(screen, (34, 153, 153), (entered[cd][0] + 20, entered[cd][1] + 20),
+            pygame.draw.line(screen, (34, 153, 153), (entered[cd][0] + 20, entered[cd][1] + 20),
                          (entered[cd + 1][0] + 20, entered[cd + 1][1] + 20), width=3)
 
 
@@ -127,7 +126,7 @@ def near(x, y):
 
 
 def show(screen, word, x_change):
-    font = py.font.Font(None, 50)
+    font = pygame.font.Font(None, 50)
     w = ""
     for i in range(len(word)):
         w += word[i]
@@ -139,13 +138,13 @@ def show(screen, word, x_change):
 
 def mystery(screen, input, c, pressed, rect_pressed):
     if pressed == True:
-        py.draw.circle(screen, (30, 212, 212), (650, 340), 70)
-        font = py.font.Font(None, 80)
+        pygame.draw.circle(screen, (30, 212, 212), (650, 340), 70)
+        font = pygame.font.Font(None, 80)
         if c == 0:
-            py.draw.circle(screen, (212, 11, 14), (650, 340), 70)
+            pygame.draw.circle(screen, (212, 11, 14), (650, 340), 70)
 
         if rect_pressed == True and c != 0:
-            py.draw.circle(screen, (95, 204, 0), (650, 340), 70, width=5)
+            pygame.draw.circle(screen, (95, 204, 0), (650, 340), 70, width=5)
 
             text_pressed = font.render(input.upper(), True, (255, 255, 255))
             text_effect = font.render(input.upper(), True, (0, 0, 0))
@@ -159,28 +158,28 @@ def mystery(screen, input, c, pressed, rect_pressed):
 
 
 def mystery_and_submit_button(screen, mystery_number):
-    font = py.font.Font(None, 75)
+    font = pygame.font.Font(None, 75)
     text = font.render(f":{mystery_number}", True, (0, 0, 0))
 
-    image = py.image.load(decode_file(extra_images.question))
-    image = py.transform.scale(image, (50, 50))
-    py.draw.rect(screen, (22, 171, 171), (20, 545, 130, 65))
+    image = pygame.image.load(decode_file(extra_images.question))
+    image = pygame.transform.scale(image, (50, 50))
+    pygame.draw.rect(screen, (22, 171, 171), (20, 545, 130, 65))
     screen.blit(text, (85, 553))
     screen.blit(image, (30, 553))
     if mystery_number == 0:
-        surface = py.Surface((130, 65))
+        surface = pygame.Surface((130, 65))
         surface.set_alpha(128)
         surface.fill((255, 255, 255))
         screen.blit(surface, (20, 545))
-    image = py.image.load(decode_file(other_small_images.arrow))
-    image_submit = py.transform.scale(image, (50, 50))
+    image = pygame.image.load(decode_file(other_small_images.arrow))
+    image_submit = pygame.transform.scale(image, (50, 50))
     screen.blit(image_submit, (1150, 550))
 
 
 def score_show(screen, x, score):
-    font = py.font.Font(None, 50)
+    font = pygame.font.Font(None, 50)
     if x == True:
-        py.draw.rect(screen, (224, 177, 22), (1075, 50, 170, 35))
+        pygame.draw.rect(screen, (224, 177, 22), (1075, 50, 170, 35))
         text = font.render(f"score: {score}", True, (0, 0, 0))
         screen.blit(text, (1100, 50))
 
@@ -205,15 +204,15 @@ def shake(screen, shake_count, working, letters, incorrect, on, coord, word, sco
         update(incorrect, shake_count)
         opening_page_word_connect(False, True, counter_o)
 
-        py.display.update()
+        pygame.display.update()
 
         shake_count += 1
     counter_o = False
 
 
 def text_draw(screen, counter):
-    py.draw.rect(screen, (blink(counter)), (20, 50, 50, 50))
-    font = py.font.Font(None, 30)
+    pygame.draw.rect(screen, (blink(counter)), (20, 50, 50, 50))
+    font = pygame.font.Font(None, 30)
     text = font.render(str(counter), True, (255, 255, 255))
     rect = text.get_rect()
     rect.center = 45, 75
@@ -235,9 +234,9 @@ def blink(counter):
 def progress_bar(screen, x, time1, points):
     # remove time1 as a parameter
     x1 = round((x / points) * 500)
-    py.draw.rect(screen, (21, 28, 28), (390, 660, 500, 30))
-    im = py.image.load(decode_file(extra_images.new_star))
-    im = py.transform.scale(im, (42, 35))
+    pygame.draw.rect(screen, (21, 28, 28), (390, 660, 500, 30))
+    im = pygame.image.load(decode_file(extra_images.new_star))
+    im = pygame.transform.scale(im, (42, 35))
     screen.blit(im, (round(395 + 0.2 * 500) - 21, 625))
     screen.blit(im, (round(395 + 0.5 * 500) - 42, 625))
     screen.blit(im, (round(395 + 0.5 * 500), 625))
@@ -245,23 +244,23 @@ def progress_bar(screen, x, time1, points):
     screen.blit(im, (round(395 + 500) - 25, 625))
     screen.blit(im, (round(395 + 500) + 15, 625))
     if x1 < 500:
-        py.draw.rect(screen, (204, 55, 75), (395, 658, 500, 25))
-        py.draw.rect(screen, (255, 215, 0), (395, 658, x1, 25))
-        py.draw.rect(screen, (80, 199, 100), (395, 658, x1, 25), width=5)
-        py.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
-        py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
-        py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
+        pygame.draw.rect(screen, (204, 55, 75), (395, 658, 500, 25))
+        pygame.draw.rect(screen, (255, 215, 0), (395, 658, x1, 25))
+        pygame.draw.rect(screen, (80, 199, 100), (395, 658, x1, 25), width=5)
+        pygame.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
+        pygame.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
+        pygame.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
 
     else:
-        py.draw.rect(screen, (255, 215, 0), (395, 655, 500, 25))
+        pygame.draw.rect(screen, (255, 215, 0), (395, 655, 500, 25))
 
 
 def stars(screen):
     global count
 
     if count <= len(image_list) - 1:
-        im = py.image.load(decode_file(image_list[count]))
-        im = py.transform.scale(im, (400, 400))
+        im = pygame.image.load(decode_file(image_list[count]))
+        im = pygame.transform.scale(im, (400, 400))
         screen.blit(im, (450, 0))
 
 
@@ -286,15 +285,15 @@ def update_stars(score, points):
 def celebration(screen, score, x, points):
     if score >= points:
         blit_text(screen, x, (660, 340),
-                  py.font.Font(None, 50), 800)
+                  pygame.font.Font(None, 50), 800)
     elif points > score >= round(0.5 * points):
         blit_text(screen, x, (660, 340),
-                  py.font.Font(None, 50), 800)
+                  pygame.font.Font(None, 50), 800)
     elif round(0.5 * points) > score >= round(0.2 * points):
-        blit_text(screen, x, (660, 340), py.font.Font(None, 50), 800)
+        blit_text(screen, x, (660, 340), pygame.font.Font(None, 50), 800)
 
     elif round(0.2 * points) > score:
-        blit_text(screen, x, (660, 340), py.font.Font(None, 50), 800)
+        blit_text(screen, x, (660, 340), pygame.font.Font(None, 50), 800)
 
 
 def message(score, points):
@@ -315,7 +314,7 @@ def transition(screen):
     while star_color >= 0:
         screen.fill((star_color, star_color, star_color))
         star_color -= 1
-        py.display.flip()
+        pygame.display.flip()
 
 
 def next_level(kwargs):
@@ -324,29 +323,10 @@ def next_level(kwargs):
     platformer(screen, menu)
 
 
-# def new_skin(screen, acquired_stars):
-#     from skins import stars_required, list_skins
-#     var = json_storer.var
-#         
-#     games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
-#     current_stars = 0
-#     for level in level_list:
-#         for game in games_played:
-#             if level.str == game[0]:
-#                 current_stars += game[1]
-#                 break
-#
-#     new_skins = []
-#     for index, skin in list_skins:
-#         if stars_required[index] <= current_stars and not stars_required[index] <= acquired_stars:
-#             new_skins.append(skin)
-#     if new_skins:
-#         pass
-
-
 def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, opening_platformer, level):
-    py.mixer.music.load('images/Menu_page/Joshua McLean - Mountain Trials.mp3')
-    py.mixer.music.play(-1)
+    pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     x_change = 0
     i = -1
     shake_count = 0
@@ -365,14 +345,14 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
     working = True
     opening_counter = True
-    timer_event = py.USEREVENT
-    py.time.set_timer(timer_event, 1000)
+    timer_event = pygame.USEREVENT
+    pygame.time.set_timer(timer_event, 1000)
     run = True
     background(screen, 255, 255, 255, 590)
     place(screen, len(letters), on, coord, letters, list_images)
     mystery_and_submit_button(screen, mystery_number)
     start = ()
-    clock = py.time.Clock()
+    clock = pygame.time.Clock()
     count_mystery_backspace = 0
     button_lis = []
     added_button = 0
@@ -382,10 +362,10 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
     while run:
         opening_page_word_connect(opening_counter, incorrect, counter_o)
-        mouse = py.mouse.get_pos()
-        for ev in py.event.get():
+        mouse = pygame.mouse.get_pos()
+        for ev in pygame.event.get():
             if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
-                py.quit()
+                pygame.quit()
                 exit()
             for i in button_lis:
                 i.check_event(ev)
@@ -484,20 +464,20 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                     background(screen, 255, 255, 255, 590)
                     place(screen, len(letters), on, coord, letters, list_images)
                     if 300 < mouse[0] < 1000 and 125 < mouse[1] < 575:
-                        py.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20),
+                        pygame.draw.line(screen, (34, 153, 153), (start[0] + 20, start[1] + 20),
                                      (mouse[0] + 20, mouse[1] + 20), width=5)
                     lines(screen, entered)
                     show(screen, word, x_change)
 
                     if len(word) == len(letters) and not main.WORDS.get(word, False):
                         incorrect = True
-                        py.mixer.Sound.play(incorrect_word_sound)
-                        py.mixer.music.stop()
+                        pygame.mixer.Sound.play(incorrect_word_sound)
+                        pygame.mixer.music.stop()
                         opening_page_word_connect(opening_counter, incorrect, counter_o)
 
                     if len(word) > 1 and main.WORDS.get(word, False) and word not in check:
-                        py.mixer.Sound.play(collect_letter_sound)
-                        py.mixer.music.stop()
+                        pygame.mixer.Sound.play(collect_letter_sound)
+                        pygame.mixer.music.stop()
                         check.append(word)
                         score += len(word)
                         start = ()
@@ -551,9 +531,9 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                     var["1_time"] = "False"
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
-                    with open('json_storer.py', 'w') as wvar:
+                    with open('json_storer.pygame', 'w') as wvar:
                         wvar.write("var=" + str(var))
-                retry_img = py.transform.scale(py.image.load(decode_file(other_small_images.retry)).convert_alpha(),
+                retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))
                 button_menu = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),
@@ -581,7 +561,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 
         for i in button_lis:
             i.update(screen)
-        py.display.update()
+        pygame.display.update()
 
 
 if __name__ == "__main__":
