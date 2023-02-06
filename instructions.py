@@ -66,7 +66,7 @@ def instructions(screen, back_button_func):
             # print(previous_page.state_disabled, next_page.state_disabled, x_pos)
 
     var = json_storer.var
-        
+
     help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.instruction_bg)).convert()
@@ -139,7 +139,7 @@ def instructions(screen, back_button_func):
                   pygame.font.Font(None, 20), 850, color=(130, 1, 29), alignment="left")
 
         # second screen - how to play the running game
-               blit_text(help_surface, "Instructions", (1950, 100),
+        blit_text(help_surface, "Instructions", (1950, 100),
                   pygame.font.Font(None, 100), 2200, color=(255, 255, 255))
         help_surface.blit(table, (1450, 150))
         blit_text(help_surface, "RUNNING GAME", (1950, 200),
@@ -154,13 +154,17 @@ def instructions(screen, back_button_func):
                   pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
         blit_text(help_surface, "MOVE RIGHT: D-KEY OR RIGHT ARROW KEY", (1500, 480),
                   pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "JUMP: W-KEY OR UP ARROW KEY OR SPACE BAR", (1500,510),
+        blit_text(help_surface, "JUMP: W-KEY OR UP ARROW KEY OR SPACE BAR", (1500, 510),
                   pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "RESTART: PRESS R TO RESTART LEVEL", (1500,540),
+        blit_text(help_surface, "RESTART: PRESS R TO RESTART LEVEL", (1500, 540),
                   pygame.font.Font(None, 20), 1950, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "AVOID OBSTACLES LIKE SNOWMAN, TREE, SPIKES BY JUMPING OVER THEM. THERE ARE ALSO POWER-UPS LIKE JUMP-BOOST TO HELP YOU FINISH THE LEVEL.", (1500, 570),
+        blit_text(help_surface,
+                  "AVOID OBSTACLES LIKE SNOWMAN, TREE, SPIKES BY JUMPING OVER THEM. THERE ARE ALSO POWER-UPS LIKE JUMP-BOOST TO HELP YOU FINISH THE LEVEL.",
+                  (1500, 570),
                   pygame.font.Font(None, 20), 2250, color=(130, 1, 29), alignment="left")
-        blit_text(help_surface, "TRY TO GET THE MYSTERY LETTER, WHICH YOU CAN USE IN THE NEXT PART OF THE GAME, WORD-CONNECT. THIS WOULD ALLOW YOU TO ADD ANY LETTER OF YOUR WISH WHENEVER YOU NEED IT.", (1500, 620),
+        blit_text(help_surface,
+                  "TRY TO GET THE MYSTERY LETTER, WHICH YOU CAN USE IN THE NEXT PART OF THE GAME, WORD-CONNECT. THIS WOULD ALLOW YOU TO ADD ANY LETTER OF YOUR WISH WHENEVER YOU NEED IT.",
+                  (1500, 620),
                   pygame.font.Font(None, 20), 2250, color=(130, 1, 29), alignment="left")
         # fourth screen - how to play the word-connect game
         blit_text(help_surface, "Instructions", (3250, 100),

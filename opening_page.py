@@ -30,6 +30,10 @@ def opening_page(screen):
             # Current_user is a list with two values, the index of the current user and the actual name
             show_level(screen)
 
+    def check_length(entered_text):
+        if len(name.text) + 1 < 10 and entered_text != " ":
+            name.text += entered_text
+
     var = json_storer.var
         
     # if var["1_time"] == "True" and len(var["users"]) == 0:
@@ -42,11 +46,11 @@ def opening_page(screen):
                              name_surface.get_width() - 2 * int(name_surface.get_width() / 9.5),
                              int(ss.SCREEN_WIDTH / 28.6),
                              (255, 255, 255),
-                             color_hover=(255, 255, 255), color_active=(255, 255, 255), text="What is your name?",
+                             color_hover=(255, 255, 255), color_active=(255, 255, 255),
                              border_radius=int(ss.SCREEN_WIDTH / 95.33), font_color=(0, 0, 0), active=True,
-                             remove_active=True, function=get_name)
+                             remove_active=True, function=get_name, function_every_user_press=check_length)
     font = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 44.6875))
-    ask_name = font.render("What is your name?", True, (255, 255, 255))
+    ask_name = font.render("What is your name? (Max 10 letters)", True, (255, 255, 255))
     font_text = pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 59.583), bold=True)
     ok_button = ui_tools.Button((ss.SCREEN_WIDTH / 2 - int(ss.SCREEN_WIDTH / 8.17) / 2,
                                  2.6 * name_surface.get_height() / 4 + ss.SCREEN_HEIGHT / 2 - name_surface.get_height() / 2,

@@ -223,7 +223,7 @@ class InputBox:
                  color_active: tuple[int, int, int], color_hover: tuple[int, int, int], function=None,
                  font: pygame.font.Font = None, text: str = '',
                  font_color: tuple[int, int, int] = (255, 255, 255), active: bool = False, border_radius: int = 0,
-                 remove_active=False, cursor_color=(0, 0, 0)):
+                 remove_active=False, cursor_color=(0, 0, 0), function_every_user_press=None):
         self.rect = pygame.Rect(x, y, w, h)
         self.color = color_inactive
         self.color_active = color_active
@@ -238,6 +238,7 @@ class InputBox:
         self.border_radius = border_radius
         self.remove_active = remove_active
         self.cursor_color = cursor_color
+        self.function_every_user_press = function_every_user_press
         if self.active:
             self.txt_surface = self.font.render(self.text, True, self.font_color)
         else:
@@ -271,7 +272,10 @@ class InputBox:
                 else:
                     if self.font.render(self.text + event.unicode, True,
                                         self.font_color).get_width() <= self.rect.w - 10 and event.key != pygame.K_RETURN:
-                        self.text += event.unicode
+                        if self.function_every_user_press:
+                            self.function_every_user_press(event.unicode)
+                        else:
+                            self.text += event.unicode
                 # Re-render the text.
         if self.active:
             self.txt_surface = self.font.render(self.text, True, self.font_color)
