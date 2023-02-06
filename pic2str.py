@@ -50,4 +50,4 @@ if __name__ == '__main__':
     #         pic2str_list(f"images/{folder}/Dead ({i}).png", final=True)
     # with open('other_skins.py', 'a') as f:
     #     f.write(f"]\n\n")
-    pic2str(decode_file(extra_images.scoreboard_background), "scoreboard_background")
+    pic2str("hellop/zero_stars.png", "zero_stars")

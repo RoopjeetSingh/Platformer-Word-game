@@ -12,9 +12,8 @@ import screen_size as ss
 import json
 from datetime import datetime
 from decode_file import decode_file
-import images_store 
-import smaller_store
 import other_small_images
+import extra_images
 
 # datetime object containing current date and time
 current_time = datetime.now()
@@ -29,7 +28,7 @@ for i in copy:
 
 screen = py.display.set_mode((1300, 710))
 
-image_list = ["hellop/zero_stars.png", "hellop/single_star.png", "hellop/double _star.png", "hellop/triple_star.png"]
+image_list = [extra_images.zero_stars, extra_images.single_stars, extra_images.double_stars, extra_images.triple_stars]
 
 single_star = ["you were close", "better luck next time", " you can do better than one star"]
 double_star = ["good job, now try to get three stars", "you can do better than two stars",
@@ -46,7 +45,7 @@ possible_characters = list(list_images.keys())
 
 
 def background(screen, x, y, z, c):
-    bg_image = py.image.load("hellop/flat-design-copy-space-winter-background_52683-48883.jpeg")
+    bg_image = py.image.load(decode_file(extra_images.word_connect_bg))
     bg_image = py.transform.scale(bg_image, (1300, 710))
     table = py.Surface((550, c))
     table.set_alpha(128)
@@ -61,7 +60,7 @@ def place(screen, n, on, coord, letters, list_images):
         adding = (2 * 3.14) / n
         for i in range(0, n):
             position = (630 + 190 * math.cos(a), 335 + 190 * math.sin(a))
-            im = py.image.load(list_images[letters[i]])
+            im = py.image.load(decode_file(list_images[letters[i]]))
             im = py.transform.scale(im, (40, 40))
             screen.blit(im, (position))
             if len(coord) < len(letters):
@@ -129,7 +128,7 @@ def mystery_and_submit_button(screen, mystery_number):
     font = py.font.Font(None, 75)
     text = font.render(f":{mystery_number}", True, (0, 0, 0))
 
-    image = py.image.load("hellop/question.png")
+    image = py.image.load(decode_file(extra_images.question))
     image = py.transform.scale(image, (50, 50))
     py.draw.rect(screen, (22, 171, 171), (20, 545, 130, 65))
     screen.blit(text, (85, 553))
@@ -139,7 +138,7 @@ def mystery_and_submit_button(screen, mystery_number):
         surface.set_alpha(128)
         surface.fill((255, 255, 255))
         screen.blit(surface, (20, 545))
-    image = py.image.load("hellop/arrow1.png")
+    image = py.image.load(decode_file(other_small_images.arrow))
     image_submit = py.transform.scale(image, (50, 50))
     screen.blit(image_submit, (1150, 550))
 
@@ -199,7 +198,7 @@ def progress_bar(screen, x, time1, points):
     # remove time1 as a parameter
     x1 = round((x / points) * 500)
     py.draw.rect(screen, (21, 28, 28), (390, 660, 500, 30))
-    im = py.image.load("hellop/600-6003350_star-game-icon-png-image-free-download-searchpng__1_-removebg-preview.png")
+    im = py.image.load(decode_file(extra_images.new_star))
     im = py.transform.scale(im, (42, 35))
 
     if x1 < 500:
@@ -223,7 +222,7 @@ def stars(screen):
     global count
 
     if count <= len(image_list) - 1:
-        im = py.image.load(image_list[count])
+        im = py.image.load(decode_file(image_list[count]))
         im = py.transform.scale(im, (400, 400))
         screen.blit(im, (450, 0))
 
