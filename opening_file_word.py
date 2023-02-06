@@ -275,7 +275,6 @@ def update_stars(score, points):
         count += 1
 
     elif round(0.2 * points) < score <= round(0.5 * points) and count < 1:
-        print(round(0.2 * points))
         count += 1
 
     elif score == 0:
@@ -473,7 +472,6 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                             entered.append(start)
 
                         else:
-                            print(word)
                             incorrect = True
                     if mouse[0] < 500:
                         outside = True

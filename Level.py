@@ -8,7 +8,6 @@ import power_ups as pu
 import random
 from decode_file import decode_file
 import smaller_store
-import other_small_images
 import platforms_obstacles_images
 
 background = [smaller_store.bg_1, smaller_store.bg_2]
@@ -23,11 +22,18 @@ bg_display_level = {"level1": smaller_store.level1_bg_display,
 def level_generator(no_of_letters: int):
     letter_lis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                   'u', 'v', 'w', 'x', 'y', 'z']
-    random_letters = random.choices(letter_lis, weights=(
-        43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
-        15.36,
-        33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
-        1.39), k=no_of_letters)
+    weights = [
+            43.31, 10.56, 23.13, 17.25, 56.88, 9.24, 12.59, 15.31, 38.45, 1, 5.61, 27.98,
+            15.36,
+            33.92, 36.51, 16.14, 1, 38.64, 29.23, 35.43, 18.51, 5.13, 6.57, 1.48, 9.06,
+            1.39]
+    random_letters = []
+    for i in range(no_of_letters):
+        random_letter = random.choices(letter_lis, weights=weights)
+        random_letters.append(random_letter[0])
+        weights.remove(weights[letter_lis.index(random_letter[0])])
+        letter_lis.remove(random_letter[0])
+    print(random_letters)
     return random_letters
 
 
@@ -35,7 +41,6 @@ class Level:
     def __init__(self, bg, no_tiles: int, level_name):
         self.tiles = no_tiles
         self.bg_start = cv2.imdecode(np.frombuffer(decode_file(bg).read(), np.uint8), 1)
-        # self.bg_start = cv2.imread(bg)
         self.platform_group = pygame.sprite.Group()
         self.obstruct_group = pygame.sprite.Group()
         self.letter_group = pygame.sprite.Group()
@@ -71,15 +76,9 @@ class Level:
 class Level1(Level):
     def __init__(self):
         super(Level1, self).__init__(random.choice(background), 62, "level1")
-        self.no_of_letter = 10
-        # self.letter_list = level_generator(10)
-        # self.make_platforms_objects()
-        # self.make_letters()
-        # self.make_power_ups()
-        # self.draw_for_display()
-        # self.str = "level1"
-        self.stars = 25
-        self.time = 90
+        self.no_of_letter = 8
+        self.stars = 20
+        self.time = 30
 
     def make_platforms_objects(self):
         # two rows at the bottom of the screen
@@ -88,7 +87,6 @@ class Level1(Level):
                                                 (platforms_obstacles_images.base_platform)))
         # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))
-        # self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT + 2 * ss.tile_size, 63, False))
 
         # obstacles and platforms
         self.platform_group.add(po.Platform(7 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size, 1))  # first platform
@@ -117,24 +115,20 @@ class Level1(Level):
         # on the second block
         self.letter_group.add(
             letter.Letter(self.letter_list[1], 12.5 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
-        self.letter_group.add(
-            letter.Letter(self.letter_list[2], 14.5 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(23 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[3], 30 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size))
+            letter.Letter(self.letter_list[2], 30 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[4], 35 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+            letter.Letter(self.letter_list[3], 35 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(35 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[5], 38 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
+            letter.Letter(self.letter_list[4], 38 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[6], 48 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size))
+            letter.Letter(self.letter_list[5], 48 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[7], 54 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size))
+            letter.Letter(self.letter_list[6], 54 * ss.tile_size, ss.SCREEN_HEIGHT - 8 * ss.tile_size))
         self.letter_group.add(
-            letter.Letter(self.letter_list[8], 60 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
-        self.letter_group.add(
-            letter.Letter(self.letter_list[9], 59 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
+            letter.Letter(self.letter_list[7], 59 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
 
     def make_power_ups(self):
         self.power_up_group.add(pu.PowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
@@ -143,50 +137,38 @@ class Level1(Level):
 class Level2(Level):
     def __init__(self):
         super(Level2, self).__init__(random.choice(background), 112, "level2")
-        self.no_of_letter = 15
-        # self.letter_list = level_generator(self.no_of_letter)
-        # self.make_platforms_objects()
-        # self.make_letters()
-        # self.draw_for_display()
-        # self.make_power_ups()
-        # self.str = "level2"
-        self.stars = 25
-        self.time = 90
+        self.no_of_letter = 12
+        self.stars = 30
+        self.time = 45
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 4 * ss.tile_size,  # tile_size = 200
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))  # 1 is the original +3 ground platform+1 bouncing=5 normally, 5
         self.letter_group.add(letter.Letter(self.letter_list[1], 8 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[2], 14 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 12 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[3], 23 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[2], 23 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(31 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 12 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[4], 37 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[3], 37 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[5], 40 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[6], 54 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[4], 54 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[7], 59 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[5], 67 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[8], 67 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[9], 73 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[6], 73 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 13 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[10], 80 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[7], 80 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 13 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[11], 85 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[8], 85 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 10 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[12], 92 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[9], 92 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 13 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[13], 98 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[10], 98 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 14 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(102 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 14 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[14], 106 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[11], 106 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 6 * ss.tile_size))
 
     def make_platforms_objects(self):
@@ -238,15 +220,9 @@ class Level2(Level):
 class Level3(Level):
     def __init__(self):
         super(Level3, self).__init__(random.choice(background), 91, "level3")
-        self.no_of_letter = 13
-        # self.letter_list = level_generator(13)
-        # self.make_platforms_objects()
-        # self.make_letters()
-        # self.draw_for_display()
-        # self.make_power_ups()
-        # self.str = "level3"
-        self.stars = 25
-        self.time = 90
+        self.no_of_letter = 10
+        self.stars = 40
+        self.time = 75
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 3 * ss.tile_size,  # tile_size = 200
@@ -255,30 +231,24 @@ class Level3(Level):
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
         self.letter_group.add(letter.Letter(self.letter_list[2], 20 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[3], 23 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(53 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 10 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[4], 28 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[3], 28 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[5], 34 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[4], 34 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[6], 59 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[5], 59 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[7], 64 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[6], 64 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[8], 72 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[7], 72 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[9], 75 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 7 * ss.tile_size))
         self.letter_group.add(letter.MysteryLetter(79 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 13 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[10], 82 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[8], 82 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[11], 87 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[9], 87 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 7 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[12], 89 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
 
     def make_platforms_objects(self):
         for j in range(1, 3):
@@ -345,13 +315,7 @@ class Level3(Level):
 class Level4(Level):
     def __init__(self):
         super(Level4, self).__init__(random.choice(background), 119, "level4")
-        self.no_of_letter = 16
-        # self.letter_list = level_generator(15)  # Change 15 with the numbers of letters this level has
-        # self.make_platforms_objects()
-        # self.make_letters()
-        # self.draw_for_display()
-        # self.make_power_ups()
-        # self.str = "level4"
+        self.no_of_letter = 13
         self.stars = 25
         self.time = 90
 
@@ -360,43 +324,37 @@ class Level4(Level):
                                             ss.SCREEN_HEIGHT - 6 * ss.tile_size))  # 1 is the original +3 ground platform+1 bouncing=5 normally, 5
         self.letter_group.add(letter.Letter(self.letter_list[1], 18 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[2], 25 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 10 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[3], 37 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[2], 37 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[4], 46 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[3], 46 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[5], 49 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[6], 54 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[4], 54 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
 
         self.letter_group.add(letter.MysteryLetter(57 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 11.5 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[7], 66 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[5], 66 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 12 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[8], 70 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[6], 70 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 10 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[9], 76 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[7], 76 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[10], 79 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[8], 79 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
 
         self.letter_group.add(letter.MysteryLetter(83 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 12.5 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[11], 86 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[9], 86 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[12], 96 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[10], 96 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[13], 103 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[11], 103 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[14], 109 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[12], 109 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[15], 114 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
 
     def make_platforms_objects(self):
         for j in range(1, 3):
@@ -471,13 +429,7 @@ class Level4(Level):
 class Level5(Level):
     def __init__(self):
         super(Level5, self).__init__(random.choice(background), 175, "level5")
-        self.no_of_letter = 21
-        # self.letter_list = level_generator(21)
-        # self.make_platforms_objects()
-        # self.make_letters()
-        # self.draw_for_display()
-        # self.make_power_ups()
-        # self.str = "level5"
+        self.no_of_letter = 17
         self.stars = 25
         self.time = 90
 
@@ -494,52 +446,44 @@ class Level5(Level):
 
         self.letter_group.add(letter.Letter(self.letter_list[3], 35 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[4], 44 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[5], 53 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[4], 53 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[6], 60 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[5], 60 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[7], 65 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 7 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[8], 70 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[6], 70 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
         self.letter_group.add(letter.MysteryLetter(78 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 11.5 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[9], 87 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[7], 87 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[10], 93 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[11], 100 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[8], 100 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 11 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[12], 108 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[9], 108 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[13], 118 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[10], 118 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[14], 125 * ss.tile_size,
-                                            ss.SCREEN_HEIGHT - 9 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[15], 131 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[11], 131 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
 
         self.letter_group.add(letter.MysteryLetter(136 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 11.5 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[16], 139 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[12], 139 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[17], 151 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[13], 151 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 7 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[18], 157 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[14], 157 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
 
         self.letter_group.add(letter.MysteryLetter(163 * ss.tile_size,
                                                    ss.SCREEN_HEIGHT - 9.5 * ss.tile_size))
 
-        self.letter_group.add(letter.Letter(self.letter_list[19], 167 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[15], 167 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 8 * ss.tile_size))
-        self.letter_group.add(letter.Letter(self.letter_list[20], 173 * ss.tile_size,
+        self.letter_group.add(letter.Letter(self.letter_list[16], 173 * ss.tile_size,
                                             ss.SCREEN_HEIGHT - 5 * ss.tile_size))
 
     def make_platforms_objects(self):
@@ -547,7 +491,6 @@ class Level5(Level):
             self.platform_group.add(
                 po.Platform(0 * ss.tile_size, ss.SCREEN_HEIGHT - j * ss.tile_size, self.tiles, False,
                             (platforms_obstacles_images.base_platform)))
-            print(ss.SCREEN_HEIGHT - j * ss.tile_size, ss.SCREEN_HEIGHT - 3 * ss.tile_size, ss.tile_size)
         # # ground row
         self.platform_group.add(po.Platform(0, ss.SCREEN_HEIGHT - 3 * ss.tile_size, self.tiles, False))  # 0+3
         # the upper stuff should be copied

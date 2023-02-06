@@ -244,7 +244,6 @@ def update_stars(score, points):
         count += 1
 
     elif round(0.2 * points) < score <= round(0.5 * points) and count < 1:
-        print(round(0.2 * points))
         count += 1
 
     elif score == 0:
@@ -430,7 +429,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                             entered.append(start)
 
                         else:
-                            print(word)
                             incorrect = True
                     if mouse[0] < 500:
                         outside = True
@@ -486,7 +484,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             from menu import menu
             if added_button == 10:
                 if count > 0:
-                    print(count)
                     var = json_storer.var
                         
                     var["users"][var["current_user"][0]][1].append(
