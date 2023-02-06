@@ -1,5 +1,5 @@
 import base64
-from io import BytesIO, StringIO
+from io import BytesIO
 
 
 def decode_file(encoded_var):
