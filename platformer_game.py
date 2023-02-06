@@ -1,7 +1,7 @@
 from player import *
 from Level import *
 import screen_size as ss
-import json
+import json_storer
 from helpful_functions import calculate_current_level, blit_text
 from wordconnect import game_Loop_Wordle
 import ui_tools
@@ -37,7 +37,7 @@ def platformer_game(screen, menu, level=None):
 
     def killed_screen(alpha):
         blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
-                  pygame.font.Font(extra_images.font_new, 100), 1000)
+                  pygame.font.Font(decode_file(extra_images.font_new), 100), 1000)
         death_bg.set_alpha(alpha)
         screen.blit(death_bg, (0, ss.SCREEN_HEIGHT / 2 - death_bg.get_height() / 2))
         button_menu = ui_tools.Button((
@@ -56,8 +56,8 @@ def platformer_game(screen, menu, level=None):
             button_lis.append(retry_button)
 
     pressed = False
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
 
     current_level = level or calculate_current_level(var)
     current_level.clear()

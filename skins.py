@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from math import ceil
 from Level import level_list
 from helpful_functions import blit_text
@@ -37,8 +37,8 @@ def skins(screen, back_button_func):
                 text_list.append([f"You need {stars} stars to unlock this skin", button, 0])
 
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func()
 
     def go_to_next_page(going_to_next_page: dict = {}):
@@ -64,8 +64,8 @@ def skins(screen, back_button_func):
                     previous_page.state_disabled = False
                 checked = True
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
@@ -158,8 +158,8 @@ def skins(screen, back_button_func):
             ss.SCREEN_WIDTH / 2 - skins_txt.get_width() / 2, ss.SCREEN_HEIGHT / 12 - skins_txt.get_height() / 2))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             for i in button_lis:

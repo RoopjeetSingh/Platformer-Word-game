@@ -1,12 +1,13 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from helpful_functions import blit_text
 from decode_file import decode_file
 import smaller_store
 import other_small_images
 import extra_images
+import json_storer
 
 font = pygame.font.Font(decode_file(extra_images.font_new), int(ss.tile_size))
 
@@ -16,8 +17,8 @@ font = pygame.font.Font(decode_file(extra_images.font_new), int(ss.tile_size))
 
 def scoreboard(screen, back_button_func):
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var="+str(var))
         func["func"]()
 
     class Scroller:
@@ -41,8 +42,9 @@ def scoreboard(screen, back_button_func):
         text_render = font.render(text, True, color)
         return text_render
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    # with open(decode_file(json_storer), 'r') as f:
+    #     
+    var = json_storer.var
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
@@ -157,13 +159,13 @@ def scoreboard(screen, back_button_func):
             play_more_y = int(ss.SCREEN_WIDTH / 8.41) + text_height * 2 if len(stars_surface_list) == 0 \
                 else stars_surface_list[-1][1] + text_height * 1.5
             blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH / 2, play_more_y),
-                      pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH / 34.05)),
+                      pygame.font.Font(decode_file(extra_images.font_new), int(ss.SCREEN_WIDTH / 34.05)),
                       3 * ss.SCREEN_WIDTH / 4)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             # if event.type == pygame.MOUSEBUTTONDOWN:

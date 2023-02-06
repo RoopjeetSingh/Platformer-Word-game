@@ -9,7 +9,7 @@ from letter import Letter
 from helpful_functions import blit_text
 
 import screen_size as ss
-import json
+import json_storer
 from datetime import datetime
 from decode_file import decode_file
 import other_small_images
@@ -287,11 +287,11 @@ def next_level(kwargs):
     # score = kwargs["score"]
     platformer = kwargs["platformer"]
     # screen = kwargs["screen"]
-    # with open('variables.json', 'r') as f:
-    #     var = json.load(f)
+    # var = json_storer.var
+    #     
     # var["users"][var["current_user"][0]][1].append([level, stars, score, current_time.strftime("%m/%d/%Y %H:%M:%S")])
-    # with open('variables.json', 'w') as wvar:
-    #     json.dump(var, wvar, indent=4)
+    # with open('json_storer.py', 'w') as wvar:
+    #     wvar.write("var=" + str(var))
     from menu import menu
     platformer(screen, menu)
 
@@ -477,12 +477,12 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             if added_button == 10:
                 if count > 0:
                     print(count)
-                    with open('variables.json', 'r') as f:
-                        var = json.load(f)
+                    var = json_storer.var
+                        
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
-                    with open('variables.json', 'w') as wvar:
-                        json.dump(var, wvar, indent=4)
+                    with open('json_storer.py', 'w') as wvar:
+                        wvar.write("var=" + str(var))
                 retry_img = py.transform.scale(py.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))
                 button_menu = ui_tools.Button(

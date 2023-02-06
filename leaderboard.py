@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from decode_file import decode_file
 import smaller_store
 import other_small_images
@@ -9,14 +9,14 @@ import extra_images
 
 # from helpful_functions import blit_text
 
-font = pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH/28.6))
+font = pygame.font.Font(decode_file(extra_images.font_new), int(ss.SCREEN_WIDTH/28.6))
 text_width, text_height = ss.SCREEN_WIDTH/5.72, ss.SCREEN_WIDTH/19.07  # Change text_width
 
 
 def leaderboard(screen, back_button_func):
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func["func"]()
 
     def create_font(y_pos):
@@ -79,7 +79,7 @@ def leaderboard(screen, back_button_func):
             bg_font((3 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[1][2])), surface)
             # scores_levels_fonts.append(((4 * text_width,
             #                              0), make_font(str(value[1][3]))))  # Time
-            bg_font((4 * text_width + int(ss.SCREEN_WIDTH/23.8), 0), make_font(str(value[1][3])), surface)
+            bg_font((4 * text_width + int(ss.SCREEN_WIDTH/23.8) - 30, 0), make_font(str(value[1][3])), surface)
             surface_list.append((int(ss.SCREEN_WIDTH/20.43), (index + 1) * (text_height + 10) + int(ss.SCREEN_WIDTH/8.4)
                                  + y_pos, surface))
 
@@ -107,8 +107,8 @@ def leaderboard(screen, back_button_func):
         text_render = font.render(text, True, color)
         return text_render
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
@@ -171,7 +171,7 @@ def leaderboard(screen, back_button_func):
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
             ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 - 45 - leaderboard_bg.get_height() + 15))
     # button_lis = []
-    font_main_text = pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH/14.3))
+    font_main_text = pygame.font.Font(decode_file(extra_images.font_new), int(ss.SCREEN_WIDTH/14.3))
     leaderboard_text = font_main_text.render("Leaderboard", True, (0, 0, 0))
     # circle_pos = []
     while True:
@@ -205,8 +205,8 @@ def leaderboard(screen, back_button_func):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             # if event.type == pygame.MOUSEBUTTONDOWN:

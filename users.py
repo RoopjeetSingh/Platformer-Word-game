@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from Level import level_list
 from decode_file import decode_file
 import images_store 
@@ -35,8 +35,8 @@ def users(screen, back_button_func):
                 self.y_pos -= int(ss.SCREEN_WIDTH / 7.15)
 
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func["func"]()
 
     def change_name(location, name):
@@ -137,8 +137,8 @@ def users(screen, back_button_func):
     #         y_pos -= 200
     #     return y_pos
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
@@ -230,8 +230,8 @@ def users(screen, back_button_func):
             ss.SCREEN_WIDTH / 2 - users_text.get_width() / 2, ss.SCREEN_HEIGHT / 8 - users_text.get_height() / 2))
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
 

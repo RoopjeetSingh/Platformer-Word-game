@@ -9,7 +9,7 @@ from letter import Letter
 from helpful_functions import blit_text
 
 import screen_size as ss
-import json
+import json_storer
 from datetime import datetime
 from decode_file import decode_file
 import images_store 
@@ -325,8 +325,8 @@ def next_level(kwargs):
 
 # def new_skin(screen, acquired_stars):
 #     from skins import stars_required, list_skins
-#     with open('variables.json', 'r') as f:
-#         var = json.load(f)
+#     var = json_storer.var
+#         
 #     games_played = sorted(var["users"][var["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]), reverse=True)
 #     current_stars = 0
 #     for level in level_list:
@@ -540,13 +540,13 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
             from menu import menu
             if added_button == 10:
                 if count > 0:
-                    with open('variables.json', 'r') as f:
-                        var = json.load(f)
+                    var = json_storer.var
+                        
                     var["1_time"] = "False"
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
-                    with open('variables.json', 'w') as wvar:
-                        json.dump(var, wvar, indent=4)
+                    with open('json_storer.py', 'w') as wvar:
+                        wvar.write("var=" + str(var))
                 retry_img = py.transform.scale(py.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))
                 button_menu = ui_tools.Button(

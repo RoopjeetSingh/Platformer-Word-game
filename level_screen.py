@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from Level import level_list
 from platformer_game import platformer_game
 from helpful_functions import blit_text
@@ -17,8 +17,8 @@ stars_required = [0, 1, 5, 6, 10]
 
 def level_screen(screen, back_button_func):
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func()
 
     def go_to_next_page(going_to_next_page: dict = {}):
@@ -60,8 +60,8 @@ def level_screen(screen, back_button_func):
         show_no_add_page = True
         return show_no_add_page
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     next_button = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
@@ -164,8 +164,8 @@ def level_screen(screen, back_button_func):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             for i in button_lis:

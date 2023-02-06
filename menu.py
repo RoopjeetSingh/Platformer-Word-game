@@ -3,7 +3,7 @@ from instructions import instructions
 from score_board import scoreboard
 from leaderboard import leaderboard
 from skins import skins
-import json
+import json_storer
 from Level import *
 from level_screen import level_screen
 from platformer_game import platformer_game
@@ -22,13 +22,13 @@ pygame.init()
 def menu(screen):
 
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func["func"]()
 
     def end_screen():
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         pygame.quit()
         exit()
 
@@ -36,8 +36,8 @@ def menu(screen):
         show_no_multiplayer_page = True
         return show_no_multiplayer_page
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
@@ -129,7 +129,7 @@ def menu(screen):
                 break
 
     letter_lis = []
-    font_stars = pygame.font.Font(extra_images.font_new, 50)
+    font_stars = pygame.font.Font(decode_file(extra_images.font_new), 50)
     number_stars = font_stars.render(str(current_stars), True, (0, 0, 0))
     stars_img = pygame.image.load(decode_file(smaller_store.number_of_stars)).convert()
     stars_img = pygame.transform.scale(stars_img, (40 / stars_img.get_height() * stars_img.get_width(), 40))
@@ -143,14 +143,13 @@ def menu(screen):
         # screen.blit(surface_stars, (916 + 41/2, 15))
         screen.blit(stars_img, (916, 18))
         screen.blit(number_stars, (916 + 41 + 5, 3))
-        print(stars_img.get_width())
         show_no_multiplayer_page = multiplayer.value_from_function or False
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 end_screen()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 rand_letter = random.choice(tuple(Letter.letter_dic.keys()))
-                image = pygame.image.load(Letter.letter_dic.get(rand_letter))
+                image = pygame.image.load(decode_file(Letter.letter_dic.get(rand_letter)))
                 image = pygame.transform.scale(image, (50, 50))
                 letter_lis.append([image, [event.pos[0], event.pos[1]]])
             for i in button_lis:

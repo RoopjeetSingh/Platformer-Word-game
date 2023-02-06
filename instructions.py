@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from helpful_functions import blit_text
 from decode_file import decode_file
 import other_small_images
@@ -34,8 +34,8 @@ def display_text_animation(screen, string: str, text: str, i: int, x: int, y: in
 
 def instructions(screen, back_button_func):
     def change_screen(func):
-        with open('variables.json', 'w') as wvar:
-            json.dump(var, wvar, indent=4)
+        with open('json_storer.py', 'w') as wvar:
+            wvar.write("var=" + str(var))
         func["func"]()
 
     class Scroller:
@@ -65,8 +65,8 @@ def instructions(screen, back_button_func):
 
             # print(previous_page.state_disabled, next_page.state_disabled, x_pos)
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.instruction_bg)).convert()
@@ -193,8 +193,8 @@ def instructions(screen, back_button_func):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             for i in button_lis:

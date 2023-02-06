@@ -23,31 +23,4 @@ def pic2str_list(file, final=False):
 
 
 if __name__ == '__main__':
-    # folder = "Female_zombie"
-    # run_index = 10
-    # dead_index = 12
-    # # idle image
-    # pic2str(f"images/{folder}/Idle (1).png", f"{folder}_Idle")
-    #
-    # # run images
-    # with open('other_skins.py', 'a') as f:
-    #     f.write(f"{folder}_Run = [\n")
-    # for i in range(1, run_index+1):
-    #     if i != run_index:
-    #         pic2str_list(f"images/{folder}/Walk ({i}).png")
-    #     else:
-    #         pic2str_list(f"images/{folder}/Walk ({i}).png", final=True)
-    # with open('other_skins.py', 'a') as f:
-    #     f.write(f"]\n\n")
-    #
-    # # dead images
-    # with open('other_skins.py', 'a') as f:
-    #     f.write(f"{folder}_Dead = [\n")
-    # for i in range(1, dead_index+1):
-    #     if i != dead_index:
-    #         pic2str_list(f"images/{folder}/Dead ({i}).png")
-    #     else:
-    #         pic2str_list(f"images/{folder}/Dead ({i}).png", final=True)
-    # with open('other_skins.py', 'a') as f:
-    #     f.write(f"]\n\n")
-    pic2str(extra_images.font_new, "font_new")
+    pic2str("logo.png", "var")

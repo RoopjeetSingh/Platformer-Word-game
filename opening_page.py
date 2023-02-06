@@ -1,7 +1,7 @@
 import pygame
 import ui_tools
 import screen_size as ss
-import json
+import json_storer
 from Level import level_list, level_generator
 from helpful_functions import blit_text
 from player import Player
@@ -25,13 +25,13 @@ def opening_page(screen):
             # used because it is not sorted. Later a list of the name and a list that would store another list of
             # level, stars, score and time
             var["current_user"] = [0, name_user]
-            with open('variables.json', 'w') as wvar:
-                json.dump(var, wvar, indent=4)
+            with open('json_storer.py', 'w') as wvar:
+                wvar.write("var=" + str(var))
             # Current_user is a list with two values, the index of the current user and the actual name
             show_level(screen)
 
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
     # if var["1_time"] == "True" and len(var["users"]) == 0:
     clock = pygame.time.Clock()
     background = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.opening_page_bg)), (ss.SCREEN_WIDTH,
@@ -80,8 +80,8 @@ def opening_page(screen):
             ok_button.state_disabled = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                with open('variables.json', 'w') as wvar:
-                    json.dump(var, wvar, indent=4)
+                with open('json_storer.py', 'w') as wvar:
+                    wvar.write("var=" + str(var))
                 pygame.quit()
                 exit()
             for i in button_lis:
@@ -110,7 +110,7 @@ def show_level(screen):
 
     def killed_screen(alpha):
         blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
-                  pygame.font.Font(extra_images.font_new, 100), 1000)
+                  pygame.font.Font(decode_file(extra_images.font_new), 100), 1000)
         death_bg.set_alpha(alpha)
         screen.blit(death_bg, (0, ss.SCREEN_HEIGHT / 2 - death_bg.get_height() / 2))
         retry_button = ui_tools.Button((
@@ -148,8 +148,8 @@ def show_level(screen):
         return show_instructions
 
     pressed = False
-    with open('variables.json', 'r') as f:
-        var = json.load(f)
+    var = json_storer.var
+        
 
     current_level = level_list[0]
     current_level.clear()
