@@ -3,13 +3,31 @@ import ui_tools
 import screen_size as ss
 import json
 from helpful_functions import blit_text
-import other_small_images
-import smaller_store
-import other_small_images
-from decode_file import decode_file
 
 pygame.init()
 font = pygame.font.Font(None, int(ss.SCREEN_WIDTH / 39.72))
+
+
+def display_text_animation(screen, string: str, text: str, i: int, x: int, y: int):
+    """
+    Supporter method: only to be used by instructions page to create writing effect
+    :param screen: Screen to blit on
+    :param string: String to blit
+    :param text: the string that has yet been blit on screen
+    :param i: the number of words we have blit on the screen yet
+    :param x: x position of text
+    :param y: y position of text
+    :return: returns a tuple of the i which has been incremented and text where the newly added word has been added
+    """
+    if i < len(string):  # could also be if text == string
+        text += string[i]
+        text_surface = font.render(text, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(topleft=(x, y))
+        screen.blit(text_surface, text_rect)
+        pygame.display.update()
+        pygame.time.wait(100)
+        i += 1
+        return i, text
 
 
 def instructions(screen, back_button_func):
@@ -49,17 +67,17 @@ def instructions(screen, back_button_func):
         var = json.load(f)
     help_surface = pygame.Surface((ss.SCREEN_WIDTH * 3, ss.SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    background = pygame.image.load(decode_file(other_small_images.instruction_bg)).convert()
+    background = pygame.image.load("hellop/instruction background.jpg").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    next_button = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.next_button)).convert_alpha(),
+    next_button = pygame.transform.scale(pygame.image.load("images/Menu_page/i02_next_button.png").convert_alpha(),
                                          (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_WIDTH / 9.53))
     disabled_next_button = pygame.transform.scale(
-        pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
+        pygame.image.load("images/Menu_page/i01_next_button.png").convert_alpha(),
         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_WIDTH / 9.53))
     previous_button = pygame.transform.flip(next_button, True, False)
     disabled_previous_button = pygame.transform.flip(disabled_next_button, True, False)
 
-    back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
+    back_image = pygame.transform.scale(pygame.image.load("images/back_button.png").convert_alpha(),
                                         (ss.SCREEN_WIDTH / 14.3, ss.SCREEN_HEIGHT / 8.4))  # 75, 75
     back_button = ui_tools.Button((20, 20, ss.SCREEN_WIDTH / 19.1, ss.SCREEN_HEIGHT / 10.4), (0, 0, 0),
                                   change_screen, image=back_image,
@@ -153,16 +171,21 @@ def instructions(screen, back_button_func):
                   pygame.font.Font(None, 25), 3400, color=(130, 1, 29), alignment="left")
         blit_text(help_surface, "CONTROLS: ", (2850, 420),
                   pygame.font.Font(None, 40), 2900, color=(130, 1, 29))
-        blit_text(help_surface, "TO MAKE WORDS, SIMPLY CONNECT LETTERS", (2800, 470),
-                  pygame.font.Font(None, 25), 3250, color=(130, 1, 29), alignment="left")
+        blit_text(help_surface, "TO MAKE WORDS, SIMPLY CONNECT LETTERS", (2800, 450),
+                  pygame.font.Font(None, 20), 3250, color=(130, 1, 29), alignment="left")
         blit_text(help_surface,
                   "TO USE THE MYSTERY LETTER COLLECTED IN THE RUNNING GAME, CLICK ON THE MYSTERY ICON ON THE BOTTON LEFT AND ADD LETTERS IN THE TEXT BOX, BY PRESSING ITS KEY ON KEYBOARD AND THEN PRESSING THE ENTER KEY.",
-                  (2800, 520),
-                  pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment="left")
+                  (2800, 490),
+                  pygame.font.Font(None, 20), 3450, color=(130, 1, 29), alignment="left")
         blit_text(help_surface,
                   "TO GO TO THE NEXT LEVEL BEFORE TIME RUNS OUT, CLICK ON THE NEXT ARROW BUTTON ON THE BOTTOM RIGHT OF THE SCREEN",
+                  (2800, 565),
+                  pygame.font.Font(None, 20), 3450, color=(130, 1, 29), alignment="left")
+
+        blit_text(help_surface,
+                  "IN THIS GAME YOU CAN UNLOCK NEW LEVELS AND AVATARS ONLY BY GAINING STARS IN THE WORD-CONNECT GAME. IN THE GAME, EACH LEVEL HAS DIFFERENT MAX POINTS, HOWEVER TO HELP YOU TRACK YOUR PROGRESS, A BAR HAS BEEN PROVIDED BELOW THE SCREEN IN THIS PART OF THE GAME.",
                   (2800, 630),
-                  pygame.font.Font(None, 25), 3450, color=(130, 1, 29), alignment="left")
+                  pygame.font.Font(None, 20), 3450, color=(130, 1, 29), alignment="left")
         screen.blit(help_surface, (scroller.x_pos, 0))
 
         for event in pygame.event.get():
