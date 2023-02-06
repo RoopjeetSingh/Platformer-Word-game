@@ -200,6 +200,12 @@ def progress_bar(screen, x, time1, points):
     py.draw.rect(screen, (21, 28, 28), (390, 660, 500, 30))
     im = py.image.load(decode_file(extra_images.new_star))
     im = py.transform.scale(im, (42, 35))
+    screen.blit(im, (round(395 + 0.2 * 500) - 21, 625))
+    screen.blit(im, (round(395 + 0.5 * 500) - 42, 625))
+    screen.blit(im, (round(395 + 0.5 * 500), 625))
+    screen.blit(im, (round(395 + 500) - 65, 625))
+    screen.blit(im, (round(395 + 500) - 25, 625))
+    screen.blit(im, (round(395 + 500) + 15, 625))
 
     if x1 < 500:
         py.draw.rect(screen, (204, 55, 75), (395, 658, 500, 25))
@@ -208,19 +214,18 @@ def progress_bar(screen, x, time1, points):
         py.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
         py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
-        screen.blit(im, (round(395 + 0.2 * 500), 625))
-        screen.blit(im, (round(395 + 0.5 * 500) - 42, 625))
-        screen.blit(im, (round(395 + 0.5 * 500), 625))
-        screen.blit(im, (round(395 + 500) - 65, 625))
-        screen.blit(im, (round(395 + 500) - 25, 625))
-        screen.blit(im, (round(395 + 500) + 15, 625))
-    else:
-        py.draw.rect(screen, (255, 215, 0), (395, 655, 500, 25))
 
+    else:
+        py.draw.rect(screen, (255,215,0), (395, 658, 500, 25))
+
+        py.draw.line(screen, (0, 0, 0), (395 + 0.2 * 500, 658), (395 + 0.2 * 500, 683), width=3)
+        py.draw.line(screen, (0, 0, 0), (395 + 0.5 * 500, 658), (395 + 0.5 * 500, 683), width=3)
+        py.draw.line(screen, (0, 0, 0), (895, 658), (895, 683), width=3)
 
 def stars(screen):
     global count
-
+    clock = py.time.Clock()
+    clock.tick(10)
     if count <= len(image_list) - 1:
         im = py.image.load(decode_file(image_list[count]))
         im = py.transform.scale(im, (400, 400))
@@ -273,12 +278,12 @@ def message(score, points):
     return x
 
 
-def transition(screen):
-    star_color = 255
-    while star_color >= 0:
-        screen.fill((star_color, star_color, star_color))
-        star_color -= 1
-        py.display.flip()
+# def transition(screen):
+#     star_color = 255
+#     while star_color >= 0:
+#         screen.fill((star_color, star_color, star_color))
+#         star_color -= 1
+#         py.display.flip()
 
 
 def next_level(kwargs):
@@ -361,6 +366,11 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                         mystery_letters.append(let)
 
                         letters.append(let)
+                        background(screen, 255, 255, 255, 590)
+                        text_draw(screen, counter)
+                        place(screen, len(letters), on, coord, letters, list_images)
+                        mystery_and_submit_button(screen, mystery_number)
+                        score_show(screen, working, score)
                         mystery(screen, "", mystery_number, pressed, rect_pressed)
                         count_mystery_backspace += 1
                     elif ev.key == K_BACKSPACE and count_mystery_backspace != len(mystery_letters) and len(
@@ -373,7 +383,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
 
                         on = False
                         working = False
-                        transition(screen)
+
                     elif 20 < mouse[0] < 150 and 545 < mouse[1] < 610:
 
                         i += 1
@@ -518,11 +528,9 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
         for i in button_lis:
             i.update(screen)
         py.display.update()
-        print(count)
-
 
 if __name__ == "__main__":
     from platformer_game import platformer_game
     from Level import level_list
 
-    game_Loop_Wordle(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, level_list[0])
+    game_Loop_Wordle(screen, ["a", "b", "c", "d"], 2, 82, 10, platformer_game, level_list[0])
