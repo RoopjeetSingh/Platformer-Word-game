@@ -66,7 +66,7 @@ def users(screen, back_button_func):
             (32, 84, 101),
             (14, 31, 47),
             (28, 48, 65), add_user_with_name, active=False,
-            cursor_color=(255, 255, 255), text="Type your name and press RETURN"))
+            cursor_color=(255, 255, 255), text="Type your name and press ENTER"))
         button_lis.append(button_with_input)
         users_button_list.append(button_with_input)
         add_user.move(y_add=int(ss.SCREEN_WIDTH / 8.17))
