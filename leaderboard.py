@@ -3,9 +3,9 @@ import ui_tools
 import screen_size as ss
 import json
 from decode_file import decode_file
-import images_store 
 import smaller_store
 import other_small_images
+import extra_images
 
 # from helpful_functions import blit_text
 
@@ -112,7 +112,7 @@ def leaderboard(screen, back_button_func):
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    leaderboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg Background Removed.png").convert_alpha()
+    leaderboard_bg = pygame.image.load(decode_file(extra_images.scoreboard_background)).convert_alpha()
     leaderboard_bg = pygame.transform.scale(leaderboard_bg, (ss.SCREEN_WIDTH / 1.05, ss.SCREEN_HEIGHT / 1.2))
     leaderboard_bg.set_colorkey((255, 255, 255))
     # Left here

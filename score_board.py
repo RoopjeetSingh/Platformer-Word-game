@@ -4,9 +4,9 @@ import screen_size as ss
 import json
 from helpful_functions import blit_text
 from decode_file import decode_file
-import images_store 
 import smaller_store
 import other_small_images
+import extra_images
 
 font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.tile_size))
 
@@ -46,7 +46,7 @@ def scoreboard(screen, back_button_func):
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    scoreboard_bg = pygame.image.load("images/Menu_page/scoreboard_bg Background Removed.png").convert_alpha()
+    scoreboard_bg = pygame.image.load(decode_file(extra_images.scoreboard_background)).convert_alpha()
     scoreboard_bg = pygame.transform.scale(scoreboard_bg, (int(ss.SCREEN_WIDTH / 1.05), ss.SCREEN_HEIGHT / 1.2))
     scoreboard_bg.set_colorkey((255, 255, 255))
     back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
