@@ -8,7 +8,7 @@ import smaller_store
 import other_small_images
 import extra_images
 
-font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.tile_size))
+font = pygame.font.Font(decode_file(extra_images.font_new), int(ss.tile_size))
 
 
 # y_pos_text = 0
@@ -123,7 +123,7 @@ def scoreboard(screen, back_button_func):
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
             ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - int(ss.SCREEN_WIDTH / 31.78) - scoreboard_bg.get_height() + int(ss.SCREEN_WIDTH / 95.33)))
     # button_lis = []
-    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH / 14.3))
+    font_main_text = pygame.font.Font(decode_file(extra_images.font_new), int(ss.SCREEN_WIDTH / 14.3))
     scoreboard_text = font_main_text.render("ScoreBoard", True, (0, 0, 0))
     # circle_pos = []
     while True:
@@ -157,7 +157,7 @@ def scoreboard(screen, back_button_func):
             play_more_y = int(ss.SCREEN_WIDTH / 8.41) + text_height * 2 if len(stars_surface_list) == 0 \
                 else stars_surface_list[-1][1] + text_height * 1.5
             blit_text(screen, "Play more to add scores", (ss.SCREEN_WIDTH / 2, play_more_y),
-                      pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH / 34.05)),
+                      pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH / 34.05)),
                       3 * ss.SCREEN_WIDTH / 4)
 
         for event in pygame.event.get():

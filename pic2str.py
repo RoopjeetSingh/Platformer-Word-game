@@ -50,4 +50,4 @@ if __name__ == '__main__':
     #         pic2str_list(f"images/{folder}/Dead ({i}).png", final=True)
     # with open('other_skins.py', 'a') as f:
     #     f.write(f"]\n\n")
-    pic2str("hellop/zero_stars.png", "zero_stars")
+    pic2str(extra_images.font_new, "font_new")

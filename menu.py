@@ -12,9 +12,9 @@ from decode_file import decode_file
 from users import users
 from letter import Letter
 import random
-import images_store 
 import smaller_store
 import other_small_images
+import extra_images
 
 pygame.init()
 
@@ -129,7 +129,7 @@ def menu(screen):
                 break
 
     letter_lis = []
-    font_stars = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 50)
+    font_stars = pygame.font.Font(extra_images.font_new, 50)
     number_stars = font_stars.render(str(current_stars), True, (0, 0, 0))
     stars_img = pygame.image.load(decode_file(smaller_store.number_of_stars)).convert()
     stars_img = pygame.transform.scale(stars_img, (40 / stars_img.get_height() * stars_img.get_width(), 40))

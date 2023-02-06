@@ -9,7 +9,7 @@ import extra_images
 
 # from helpful_functions import blit_text
 
-font = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH/28.6))
+font = pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH/28.6))
 text_width, text_height = ss.SCREEN_WIDTH/5.72, ss.SCREEN_WIDTH/19.07  # Change text_width
 
 
@@ -171,7 +171,7 @@ def leaderboard(screen, back_button_func):
     down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
             ss.SCREEN_HEIGHT - leaderboard_bg.get_height()) / 2 - 45 - leaderboard_bg.get_height() + 15))
     # button_lis = []
-    font_main_text = pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", int(ss.SCREEN_WIDTH/14.3))
+    font_main_text = pygame.font.Font(extra_images.font_new, int(ss.SCREEN_WIDTH/14.3))
     leaderboard_text = font_main_text.render("Leaderboard", True, (0, 0, 0))
     # circle_pos = []
     while True:

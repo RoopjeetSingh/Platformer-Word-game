@@ -6,9 +6,8 @@ from helpful_functions import calculate_current_level, blit_text
 from wordconnect import game_Loop_Wordle
 import ui_tools
 from decode_file import decode_file
-import images_store 
-import smaller_store
 import other_small_images
+import extra_images
 
 pygame.init()
 death_bg = pygame.image.load(decode_file(other_small_images.death_screen)).convert_alpha()
@@ -38,7 +37,7 @@ def platformer_game(screen, menu, level=None):
 
     def killed_screen(alpha):
         blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
-                  pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100), 1000)
+                  pygame.font.Font(extra_images.font_new, 100), 1000)
         death_bg.set_alpha(alpha)
         screen.blit(death_bg, (0, ss.SCREEN_HEIGHT / 2 - death_bg.get_height() / 2))
         button_menu = ui_tools.Button((

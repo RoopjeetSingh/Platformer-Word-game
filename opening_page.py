@@ -7,10 +7,9 @@ from helpful_functions import blit_text
 from player import Player
 from opening_file_word import opening_screen_word
 from decode_file import decode_file
-import images_store 
-import smaller_store
 import other_small_images
 from skins import list_skins, idle_images_list
+import extra_images
 
 pygame.init()
 
@@ -111,7 +110,7 @@ def show_level(screen):
 
     def killed_screen(alpha):
         blit_text(death_bg, "YOU DIED", (ss.SCREEN_WIDTH / 2, death_bg.get_height() / 5),
-                  pygame.font.Font("images/Menu_page/SnowtopCaps.ttf", 100), 1000)
+                  pygame.font.Font(extra_images.font_new, 100), 1000)
         death_bg.set_alpha(alpha)
         screen.blit(death_bg, (0, ss.SCREEN_HEIGHT / 2 - death_bg.get_height() / 2))
         retry_button = ui_tools.Button((
