@@ -62,11 +62,11 @@ def users(screen, back_button_func):
             text_position=(int(ss.SCREEN_WIDTH / 23.83) + image_new_user.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=int(ss.SCREEN_WIDTH / 71.5),
             border_color=(255, 255, 255), font=font, state_disabled=True)
         input_lis.append(ui_tools.InputBox(
-            button_with_input.rect.x + int(ss.SCREEN_WIDTH / 23.833) + image_new_user.get_width(), button_with_input.rect.y + int(ss.SCREEN_WIDTH / 47.67), int(ss.SCREEN_WIDTH / 4.77), int(ss.SCREEN_WIDTH / 26.98),
+            button_with_input.rect.x + int(ss.SCREEN_WIDTH / 23.833) + image_new_user.get_width(), button_with_input.rect.y + int(ss.SCREEN_WIDTH / 47.67), button_with_input.rect.w - 200, int(ss.SCREEN_WIDTH / 26.98),
             (32, 84, 101),
             (14, 31, 47),
-            (28, 48, 65), add_user_with_name, active=True,
-            cursor_color=(255, 255, 255), remove_active=True))
+            (28, 48, 65), add_user_with_name, active=False,
+            cursor_color=(255, 255, 255), text="Type your name and press RETURN"))
         button_lis.append(button_with_input)
         users_button_list.append(button_with_input)
         add_user.move(y_add=int(ss.SCREEN_WIDTH / 8.17))
@@ -117,25 +117,6 @@ def users(screen, back_button_func):
             add_user.rect.y = users_button_list[-1].rect.bottom + int(ss.SCREEN_WIDTH / 89.375)
             add_user.state_disabled = False
             button_lis.append(add_user)
-
-    # def scroll(params: dict = {}):
-    #     # global y_pos
-    #     up = params.get("up", True)
-    #     y_pos = params.get("y_pos", True)
-    #
-    #     if up:
-    #         for button in button_lis:  # Can't use user_button_list because it doesn't have set user buttons
-    #             button.move(y_add=200)
-    #         for input in input_lis:
-    #             input.rect.y += 200
-    #         y_pos += 200
-    #     else:
-    #         for button in button_lis:
-    #             button.move(y_add=-200)
-    #         for input in input_lis:
-    #             input.rect.y -= 200
-    #         y_pos -= 200
-    #     return y_pos
 
     var = json_storer.var
         

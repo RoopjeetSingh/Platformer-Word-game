@@ -242,6 +242,7 @@ class InputBox:
             self.txt_surface = self.font.render(self.text, True, self.font_color)
         else:
             self.txt_surface = self.font.render(self.given_text, True, (238, 234, 222))
+            self.txt_surface.set_alpha(128)
         self.draw_cursor = 0
         self.drawn = False
 
