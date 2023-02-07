@@ -33,7 +33,7 @@ image_list = [extra_images.zero_stars, extra_images.single_stars, extra_images.d
 single_star = ["you were close", "better luck next time", " you can do better than one star"]
 double_star = ["good job, now try to get three stars", "you can do better than two stars",
                "you were close to getting three stars"]
-triple_star = ["Great job! You are a real Future Business Leader of America!!", "You are a G.O.A.T"]
+triple_star = ["Great job! You are a real Future Business Leader of America!!"]
 mystery_letters = []
 count = 0
 clock_star = py.time.Clock()
@@ -149,11 +149,11 @@ def score_show(screen, x, score):
     font = py.font.Font(None, 50)
     if x == True:
         py.draw.rect(screen, (224, 177, 22), (1075, 50, 170, 35))
-        text = font.render(f"score: {score}", True, (0, 0, 0))
+        text = font.render(f"Score: {score}", True, (0, 0, 0))
         screen.blit(text, (1100, 50))
 
     if x == False:
-        text = font.render(f"score: {score}", True, (0, 0, 0))
+        text = font.render(f"Score: {score}", True, (0, 0, 0))
         rect = text.get_rect()
         rect.center = (650, 500)
         screen.blit(text, rect)
@@ -503,11 +503,13 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                     clicked_color=(15, 20, 35),
                     border_radius=10, border_color=(35, 53, 78))
                 state = False if count > 0 else True
+                alpha = 255 if count > 0 else 30
                 next_level_button = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 + 100, 520, ss.SCREEN_WIDTH / 8, 50),
                     (59, 83, 121), next_level, text="Next Level", hover_color=(35, 53, 78),
                     clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78), platformer=platformer, state_disabled=state)
+                    border_radius=10, border_color=(35, 53, 78), platformer=platformer, state_disabled=state,
+                    alpha=alpha)
                 button_lis.append(button_menu)
                 button_lis.append(retry_button)
                 button_lis.append(next_level_button)
@@ -530,4 +532,4 @@ if __name__ == "__main__":
     from platformer_game import platformer_game
     from Level import level_list
 
-    game_Loop_Wordle(screen, ["a", "b", "c", "d"], 2, 82, 10, platformer_game, level_list[0])
+    game_Loop_Wordle(screen, ["a", "b", "c", "d"], 4, 160, 30, platformer_game, level_list[2])

@@ -10,7 +10,7 @@ from math import ceil
 import other_small_images
 
 pygame.init()
-stars_required = [0, 1, 5, 6, 10]
+stars_required = [0, 1, 5, 6, 11]
 
 
 def level_screen(screen, back_button_func):

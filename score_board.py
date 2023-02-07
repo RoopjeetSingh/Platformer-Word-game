@@ -62,8 +62,8 @@ def scoreboard(screen, back_button_func):
     disabled_go_down = pygame.transform.scale(
         pygame.image.load(decode_file(other_small_images.disabled_next_button)).convert_alpha(),
         (int(ss.SCREEN_WIDTH / 14.3), int(ss.SCREEN_WIDTH / 9.53)))
-    go_down = pygame.transform.rotate(go_down, 90)
-    disabled_go_down = pygame.transform.rotate(disabled_go_down, 90)
+    go_down = pygame.transform.rotate(go_down, -90)
+    disabled_go_down = pygame.transform.rotate(disabled_go_down, -90)
     go_up = pygame.transform.flip(go_down, False, True)
     disabled_go_up = pygame.transform.flip(disabled_go_down, False, True)
     scroller = Scroller()

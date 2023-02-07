@@ -6,7 +6,7 @@ import screen_size as ss
 from decode_file import decode_file
 import smaller_store
 import extra_images
-
+import time
 alpha = 0
 root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
 fbla_img = pygame.image.load(decode_file(smaller_store.fbla_logo)).convert_alpha()

@@ -160,6 +160,7 @@ def show_level(screen):
     current_level = level_list[0]
     current_level.clear()
     current_level.letter_list = level_generator(current_level.no_of_letter)
+    current_level.letter_list = ["c", "k", "s", "e", "m", "h", "o", "i"]
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()

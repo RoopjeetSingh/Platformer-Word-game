@@ -315,7 +315,7 @@ class Level4(Level):
     def __init__(self):
         super(Level4, self).__init__(random.choice(background), 119, "level4")
         self.no_of_letter = 13
-        self.stars = 25
+        self.stars = 30
         self.time = 90
 
     def make_letters(self):
@@ -429,7 +429,7 @@ class Level5(Level):
     def __init__(self):
         super(Level5, self).__init__(random.choice(background), 175, "level5")
         self.no_of_letter = 17
-        self.stars = 25
+        self.stars = 40
         self.time = 90
 
     def make_letters(self):

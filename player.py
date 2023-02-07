@@ -100,7 +100,7 @@ class Player(pygame.sprite.Sprite):
         self.collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
         self.jump_sound = pygame.mixer.Sound("images/Menu_page/Jump-SoundBible.com-1007297584.wav")
         self.land_on_ground = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
-        self.land_on_ground.set_volume(0.01)
+        self.land_on_ground.set_volume(0.1)
         self.jump_sound.set_volume(0.01)
         for i in run_var_name:
             img = pygame.image.load(decode_file(i)).convert()
@@ -147,14 +147,31 @@ class Player(pygame.sprite.Sprite):
         self.current_image = None
         self.completed = False
 
-    def update_player(self, screen, current_level, pressed, stop_working=False):
-        killed = False
+    def update_player(self, screen, current_level: Level.Level, pressed: bool, stop_working: bool = False):
+        """
+        Updates the player: Controls the player movement including jumps and physics
+        :param screen: The screen object where everything is blit or showed
+        :param current_level: The current level: There are 5 levels and here we pass the current level
+        :param pressed: Pressed variable that checks if space bar has been pressed once. This is used to check if the
+                        player has jumped, and he should not be allowed to jump again
+        :param stop_working: An optional parameter that asks if the program has to stop the player movement
+        :return: returns the tuple of pressed variable, which might have been change, and killed variable: that
+                    keeps track if the player has died so that we can show the death message
+        """
+        # Presetting killed to False
+        killed: bool = False
+        # Checking if stop_working parameter is True
         if not stop_working:
-            killed = self.kill_self()
+            # Runs the player's kill self function to check if the player is dead and if the death animation has been
+            # finished, runs the function that simulates
+            # gravity, runs the function that checks if the player is colliding with a power up or a letter and if it
+            # collides it can collect it
+            killed: bool = self.kill_self()
             self.gravity(current_level)
             self.collect_letter(current_level)
             self.collect_power_up(current_level)
 
+            # If the player is not dead, it checks for the keys that the user presses and accordingly simulates movement
             if not self.kill_player:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RIGHT] or keys[pygame.K_d]:

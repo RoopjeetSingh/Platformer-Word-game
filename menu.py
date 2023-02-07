@@ -20,9 +20,10 @@ pygame.init()
 
 
 def menu(screen):
-    pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
-    pygame.mixer.music.set_volume(0.2)
-    pygame.mixer.music.play(-1)
+    if not pygame.mixer.music.get_busy():
+        pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
 
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:

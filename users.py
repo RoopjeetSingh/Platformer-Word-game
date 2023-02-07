@@ -83,7 +83,6 @@ def users(screen, back_button_func):
             var["users"].append([text, [], "boy"])
             input_lis.pop()
             button_lis.clear()
-            button_lis.append(back_button)
             level_font.clear()
             first_button_y_pos = users_button_list[0].rect.y
             users_button_list.clear()
@@ -148,7 +147,7 @@ def users(screen, back_button_func):
                                           (32, 84, 101), set_user,
                                           text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
                                           border_color=(255, 255, 255), border_radius=int(ss.SCREEN_WIDTH / 71.5), index_name=index))
-        current_level = "Completed all levels"
+        current_level = "Completed"
         for level in level_list:
             for i in value[1]:
                 if i and level.str == i[0]:

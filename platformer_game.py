@@ -133,4 +133,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level_list[3])
+    platformer_game(root, menu, level_list[4])
