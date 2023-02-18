@@ -1,5 +1,5 @@
 from Level import level_list
-stars_required = [0, 1, 5, 6, 10]
+stars_required = [0, 1, 5, 6, 11]
 
 
 def calculate_current_level(vars_dic: dict):
@@ -9,6 +9,7 @@ def calculate_current_level(vars_dic: dict):
     :param vars_dic: The json file that has been opened
     :return: returns the level object
     """
+    # if vars_dic["users"][vars_dic["current_user"][0]][1]
     games_played = sorted(vars_dic["users"][vars_dic["current_user"][0]][1], key=lambda x: (x[0], x[1], x[2], x[3]),
                           reverse=True)
 

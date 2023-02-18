@@ -481,7 +481,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             stars(screen)
             update_stars(score, points)
             from menu import menu
-            if added_button == 10:
+            if added_button == 5:
                 if count > 0:
                     var = json_storer.var
 

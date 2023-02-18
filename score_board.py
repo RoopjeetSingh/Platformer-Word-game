@@ -123,7 +123,7 @@ def scoreboard(screen, back_button_func):
                                      (index + 1) * text_height + int(ss.SCREEN_WIDTH / 8.41)), make_font(str(value[3]))))  # Time
 
     surface_font = pygame.Surface((ss.SCREEN_WIDTH, int(ss.SCREEN_WIDTH / 8.67) + text_height))
-    down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT - (
+    down_side_surface = pygame.Surface((ss.SCREEN_WIDTH, 20 + ss.SCREEN_HEIGHT - (
             ss.SCREEN_HEIGHT - scoreboard_bg.get_height()) / 2 - int(ss.SCREEN_WIDTH / 31.78) - scoreboard_bg.get_height() + int(ss.SCREEN_WIDTH / 95.33)))
     # button_lis = []
     font_main_text = pygame.font.Font(decode_file(extra_images.font_new), int(ss.SCREEN_WIDTH / 14.3))

@@ -582,4 +582,4 @@ level2 = Level2()
 level3 = Level3()
 level4 = Level4()
 level5 = Level5()
-level_list = [level1, level2, level3, level4, level5]
+level_list = [level1, level3, level2, level4, level5]

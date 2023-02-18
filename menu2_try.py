@@ -22,7 +22,7 @@ pygame.init()
 def menu(screen):
     if not pygame.mixer.music.get_busy():
         pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
-        pygame.mixer.music.set_volume(0.03)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
     def change_screen(func):
@@ -41,7 +41,7 @@ def menu(screen):
         return show_no_multiplayer_page
 
     var = json_storer.var
-        
+
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))

@@ -63,8 +63,11 @@ def platformer_game(screen, menu, level=None):
         
 
     current_level = level or calculate_current_level(var)
+    if current_level.str == level_list[0].str:
+        import opening_page
+        opening_page.show_level(screen)
     current_level.clear()
-    current_level.letter_list = level_generator(current_level.no_of_letter)
+    current_level.letter_list = ["a", "b", "h", "s", "m", "e", "b", "o", "l", "t"]
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()
@@ -133,4 +136,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level_list[4])
+    platformer_game(root, menu, level3)

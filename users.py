@@ -147,14 +147,34 @@ def users(screen, back_button_func):
                                           (32, 84, 101), set_user,
                                           text="Set User", clicked_color=(14, 31, 47), hover_color=(28, 48, 65),
                                           border_color=(255, 255, 255), border_radius=int(ss.SCREEN_WIDTH / 71.5), index_name=index))
-        current_level = "Completed"
+        # current_level = "Completed"
+        # for level in level_list:
+        #     for i in value[1]:
+        #         if i and level.str == i[0]:
+        #             break
+        #     else:
+        #         current_level = level.str
+        #         break
+        stars_required = [0, 1, 5, 6, 11]
+        games_played = sorted(var["users"][index][1], key=lambda x: (x[0], x[1], x[2], x[3]),
+                              reverse=True)
+
+        current_stars = 0
         for level in level_list:
-            for i in value[1]:
-                if i and level.str == i[0]:
+            for game in games_played:
+                if level.str == game[0]:
+                    current_stars += game[1]
                     break
-            else:
+
+        current_level = "Completed"
+        for index, level in enumerate(level_list):
+            if current_stars >= stars_required[index]:
                 current_level = level.str
+            else:
                 break
+
+        # if not current_level:
+        #     current_level = level_list[4]
         level_font.append(font.render("Current level: " + current_level.upper(), True, (255, 255, 255)))
 
     add_user = ui_tools.Button(
