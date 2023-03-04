@@ -21,10 +21,10 @@ current_time = datetime.now()
 py.init()
 mixer.init()
 # Removes letters that are 2 letters long
-copy = main.WORDS.copy().keys()
-for i in copy:
-    if len(i) <= 2:
-        main.WORDS[i] = False
+# copy = main.WORDS.copy().keys()
+# for i in copy:
+#     if len(i) <= 2:
+#         main.WORDS[i] = False
 
 screen = py.display.set_mode((1300, 710))
 

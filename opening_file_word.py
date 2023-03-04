@@ -16,16 +16,10 @@ import images_store
 import extra_images
 import other_small_images
 
-# datetime object containing current date and time
 current_time = datetime.now()
 
 pygame.init()
 mixer.init()
-# Removes letters that are 2 letters long
-copygame = main.WORDS.keys()
-for i in copygame:
-    if len(i) <= 2:
-        main.WORDS[i] = False
 
 screen = pygame.display.set_mode((1300, 710))
 
@@ -60,7 +54,12 @@ def opening_page_word_connect(opening_counter, incorrect, count):
             opening_surface.fill((0, 0, 0))
             opening_surface.blit(image0, (20, 35))
             blit_text(opening_surface,
-                      "Hi there, its me, Gameboy, here again!!!! We are towards the end of our journey, hurray!!! But let's get serious, we have to win. In this part, we have to make words by joining Letters, that we collected in the running game. The points we get will depend upon the length of our word, so longer words are worth more. However, to stop us, this nasty timer will keep on clicking, as it has been from the starting of our journey, so we have to be quick. Start by clicking on any letter you want",
+                      "Hi there, its me, Gameboy, here again!!!! We are towards the end of our journey, hurray!!! But "
+                      "let's get serious, we have to win. In this part, we have to make words by joining Letters, "
+                      "that we collected in the running game. The points we get will depend upon the length of our "
+                      "word, so longer words are worth more. However, to stop us, this nasty timer will keep on "
+                      "clicking, as it has been from the starting of our journey, so we have to be quick. Start by "
+                      "clicking on any letter you want",
                       (170, 25), pygame.font.Font(None, 25), 530, color=(255, 255, 255), alignment="left")
 
             screen.blit(opening_surface, (350, 0))
