@@ -531,7 +531,7 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                     var["1_time"] = "False"
                     var["users"][var["current_user"][0]][1].append(
                         [level.str, count, score, current_time.strftime("%m/%d/%Y")])
-                    with open('json_storer.pygame', 'w') as wvar:
+                    with open('json_storer.py', 'w') as wvar:
                         wvar.write("var=" + str(var))
                 retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))

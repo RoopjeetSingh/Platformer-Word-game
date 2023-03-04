@@ -15,7 +15,6 @@ import random
 import smaller_store
 import other_small_images
 import extra_images
-
 pygame.init()
 
 

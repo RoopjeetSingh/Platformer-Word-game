@@ -67,7 +67,7 @@ def platformer_game(screen, menu, level=None):
         import opening_page
         opening_page.show_level(screen)
     current_level.clear()
-    current_level.letter_list = ["a", "b", "h", "s", "m", "e", "b", "o", "l", "t"]
+    current_level.letter_list = level_generator(current_level.no_of_letter)
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()
@@ -84,9 +84,6 @@ def platformer_game(screen, menu, level=None):
     num = False
 
     while True:
-        # if time.time() - time_display_current >= 1:
-        #     time_display -= round(time.time() - time_display_current)
-        #     time_display_current = time.time()
         current_level.draw(screen)
         current_level.obstruct_group.draw(screen)
         current_level.platform_group.draw(screen)
@@ -99,6 +96,7 @@ def platformer_game(screen, menu, level=None):
             i.bounce_brighten()
 
         screen.blit(player.image, player.rect)
+        player.double_jump_power_up = True
         pressed, killed = player.update_player(screen, current_level, pressed)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -136,4 +134,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level3)
+    platformer_game(root, menu, level5)

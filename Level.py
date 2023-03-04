@@ -10,7 +10,7 @@ from decode_file import decode_file
 import smaller_store
 import platforms_obstacles_images
 
-background = [smaller_store.bg_1, smaller_store.bg_2]
+background_list = [smaller_store.bg_1, smaller_store.bg_2]
 
 bg_display_level = {"level1": smaller_store.level1_bg_display,
                     "level2": smaller_store.level2_bg_display,
@@ -74,7 +74,7 @@ class Level:
 
 class Level1(Level):
     def __init__(self):
-        super(Level1, self).__init__(random.choice(background), 62, "level1")
+        super(Level1, self).__init__(random.choice(background_list), 62, "level1")
         self.no_of_letter = 8
         self.stars = 20
         self.time = 45
@@ -135,7 +135,7 @@ class Level1(Level):
 
 class Level2(Level):
     def __init__(self):
-        super(Level2, self).__init__(random.choice(background), 112, "level2")
+        super(Level2, self).__init__(random.choice(background_list), 112, "level2")
         self.no_of_letter = 12
         self.stars = 30
         self.time = 45
@@ -218,7 +218,7 @@ class Level2(Level):
 
 class Level3(Level):
     def __init__(self):
-        super(Level3, self).__init__(random.choice(background), 91, "level3")
+        super(Level3, self).__init__(random.choice(background_list), 91, "level3")
         self.no_of_letter = 10
         self.stars = 40
         self.time = 75
@@ -313,7 +313,7 @@ class Level3(Level):
 
 class Level4(Level):
     def __init__(self):
-        super(Level4, self).__init__(random.choice(background), 119, "level4")
+        super(Level4, self).__init__(random.choice(background_list), 119, "level4")
         self.no_of_letter = 13
         self.stars = 30
         self.time = 90
@@ -394,6 +394,8 @@ class Level4(Level):
         self.platform_group.add(po.Platform(114 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size, 0))
         self.platform_group.add(po.Platform(117 * ss.tile_size, ss.SCREEN_HEIGHT - 5 * ss.tile_size, 0))
 
+        # Added platforms for jump test
+
         self.obstruct_group.add(po.Obstacle(32 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size,
                                             "spikes", w=ss.tile_size * 2, h=ss.tile_size))
 
@@ -427,7 +429,7 @@ class Level4(Level):
 
 class Level5(Level):
     def __init__(self):
-        super(Level5, self).__init__(random.choice(background), 175, "level5")
+        super(Level5, self).__init__(random.choice(background_list), 175, "level5")
         self.no_of_letter = 17
         self.stars = 40
         self.time = 90
@@ -582,4 +584,4 @@ level2 = Level2()
 level3 = Level3()
 level4 = Level4()
 level5 = Level5()
-level_list = [level1, level3, level2, level4, level5]
+level_list = [level1, level2, level3, level4, level5]

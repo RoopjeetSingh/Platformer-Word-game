@@ -146,6 +146,8 @@ class Player(pygame.sprite.Sprite):
         self.color_num = 0
         self.current_image = None
         self.completed = False
+        self.jump_distance = int(ss.tile_size/4)
+        self.double_jump_distance = int(ss.tile_size/3)
 
     def update_player(self, screen, current_level: Level.Level, pressed: bool, stop_working: bool = False):
         """
@@ -266,21 +268,22 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity_y
         collided = self.obstruct_platforms(level, "gravity")
         self.obstruct_obstacles(level)
-        if not collided:
-            if self.rect.y >= ss.SCREEN_HEIGHT - 2*ss.tile_size:
-                for p in level.platform_group:  # moves platforms
-                    p.rect.y -= self.velocity_y
-                for p in level.obstruct_group:  # moves obstacles like snowman
-                    p.rect.y -= self.velocity_y
-                for a in level.letter_group:
-                    a.start_y -= self.velocity_y
-                    a.pos[1] = a.start_y
-                    a.going_down = False
-                for p in level.power_up_group:
-                    p.rect.y -= self.velocity_y
-            else:
-                self.rect.y += self.velocity_y
-            self.rect.y = ceil(self.rect.y - self.velocity_y)
+        if Level.level_list.index(level) >= 4:
+            if not collided:
+                if self.rect.y >= ss.SCREEN_HEIGHT/2:
+                    for p in level.platform_group:  # moves platforms
+                        p.rect.y -= self.velocity_y
+                    for p in level.obstruct_group:  # moves obstacles like snowman
+                        p.rect.y -= self.velocity_y
+                    for a in level.letter_group:
+                        a.start_y -= self.velocity_y
+                        a.pos[1] = a.start_y
+                        a.going_down = False
+                    for p in level.power_up_group:
+                        p.rect.y -= self.velocity_y
+                else:
+                    self.rect.y += self.velocity_y
+                    self.rect.y = ceil(self.rect.y - self.velocity_y)
 
     def jump(self, level: Level.Level):
         if self.double_jump_power_up:
@@ -299,22 +302,58 @@ class Player(pygame.sprite.Sprite):
                     self.double_jump(level)
             self.color_num += 1
         elif self.jumping:
-            self.rect.y -= int(ss.tile_size/4)
+            self.rect.y -= self.jump_distance
+            collided = self.obstruct_platforms(level, "jump")
+            if Level.level_list.index(level) >= 5:
+                if not collided:
+                    if self.rect.y <= ss.SCREEN_HEIGHT/2:
+                        for p in level.platform_group:  # moves platforms
+                            p.rect.y += self.jump_distance
+                        for p in level.obstruct_group:  # moves obstacles like snowman
+                            p.rect.y += self.jump_distance
+                        for a in level.letter_group:
+                            a.start_y += self.jump_distance
+                            a.pos[1] = a.start_y
+                            a.going_down = False
+                        for p in level.power_up_group:
+                            p.rect.y += self.jump_distance
+                    else:
+                        self.rect.y -= self.jump_distance
+                self.rect.y += self.jump_distance
             # self.jumping = True
             if self.on_ground:
                 pygame.mixer.Sound.play(self.jump_sound)
                 pygame.mixer.music.stop()
             self.on_ground = False
-            self.obstruct_platforms(level, "jump")
             self.obstruct_obstacles(level)
             self.num_jumps += 1
 
     def double_jump(self, level: Level.Level):
-        self.rect.y -= int(ss.tile_size/3)
+        self.rect.y -= self.double_jump_distance
+        collided = self.obstruct_platforms(level, "jump")
+        self.obstruct_obstacles(level)
+        if Level.level_list.index(level) >= 4:
+            if not collided:
+                if self.rect.y <= ss.SCREEN_HEIGHT/2:
+                    for p in level.platform_group:  # moves platforms
+                        p.rect.y += self.double_jump_distance
+                    for p in level.obstruct_group:  # moves obstacles like snowman
+                        p.rect.y += self.double_jump_distance
+                    for a in level.letter_group:
+                        a.start_y += self.double_jump_distance
+                        a.pos[1] = a.start_y
+                        a.going_down = False
+                    for p in level.power_up_group:
+                        p.rect.y += self.double_jump_distance
+                else:
+                    self.rect.y -= self.double_jump_distance
+            self.rect.y += self.double_jump_distance
+
+        if self.on_ground:
+            pygame.mixer.Sound.play(self.jump_sound)
+            pygame.mixer.music.stop()
         self.jumping = True
         self.on_ground = False
-        self.obstruct_platforms(level, "jump")
-        self.obstruct_obstacles(level)
         self.num_jumps = 0
 
     def obstruct_platforms(self, level: Level.Level, process: str):
