@@ -4,7 +4,7 @@ import screen_size as ss
 import letter
 from math import ceil
 from decode_file import decode_file
-import images_store 
+import images_store
 import other_skins
 
 
@@ -15,71 +15,85 @@ class Player(pygame.sprite.Sprite):
         # Fall has to be tested
         match skin:
             case "santa":
+                "None"
                 run_var_name = other_skins.Santa_Run
                 dead_var_name = other_skins.Santa_Dead
                 idle_var_name = other_skins.Santa_Idle
                 fall = 2
             case "boy":
+                "Extra life"
                 run_var_name = images_store.Boy_Run
                 dead_var_name = images_store.Boy_Dead
                 idle_var_name = images_store.Boy_Idle
                 fall = 3.5
             case "female_zombie":
+                "None"
                 run_var_name = other_skins.Female_zombie_Run
                 dead_var_name = other_skins.Female_zombie_Dead
                 idle_var_name = other_skins.Female_zombie_Idle
                 fall = 1.8
             case "male_zombie":
+                "None"
                 run_var_name = other_skins.Male_zombie_Run
                 dead_var_name = other_skins.Male_zombie_Dead
                 idle_var_name = other_skins.Male_zombie_Idle
                 fall = 3
             case "adventure_boy":
+                "None"
                 run_var_name = images_store.Adventure_boy_Run
                 dead_var_name = images_store.Adventure_boy_Dead
                 idle_var_name = images_store.Adventure_boy_Idle
                 fall = 3.8  # Fall is good
             case "adventure_girl":
+                "None"
                 run_var_name = images_store.Adventure_boy_Run
                 dead_var_name = images_store.Adventure_boy_Dead
                 idle_var_name = images_store.Adventure_boy_Idle
                 fall = 3.8
             case "cat":
+                "Extra life"
                 run_var_name = images_store.Cat_Run
                 dead_var_name = images_store.Cat_Dead
                 idle_var_name = images_store.Cat_Idle
                 fall = 2.8  # Fall is good
             case "dinosaur":
+                "None"
                 run_var_name = images_store.Dinosaur_Run
                 dead_var_name = images_store.Dinosaur_Dead
                 idle_var_name = images_store.Dinosaur_Idle
                 fall = 5  # Fall is good
             case "dog":
+                "Extra life"
                 run_var_name = images_store.Dog_Run
                 dead_var_name = images_store.Dog_Dead
                 idle_var_name = images_store.Dog_Idle
                 fall = 3.5  # Fall is good
             case "knight":
+                "speed"
                 run_var_name = images_store.Knight_Run
                 dead_var_name = images_store.Knight_Dead
                 idle_var_name = images_store.Knight_Idle
                 fall = 3.5  # Fall is good
             case "ninja_girl":
+                "Glide maybe"
                 run_var_name = images_store.Ninja_girl_Run
                 dead_var_name = images_store.Ninja_girl_Dead
                 idle_var_name = images_store.Ninja_girl_Idle
                 fall = 3.5  # Fall is good
             case "ninja_girl2":
+                "Glide maybe"
                 run_var_name = images_store.Ninja_girl2_Run
                 dead_var_name = images_store.Ninja_girl2_Dead
                 idle_var_name = images_store.Ninja_girl2_Idle
                 fall = 3.5  # Fall is good
             case "pumpkin":
+                "big jump"
                 run_var_name = other_skins.Pumpkin_Run
                 dead_var_name = other_skins.Pumpkin_Dead
                 idle_var_name = other_skins.Pumpkin_Idle
                 fall = 3.5  # Fall is good
             case "robot":
+                "speed and jump"
                 run_var_name = other_skins.Robot_Run
                 dead_var_name = other_skins.Robot_Dead
                 idle_var_name = other_skins.Robot_Idle
@@ -112,6 +126,20 @@ class Player(pygame.sprite.Sprite):
             img_left.set_colorkey(alpha)
             self.left_images.append(img_left)
 
+        self.gliding_image = []
+        self.gliding_image_flip = []
+        if skin in ("ninja_girl", "ninja_girl2"):
+            for i in range(1, 11):
+                img = pygame.image.load(f"images/{skin.capitalize()}/Glide ({i}).png").convert()
+                img = pygame.transform.scale(img, (
+                    img.get_width() * height / img.get_height(), height))
+                img.set_colorkey(alpha)
+                self.gliding_image.append(img)
+            for i in self.gliding_image:
+                img = pygame.transform.flip(i, True, False)
+                img.set_colorkey(alpha)
+                self.gliding_image_flip.append(img)
+
         self.death_images = []
         for i in dead_var_name:
             img = pygame.image.load(decode_file(i)).convert()
@@ -122,17 +150,21 @@ class Player(pygame.sprite.Sprite):
             height -= fall
 
         self.image = self.idle_image
+        self.skin = skin
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.velocity_y = 0
+        # self.add_to_velocity = 0.4 if skin not in ("ninja_girl", "ninja_girl2") else 0.1
+        # self.add_to_velocity = 0.4
         self.index = 0
+        self.index_glide = 0
         self.index_dead = 0
         self.jumping = False
-        self.on_ground = True
+        self.on_ground = False
         self.double_jump_power_up = False
         self.old_list = "right"
-        self.move_speed = 7
+        self.move_speed = 7 if skin not in ("robot", "knight") else 10
         self.num_jumps = 0
         self.mask = pygame.mask.from_surface(self.image)
         self.kill_player = False
@@ -146,8 +178,9 @@ class Player(pygame.sprite.Sprite):
         self.color_num = 0
         self.current_image = None
         self.completed = False
-        self.jump_distance = int(ss.tile_size/4)
-        self.double_jump_distance = int(ss.tile_size/3)
+        self.jump_distance = int(ss.tile_size / 4) if skin not in ("robot", "pumpkin") else int(ss.tile_size / 3.3)
+        self.double_jump_distance = int(ss.tile_size / 3) if skin not in ("robot", "pumpkin") else int(
+            ss.tile_size / 2.3)
 
     def update_player(self, screen, current_level: Level.Level, pressed: bool, stop_working: bool = False):
         """
@@ -169,7 +202,6 @@ class Player(pygame.sprite.Sprite):
             # gravity, runs the function that checks if the player is colliding with a power up or a letter and if it
             # collides it can collect it
             killed: bool = self.kill_self()
-            self.gravity(current_level)
             self.collect_letter(current_level)
             self.collect_power_up(current_level)
 
@@ -177,11 +209,11 @@ class Player(pygame.sprite.Sprite):
             if not self.kill_player:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-                    self.move_right(current_level, "right")
+                    self.move(current_level, "right")
                 elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
-                    self.move_right(current_level, "left")
+                    self.move(current_level, "left")
                 else:
-                    self.move_right(current_level, "")
+                    self.move(current_level, "")
 
                 if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
                     if self.on_ground or pressed:
@@ -189,6 +221,8 @@ class Player(pygame.sprite.Sprite):
                         pressed = True
                 else:
                     pressed = False
+
+            self.gravity(current_level)
             self.jump(current_level)
 
         for i in self.letter_lis:
@@ -204,7 +238,7 @@ class Player(pygame.sprite.Sprite):
 
         return pressed, killed
 
-    def move_right(self, level: Level.Level, direction: str = ""):
+    def move(self, level: Level.Level, direction: str = ""):
         if direction == "right":
             self.image = self.right_images[int(self.index)]
             # self.rect = self.image.get_rect(bottomleft=self.rect.bottomleft)
@@ -264,13 +298,22 @@ class Player(pygame.sprite.Sprite):
             self.index = 0
 
     def gravity(self, level: Level.Level):
-        self.velocity_y += 0.4
+        if self.skin in ("ninja_girl", "ninja_girl2") and not self.on_ground\
+                and (not self.jumping or self.velocity_y > self.jump_distance):
+            self.velocity_y += 0.15
+            self.image = self.gliding_image[self.index_glide] if self.old_list == "right" \
+                else self.gliding_image_flip[self.index_glide]
+            self.index_glide += 1
+            if self.index_glide > len(self.gliding_image) - 1:
+                self.index_glide = 0
+        else:
+            self.velocity_y += 0.4
         self.rect.y += self.velocity_y
         collided = self.obstruct_platforms(level, "gravity")
         self.obstruct_obstacles(level)
         if Level.level_list.index(level) >= 4:
             if not collided:
-                if self.rect.y >= ss.SCREEN_HEIGHT/2:
+                if self.rect.y >= ss.SCREEN_HEIGHT / 2:
                     for p in level.platform_group:  # moves platforms
                         p.rect.y -= self.velocity_y
                     for p in level.obstruct_group:  # moves obstacles like snowman
@@ -306,7 +349,7 @@ class Player(pygame.sprite.Sprite):
             collided = self.obstruct_platforms(level, "jump")
             if Level.level_list.index(level) >= 5:
                 if not collided:
-                    if self.rect.y <= ss.SCREEN_HEIGHT/2:
+                    if self.rect.y <= ss.SCREEN_HEIGHT / 2:
                         for p in level.platform_group:  # moves platforms
                             p.rect.y += self.jump_distance
                         for p in level.obstruct_group:  # moves obstacles like snowman
@@ -334,7 +377,7 @@ class Player(pygame.sprite.Sprite):
         self.obstruct_obstacles(level)
         if Level.level_list.index(level) >= 4:
             if not collided:
-                if self.rect.y <= ss.SCREEN_HEIGHT/2:
+                if self.rect.y <= ss.SCREEN_HEIGHT / 2:
                     for p in level.platform_group:  # moves platforms
                         p.rect.y += self.double_jump_distance
                     for p in level.obstruct_group:  # moves obstacles like snowman

@@ -1,5 +1,3 @@
-import pygame.mixer
-
 from player import *
 from Level import *
 import screen_size as ss
@@ -60,7 +58,6 @@ def platformer_game(screen, menu, level=None):
 
     pressed = False
     var = json_storer.var
-        
 
     current_level = level or calculate_current_level(var)
     if current_level.str == level_list[0].str:
@@ -96,7 +93,7 @@ def platformer_game(screen, menu, level=None):
             i.bounce_brighten()
 
         screen.blit(player.image, player.rect)
-        player.double_jump_power_up = True
+        # player.double_jump_power_up = True
         pressed, killed = player.update_player(screen, current_level, pressed)
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -134,4 +131,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level5)
+    platformer_game(root, menu, level4)
