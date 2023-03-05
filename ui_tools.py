@@ -31,7 +31,7 @@ class Button:
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
                  image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
                  border_thickness: int = 7, state_disabled: bool = False, disabled_image=None, disabled_color=None,
-                 disabled_border_color=None, alpha=255, **kwargs):
+                 disabled_border_color=None, alpha=255, hover_function=None, **kwargs):
 
         self.image = image
         self.alpha = alpha
@@ -60,6 +60,7 @@ class Button:
         self.disabled_color = disabled_color
         self.disabled_border_color = disabled_border_color
         self.kwargs = kwargs
+        self.hover_function = hover_function
         self.value_from_function = None
         if self.image_original:
             if not isinstance(self.image_original, list):
@@ -128,6 +129,8 @@ class Button:
 
     def check_hover(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()) and not self.state_disabled:
+            if self.hover_function:
+                self.hover_function()
             if not self.hovered:
                 self.hovered = True
                 if self.hover_sound:

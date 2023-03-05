@@ -6,25 +6,24 @@ from math import ceil
 from Level import level_list
 from helpful_functions import blit_text
 from decode_file import decode_file
-import images_store 
-import smaller_store
+import images_store
 import other_small_images
 import other_skins
 
 pygame.init()
-list_skins = ["boy", "santa", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "cat",
-              "dog", "dinosaur", "knight", "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
+list_skins = ["boy", "santa", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "knight",
+              "ninja_girl", "ninja_girl2", "pumpkin", "dinosaur", "cat",
+              "dog", "robot"]
 idle_images_list = [images_store.Boy_Idle, other_skins.Santa_Idle, images_store.Adventure_girl_Idle,
                     other_skins.Female_zombie_Idle, other_skins.Male_zombie_Idle, images_store.Adventure_boy_Idle,
-                    images_store.Cat_Idle, images_store.Dog_Idle, images_store.Dinosaur_Idle, images_store.Knight_Idle,
+                    images_store.Dinosaur_Idle, images_store.Knight_Idle,
                     images_store.Ninja_girl_Idle, images_store.Ninja_girl2_Idle, other_skins.Pumpkin_Idle,
-                    other_skins.Robot_Idle]
+                    images_store.Cat_Idle, images_store.Dog_Idle, other_skins.Robot_Idle]
 stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
 font_stars = pygame.font.Font(None, 36)
 
 
 def skins(screen, back_button_func):
-
     def change_skin(kwargs: dict):
         button: ui_tools.Button = kwargs["button"]
         if not isinstance(button.image, list):
@@ -36,6 +35,14 @@ def skins(screen, back_button_func):
                     break
             else:
                 text_list.append([f"You need {stars} stars to unlock this skin", button, 0])
+
+    def show_features(skin_hover: str, button: ui_tools.Button):
+        surface_features = pygame.Surface((button.rect.w, button.rect.h/2), pygame.SRCALPHA)
+        if skin_hover == "knight":
+            blit_text(surface_features, f"{skin_hover}/nStars Required: {stars_required[list_skins.index(skin_hover)]}/n"
+                                        f"Boom! Extraaa Speeeeed....", (button.rect.centerx, 20),
+                      pygame.font.Font(None, 36), button.rect.right, color=(255, 255, 255))
+        screen.blit(surface_features, (button.rect.x, button.rect.centery))
 
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:
@@ -66,7 +73,7 @@ def skins(screen, back_button_func):
                 checked = True
 
     var = json_storer.var
-        
+
     clock = pygame.time.Clock()
     background = pygame.image.load(decode_file(other_small_images.menu_bg)).convert()
     back_image = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.back_button)).convert_alpha(),
@@ -115,25 +122,26 @@ def skins(screen, back_button_func):
     skins_btn = []
     lock_original = pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha()
 
-    for index, skin in enumerate(list_skins):
+    for index, skin_for_btn in enumerate(list_skins):
         different_page_difference = int(ss.SCREEN_WIDTH / 11.72)
         if index % 3 == 0 and index != 0:
             different_page_difference = int(ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right + (
-                        ss.SCREEN_WIDTH * (index // 3 - 1)) + \
+                    ss.SCREEN_WIDTH * (index // 3 - 1)) + \
                                         (ss.SCREEN_WIDTH - skin_btn.rect.right)
         idle_image = pygame.image.load(decode_file(idle_images_list[index])).convert()
         idle_image = pygame.transform.scale(idle_image,
                                             (ss.SCREEN_WIDTH / 5,
                                              ss.SCREEN_WIDTH / 5 / idle_image.get_width() * idle_image.get_height()))
         idle_image.set_colorkey((0, 0, 0))
-        x_value = int(
-            ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right if index == 0 else skin_btn.rect.right + different_page_difference
+        x_value = int(ss.SCREEN_WIDTH / 47.67) + previous_page.rect.right if index == 0 \
+            else skin_btn.rect.right + different_page_difference
         if stars_required[index] <= current_stars:
             skin_btn = ui_tools.Button(
                 (x_value,
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
                  idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
-                image=idle_image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower())
+                image=idle_image, border_color=(255, 255, 255), border_radius=1,
+                hover_function=lambda: show_features(skin_for_btn.lower(), skin_btn), skin=skin_for_btn.lower())
             skin_btn.kwargs["button"] = skin_btn
         else:
             image = [idle_image, pygame.transform.scale(
@@ -143,17 +151,17 @@ def skins(screen, back_button_func):
                 (x_value,
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
                  idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
-                image=image, border_color=(255, 255, 255), border_radius=1, skin=skin.lower(),
+                image=image, border_color=(255, 255, 255), border_radius=1, skin=skin_for_btn.lower(),
                 image_position=[(0, 0), (0, (idle_image.get_height() - image[1].get_height()) / 2)])
             skin_btn.kwargs["button"] = skin_btn
         button_lis.append(skin_btn)
-        skins_btn.append((skin, skin_btn))
+        skins_btn.append((skin_for_btn, skin_btn))
 
     text_list = []
     while True:
         current_skin = {var["users"][var["current_user"][0]][2]: 25}
-        for index, skin in enumerate(skins_btn):
-            skin[1].border_thickness = current_skin.get(skin[0].lower(), 0)
+        for index, skin_for_btn in enumerate(skins_btn):
+            skin_for_btn[1].border_thickness = current_skin.get(skin_for_btn[0].lower(), 0)
         screen.blit(background, (0, 0))
         screen.blit(skins_txt, (
             ss.SCREEN_WIDTH / 2 - skins_txt.get_width() / 2, ss.SCREEN_HEIGHT / 12 - skins_txt.get_height() / 2))

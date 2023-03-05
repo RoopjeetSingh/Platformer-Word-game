@@ -144,7 +144,7 @@ def show_level(screen):
         from platformer_game import platformer_game
         opening_screen_word(
             screen, [letter_obj.letter for letter_obj in player.letter_lis],
-            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, opening_page,
+            len(player.mystery_letter_lis), time_display, current_level.stars, platformer_game, show_level,
             current_level)
 
     def change_text(text_show):

@@ -19,38 +19,40 @@ pygame.mixer.music.set_volume(0.01)
 pygame.mixer.music.play(-1)
 show = True
 while alpha >= 0:
+    root.fill((0, 0, 0))
     fbla_img.set_alpha(alpha)
     root.blit(fbla_img, (ss.SCREEN_WIDTH/2 - fbla_img.get_width()/2, ss.SCREEN_HEIGHT/2 - fbla_img.get_height()/2))
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
             exit()
-    if alpha >= 20:
+    if alpha >= 255:
         show = False
     if show:
-        alpha += 0.1
+        alpha += 2
     else:
-        alpha -= 0.5
+        alpha -= 2
     pygame.display.flip()
     clock.tick(60)
 
-root.fill((0, 0, 0))
+# root.fill((0, 0, 0))
 pygame.display.flip()
 alpha = 0
 show = True
 while alpha >= 0:
+    root.fill((0, 0, 0))
     logo_img.set_alpha(alpha)
     root.blit(logo_img, (ss.SCREEN_WIDTH/2 - logo_img.get_width()/2, ss.SCREEN_HEIGHT/2 - logo_img.get_height()/2))
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             pygame.quit()
             exit()
-    if alpha >= 20:
+    if alpha >= 255:
         show = False
     if show:
-        alpha += 0.1
+        alpha += 2
     else:
-        alpha -= 0.5
+        alpha -= 2
     pygame.display.flip()
     clock.tick(60)
 
