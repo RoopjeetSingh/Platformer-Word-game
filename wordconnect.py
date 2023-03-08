@@ -15,16 +15,19 @@ from decode_file import decode_file
 import other_small_images
 import extra_images
 
+
 # datetime object containing current date and time
 current_time = datetime.now()
 
 py.init()
 mixer.init()
 # Removes letters that are 2 letters long
-# copy = main.WORDS.copy().keys()
-# for i in copy:
-#     if len(i) <= 2:
-#         main.WORDS[i] = False
+copy = main.WORDS.copy().keys()
+vi = list(copy)
+for i in copy:
+    if len(i) <= 2:
+        vi.remove(i)
+        main.WORDS[i] = False
 
 screen = py.display.set_mode((1300, 710))
 
@@ -48,6 +51,15 @@ incorrect_word_sound = py.mixer.Sound("images/Menu_page/human-impact-on-ground-6
 
 def background(screen, x, y, z, c):
     bg_image = py.image.load(decode_file(extra_images.word_connect_bg))
+    bg_image = py.transform.scale(bg_image, (1300, 710))
+    table = py.Surface((550, c))
+    table.set_alpha(128)
+    table.fill((x, y, z))
+    screen.blit(bg_image, (0, 0))
+    screen.blit(table, (375, 50))
+
+def background_celeb(screen, x, y, z, c):
+    bg_image = py.image.load("images/fjf.webp")
     bg_image = py.transform.scale(bg_image, (1300, 710))
     table = py.Surface((550, c))
     table.set_alpha(128)
@@ -228,7 +240,7 @@ def progress_bar(screen, x, time1, points):
 def stars(screen):
     global count
     clock = py.time.Clock()
-    clock.tick(10)
+
     if count <= len(image_list) - 1:
         im = py.image.load(decode_file(image_list[count]))
         im = py.transform.scale(im, (400, 400))
@@ -279,19 +291,113 @@ def message(score, points):
 
     return x
 
+def get_hints(word_selected):
 
-# def transition(screen):
-#     star_color = 255
-#     while star_color >= 0:
-#         screen.fill((star_color, star_color, star_color))
-#         star_color -= 1
-#         py.display.flip()
+    for i in vi:
+        li = word_selected.copy()
+        for c in i:
+            if c in li:
+                if i.index(c) < (len(i) - 1):
+                    li.remove(c)
+                else:
+                    if len(i)< 4:
+                        font = py.font.Font(None, 50)
+                        text = font.render(i, True, (0,0,0))
+                        rect = text.get_rect()
+                        rect.center = (650, 355)
+                        co = py.Rect(rect.x - 5, rect.y-5, rect.right- rect.left +10, rect.bottom - rect.top+10)
 
+                        rectangle = py.draw.rect(screen, (234,25,79), (co))
+                        screen.blit(text, rect)
+                        vi.remove(i)
+                        return i
+            else:
+                break
 
 def next_level(kwargs):
     platformer = kwargs["platformer"]
     from menu import menu
     platformer(screen, menu)
+
+
+def choose_random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    return r, g, b
+
+
+class Streak():
+    def __init__(self, x, y, screen):
+        self.screen = screen
+        self.color = choose_random_color()
+        self.x = x
+        self.y = y
+        angle = random.uniform(-60, 240)
+        velocity_mag = random.uniform(.3, 2.5)
+        self.vx = velocity_mag * math.cos(math.radians(angle))  # velocity x
+        self.vy = -velocity_mag * math.sin(math.radians(angle))  # velocity y
+        self.timer = 0
+        self.ended = False
+
+    def get_angle(self):
+        return math.atan2(-self.vy, self.vx)
+
+    def move(self):
+        self.x += self.vx
+        self.y += self.vy
+        self.timer += 1
+        if self.timer >= 90:
+            self.ended = True
+
+    def draw(self):
+        angle = self.get_angle()
+        length = 1
+        dx = length * math.cos(angle)
+        dy = length * math.sin(angle)
+        a = [int(self.x + dx), int(self.y - dy)]
+        b = [int(self.x - dx), int(self.y + dy)]
+        py.draw.line(self.screen, self.color, a, b, 15)
+
+
+class Firework():
+    def __init__(self, screen):
+        self.screen= screen
+        self.x = random.choice([random.randint(0, 370), random.randint(930,1300)])
+        self.y = 600
+        self.velocity = random.uniform(10, 15)
+        self.end_y = random.uniform(10, 300)
+        self.ended = False
+
+    def move(self):
+        self.y -= self.velocity
+        if self.y <= self.end_y:
+            self.ended = True
+
+    def draw(self):
+        a = [self.x, int(self.y + 15)]
+        b = [self.x, int(self.y - 20)]
+        py.draw.line(self.screen, (128, 128, 128), a, b, 4)
+
+
+fireworks = [Firework(screen)]
+streaks = []
+def game(screen):
+    global streaks
+
+    if random.uniform(0, 1) <= 1 / 60:
+        fireworks.append(Firework(screen))
+    for firework in fireworks:
+        firework.move()
+        firework.draw()
+        if firework.ended:
+            streaks += [Streak(firework.x, firework.y, screen) for i in range(random.randint(20, 40))]
+            fireworks.remove(firework)
+    for streak in streaks:
+        streak.move()
+        streak.draw()
+        if streak.ended:
+            streaks.remove(streak)
 
 
 def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
@@ -313,7 +419,8 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     pressed = False
     incorrect = False
     game_started = False
-
+    added_button = 0
+    button_lis = []
     working = True
     timer_event = py.USEREVENT
     py.time.set_timer(timer_event, 1000)
@@ -324,14 +431,20 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     start = ()
     clock = py.time.Clock()
     count_mystery_backspace = 0
-    added_button = 0
-    button_lis = []
+
     co = True
+    img = py.image.load("images\hint-removebg-preview.png")
+    img = py.transform.scale(img, (90, 90))
+    rect4 = img.get_rect()
+    rect4.x = 10
+    rect4.y = 200
 
     while run:
+
         mouse = py.mouse.get_pos()
         for ev in py.event.get():
             if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
+
                 py.quit()
                 exit()
             for i in button_lis:
@@ -372,7 +485,9 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                         letters.remove(mystery_letters.pop())
 
                 if ev.type == MOUSEBUTTONDOWN:
-
+                    if rect4.collidepoint(ev.pos):
+                        pass
+                        get_hints(letters)
                     if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
 
                         on = False
@@ -455,7 +570,8 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                         score_show(screen, working, score)
                         place(screen, len(letters), on, coord, letters, list_images)
                         show(screen, word, x_change)
-
+                        if word in vi:
+                            vi.remove(word)
                         word = ""
                 if incorrect == True:
                     start = ()
@@ -472,14 +588,17 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                 text_draw(screen, counter)
                 if outside and start == ():
                     mystery_and_submit_button(screen, mystery_number)
+                screen.blit(img, rect4)
                 score_show(screen, working, score)
 
         if working == False:
             mixer.music.fadeout(1)
-            background(screen, 255, 255, 255, 590)
-            clock_star.tick(60)
+            background_celeb(screen, 255, 255, 255, 590)
             stars(screen)
             update_stars(score, points)
+            score_show(screen, working, score)
+
+
             from menu import menu
             if added_button == 5:
                 if count > 0:
@@ -516,13 +635,13 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                 added_button += 1
             elif added_button < 10:
                 added_button += 1
-            score_show(screen, working, score)
-
             if message_count != 0:
                 x = message(score, points)
                 message_count -= 1
-            celebration(screen, score, x, points)
 
+            celebration(screen, score, x, points)
+            game(screen)
+            game(screen)
         for i in button_lis:
             i.update(screen)
         py.display.update()
