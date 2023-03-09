@@ -300,9 +300,10 @@ class Player(pygame.sprite.Sprite):
     def gravity(self, level: Level.Level):
         if self.skin in ("ninja_girl", "ninja_girl2") and not self.on_ground\
                 and (not self.jumping or self.velocity_y > self.jump_distance):
-            self.velocity_y += 0.15
+            self.velocity_y += 0.12
             self.image = self.gliding_image[self.index_glide] if self.old_list == "right" \
                 else self.gliding_image_flip[self.index_glide]
+            self.rect = self.image.get_rect(center=self.rect.center)
             self.index_glide += 1
             if self.index_glide > len(self.gliding_image) - 1:
                 self.index_glide = 0

@@ -1,1 +1,1 @@
-var={'1_time': 'True', 'users': [['Ayaan', [['level1', 1, 7, '02/17/2023']], 'ninja_girl']], 'current_user': [0, 'Ayaan']}
+var={'1_time': 'True', 'users': [['tom', [], 'ninja_girl'], ['Roopjeet', [], 'boy']], 'current_user': [0, 'tom']}

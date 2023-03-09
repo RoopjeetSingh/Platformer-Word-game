@@ -36,13 +36,13 @@ def skins(screen, back_button_func):
             else:
                 text_list.append([f"You need {stars} stars to unlock this skin", button, 0])
 
-    def show_features(skin_hover: str, button: ui_tools.Button):
-        surface_features = pygame.Surface((button.rect.w, button.rect.h/2), pygame.SRCALPHA)
-        if skin_hover == "knight":
-            blit_text(surface_features, f"{skin_hover}/nStars Required: {stars_required[list_skins.index(skin_hover)]}/n"
-                                        f"Boom! Extraaa Speeeeed....", (button.rect.centerx, 20),
-                      pygame.font.Font(None, 36), button.rect.right, color=(255, 255, 255))
-        screen.blit(surface_features, (button.rect.x, button.rect.centery))
+    # def show_features(skin_hover: str, button: ui_tools.Button):
+    #     surface_features = pygame.Surface((button.rect.w, button.rect.h/2), pygame.SRCALPHA)
+    #     if skin_hover == "knight":
+    #         blit_text(surface_features, f"{skin_hover}/nStars Required: {stars_required[list_skins.index(skin_hover)]}/n"
+    #                                     f"Boom! Extraaa Speeeeed....", (button.rect.centerx, 20),
+    #                   pygame.font.Font(None, 36), button.rect.right, color=(255, 255, 255))
+    #     screen.blit(surface_features, (button.rect.x, button.rect.centery))
 
     def change_screen(func):
         with open('json_storer.py', 'w') as wvar:
@@ -140,8 +140,7 @@ def skins(screen, back_button_func):
                 (x_value,
                  ss.SCREEN_HEIGHT / 2 - idle_image.get_height() / 2,
                  idle_image.get_width(), idle_image.get_height()), (0, 0, 0), change_skin,
-                image=idle_image, border_color=(255, 255, 255), border_radius=1,
-                hover_function=lambda: show_features(skin_for_btn.lower(), skin_btn), skin=skin_for_btn.lower())
+                image=idle_image, border_color=(255, 255, 255), border_radius=1, skin=skin_for_btn.lower())
             skin_btn.kwargs["button"] = skin_btn
         else:
             image = [idle_image, pygame.transform.scale(

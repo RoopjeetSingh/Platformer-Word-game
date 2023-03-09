@@ -29,9 +29,9 @@ while alpha >= 0:
     if alpha >= 255:
         show = False
     if show:
-        alpha += 2
+        alpha += 3
     else:
-        alpha -= 2
+        alpha -= 3
     pygame.display.flip()
     clock.tick(60)
 
@@ -50,9 +50,9 @@ while alpha >= 0:
     if alpha >= 255:
         show = False
     if show:
-        alpha += 2
+        alpha += 3
     else:
-        alpha -= 2
+        alpha -= 3
     pygame.display.flip()
     clock.tick(60)
 

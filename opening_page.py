@@ -247,9 +247,9 @@ def show_level(screen):
                               f"we also have mystery letters which you can collect and later convert into any "
                               f"letter. For example, if you collected \"h\" and \"t\", you can use the mystery "
                               f"letter and convert it into a \"u\" which would allow you to make \"hut\". But keep "
-                              f"track"
+                              f"track "
                               f"of the time, the more time you use here the less time you would have for the next part "
-                              f"where you make the words"
+                              f"where you make the words. "
                               f"Cool right, let's get started...",
                       (int(ss.SCREEN_WIDTH / 9.533) + current_image.get_width(), int(ss.SCREEN_WIDTH / 31.78)),
                       pygame.font.SysFont("copperplate", int(ss.SCREEN_WIDTH / 57.2)),

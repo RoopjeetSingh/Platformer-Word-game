@@ -534,18 +534,19 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
                         wvar.write("var=" + str(var))
                 retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(),
                                                (50, 50))
+
+                state = False if count > 0 else True
                 button_menu = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 - 100 - ss.SCREEN_WIDTH / 8, 520, ss.SCREEN_WIDTH / 8, 50),
                     (59, 83, 121), lambda: menu(screen), text="Menu", hover_color=(35, 53, 78),
                     clicked_color=(15, 20, 35),
-                    border_radius=10, border_color=(35, 53, 78))
+                    border_radius=10, border_color=(35, 53, 78), state_disabled=state)
                 retry_button = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 - ss.SCREEN_WIDTH / 16, 520, ss.SCREEN_WIDTH / 8, 50),
                     (59, 83, 121), lambda: opening_platformer(screen), image=retry_img,
                     hover_color=(35, 53, 78),
                     clicked_color=(15, 20, 35),
                     border_radius=10, border_color=(35, 53, 78))
-                state = False if count > 0 else True
                 next_level_button = ui_tools.Button(
                     (ss.SCREEN_WIDTH / 2 + 100, 520, ss.SCREEN_WIDTH / 8, 50),
                     (59, 83, 121), next_level, text="Next Level", hover_color=(35, 53, 78),
@@ -566,6 +567,6 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
 if __name__ == "__main__":
     from platformer_game import platformer_game
     from Level import level_list
-    from opening_page import opening_page as op
+    from opening_page import show_level as op
 
     opening_screen_word(screen, ["a", "b", "c", "d"], 2, 82, 25, platformer_game, op, level_list[0])

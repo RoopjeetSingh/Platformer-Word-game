@@ -31,10 +31,12 @@ class Button:
                  clicked_font_color=None, click_sound=None, hover_sound=None, image=None, text_position=None,
                  image_position=None, border_radius=0, border_color=None, image_align=None, fill_bg=True,
                  border_thickness: int = 7, state_disabled: bool = False, disabled_image=None, disabled_color=None,
-                 disabled_border_color=None, alpha=255, hover_function=None, **kwargs):
+                 disabled_border_color=None, alpha=255, hover_function=None, underline=False, bold=False
+                 , italic=False, content_alpha=True, **kwargs):
 
         self.image = image
         self.alpha = alpha
+        self.content_alpha = content_alpha
         self.text = text
         self.font = font
         self.call_on_release = call_on_release
@@ -83,6 +85,12 @@ class Button:
         self.hovered = False
         self.hover_text = None
         self.clicked_text = None
+        if underline:
+            font.set_underline(True)
+        if bold:
+            font.set_bold(True)
+        if italic:
+            font.set_italic(True)
         self.render_text()
 
     def move(self, x_add=0, y_add=0):
@@ -151,7 +159,7 @@ class Button:
         if self.state_disabled and self.disabled_image:
             self.image = self.disabled_image
         if self.state_disabled and self.disabled_color:
-            self.color = self.disabled_color
+            color = self.disabled_color
         if self.state_disabled and self.disabled_border_color:
             self.border_color = self.disabled_border_color
 
@@ -167,10 +175,22 @@ class Button:
             if self.hover_font_color:
                 text = self.hover_text
 
-        if self.image and not isinstance(self.image, list):
-            self.image.set_alpha(self.alpha)
-        if self.text:
-            self.text.set_alpha(self.alpha)
+        if self.image and not isinstance(self.image, list) and self.content_alpha:
+            if self.state_disabled:
+                self.image.set_alpha(50)
+            else:
+                self.image.set_alpha(self.alpha)
+        elif isinstance(self.image, list) and self.content_alpha:
+            for img in self.image:
+                if self.state_disabled:
+                    img.set_alpha(50)
+                else:
+                    img.set_alpha(self.alpha)
+        if self.text and self.content_alpha:
+            if self.state_disabled:
+                self.text.set_alpha(50)
+            else:
+                self.text.set_alpha(self.alpha)
         if self.border_radius and self.border_color and not self.clicked:
             draw_bordered_rounded_rect(surface, self.rect, color, self.border_color, self.border_radius,
                                        self.border_thickness)
@@ -180,22 +200,19 @@ class Button:
             pygame.draw.rect(surface, color, self.rect, border_radius=self.border_radius)
         elif self.fill_bg:
             surface.fill(pygame.Color("black"), self.rect)
-            pygame.draw.rect(surface, self.color, self.rect.inflate(-4, -4))
-
-        if text and not self.text_position and not self.image:
-            text_rect = text.get_rect(center=self.rect.center)
-            surface.blit(text, text_rect)
-        elif text and self.text_position:
-            surface.blit(text, (self.rect.x + self.text_position[0], self.rect.y + self.text_position[1]))
+            pygame.draw.rect(surface, color, self.rect.inflate(-4, -4))
 
         if self.image and self.image_position:
             if not isinstance(self.image, list):
                 surface.blit(self.image, (self.rect.x + self.image_position[0], self.rect.y + self.image_position[1]))
             else:
                 for index, image in enumerate(self.image):
-                    surface.blit(image, (
-                        self.rect.x + self.image_position[index][0], self.rect.y + self.image_position[index][1]))
-        elif self.image and self.image_align == "bottom":
+                    if self.image_position[index]:
+                        surface.blit(image, (
+                            self.rect.x + self.image_position[index][0], self.rect.y + self.image_position[index][1]))
+                    else:
+                        surface.blit(image, image.get_rect(center=self.rect.center))
+        elif self.image and self.image_align == "bottom" and text:
             image_rect = self.image.get_rect()
             image_rect.centerx = self.rect.centerx
             image_rect.bottom = self.rect.y + self.rect.height - (
@@ -218,6 +235,12 @@ class Button:
         elif self.image and not self.image_position and not self.image_align:
             image_rect = self.image.get_rect(center=self.rect.center)
             surface.blit(self.image, image_rect)
+
+        if text and not self.text_position and not self.image_align:
+            text_rect = text.get_rect(center=self.rect.center)
+            surface.blit(text, text_rect)
+        elif text and self.text_position:
+            surface.blit(text, (self.rect.x + self.text_position[0], self.rect.y + self.text_position[1]))
 
 
 class InputBox:
