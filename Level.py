@@ -130,7 +130,7 @@ class Level1(Level):
             letter.Letter(self.letter_list[7], 59 * ss.tile_size, ss.SCREEN_HEIGHT - 10 * ss.tile_size))
 
     def make_power_ups(self):
-        self.power_up_group.add(pu.PowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
 class Level2(Level):
@@ -211,9 +211,9 @@ class Level2(Level):
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
 
     def make_power_ups(self):
-        self.power_up_group.add(pu.PowerUp(46 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(71 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(90 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(46 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(71 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(90 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
 
 
 class Level3(Level):
@@ -307,7 +307,7 @@ class Level3(Level):
 
     def make_power_ups(self):
         # self.power_up_group.add(pu.PowerUp(17 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(39 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(39 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
         # self.power_up_group.add(pu.PowerUp(69 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
 
 
@@ -421,7 +421,7 @@ class Level4(Level):
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
 
     def make_power_ups(self):
-        self.power_up_group.add(pu.PowerUp(13 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(13 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
         # self.power_up_group.add(pu.PowerUp(43 * ss.tile_size, ss.SCREEN_HEIGHT - 9 * ss.tile_size))
         # self.power_up_group.add(pu.PowerUp(73 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
         # self.power_up_group.add(pu.PowerUp(106 * ss.tile_size, ss.SCREEN_HEIGHT - 7 * ss.tile_size))
@@ -573,10 +573,10 @@ class Level5(Level):
                                             "tree", w=ss.tile_size * 2 / 1.7, h=ss.tile_size * 2))
 
     def make_power_ups(self):
-        self.power_up_group.add(pu.PowerUp(31 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(31 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
         # self.power_up_group.add(pu.PowerUp(50 * ss.tile_size, ss.SCREEN_HEIGHT - 6 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(112 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
-        self.power_up_group.add(pu.PowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(112 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
+        self.power_up_group.add(pu.DoubleJumpPowerUp(156 * ss.tile_size, ss.SCREEN_HEIGHT - 4 * ss.tile_size))
 
 
 level1 = Level1()

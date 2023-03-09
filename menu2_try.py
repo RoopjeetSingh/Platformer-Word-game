@@ -60,7 +60,8 @@ def menu(screen):
     var = json_storer.var
 
     clock = pygame.time.Clock()
-    background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
+    # background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
+    background = pygame.image.load("images/Menu_page/letter bg.jpg").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     current_user = var["users"][var["current_user"][0]]
     match current_user[2]:
@@ -293,9 +294,9 @@ def menu(screen):
     skins_img = pygame.transform.scale(
         skins_img,
         (200, 100))  # 200, 100
-    lock = pygame.transform.scale(
-        pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha(),
-        (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
+    # lock = pygame.transform.scale(
+    #     pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha(),
+    #     (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
 
     single_player_bg = pygame.image.load("images/Menu_page/single player bg.jpeg").convert()
     single_player_bg = pygame.transform.scale(single_player_bg, (ss.SCREEN_WIDTH - 1100, 130))

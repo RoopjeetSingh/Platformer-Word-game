@@ -5,9 +5,9 @@ from decode_file import decode_file
 import extra_images
 
 
-class PowerUp(pygame.sprite.Sprite):
+class DoubleJumpPowerUp(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        super(PowerUp, self).__init__()
+        super(DoubleJumpPowerUp, self).__init__()
         self.distance = None
         self.end_pos = (0, 0)
         self.image1 = pygame.image.load(decode_file(extra_images.power_up)).convert_alpha()

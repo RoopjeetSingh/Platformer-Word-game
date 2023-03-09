@@ -11,14 +11,14 @@ import other_small_images
 import other_skins
 
 pygame.init()
-list_skins = ["boy", "santa", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "knight",
-              "ninja_girl", "ninja_girl2", "pumpkin", "dinosaur", "cat",
-              "dog", "robot"]
+list_skins = ["boy", "santa", "adventure_girl", "female_zombie", "male_zombie", "adventure_boy", "dinosaur", "cat",
+              "dog", "knight",
+              "ninja_girl", "ninja_girl2", "pumpkin", "robot"]
 idle_images_list = [images_store.Boy_Idle, other_skins.Santa_Idle, images_store.Adventure_girl_Idle,
                     other_skins.Female_zombie_Idle, other_skins.Male_zombie_Idle, images_store.Adventure_boy_Idle,
-                    images_store.Dinosaur_Idle, images_store.Knight_Idle,
+                    images_store.Dinosaur_Idle, images_store.Cat_Idle, images_store.Dog_Idle, images_store.Knight_Idle,
                     images_store.Ninja_girl_Idle, images_store.Ninja_girl2_Idle, other_skins.Pumpkin_Idle,
-                    images_store.Cat_Idle, images_store.Dog_Idle, other_skins.Robot_Idle]
+                    other_skins.Robot_Idle]
 stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
 font_stars = pygame.font.Font(None, 36)
 

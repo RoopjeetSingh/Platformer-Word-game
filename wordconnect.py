@@ -15,7 +15,6 @@ from decode_file import decode_file
 import other_small_images
 import extra_images
 
-
 # datetime object containing current date and time
 current_time = datetime.now()
 
@@ -57,6 +56,7 @@ def background(screen, x, y, z, c):
     table.fill((x, y, z))
     screen.blit(bg_image, (0, 0))
     screen.blit(table, (375, 50))
+
 
 def background_celeb(screen, x, y, z, c):
     bg_image = py.image.load("images/fjf.webp")
@@ -291,8 +291,8 @@ def message(score, points):
 
     return x
 
-def get_hints(word_selected):
 
+def get_hints(word_selected):
     for i in vi:
         li = word_selected.copy()
         for c in i:
@@ -300,19 +300,20 @@ def get_hints(word_selected):
                 if i.index(c) < (len(i) - 1):
                     li.remove(c)
                 else:
-                    if len(i)< 4:
+                    if len(i) < 4:
                         font = py.font.Font(None, 50)
-                        text = font.render(i, True, (0,0,0))
+                        text = font.render(i, True, (0, 0, 0))
                         rect = text.get_rect()
                         rect.center = (650, 355)
-                        co = py.Rect(rect.x - 5, rect.y-5, rect.right- rect.left +10, rect.bottom - rect.top+10)
+                        co = py.Rect(rect.x - 5, rect.y - 5, rect.right - rect.left + 10, rect.bottom - rect.top + 10)
 
-                        rectangle = py.draw.rect(screen, (234,25,79), (co))
+                        rectangle = py.draw.rect(screen, (234, 25, 79), (co))
                         screen.blit(text, rect)
                         vi.remove(i)
                         return i
             else:
                 break
+
 
 def next_level(kwargs):
     platformer = kwargs["platformer"]
@@ -362,8 +363,8 @@ class Streak():
 
 class Firework():
     def __init__(self, screen):
-        self.screen= screen
-        self.x = random.choice([random.randint(0, 370), random.randint(930,1300)])
+        self.screen = screen
+        self.x = random.choice([random.randint(0, 370), random.randint(930, 1300)])
         self.y = 600
         self.velocity = random.uniform(10, 15)
         self.end_y = random.uniform(10, 300)
@@ -382,6 +383,8 @@ class Firework():
 
 fireworks = [Firework(screen)]
 streaks = []
+
+
 def game(screen):
     global streaks
 
@@ -433,7 +436,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     count_mystery_backspace = 0
 
     co = True
-    img = py.image.load("images\hint-removebg-preview.png")
+    img = py.image.load("images/hint-removebg-preview.png")
     img = py.transform.scale(img, (90, 90))
     rect4 = img.get_rect()
     rect4.x = 10
@@ -444,7 +447,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
         mouse = py.mouse.get_pos()
         for ev in py.event.get():
             if ev.type == QUIT or (ev.type == KEYDOWN and ev.key == K_ESCAPE):
-
                 py.quit()
                 exit()
             for i in button_lis:
@@ -597,7 +599,6 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
             stars(screen)
             update_stars(score, points)
             score_show(screen, working, score)
-
 
             from menu import menu
             if added_button == 5:

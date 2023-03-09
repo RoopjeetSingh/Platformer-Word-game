@@ -139,7 +139,7 @@ def users(screen, back_button_func):
         users_button = ui_tools.Button((int(ss.SCREEN_WIDTH / 4.77), index * int(ss.SCREEN_WIDTH / 8.17) + int(ss.SCREEN_WIDTH / 9.533), int(ss.SCREEN_WIDTH / 1.7875), int(ss.SCREEN_WIDTH / 9.53)), (34, 54, 75), set_user,
                                        text=value[0], image=image, image_position=(int(ss.SCREEN_WIDTH / 47.67), -5),
                                        text_position=(int(ss.SCREEN_WIDTH / 23.833) + image.get_width(), int(ss.SCREEN_WIDTH / 47.67)), border_radius=int(ss.SCREEN_WIDTH / 71.5),
-                                       border_color=(255, 255, 255), font=font, state_disabled=True)
+                                       border_color=(255, 255, 255), font=font, state_disabled=True, content_alpha=False)
         # change_name_button = ui_tools.Button((300, index * 175 + 150, 800, 150))
         button_lis.append(users_button)
         users_button_list.append(users_button)
