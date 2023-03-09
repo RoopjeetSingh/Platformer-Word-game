@@ -39,6 +39,96 @@ list_images = Letter.letter_dic
 possible_characters = list(list_images.keys())
 collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
 incorrect_word_sound = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+def choose_random_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    return r, g, b
+
+
+class Streak():
+    def __init__(self, x, y, screen):
+        self.screen = screen
+        self.color = choose_random_color()
+        self.x = x
+        self.y = y
+        angle = random.uniform(-60, 240)
+        velocity_mag = random.uniform(.3, 2.5)
+        self.vx = velocity_mag * math.cos(math.radians(angle))  # velocity x
+        self.vy = -velocity_mag * math.sin(math.radians(angle))  # velocity y
+        self.timer = 0
+        self.ended = False
+
+    def get_angle(self):
+        return math.atan2(-self.vy, self.vx)
+
+    def move(self):
+        self.x += self.vx
+        self.y += self.vy
+        self.timer += 1
+        if self.timer >= 90:
+            self.ended = True
+
+    def draw(self):
+        angle = self.get_angle()
+        length = 1
+        dx = length * math.cos(angle)
+        dy = length * math.sin(angle)
+        a = [int(self.x + dx), int(self.y - dy)]
+        b = [int(self.x - dx), int(self.y + dy)]
+        pygame.draw.line(self.screen, self.color, a, b, 15)
+
+
+def background_celeb(screen, x, y, z, c):
+    bg_image = pygame.image.load("images/fjf.webp")
+    bg_image = pygame.transform.scale(bg_image, (1300, 710))
+    table = pygame.Surface((550, c))
+    table.set_alpha(128)
+    table.fill((x, y, z))
+    screen.blit(bg_image, (0, 0))
+    screen.blit(table, (375, 50))
+
+
+class Firework():
+    def __init__(self, screen):
+        self.screen = screen
+        self.x = random.choice([random.randint(0, 370), random.randint(930, 1300)])
+        self.y = 600
+        self.velocity = random.uniform(10, 15)
+        self.end_y = random.uniform(10, 300)
+        self.ended = False
+
+    def move(self):
+        self.y -= self.velocity
+        if self.y <= self.end_y:
+            self.ended = True
+
+    def draw(self):
+        a = [self.x, int(self.y + 15)]
+        b = [self.x, int(self.y - 20)]
+        pygame .draw.line(self.screen, (128, 128, 128), a, b, 4)
+
+
+
+fireworks = [Firework(screen)]
+streaks = []
+
+def game(screen):
+    global streaks
+
+    if random.uniform(0, 1) <= 1 / 60:
+        fireworks.append(Firework(screen))
+    for firework in fireworks:
+        firework.move()
+        firework.draw()
+        if firework.ended:
+            streaks += [Streak(firework.x, firework.y, screen) for i in range(random.randint(20, 40))]
+            fireworks.remove(firework)
+    for streak in streaks:
+        streak.move()
+        streak.draw()
+        if streak.ended:
+            streaks.remove(streak)
 
 
 def opening_page_word_connect(opening_counter, incorrect, count):
@@ -512,7 +602,8 @@ def opening_screen_word(screen, letters, mystery_number, counter, points, platfo
         if not working:
 
             mixer.music.fadeout(1)
-            background(screen, 255, 255, 255, 590)
+            background_celeb(screen, 255,255,255,590)
+            game(screen)
             clock_star.tick(60)
             stars(screen)
             update_stars(score, points)
