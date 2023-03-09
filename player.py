@@ -190,7 +190,7 @@ class Player(pygame.sprite.Sprite):
         :param pressed: Pressed variable that checks if space bar has been pressed once. This is used to check if the
                         player has jumped, and he should not be allowed to jump again
         :param stop_working: An optional parameter that asks if the program has to stop the player movement
-        :return: returns the tuple of pressed variable, which might have been change, and killed variable: that
+        :return: returns the tuple of pressed variable, which might have been changed, and killed variable: that
                     keeps track if the player has died so that we can show the death message
         """
         # Presetting killed to False
