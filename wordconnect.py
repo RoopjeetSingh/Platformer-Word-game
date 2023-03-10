@@ -145,6 +145,7 @@ def mystery_and_submit_button(screen, mystery_number):
     image = py.image.load(decode_file(extra_images.question))
     image = py.transform.scale(image, (50, 50))
     py.draw.rect(screen, (22, 171, 171), (20, 545, 130, 65))
+    py.draw.rect(screen, (0,0,0), (20, 545, 130, 65), width = 3)
     screen.blit(text, (85, 553))
     screen.blit(image, (30, 553))
     if mystery_number == 0:
@@ -160,7 +161,7 @@ def mystery_and_submit_button(screen, mystery_number):
 def score_show(screen, x, score):
     font = py.font.Font(None, 50)
     if x == True:
-        py.draw.rect(screen, (224, 177, 22), (1075, 50, 170, 35))
+        py.draw.rect(screen, (224, 177, 22), (1085, 45, 165, 40))
         text = font.render(f"Score: {score}", True, (0, 0, 0))
         screen.blit(text, (1100, 50))
 
@@ -301,13 +302,13 @@ def get_hints(word_selected):
                     li.remove(c)
                 else:
                     if len(i) < 4:
-                        font = py.font.Font(None, 50)
+                        font = py.font.Font(None, 90)
                         text = font.render(i, True, (0, 0, 0))
                         rect = text.get_rect()
                         rect.center = (650, 355)
                         co = py.Rect(rect.x - 5, rect.y - 5, rect.right - rect.left + 10, rect.bottom - rect.top + 10)
 
-                        rectangle = py.draw.rect(screen, (234, 25, 79), (co))
+                        rectangle = py.draw.rect(screen, (227, 42, 9), (co))
                         screen.blit(text, rect)
                         vi.remove(i)
                         return i
@@ -434,10 +435,10 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     start = ()
     clock = py.time.Clock()
     count_mystery_backspace = 0
-
+    hint_num = 5
     co = True
     img = py.image.load("images/hint-removebg-preview.png")
-    img = py.transform.scale(img, (90, 90))
+    img = py.transform.scale(img, (75, 75))
     rect4 = img.get_rect()
     rect4.x = 10
     rect4.y = 200
@@ -488,7 +489,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
 
                 if ev.type == MOUSEBUTTONDOWN:
                     if rect4.collidepoint(ev.pos):
-                        pass
+                        hint_num -= 1
                         get_hints(letters)
                     if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
 
@@ -590,6 +591,11 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
                 text_draw(screen, counter)
                 if outside and start == ():
                     mystery_and_submit_button(screen, mystery_number)
+                py.draw.rect(screen, (227, 165, 9), (rect4.x + 10, rect4.y+ 3, 100, 68))
+                py.draw.rect(screen, (0,0,0), (rect4.x + 10, rect4.y + 3, 100, 68), width=3)
+                fonth = py.font.Font(None, 40)
+                num = fonth.render(f":{hint_num}", True, (255,255,255))
+                screen.blit(num, (rect4.x + 65, rect4.y + 28))
                 screen.blit(img, rect4)
                 score_show(screen, working, score)
 
