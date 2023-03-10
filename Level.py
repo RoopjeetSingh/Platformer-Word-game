@@ -220,7 +220,7 @@ class Level3(Level):
     def __init__(self):
         super(Level3, self).__init__(random.choice(background_list), 91, "level3")
         self.no_of_letter = 10
-        self.stars = 40
+        self.stars = 35
         self.time = 75
 
     def make_letters(self):
@@ -315,8 +315,8 @@ class Level4(Level):
     def __init__(self):
         super(Level4, self).__init__(random.choice(background_list), 119, "level4")
         self.no_of_letter = 13
-        self.stars = 30
-        self.time = 90
+        self.stars = 40
+        self.time = 75
 
     def make_letters(self):
         self.letter_group.add(letter.Letter(self.letter_list[0], 3 * ss.tile_size,  # tile_size = 200

@@ -19,7 +19,7 @@ idle_images_list = [images_store.Boy_Idle, other_skins.Santa_Idle, images_store.
                     images_store.Dinosaur_Idle, images_store.Cat_Idle, images_store.Dog_Idle, images_store.Knight_Idle,
                     images_store.Ninja_girl_Idle, images_store.Ninja_girl2_Idle, other_skins.Pumpkin_Idle,
                     other_skins.Robot_Idle]
-stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 11, 11, 12, 12]
+stars_required = [0, 2, 3, 5, 5, 7, 8, 8, 9, 10, 10, 11, 12, 12]
 font_stars = pygame.font.Font(None, 36)
 
 
