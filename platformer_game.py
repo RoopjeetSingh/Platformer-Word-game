@@ -64,7 +64,16 @@ def platformer_game(screen, menu, level=None):
         import opening_page
         opening_page.show_level(screen)
     current_level.clear()
-    current_level.letter_list = level_generator(current_level.no_of_letter)
+    # current_level.letter_list = level_generator(current_level.no_of_letter)
+    if current_level == level1:
+        current_level.letter_list = ["h", "c", "a", "k", "t", "b", "i", "r"]
+        # bark, hat, cat, bit, rat, thick, hit, rib, hack
+    # elif current_level == level4:
+    #     current_level.letter_list = ["h", "c", "a", "k", "t", "b", "i", "r"]
+        # bark, hat, cat, bit, rat, thick, hit, rib, hack
+    else:
+        current_level.letter_list = level_generator(current_level.no_of_letter)
+
     current_level.start = 0
     current_level.make_platforms_objects()
     current_level.make_letters()
@@ -131,4 +140,4 @@ if __name__ == "__main__":
     from menu import menu
 
     root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
-    platformer_game(root, menu, level4)
+    platformer_game(root, menu, level3)

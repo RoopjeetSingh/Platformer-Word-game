@@ -76,7 +76,7 @@ class Level1(Level):
     def __init__(self):
         super(Level1, self).__init__(random.choice(background_list), 62, "level1")
         self.no_of_letter = 8
-        self.stars = 20
+        self.stars = 30
         self.time = 45
 
     def make_platforms_objects(self):
