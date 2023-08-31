@@ -6,6 +6,7 @@ import screen_size as ss
 from decode_file import decode_file
 import smaller_store
 import extra_images
+import mp3file_storer
 alpha = 0
 root = pygame.display.set_mode((ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
 fbla_img = pygame.image.load(decode_file(smaller_store.fbla_logo)).convert_alpha()
@@ -14,7 +15,7 @@ logo_img = pygame.image.load(decode_file(extra_images.var)).convert_alpha()
 logo_img = pygame.transform.scale(logo_img, (400/logo_img.get_height()*logo_img.get_width(), 400))
 
 clock = pygame.time.Clock()
-pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+pygame.mixer.music.load(decode_file(mp3file_storer.music))
 pygame.mixer.music.set_volume(0.01)
 pygame.mixer.music.play(-1)
 show = True

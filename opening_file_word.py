@@ -15,6 +15,7 @@ from decode_file import decode_file
 import images_store 
 import extra_images
 import other_small_images
+import mp3file_storer
 
 current_time = datetime.now()
 
@@ -37,8 +38,8 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
-collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
-incorrect_word_sound = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+collect_letter_sound = pygame.mixer.Sound(decode_file(mp3file_storer.collect_coin_sound))
+incorrect_word_sound = pygame.mixer.Sound(decode_file(mp3file_storer.human_impact))
 def choose_random_color():
     r = random.randint(0, 255)
     g = random.randint(0, 255)
@@ -413,7 +414,7 @@ def next_level(kwargs):
 
 
 def opening_screen_word(screen, letters, mystery_number, counter, points, platformer, opening_platformer, level):
-    pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+    pygame.mixer.music.load(decode_file(mp3file_storer.music))
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
     x_change = 0

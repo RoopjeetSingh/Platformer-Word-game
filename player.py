@@ -6,6 +6,7 @@ from math import ceil
 from decode_file import decode_file
 import images_store
 import other_skins
+import mp3file_storer
 
 
 # Set up the player class
@@ -111,9 +112,9 @@ class Player(pygame.sprite.Sprite):
         self.idle_image_flipped.set_colorkey(alpha)
         self.right_images = []
         self.left_images = []
-        self.collect_letter_sound = pygame.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
+        self.collect_letter_sound = pygame.mixer.Sound(decode_file(mp3file_storer.collect_coin_sound))
         self.jump_sound = pygame.mixer.Sound("images/Menu_page/Jump-SoundBible.com-1007297584.wav")
-        self.land_on_ground = pygame.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+        self.land_on_ground = pygame.mixer.Sound(decode_file(mp3file_storer.human_impact))
         self.land_on_ground.set_volume(0.1)
         self.jump_sound.set_volume(0.01)
         for i in run_var_name:

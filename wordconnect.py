@@ -14,6 +14,7 @@ from datetime import datetime
 from decode_file import decode_file
 import other_small_images
 import extra_images
+import mp3file_storer
 
 # datetime object containing current date and time
 current_time = datetime.now()
@@ -44,8 +45,8 @@ message_show = 1
 list_images = Letter.letter_dic
 
 possible_characters = list(list_images.keys())
-collect_letter_sound = py.mixer.Sound("images/Menu_page/collectcoin-6075.mp3")
-incorrect_word_sound = py.mixer.Sound("images/Menu_page/human-impact-on-ground-6982.mp3")
+collect_letter_sound = py.mixer.Sound(decode_file(mp3file_storer.collect_coin_sound))
+incorrect_word_sound = py.mixer.Sound(decode_file(mp3file_storer.human_impact))
 
 
 def background(screen, x, y, z, c):
@@ -405,7 +406,7 @@ def game(screen):
 
 
 def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platformer, level):
-    py.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+    py.mixer.music.load(decode_file(mp3file_storer.music))
     py.mixer.music.set_volume(0.2)
     py.mixer.music.play(-1)
     x_change = 0

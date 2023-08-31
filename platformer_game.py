@@ -8,6 +8,7 @@ import ui_tools
 from decode_file import decode_file
 import other_small_images
 import extra_images
+import mp3file_storer
 
 pygame.init()
 death_bg = pygame.image.load(decode_file(other_small_images.death_screen)).convert_alpha()
@@ -16,7 +17,7 @@ death_bg = pygame.transform.scale(death_bg, (
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("applesdgothicneo", int(ss.SCREEN_WIDTH / 19.067), bold=True)
 retry_img = pygame.transform.scale(pygame.image.load(decode_file(other_small_images.retry)).convert_alpha(), (50, 50))
-death_sound = pygame.mixer.Sound("images/Menu_page/videogame-death-sound-43894.mp3")
+death_sound = pygame.mixer.Sound(decode_file(mp3file_storer.death_sound))
 
 
 def platformer_game(screen, menu, level=None):

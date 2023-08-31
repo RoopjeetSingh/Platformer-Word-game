@@ -17,6 +17,7 @@ import random
 import smaller_store
 import other_small_images
 import extra_images
+import mp3file_storer
 
 pygame.init()
 stars_required = [0, 1, 5, 6, 11]
@@ -24,7 +25,7 @@ stars_required = [0, 1, 5, 6, 11]
 
 def menu(screen):
     if not pygame.mixer.music.get_busy():
-        pygame.mixer.music.load('images/Menu_page/Komiku_-_67_-_The_Moment_of_Truth.mp3')
+        pygame.mixer.music.load(decode_file(mp3file_storer.music))
         pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
