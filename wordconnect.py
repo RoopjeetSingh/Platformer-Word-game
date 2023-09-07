@@ -15,6 +15,7 @@ from decode_file import decode_file
 import other_small_images
 import extra_images
 import mp3file_storer
+import remaining_images
 
 # datetime object containing current date and time
 current_time = datetime.now()
@@ -438,7 +439,7 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
     count_mystery_backspace = 0
     hint_num = 5
     co = True
-    img = py.image.load("images/hint-removebg-preview.png")
+    img = py.image.load(decode_file(remaining_images.hint))
     img = py.transform.scale(img, (75, 75))
     rect4 = img.get_rect()
     rect4.x = 10
@@ -490,8 +491,9 @@ def game_Loop_Wordle(screen, letters, mystery_number, counter, points, platforme
 
                 if ev.type == MOUSEBUTTONDOWN:
                     if rect4.collidepoint(ev.pos):
-                        hint_num -= 1
-                        get_hints(letters)
+                        if hint_num > 0:
+                            hint_num -= 1
+                            get_hints(letters)
                     if 1150 < mouse[0] < 1200 and 550 < mouse[1] < 600 and start == ():
 
                         on = False

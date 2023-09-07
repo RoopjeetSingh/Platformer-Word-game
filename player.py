@@ -7,6 +7,7 @@ from decode_file import decode_file
 import images_store
 import other_skins
 import mp3file_storer
+import remaining_images
 
 
 # Set up the player class
@@ -113,7 +114,7 @@ class Player(pygame.sprite.Sprite):
         self.right_images = []
         self.left_images = []
         self.collect_letter_sound = pygame.mixer.Sound(decode_file(mp3file_storer.collect_coin_sound))
-        self.jump_sound = pygame.mixer.Sound("images/Menu_page/Jump-SoundBible.com-1007297584.wav")
+        self.jump_sound = pygame.mixer.Sound(decode_file(mp3file_storer.jump_sound))
         self.land_on_ground = pygame.mixer.Sound(decode_file(mp3file_storer.human_impact))
         self.land_on_ground.set_volume(0.1)
         self.jump_sound.set_volume(0.01)
@@ -130,8 +131,10 @@ class Player(pygame.sprite.Sprite):
         self.gliding_image = []
         self.gliding_image_flip = []
         if skin in ("ninja_girl", "ninja_girl2"):
+            glide = remaining_images.ninja_girl_glide if skin == "ninja_girl" else remaining_images.ninja_girl2_glide
             for i in range(1, 11):
-                img = pygame.image.load(f"images/{skin.capitalize()}/Glide ({i}).png").convert()
+                # img = pygame.image.load(f"images/{skin.capitalize()}/Glide ({i}).png").convert()
+                img = pygame.image.load(decode_file(glide[i-1])).convert()
                 img = pygame.transform.scale(img, (
                     img.get_width() * height / img.get_height(), height))
                 img.set_colorkey(alpha)

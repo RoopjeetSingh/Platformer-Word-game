@@ -15,7 +15,7 @@ from users import users
 from letter import Letter
 import random
 import smaller_store
-import other_small_images
+import other_skins
 import extra_images
 import mp3file_storer
 
