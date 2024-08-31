@@ -72,12 +72,12 @@ def menu(screen):
             head_image = pygame.image.load("../images/Santa/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Santa/Idle (1).png", "images/Santa/Idle (2).png", "images/Santa/Idle (3).png",
-                      "images/Santa/Idle (4).png", "images/Santa/Idle (5).png", "images/Santa/Idle (6).png",
-                      "images/Santa/Idle (7).png", "images/Santa/Idle (8).png", "images/Santa/Idle (9).png",
-                      "images/Santa/Idle (10).png", "images/Santa/Idle (11).png", "images/Santa/Idle (12).png",
-                      "images/Santa/Idle (13).png", "images/Santa/Idle (14).png", "images/Santa/Idle (15).png",
-                      "images/Santa/Idle (16).png"]:
+            for i in ["../images/Santa/Idle (1).png", "../images/Santa/Idle (2).png", "../images/Santa/Idle (3).png",
+                      "../images/Santa/Idle (4).png", "../images/Santa/Idle (5).png", "../images/Santa/Idle (6).png",
+                      "../images/Santa/Idle (7).png", "../images/Santa/Idle (8).png", "../images/Santa/Idle (9).png",
+                      "../images/Santa/Idle (10).png", "../images/Santa/Idle (11).png", "../images/Santa/Idle (12).png",
+                      "../images/Santa/Idle (13).png", "../images/Santa/Idle (14).png", "../images/Santa/Idle (15).png",
+                      "../images/Santa/Idle (16).png"]:
                 img = pygame.image.load(i).convert_alpha()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -89,10 +89,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Boy/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Boy/Idle (1).png", "images/Boy/Idle (2).png", "images/Boy/Idle (3).png",
-                      "images/Boy/Idle (4).png", "images/Boy/Idle (5).png", "images/Boy/Idle (6).png",
-                      "images/Boy/Idle (7).png", "images/Boy/Idle (8).png", "images/Boy/Idle (9).png",
-                      "images/Boy/Idle (10).png"]:
+            for i in ["../images/Boy/Idle (1).png", "../images/Boy/Idle (2).png", "../images/Boy/Idle (3).png",
+                      "../images/Boy/Idle (4).png", "../images/Boy/Idle (5).png", "../images/Boy/Idle (6).png",
+                      "../images/Boy/Idle (7).png", "../images/Boy/Idle (8).png", "../images/Boy/Idle (9).png",
+                      "../images/Boy/Idle (10).png"]:
                 img = pygame.image.load(i).convert_alpha()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
                 # img.set_colorkey((0, 0, 0))
@@ -102,16 +102,16 @@ def menu(screen):
             head_image = pygame.image.load("../images/Female_zombie/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Female_zombie/Idle (1).png", "images/Female_zombie/Idle (2).png",
-                      "images/Female_zombie/Idle (3).png",
-                      "images/Female_zombie/Idle (4).png", "images/Female_zombie/Idle (5).png",
-                      "images/Female_zombie/Idle (6).png",
-                      "images/Female_zombie/Idle (7).png", "images/Female_zombie/Idle (8).png",
-                      "images/Female_zombie/Idle (9).png",
-                      "images/Female_zombie/Idle (10).png", "images/Female_zombie/Idle (11).png",
-                      "images/Female_zombie/Idle (12).png",
-                      "images/Female_zombie/Idle (13).png", "images/Female_zombie/Idle (14).png",
-                      "images/Female_zombie/Idle (15).png"]:
+            for i in ["../images/Female_zombie/Idle (1).png", "../images/Female_zombie/Idle (2).png",
+                      "../images/Female_zombie/Idle (3).png",
+                      "../images/Female_zombie/Idle (4).png", "../images/Female_zombie/Idle (5).png",
+                      "../images/Female_zombie/Idle (6).png",
+                      "../images/Female_zombie/Idle (7).png", "../images/Female_zombie/Idle (8).png",
+                      "../images/Female_zombie/Idle (9).png",
+                      "../images/Female_zombie/Idle (10).png", "../images/Female_zombie/Idle (11).png",
+                      "../images/Female_zombie/Idle (12).png",
+                      "../images/Female_zombie/Idle (13).png", "../images/Female_zombie/Idle (14).png",
+                      "../images/Female_zombie/Idle (15).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -123,16 +123,16 @@ def menu(screen):
             head_image = pygame.image.load("../images/Male_zombie/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Male_zombie/Idle (1).png", "images/Male_zombie/Idle (2).png",
-                      "images/Male_zombie/Idle (3).png",
-                      "images/Male_zombie/Idle (4).png", "images/Male_zombie/Idle (5).png",
-                      "images/Male_zombie/Idle (6).png",
-                      "images/Male_zombie/Idle (7).png", "images/Male_zombie/Idle (8).png",
-                      "images/Male_zombie/Idle (9).png",
-                      "images/Male_zombie/Idle (10).png", "images/Male_zombie/Idle (11).png",
-                      "images/Male_zombie/Idle (12).png",
-                      "images/Male_zombie/Idle (13).png", "images/Male_zombie/Idle (14).png",
-                      "images/Male_zombie/Idle (15).png"]:
+            for i in ["../images/Male_zombie/Idle (1).png", "../images/Male_zombie/Idle (2).png",
+                      "../images/Male_zombie/Idle (3).png",
+                      "../images/Male_zombie/Idle (4).png", "../images/Male_zombie/Idle (5).png",
+                      "../images/Male_zombie/Idle (6).png",
+                      "../images/Male_zombie/Idle (7).png", "../images/Male_zombie/Idle (8).png",
+                      "../images/Male_zombie/Idle (9).png",
+                      "../images/Male_zombie/Idle (10).png", "../images/Male_zombie/Idle (11).png",
+                      "../images/Male_zombie/Idle (12).png",
+                      "../images/Male_zombie/Idle (13).png", "../images/Male_zombie/Idle (14).png",
+                      "../images/Male_zombie/Idle (15).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -144,13 +144,13 @@ def menu(screen):
             head_image = pygame.image.load("../images/Adventure_boy/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Adventure_boy/Idle (1).png", "images/Adventure_boy/Idle (2).png",
-                      "images/Adventure_boy/Idle (3).png",
-                      "images/Adventure_boy/Idle (4).png", "images/Adventure_boy/Idle (5).png",
-                      "images/Adventure_boy/Idle (6).png",
-                      "images/Adventure_boy/Idle (7).png", "images/Adventure_boy/Idle (8).png",
-                      "images/Adventure_boy/Idle (9).png",
-                      "images/Adventure_boy/Idle (10).png"]:
+            for i in ["../images/Adventure_boy/Idle (1).png", "../images/Adventure_boy/Idle (2).png",
+                      "../images/Adventure_boy/Idle (3).png",
+                      "../images/Adventure_boy/Idle (4).png", "../images/Adventure_boy/Idle (5).png",
+                      "../images/Adventure_boy/Idle (6).png",
+                      "../images/Adventure_boy/Idle (7).png", "../images/Adventure_boy/Idle (8).png",
+                      "../images/Adventure_boy/Idle (9).png",
+                      "../images/Adventure_boy/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -162,13 +162,13 @@ def menu(screen):
             head_image = pygame.image.load("../images/Adventure_girl/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Adventure_girl/Idle (1).png", "images/Adventure_girl/Idle (2).png",
-                      "images/Adventure_girl/Idle (3).png",
-                      "images/Adventure_girl/Idle (4).png", "images/Adventure_girl/Idle (5).png",
-                      "images/Adventure_girl/Idle (6).png",
-                      "images/Adventure_girl/Idle (7).png", "images/Adventure_girl/Idle (8).png",
-                      "images/Adventure_girl/Idle (9).png",
-                      "images/Adventure_girl/Idle (10).png"]:
+            for i in ["../images/Adventure_girl/Idle (1).png", "../images/Adventure_girl/Idle (2).png",
+                      "../images/Adventure_girl/Idle (3).png",
+                      "../images/Adventure_girl/Idle (4).png", "../images/Adventure_girl/Idle (5).png",
+                      "../images/Adventure_girl/Idle (6).png",
+                      "../images/Adventure_girl/Idle (7).png", "../images/Adventure_girl/Idle (8).png",
+                      "../images/Adventure_girl/Idle (9).png",
+                      "../images/Adventure_girl/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -180,10 +180,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Cat/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Cat/Idle (1).png", "images/Cat/Idle (2).png", "images/Cat/Idle (3).png",
-                      "images/Cat/Idle (4).png", "images/Cat/Idle (5).png", "images/Cat/Idle (6).png",
-                      "images/Cat/Idle (7).png", "images/Cat/Idle (8).png", "images/Cat/Idle (9).png",
-                      "images/Cat/Idle (10).png"]:
+            for i in ["../images/Cat/Idle (1).png", "../images/Cat/Idle (2).png", "../images/Cat/Idle (3).png",
+                      "../images/Cat/Idle (4).png", "../images/Cat/Idle (5).png", "../images/Cat/Idle (6).png",
+                      "../images/Cat/Idle (7).png", "../images/Cat/Idle (8).png", "../images/Cat/Idle (9).png",
+                      "../images/Cat/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -195,10 +195,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Dinosaur/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Dinosaur/Idle (1).png", "images/Dinosaur/Idle (2).png", "images/Dinosaur/Idle (3).png",
-                      "images/Dinosaur/Idle (4).png", "images/Dinosaur/Idle (5).png", "images/Dinosaur/Idle (6).png",
-                      "images/Dinosaur/Idle (7).png", "images/Dinosaur/Idle (8).png", "images/Dinosaur/Idle (9).png",
-                      "images/Dinosaur/Idle (10).png"]:
+            for i in ["../images/Dinosaur/Idle (1).png", "../images/Dinosaur/Idle (2).png", "../images/Dinosaur/Idle (3).png",
+                      "../images/Dinosaur/Idle (4).png", "../images/Dinosaur/Idle (5).png", "../images/Dinosaur/Idle (6).png",
+                      "../images/Dinosaur/Idle (7).png", "../images/Dinosaur/Idle (8).png", "../images/Dinosaur/Idle (9).png",
+                      "../images/Dinosaur/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -210,10 +210,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Dog/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Dog/Idle (1).png", "images/Dog/Idle (2).png", "images/Dog/Idle (3).png",
-                      "images/Dog/Idle (4).png", "images/Dog/Idle (5).png", "images/Dog/Idle (6).png",
-                      "images/Dog/Idle (7).png", "images/Dog/Idle (8).png", "images/Dog/Idle (9).png",
-                      "images/Dog/Idle (10).png"]:
+            for i in ["../images/Dog/Idle (1).png", "../images/Dog/Idle (2).png", "../images/Dog/Idle (3).png",
+                      "../images/Dog/Idle (4).png", "../images/Dog/Idle (5).png", "../images/Dog/Idle (6).png",
+                      "../images/Dog/Idle (7).png", "../images/Dog/Idle (8).png", "../images/Dog/Idle (9).png",
+                      "../images/Dog/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -225,10 +225,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Knight/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Knight/Idle (1).png", "images/Knight/Idle (2).png", "images/Knight/Idle (3).png",
-                      "images/Knight/Idle (4).png", "images/Knight/Idle (5).png", "images/Knight/Idle (6).png",
-                      "images/Knight/Idle (7).png", "images/Knight/Idle (8).png", "images/Knight/Idle (9).png",
-                      "images/Knight/Idle (10).png"]:
+            for i in ["../images/Knight/Idle (1).png", "../images/Knight/Idle (2).png", "../images/Knight/Idle (3).png",
+                      "../images/Knight/Idle (4).png", "../images/Knight/Idle (5).png", "../images/Knight/Idle (6).png",
+                      "../images/Knight/Idle (7).png", "../images/Knight/Idle (8).png", "../images/Knight/Idle (9).png",
+                      "../images/Knight/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -240,13 +240,13 @@ def menu(screen):
             head_image = pygame.image.load("../images/Ninja_girl/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Ninja_girl/Idle (1).png", "images/Ninja_girl/Idle (2).png",
-                      "images/Ninja_girl/Idle (3).png",
-                      "images/Ninja_girl/Idle (4).png", "images/Ninja_girl/Idle (5).png",
-                      "images/Ninja_girl/Idle (6).png",
-                      "images/Ninja_girl/Idle (7).png", "images/Ninja_girl/Idle (8).png",
-                      "images/Ninja_girl/Idle (9).png",
-                      "images/Ninja_girl/Idle (10).png"]:
+            for i in ["../images/Ninja_girl/Idle (1).png", "../images/Ninja_girl/Idle (2).png",
+                      "../images/Ninja_girl/Idle (3).png",
+                      "../images/Ninja_girl/Idle (4).png", "../images/Ninja_girl/Idle (5).png",
+                      "../images/Ninja_girl/Idle (6).png",
+                      "../images/Ninja_girl/Idle (7).png", "../images/Ninja_girl/Idle (8).png",
+                      "../images/Ninja_girl/Idle (9).png",
+                      "../images/Ninja_girl/Idle (10).png"]:
                 img = pygame.image.load(i).convert_alpha()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -258,13 +258,13 @@ def menu(screen):
             head_image = pygame.image.load("../images/Ninja_girl2/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Ninja_girl2/Idle (1).png", "images/Ninja_girl2/Idle (2).png",
-                      "images/Ninja_girl2/Idle (3).png",
-                      "images/Ninja_girl2/Idle (4).png", "images/Ninja_girl2/Idle (5).png",
-                      "images/Ninja_girl2/Idle (6).png",
-                      "images/Ninja_girl2/Idle (7).png", "images/Ninja_girl2/Idle (8).png",
-                      "images/Ninja_girl2/Idle (9).png",
-                      "images/Ninja_girl2/Idle (10).png"]:
+            for i in ["../images/Ninja_girl2/Idle (1).png", "../images/Ninja_girl2/Idle (2).png",
+                      "../images/Ninja_girl2/Idle (3).png",
+                      "../images/Ninja_girl2/Idle (4).png", "../images/Ninja_girl2/Idle (5).png",
+                      "../images/Ninja_girl2/Idle (6).png",
+                      "../images/Ninja_girl2/Idle (7).png", "../images/Ninja_girl2/Idle (8).png",
+                      "../images/Ninja_girl2/Idle (9).png",
+                      "../images/Ninja_girl2/Idle (10).png"]:
                 img = pygame.image.load(i).convert_alpha()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -276,10 +276,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Pumpkin/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Pumpkin/Idle (1).png", "images/Pumpkin/Idle (2).png", "images/Pumpkin/Idle (3).png",
-                      "images/Pumpkin/Idle (4).png", "images/Pumpkin/Idle (5).png", "images/Pumpkin/Idle (6).png",
-                      "images/Pumpkin/Idle (7).png", "images/Pumpkin/Idle (8).png", "images/Pumpkin/Idle (9).png",
-                      "images/Pumpkin/Idle (10).png"]:
+            for i in ["../images/Pumpkin/Idle (1).png", "../images/Pumpkin/Idle (2).png", "../images/Pumpkin/Idle (3).png",
+                      "../images/Pumpkin/Idle (4).png", "../images/Pumpkin/Idle (5).png", "../images/Pumpkin/Idle (6).png",
+                      "../images/Pumpkin/Idle (7).png", "../images/Pumpkin/Idle (8).png", "../images/Pumpkin/Idle (9).png",
+                      "../images/Pumpkin/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
@@ -291,10 +291,10 @@ def menu(screen):
             head_image = pygame.image.load("../images/Robot/logo.png")
             idle_images = []
             technique_images = []
-            for i in ["images/Robot/Idle (1).png", "images/Robot/Idle (2).png", "images/Robot/Idle (3).png",
-                      "images/Robot/Idle (4).png", "images/Robot/Idle (5).png", "images/Robot/Idle (6).png",
-                      "images/Robot/Idle (7).png", "images/Robot/Idle (8).png", "images/Robot/Idle (9).png",
-                      "images/Robot/Idle (10).png"]:
+            for i in ["../images/Robot/Idle (1).png", "../images/Robot/Idle (2).png", "../images/Robot/Idle (3).png",
+                      "../images/Robot/Idle (4).png", "../images/Robot/Idle (5).png", "../images/Robot/Idle (6).png",
+                      "../images/Robot/Idle (7).png", "../images/Robot/Idle (8).png", "../images/Robot/Idle (9).png",
+                      "../images/Robot/Idle (10).png"]:
                 img = pygame.image.load(i).convert()
                 img = pygame.transform.scale(img, (375, 375 * img.get_height() / img.get_width()))
 
