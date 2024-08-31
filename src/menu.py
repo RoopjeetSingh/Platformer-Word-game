@@ -63,13 +63,13 @@ def menu(screen):
 
     clock = pygame.time.Clock()
     # background = pygame.image.load(decode_file(smaller_store.main_menu_bg)).convert()
-    background = pygame.image.load("images/Menu_page/letter bg.jpg").convert()
+    background = pygame.image.load("../images/Menu_page/letter bg.jpg").convert()
     background = pygame.transform.scale(background, (ss.SCREEN_WIDTH, ss.SCREEN_HEIGHT))
     current_user = var["users"][var["current_user"][0]]
     match current_user[2]:
         case "santa":
             "None"
-            head_image = pygame.image.load("images/Santa/logo.png")
+            head_image = pygame.image.load("../images/Santa/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Santa/Idle (1).png", "images/Santa/Idle (2).png", "images/Santa/Idle (3).png",
@@ -86,7 +86,7 @@ def menu(screen):
                 idle_images.append(img)
         case "boy":
             "Extra life"
-            head_image = pygame.image.load("images/Boy/logo.png")
+            head_image = pygame.image.load("../images/Boy/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Boy/Idle (1).png", "images/Boy/Idle (2).png", "images/Boy/Idle (3).png",
@@ -99,7 +99,7 @@ def menu(screen):
                 idle_images.append(img)
         case "female_zombie":
             "None"
-            head_image = pygame.image.load("images/Female_zombie/logo.png")
+            head_image = pygame.image.load("../images/Female_zombie/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Female_zombie/Idle (1).png", "images/Female_zombie/Idle (2).png",
@@ -120,7 +120,7 @@ def menu(screen):
                 idle_images.append(img)
         case "male_zombie":
             "None"
-            head_image = pygame.image.load("images/Male_zombie/logo.png")
+            head_image = pygame.image.load("../images/Male_zombie/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Male_zombie/Idle (1).png", "images/Male_zombie/Idle (2).png",
@@ -141,7 +141,7 @@ def menu(screen):
                 idle_images.append(img)
         case "adventure_boy":
             "None"
-            head_image = pygame.image.load("images/Adventure_boy/logo.png")
+            head_image = pygame.image.load("../images/Adventure_boy/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Adventure_boy/Idle (1).png", "images/Adventure_boy/Idle (2).png",
@@ -159,7 +159,7 @@ def menu(screen):
                 idle_images.append(img)
         case "adventure_girl":
             "None"
-            head_image = pygame.image.load("images/Adventure_girl/logo.png")
+            head_image = pygame.image.load("../images/Adventure_girl/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Adventure_girl/Idle (1).png", "images/Adventure_girl/Idle (2).png",
@@ -177,7 +177,7 @@ def menu(screen):
                 idle_images.append(img)
         case "cat":
             "Extra life"
-            head_image = pygame.image.load("images/Cat/logo.png")
+            head_image = pygame.image.load("../images/Cat/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Cat/Idle (1).png", "images/Cat/Idle (2).png", "images/Cat/Idle (3).png",
@@ -192,7 +192,7 @@ def menu(screen):
                 idle_images.append(img)
         case "dinosaur":
             "None"
-            head_image = pygame.image.load("images/Dinosaur/logo.png")
+            head_image = pygame.image.load("../images/Dinosaur/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Dinosaur/Idle (1).png", "images/Dinosaur/Idle (2).png", "images/Dinosaur/Idle (3).png",
@@ -207,7 +207,7 @@ def menu(screen):
                 idle_images.append(img)
         case "dog":
             "Extra life"
-            head_image = pygame.image.load("images/Dog/logo.png")
+            head_image = pygame.image.load("../images/Dog/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Dog/Idle (1).png", "images/Dog/Idle (2).png", "images/Dog/Idle (3).png",
@@ -222,7 +222,7 @@ def menu(screen):
                 idle_images.append(img)
         case "knight":
             "speed"
-            head_image = pygame.image.load("images/Knight/logo.png")
+            head_image = pygame.image.load("../images/Knight/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Knight/Idle (1).png", "images/Knight/Idle (2).png", "images/Knight/Idle (3).png",
@@ -237,7 +237,7 @@ def menu(screen):
                 idle_images.append(img)
         case "ninja_girl":
             "Glide maybe"
-            head_image = pygame.image.load("images/Ninja_girl/logo.png")
+            head_image = pygame.image.load("../images/Ninja_girl/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Ninja_girl/Idle (1).png", "images/Ninja_girl/Idle (2).png",
@@ -255,7 +255,7 @@ def menu(screen):
                 idle_images.append(img)
         case "ninja_girl2":
             "Glide maybe"
-            head_image = pygame.image.load("images/Ninja_girl2/logo.png")
+            head_image = pygame.image.load("../images/Ninja_girl2/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Ninja_girl2/Idle (1).png", "images/Ninja_girl2/Idle (2).png",
@@ -273,7 +273,7 @@ def menu(screen):
                 idle_images.append(img)
         case "pumpkin":
             "big jump"
-            head_image = pygame.image.load("images/Pumpkin/logo.png")
+            head_image = pygame.image.load("../images/Pumpkin/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Pumpkin/Idle (1).png", "images/Pumpkin/Idle (2).png", "images/Pumpkin/Idle (3).png",
@@ -288,7 +288,7 @@ def menu(screen):
                 idle_images.append(img)
         case "robot":
             "speed and jump"
-            head_image = pygame.image.load("images/Robot/logo.png")
+            head_image = pygame.image.load("../images/Robot/logo.png")
             idle_images = []
             technique_images = []
             for i in ["images/Robot/Idle (1).png", "images/Robot/Idle (2).png", "images/Robot/Idle (3).png",
@@ -308,10 +308,10 @@ def menu(screen):
         pygame.image.load(decode_file(smaller_store.scoreboard_bg)).convert_alpha(),
         (75, 50))  # 150, 100
     leader_board_img = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/leaderboard.png").convert_alpha(),
+        pygame.image.load("../images/Menu_page/leaderboard.png").convert_alpha(),
         (50, 50))  # 125, 125
     transparent_bg = pygame.transform.scale(
-        pygame.image.load("images/Menu_page/transparent_bg.png").convert_alpha(),
+        pygame.image.load("../images/Menu_page/transparent_bg.png").convert_alpha(),
         (200, ss.SCREEN_HEIGHT - 630))
     # transparent_bg.set_alpha(100)
     skins_img = pygame.image.load(decode_file(smaller_store.skins_bg)).convert()
@@ -322,13 +322,13 @@ def menu(screen):
     #     pygame.image.load(decode_file(other_small_images.lock_bg)).convert_alpha(),
     #     (3 * ss.SCREEN_WIDTH / 16, 3 * ss.SCREEN_HEIGHT / 16))
 
-    single_player_bg = pygame.image.load("images/Menu_page/single player bg.jpeg").convert()
+    single_player_bg = pygame.image.load("../images/Menu_page/single player bg.jpeg").convert()
     single_player_bg = pygame.transform.scale(single_player_bg, (ss.SCREEN_WIDTH - 1100, 130))
 
-    instruction_button_bg = pygame.image.load("images/Menu_page/instructions button bg.png").convert()
+    instruction_button_bg = pygame.image.load("../images/Menu_page/instructions button bg.png").convert()
     instruction_button_bg = pygame.transform.scale(instruction_button_bg, (ss.SCREEN_WIDTH - 1100, 130))
 
-    quit_bg = pygame.image.load("images/Menu_page/quit bg.png").convert_alpha()
+    quit_bg = pygame.image.load("../images/Menu_page/quit bg.png").convert_alpha()
     quit_bg = pygame.transform.scale(quit_bg, (ss.SCREEN_WIDTH - 1100, 130))
 
     leader_board_img.set_colorkey((255, 255, 255))
@@ -339,7 +339,7 @@ def menu(screen):
         level_img,
         (ss.SCREEN_WIDTH - 1100, 130))
 
-    faint_bg = pygame.image.load("images/Menu_page/faint_black_bg.png").convert_alpha()
+    faint_bg = pygame.image.load("../images/Menu_page/faint_black_bg.png").convert_alpha()
     faint_bg_change_level = pygame.transform.scale(faint_bg, (175, 30))
     faint_bg_quit = pygame.transform.scale(faint_bg, (65, 30))
     # faint_bg_change_level.set_alpha(200)
@@ -450,7 +450,7 @@ def menu(screen):
     font_stars = pygame.font.Font(decode_file(extra_images.font_new), 50)
     number_stars = font_stars.render(str(current_stars), True, (0, 0, 0))
     faint_bg = pygame.transform.scale(faint_bg, (85, 40))
-    star = pygame.image.load("images/Menu_page/Stars.png").convert()
+    star = pygame.image.load("../images/Menu_page/Stars.png").convert()
     star = pygame.transform.scale(star, (40 * star.get_width() / star.get_height(), 40))
     star.set_colorkey((0, 0, 0))
     player = PlayerBig()

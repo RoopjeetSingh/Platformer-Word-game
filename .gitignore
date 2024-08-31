@@ -2,7 +2,7 @@ venv
 .idea
 __pycache__
 .DS_Store
-tools.py
-test.py
+src/tools.py
+src/test.py
 sprite_platforms.json
 letter_generator.py

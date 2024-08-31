@@ -113,7 +113,7 @@ class Player(pygame.sprite.Sprite):
         self.right_images = []
         self.left_images = []
         self.collect_letter_sound = pygame.mixer.Sound(decode_file(mp3file_storer.collect_coin_sound))
-        self.jump_sound = pygame.mixer.Sound("images/Menu_page/Jump-SoundBible.com-1007297584.wav")
+        self.jump_sound = pygame.mixer.Sound("../images/Menu_page/Jump-SoundBible.com-1007297584.wav")
         self.land_on_ground = pygame.mixer.Sound(decode_file(mp3file_storer.human_impact))
         self.land_on_ground.set_volume(0.1)
         self.jump_sound.set_volume(0.01)
@@ -156,6 +156,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.velocity_y = 0
+        self.velocity_x = 0
         # self.add_to_velocity = 0.4 if skin not in ("ninja_girl", "ninja_girl2") else 0.1
         # self.add_to_velocity = 0.4
         self.index = 0
@@ -166,6 +167,7 @@ class Player(pygame.sprite.Sprite):
         self.double_jump_power_up = False
         self.old_list = "right"
         self.move_speed = 7 if skin not in ("robot", "knight") else 10
+        self.skin = skin
         self.num_jumps = 0
         self.mask = pygame.mask.from_surface(self.image)
         self.kill_player = False
@@ -247,6 +249,10 @@ class Player(pygame.sprite.Sprite):
             if not self.obstruct_platforms(level, "right"):
                 if level.start - self.move_speed > ss.SCREEN_WIDTH - level.width and not self.rect.x <= self.start_pos:
                     level.start -= self.move_speed  # moves background
+                    if self.old_list == "right" and self.skin not in ("robot", "knight") and self.move_speed < 10:
+                        self.move_speed += 0.01
+                    elif self.old_list == "right" and self.skin in ("robot", "knight") and self.move_speed < 15:
+                        self.move_speed += 0.01
                     for p in level.platform_group:  # moves platforms
                         p.rect.x -= self.move_speed
                     for p in level.obstruct_group:  # moves obstacles like snowman
@@ -270,6 +276,10 @@ class Player(pygame.sprite.Sprite):
             if not self.obstruct_platforms(level, "left"):
                 if level.start + self.move_speed <= 0 and not self.rect.x >= self.start_pos:
                     level.start += self.move_speed  # moves background
+                    if self.old_list == "left" and self.skin not in ("robot", "knight") and self.move_speed < 10:
+                        self.move_speed += 0.01
+                    elif self.old_list == "left" and self.skin in ("robot", "knight") and self.move_speed < 15:
+                        self.move_speed += 0.01
                     for p in level.platform_group:  # moves platforms
                         p.rect.x += self.move_speed
                     for p in level.obstruct_group:  # moves obstacles like snowman

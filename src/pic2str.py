@@ -23,4 +23,4 @@ def pic2str(file, functionName):
 
 
 if __name__ == '__main__':
-    pic2str("images/Menu_page/videogame-death-sound-43894.mp3", "death_sound")
+    pic2str("../images/Menu_page/videogame-death-sound-43894.mp3", "death_sound")
