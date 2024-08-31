@@ -5,4 +5,7 @@ we collect letters. In the second part we use the letters to make words. You get
 
 There is a total time for both the parts. Using more time in one part, leaves less time for the second part.
 
-To run, install 
+To play the game, clone the repo, and in the terminal type the command pip install -r requirements.txt
+to install the required libraries.
+
+Next, run opening_page.py and enjoy
